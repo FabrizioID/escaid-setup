@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Thread Assistant"
+  short_description: "Run persistent thread-based memory"
+  default_prompt: "Use $project-thread-assistant to open or reuse a thread, document durable context into assistant memory, and use the active thread as context for connected app work."

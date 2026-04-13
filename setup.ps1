@@ -75,6 +75,7 @@ Write-Host "  OK: settings.json copiado (paths actualizados)" -ForegroundColor G
 # --- 5. Instalar skills custom ---
 Write-Host ""
 Write-Host "[5/7] Copiando skills custom a ~/.codex/skills ..." -ForegroundColor Yellow
+Write-Host "  Incluye skills de memoria, hilos persistentes y especialidad por dominio" -ForegroundColor DarkYellow
 $codexSkillsDir = "$env:USERPROFILE\.codex\skills"
 if (-not (Test-Path $codexSkillsDir)) { New-Item -ItemType Directory -Path $codexSkillsDir -Force | Out-Null }
 

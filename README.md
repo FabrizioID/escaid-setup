@@ -1,6 +1,6 @@
-# Claude Code - Setup Centralizado
+# Escaid Setup
 
-Repositorio maestro para replicar el entorno de Claude Code en cualquier maquina.
+Repositorio maestro para replicar el entorno de Escaid en cualquier maquina.
 Contiene MCPs custom, plugins, skills y configuracion global.
 
 Los repos de MCPs en GitHub se agrupan con la convencion `sc-mcp-*` y el topic `sc-mcps` para que funcionen como una familia ordenada.
@@ -10,7 +10,7 @@ Los repos de MCPs en GitHub se agrupan con la convencion `sc-mcp-*` y el topic `
 ## Estructura
 
 ```text
-claude-setup/
+escaid-setup/
 |-- mcps/
 |   |-- google-workspace-mcp/  <- submodule: FabrizioID/sc-mcp-google-workspace
 |   |-- word-document/         <- submodule: GongRzhe/Office-Word-MCP-Server
@@ -38,8 +38,8 @@ claude-setup/
 ### Instalacion
 
 ```powershell
-git clone --recurse-submodules https://github.com/FabrizioID/claude-setup.git
-cd claude-setup
+git clone --recurse-submodules https://github.com/FabrizioID/escaid-setup.git
+cd escaid-setup
 powershell -ExecutionPolicy Bypass -File setup.ps1
 ```
 

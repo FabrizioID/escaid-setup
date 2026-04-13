@@ -1,6 +1,9 @@
-[submodule "mcps/google-docs-mcp"]
-	path = mcps/google-docs-mcp
-	url = https://github.com/FabrizioID/SCD_MCP_Docs.git
+[submodule "mcps/google-workspace-mcp"]
+	path = mcps/google-workspace-mcp
+	url = https://github.com/FabrizioID/sc-mcp-google-workspace.git
 [submodule "mcps/word-document"]
 	path = mcps/word-document
 	url = https://github.com/GongRzhe/Office-Word-MCP-Server.git
+[submodule "mcps/docx-editor-local"]
+	path = mcps/docx-editor-local
+	url = https://github.com/FabrizioID/sc-mcp-docx-local.git

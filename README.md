@@ -3,6 +3,8 @@
 Repositorio maestro para replicar el entorno de Claude Code en cualquier maquina.
 Contiene MCPs custom, plugins, skills y configuracion global.
 
+Los repos de MCPs en GitHub se agrupan con la convencion `sc-mcp-*` y el topic `sc-mcps` para que funcionen como una familia ordenada.
+
 ---
 
 ## Estructura
@@ -10,16 +12,16 @@ Contiene MCPs custom, plugins, skills y configuracion global.
 ```text
 claude-setup/
 |-- mcps/
-|   |-- google-docs-mcp/     <- submodule: FabrizioID/SCD_MCP_Docs (custom)
-|   |-- word-document/       <- submodule: GongRzhe/Office-Word-MCP-Server
-|   `-- docx-editor-local/   <- MCP local versionado en este repo
+|   |-- google-workspace-mcp/  <- submodule: FabrizioID/sc-mcp-google-workspace
+|   |-- word-document/         <- submodule: GongRzhe/Office-Word-MCP-Server
+|   `-- docx-editor-local/     <- submodule: FabrizioID/sc-mcp-docx-local
 |-- plugins/
-|   `-- README.md            <- co-researcher + claude-router (marketplace)
+|   `-- README.md              <- co-researcher + claude-router (marketplace)
 |-- skills/
-|   `-- marketing-master/    <- skill custom para Codex
-|-- settings.json            <- config global sanitizada (sin secrets)
-|-- .env.example             <- template de variables y rutas sensibles
-`-- setup.ps1                <- script de instalacion automatica (Windows)
+|   `-- marketing-master/      <- skill custom para Codex
+|-- settings.json              <- config global sanitizada (sin secrets)
+|-- .env.example               <- template de variables y rutas sensibles
+`-- setup.ps1                  <- script de instalacion automatica (Windows)
 ```
 
 ---
@@ -43,7 +45,7 @@ powershell -ExecutionPolicy Bypass -File setup.ps1
 
 El script automatiza:
 
-- Build del `google-docs-mcp`
+- Build del `google-workspace-mcp`
 - Instalacion de dependencias para `docx-editor-local`
 - Instalacion de dependencias Python para `word-document`
 - Copia de `settings.json` a `~/.claude/` con paths actualizados
@@ -56,9 +58,9 @@ El script automatiza:
 
 | MCP | Tipo | Repo | Notas |
 |-----|------|------|-------|
-| **google-docs-mcp** | Node (local) | `FabrizioID/SCD_MCP_Docs` | Custom: +mergeTableCells, +setTableCellBackgroundColor |
+| **google-workspace-mcp** | Node (local) | `FabrizioID/sc-mcp-google-workspace` | Docs + Sheets + Drive + extensiones custom |
 | **word-document** | Python (local) | `GongRzhe/Office-Word-MCP-Server` | Stock |
-| **docx-editor-local** | Node (local) | `vendored` | Lee y reemplaza texto en `.docx` via Word COM automation |
+| **docx-editor-local** | Node (local) | `FabrizioID/sc-mcp-docx-local` | Lee y reemplaza texto en `.docx` via Word COM automation |
 | **playwright** | npx | `@playwright/mcp` | Auto-descarga |
 | **docx-drive** | npx | `@modelcontextprotocol/server-gdrive` | Requiere rutas locales a credenciales Google |
 | **n8n** | npx | `n8n-mcp` | Requiere API key |
@@ -88,10 +90,10 @@ Se instalan automaticamente desde GitHub via `settings.json`:
 
 ## Auth manual (post-setup)
 
-### Google OAuth (google-docs-mcp + Sheets)
+### Google OAuth (google-workspace-mcp)
 
 ```powershell
-cd mcps\google-docs-mcp
+cd mcps\google-workspace-mcp
 node .\dist\index.js auth
 ```
 
@@ -133,8 +135,8 @@ N8N_API_KEY=tu_api_key
 
 | Secret | Donde vive |
 |--------|------------|
-| Google OAuth token (google-docs-mcp) | `%USERPROFILE%\.config\google-docs-mcp\token.json` |
-| Google credentials.json (google-docs-mcp) | `mcps\google-docs-mcp\credentials.json` (local, gitignored) |
+| Google OAuth token (google-workspace-mcp) | `%USERPROFILE%\.config\google-docs-mcp\token.json` |
+| Google credentials.json (google-workspace-mcp) | `mcps\google-workspace-mcp\credentials.json` (local, gitignored) |
 | docx-drive credentials | `%USERPROFILE%\.codex\mcp\docx_drive\` |
 | N8N API Key | Variable de entorno / `.env` |
 | Canva token | Manejado internamente por Claude Code |
@@ -145,14 +147,14 @@ N8N_API_KEY=tu_api_key
 ## Actualizar un MCP custom
 
 ```powershell
-cd mcps\google-docs-mcp
+cd mcps\google-workspace-mcp
 git add .
 git commit -m "feat: descripcion del cambio"
 git push origin main
 
 cd ..\..
-git add mcps/google-docs-mcp
-git commit -m "chore: bump google-docs-mcp"
+git add mcps/google-workspace-mcp
+git commit -m "chore: bump google-workspace-mcp"
 git push
 ```
 
@@ -162,7 +164,7 @@ git push
 
 ```powershell
 # MCP con repo propio (submodule)
-git submodule add https://github.com/AUTOR/REPO.git mcps/nombre-mcp
+git submodule add https://github.com/FabrizioID/sc-mcp-nombre.git mcps/nombre-mcp
 
 # MCP solo npx o HTTP
 # Agregar entrada en settings.json bajo "mcpServers"

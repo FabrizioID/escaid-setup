@@ -28,6 +28,7 @@ foreach ($dep in $deps) {
 Write-Host ""
 Write-Host "[2/7] Inicializando submodulos (MCPs)..." -ForegroundColor Yellow
 Set-Location $SETUP_DIR
+git submodule sync --recursive
 git submodule update --init --recursive
 Write-Host "  OK: submodulos clonados" -ForegroundColor Green
 
@@ -35,12 +36,12 @@ Write-Host "  OK: submodulos clonados" -ForegroundColor Green
 Write-Host ""
 Write-Host "[3/7] Instalando dependencias de MCPs..." -ForegroundColor Yellow
 
-# google-docs-mcp (Node)
-Write-Host "  >> google-docs-mcp"
-Set-Location "$SETUP_DIR\mcps\google-docs-mcp"
+# google-workspace-mcp (Node)
+Write-Host "  >> google-workspace-mcp"
+Set-Location "$SETUP_DIR\mcps\google-workspace-mcp"
 npm install --silent
 npm run build --silent
-Write-Host "  OK: google-docs-mcp compilado" -ForegroundColor Green
+Write-Host "  OK: google-workspace-mcp compilado" -ForegroundColor Green
 
 # docx-editor-local (Node)
 Write-Host "  >> docx-editor-local"
@@ -87,11 +88,11 @@ Write-Host "  OK: marketing-master instalado" -ForegroundColor Green
 Write-Host ""
 Write-Host "[6/7] Registrando MCPs en Claude Code..." -ForegroundColor Yellow
 
-$googleDocsMcpPath = "$SETUP_DIR\mcps\google-docs-mcp\dist\index.js"
+$googleWorkspaceMcpPath = "$SETUP_DIR\mcps\google-workspace-mcp\dist\index.js"
 $wordMcpPath = "$SETUP_DIR\mcps\word-document\word_mcp_server.py"
 $docxEditorPath = "$SETUP_DIR\mcps\docx-editor-local\server.js"
 
-claude mcp add google-docs -- node $googleDocsMcpPath
+claude mcp add google-workspace -- node $googleWorkspaceMcpPath
 claude mcp add word-document -- python $wordMcpPath
 claude mcp add docx-editor-local -- node $docxEditorPath
 claude mcp add playwright -- npx "@playwright/mcp@latest"
@@ -105,8 +106,8 @@ Write-Host "  NOTA: n8n requiere N8N_BASE_URL y N8N_API_KEY en tu entorno" -Fore
 Write-Host ""
 Write-Host "[7/7] Pasos manuales requeridos:" -ForegroundColor Yellow
 Write-Host ""
-Write-Host "  GOOGLE OAUTH (google-docs-mcp):" -ForegroundColor Cyan
-Write-Host "    cd $SETUP_DIR\mcps\google-docs-mcp"
+Write-Host "  GOOGLE OAUTH (google-workspace-mcp):" -ForegroundColor Cyan
+Write-Host "    cd $SETUP_DIR\mcps\google-workspace-mcp"
 Write-Host "    node .\dist\index.js auth"
 Write-Host "    (se abrira el browser para autenticarte con Google)"
 Write-Host ""

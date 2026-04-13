@@ -28,10 +28,10 @@
       "args": ["SETUP_DIR\\mcps\\word-document\\word_mcp_server.py"],
       "env": {}
     },
-    "google-sheets": {
+    "google-workspace": {
       "type": "stdio",
       "command": "node",
-      "args": ["SETUP_DIR\\mcps\\google-docs-mcp\\dist\\index.js"],
+      "args": ["SETUP_DIR\\mcps\\google-workspace-mcp\\dist\\index.js"],
       "env": {}
     },
     "docx-editor-local": {

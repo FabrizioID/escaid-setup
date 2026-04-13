@@ -1,0 +1,60 @@
+{
+  "permissions": {
+    "defaultMode": "bypassPermissions",
+    "additionalDirectories": []
+  },
+  "enabledPlugins": {
+    "co-researcher@co-researcher-marketplace": true,
+    "claude-router@0xrdan-plugins": true
+  },
+  "extraKnownMarketplaces": {
+    "co-researcher-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "poemswe/co-researcher"
+      }
+    },
+    "0xrdan-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "0xrdan/claude-plugins"
+      }
+    }
+  },
+  "mcpServers": {
+    "word-document-server": {
+      "type": "stdio",
+      "command": "python3",
+      "args": ["SETUP_DIR\\mcps\\word-document\\word_mcp_server.py"],
+      "env": {}
+    },
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"],
+      "env": {}
+    },
+    "canva": {
+      "type": "http",
+      "url": "https://mcp.canva.com/mcp"
+    },
+    "n8n": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "n8n-mcp"],
+      "env": {
+        "N8N_BASE_URL": "REEMPLAZAR_CON_TU_N8N_URL",
+        "N8N_API_KEY": "REEMPLAZAR_CON_TU_N8N_API_KEY"
+      }
+    },
+    "google-sheets": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["SETUP_DIR\\mcps\\google-docs-mcp\\dist\\index.js"],
+      "env": {}
+    }
+  },
+  "effortLevel": "medium",
+  "voiceEnabled": true,
+  "skipDangerousModePermissionPrompt": true
+}

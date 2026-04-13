@@ -2,14 +2,59 @@
 
 Use these templates only when the project does not already have a better structure.
 
-## Minimal Memory Layout
+## Recommended Layout
 
 ```text
 memory/
-|-- decisions.md
-|-- facts.md
-|-- status.md
-`-- open-questions.md
+|-- shared/
+|   |-- decisions.md
+|   |-- facts.md
+|   |-- status.md
+|   `-- open-questions.md
+`-- chats/
+    `-- <thread-name>/
+        |-- plan.md
+        |-- summary.md
+        |-- decisions.md
+        |-- pending.md
+        `-- artifacts/
+```
+
+## Thread Naming
+
+Use short slugs:
+
+- `setup-mcps`
+- `branding-escaid`
+- `assistant-knowledge-base`
+
+If needed, prefix with date:
+
+- `2026-04-13-setup-mcps`
+
+## plan.md
+
+```md
+# Plan
+
+## Scope
+- What this chat/thread is trying to achieve
+
+## Current plan
+- Main workstreams
+- Constraints
+- Expected output
+```
+
+## summary.md
+
+```md
+# Summary
+
+## 2026-04-13
+- What was accomplished in this session
+- What changed
+- What matters for the next session
 ```
 
 ## decisions.md
@@ -24,43 +69,60 @@ memory/
 - Follow-up: What still needs to happen
 ```
 
-## facts.md
+## pending.md
+
+```md
+# Pending
+
+## Next actions
+- Highest-priority next step
+- Secondary next step
+
+## Blockers
+- Current blocker and why it matters
+```
+
+## Shared Memory Templates
+
+### shared/decisions.md
+
+```md
+# Decisions
+
+## 2026-04-13 - Short decision title
+- Decision: Project-wide decision
+- Rationale: Why it was chosen
+- Impact: What changes globally
+```
+
+### shared/facts.md
 
 ```md
 # Facts
 
-## Domain facts
 - Fact: Stable statement
 - Source: Link, file, or validated artifact
 - Confidence: High | Medium | Low
 - Last verified: 2026-04-13
 ```
 
-## status.md
+### shared/status.md
 
 ```md
 # Status
 
-## Current
-- State: Where the project stands now
+- Current state: Where the project stands now
 - Completed: Most recent meaningful progress
-- Next: Highest-priority next actions
-- Blockers: Anything actively blocking progress
+- Next: Highest-priority next action
+- Blockers: Active blocker
 ```
 
-## open-questions.md
+### shared/open-questions.md
 
 ```md
 # Open Questions
 
-## Question title
 - Question: What is unresolved
 - Why it matters: Why this is important
 - Needed to resolve: Evidence, person, or decision required
 ```
-
-## Source-of-Truth Rule
-
-- If a fact belongs in `README.md` or `docs/`, update that file first.
-- Use `memory/` for working memory, decisions, status, and cross-session continuity.
-- Avoid duplicating long source material; link to it and summarize only the durable insight.

@@ -18,7 +18,7 @@ escaid-setup/
 |-- plugins/
 |   `-- README.md              <- co-researcher + claude-router (marketplace)
 |-- skills/
-|   |-- interaction-memory/    <- skill para capturar memoria durable de sesiones
+|   |-- interaction-memory/    <- skill para memoria shared + carpetas por chat
 |   `-- marketing-master/      <- skill custom para estrategia/marketing
 |-- settings.json              <- config global sanitizada (sin secrets)
 |-- .env.example               <- template de variables y rutas sensibles
@@ -74,7 +74,7 @@ El script automatiza:
 
 | Skill | Tipo | Notas |
 |-------|------|-------|
-| `interaction-memory` | Custom | Captura decisiones, facts, status y conocimiento durable de sesiones relevantes |
+| `interaction-memory` | Custom | Captura memoria compartida del proyecto y tambien crea carpetas por chat/hilo |
 | `marketing-master` | Custom | Orquesta estrategia de funnels, contenido, Meta Ads, email y SEO |
 
 ---
@@ -83,17 +83,26 @@ El script automatiza:
 
 La skill no guarda nada en el chat. Documenta en archivos del proyecto actual.
 
+Tiene dos niveles:
+
+- memoria compartida del proyecto:
+  - `memory/shared/decisions.md`
+  - `memory/shared/facts.md`
+  - `memory/shared/status.md`
+  - `memory/shared/open-questions.md`
+- memoria por chat o hilo:
+  - `memory/chats/<thread-name>/plan.md`
+  - `memory/chats/<thread-name>/summary.md`
+  - `memory/chats/<thread-name>/decisions.md`
+  - `memory/chats/<thread-name>/pending.md`
+  - `memory/chats/<thread-name>/artifacts/`
+
 Comportamiento esperado:
 
-- si el proyecto ya tiene `README.md`, `docs/` o `memory/`, reutiliza esa estructura
-- si no existe una memoria del proyecto, puede crear una carpeta `memory/` en el proyecto actual
-- dentro de `memory/` usa archivos como:
-  - `decisions.md`
-  - `facts.md`
-  - `status.md`
-  - `open-questions.md`
-
-No crea una carpeta nueva por cada chat. La idea es que varias sesiones alimenten la misma memoria del proyecto.
+- si al inicio dices que este chat debe quedar documentado, se crea una carpeta propia del hilo
+- desde ese momento los planes, resúmenes, notas y artefactos relevantes van ahí
+- si luego aparece conocimiento que aplica al proyecto completo, también se promueve a `memory/shared/`
+- no crea una carpeta nueva por cada mensaje; una carpeta representa un hilo o chat de trabajo
 
 ---
 

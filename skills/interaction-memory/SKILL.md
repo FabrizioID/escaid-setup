@@ -1,92 +1,136 @@
 ---
 name: interaction-memory
-description: Capture, summarize, and persist important knowledge from relevant work sessions into reusable project memory. Use when Codex should document discoveries, decisions, constraints, requirements, workflows, status changes, source-of-truth updates, or any interaction whose value should survive beyond the current chat.
+description: Capture, summarize, and persist important knowledge from relevant work sessions into reusable project memory. Use when Codex should open a dedicated memory folder for the current chat, document a thread continuously, save generated artifacts into the chat folder, or extract durable decisions, facts, status, and follow-ups from any interaction worth keeping.
 ---
 
 # Interaction Memory
 
-Persist only the knowledge that will matter later. Turn relevant interactions into clean project memory instead of leaving them trapped in chat history.
+Persist relevant work outside the chat. Support both project-wide memory and chat-specific thread folders.
 
-## Workflow
+## Core Modes
 
-1. Decide whether the interaction is memory-worthy.
-2. Extract only durable knowledge:
-   decisions, facts, constraints, risks, patterns, definitions, workflow changes, status updates, or source links.
-3. Ignore transient chatter, failed ideas, repeated reasoning, and obvious task execution noise.
-4. Store each insight in the smallest correct place.
-5. Keep the project's source of truth updated before adding parallel notes.
-6. End with a short summary of what was persisted and where.
+Use one of these modes every time:
 
-## Memory-Worthy Signals
+1. Thread mode:
+   create or reuse a dedicated folder for the current chat and store chat-specific outputs there.
+2. Shared mode:
+   update the project's shared memory with knowledge that belongs to the whole project.
+3. Mixed mode:
+   save chat-local detail in the thread folder and also promote durable project-wide knowledge to shared memory.
 
-Persist when the interaction creates or clarifies:
+## Thread Workflow
 
-- a project decision with rationale
-- a requirement, objective, or scope boundary
-- a business rule or operating constraint
-- an important technical pattern or quirk
-- a current status change that others will need later
-- a reusable workflow or runbook step
-- a validated source, link, or artifact worth reusing
-- a risk, assumption, or open question that should remain visible
+When the user says things like:
 
-Do not persist:
+- document this chat
+- create a folder for this chat
+- everything from this chat goes here
+- open a thread for this work
+- save all generated files in this chat folder
 
-- casual back-and-forth
-- duplicate explanations already captured elsewhere
-- secrets, tokens, API keys, or sensitive personal data
-- low-signal implementation logs unless they reveal a durable lesson
+do this:
 
-## Storage Rules
+1. Create a thread folder if it does not exist.
+2. Put all relevant chat documentation there from that point onward.
+3. Store generated documents and supporting notes in the same thread folder when appropriate.
+4. Keep the thread folder as the default destination for later documentation in that chat unless the user changes it.
 
-Use the existing project structure when present. If memory is missing, create a lightweight structure before writing.
+Prefer a structure like:
 
-Prefer this order:
+```text
+memory/
+|-- shared/
+|   |-- decisions.md
+|   |-- facts.md
+|   |-- status.md
+|   `-- open-questions.md
+`-- chats/
+    `-- <thread-name>/
+        |-- plan.md
+        |-- summary.md
+        |-- decisions.md
+        |-- pending.md
+        `-- artifacts/
+```
 
-- update `README.md` when the canonical project overview changed
-- update `docs/` when a formal explanation or workflow changed
-- update `memory/decisions.md` for decisions with rationale
-- update `memory/facts.md` for stable facts and constraints
-- update `memory/status.md` for current state, next steps, and blockers
-- update `memory/open-questions.md` for unresolved but important items
-- update `sources/` or `references/` indexes when new evidence matters
+For templates and naming patterns, read [references/memory-templates.md](references/memory-templates.md).
 
-Do not scatter the same fact across many files. Keep one source of truth and add cross-references only when needed.
+## Thread Naming
+
+If the user gives a thread name, use it.
+
+If not, derive a short slug from the topic, for example:
+
+- `setup-mcps`
+- `branding-escaid`
+- `assistant-knowledge-base`
+
+If ambiguity remains, include the date prefix:
+
+- `2026-04-13-setup-mcps`
+
+Use lowercase letters, digits, and hyphens only.
+
+## What Goes In The Thread Folder
+
+Use:
+
+- `plan.md` for plans, scope, and working goals created in this chat
+- `summary.md` for condensed session summaries
+- `decisions.md` for chat-local decisions and rationale
+- `pending.md` for next steps, blockers, and unresolved tasks
+- `artifacts/` for files generated during the chat when they belong to this thread
+
+If a file is created before documentation starts but clearly belongs to the thread, move or copy it into the thread folder and note that action in the summary.
+
+If the thread folder already exists before the user says "document", do not create a second folder. Start writing into the existing one.
+
+## Shared Memory Rules
+
+Promote knowledge to shared memory only when it matters beyond this chat:
+
+- project-wide decisions
+- stable requirements
+- business rules
+- reusable workflows
+- technical quirks
+- important status changes
+
+Do not pollute shared memory with chat-local noise.
 
 ## Writing Rules
 
-- Write in compact, high-signal bullets or short sections.
-- Prefer concrete statements over narration.
+- Write compact, durable notes.
+- Separate confirmed facts from assumptions.
 - Include dates when timing matters.
-- Mark assumptions clearly.
-- Separate confirmed facts from hypotheses.
-- Name the impact of a decision, not just the decision itself.
-- When capturing status, include current state, why it changed, and what comes next.
+- Avoid repeated narration of the whole conversation.
+- Never store secrets, tokens, or sensitive values.
+- Keep one source of truth when possible.
 
-## Standard Output Shapes
+## Standard Actions
 
-Use these patterns when useful:
+When the user asks to document the current chat, do one or more of these actions:
 
-- Decision:
-  date, decision, rationale, impact, follow-up
-- Fact:
-  statement, evidence/source, confidence, last verified
-- Status:
-  current state, completed, next actions, blockers
-- Workflow note:
-  trigger, procedure, exceptions, owner
-- Open question:
-  question, why it matters, what is needed to resolve it
+- open thread folder
+- update `plan.md`
+- append a session summary
+- record decisions
+- record pending items
+- save or relocate generated artifacts
+- promote shared knowledge if warranted
 
-## File Creation Policy
+## Retroactive Documentation
 
-Create new memory files only when they reduce confusion. Default to a small set of stable files instead of many tiny notes.
+If the user asks to document the chat late:
 
-If no memory structure exists, start with:
+1. Create the thread folder.
+2. Reconstruct only the important outcomes from the current chat.
+3. Save concise summaries, not full transcript dumps.
+4. Move important artifacts into the thread folder when useful.
 
-- `memory/decisions.md`
-- `memory/facts.md`
-- `memory/status.md`
-- `memory/open-questions.md`
+## Default Behavior
 
-For templates and suggested layouts, read [references/memory-templates.md](references/memory-templates.md).
+- If a thread folder is already established for the current chat, keep documenting there.
+- If no folder exists yet, do not create one automatically unless the user explicitly asks to document, save, track, or open a thread.
+- If the user asks to document "this chat", default to thread mode.
+- If the user asks to "update project memory", default to shared mode.

@@ -78,11 +78,13 @@ Write-Host "[5/7] Copiando skills custom a ~/.codex/skills ..." -ForegroundColor
 $codexSkillsDir = "$env:USERPROFILE\.codex\skills"
 if (-not (Test-Path $codexSkillsDir)) { New-Item -ItemType Directory -Path $codexSkillsDir -Force | Out-Null }
 
-$marketingSkillSource = "$SETUP_DIR\skills\marketing-master"
-$marketingSkillTarget = "$codexSkillsDir\marketing-master"
-if (Test-Path $marketingSkillTarget) { Remove-Item -Recurse -Force $marketingSkillTarget }
-Copy-Item -Recurse -Force $marketingSkillSource $marketingSkillTarget
-Write-Host "  OK: marketing-master instalado" -ForegroundColor Green
+$skillDirs = Get-ChildItem "$SETUP_DIR\skills" -Directory
+foreach ($skillDir in $skillDirs) {
+    $targetDir = Join-Path $codexSkillsDir $skillDir.Name
+    if (Test-Path $targetDir) { Remove-Item -Recurse -Force $targetDir }
+    Copy-Item -Recurse -Force $skillDir.FullName $targetDir
+    Write-Host "  OK: $($skillDir.Name) instalado" -ForegroundColor Green
+}
 
 # --- 6. Registrar MCPs locales/npx en Claude Code ---
 Write-Host ""

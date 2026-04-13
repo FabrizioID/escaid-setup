@@ -1,0 +1,4 @@
+interface:
+  display_name: "Interaction Memory"
+  short_description: "Capture durable project memory"
+  default_prompt: "Use $interaction-memory to capture the durable knowledge from this interaction into project memory."

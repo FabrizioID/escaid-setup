@@ -18,7 +18,8 @@ escaid-setup/
 |-- plugins/
 |   `-- README.md              <- co-researcher + claude-router (marketplace)
 |-- skills/
-|   `-- marketing-master/      <- skill custom para Codex
+|   |-- interaction-memory/    <- skill para capturar memoria durable de sesiones
+|   `-- marketing-master/      <- skill custom para estrategia/marketing
 |-- settings.json              <- config global sanitizada (sin secrets)
 |-- .env.example               <- template de variables y rutas sensibles
 `-- setup.ps1                  <- script de instalacion automatica (Windows)
@@ -49,7 +50,7 @@ El script automatiza:
 - Instalacion de dependencias para `docx-editor-local`
 - Instalacion de dependencias Python para `word-document`
 - Copia de `settings.json` a `~/.claude/` con paths actualizados
-- Copia del skill `marketing-master` a `~/.codex/skills`
+- Copia de todas las skills custom desde `skills/` a `~/.codex/skills`
 - Registro de los MCPs locales/npx en Claude Code
 
 ---
@@ -73,7 +74,26 @@ El script automatiza:
 
 | Skill | Tipo | Notas |
 |-------|------|-------|
+| `interaction-memory` | Custom | Captura decisiones, facts, status y conocimiento durable de sesiones relevantes |
 | `marketing-master` | Custom | Orquesta estrategia de funnels, contenido, Meta Ads, email y SEO |
+
+---
+
+## Como funciona `interaction-memory`
+
+La skill no guarda nada en el chat. Documenta en archivos del proyecto actual.
+
+Comportamiento esperado:
+
+- si el proyecto ya tiene `README.md`, `docs/` o `memory/`, reutiliza esa estructura
+- si no existe una memoria del proyecto, puede crear una carpeta `memory/` en el proyecto actual
+- dentro de `memory/` usa archivos como:
+  - `decisions.md`
+  - `facts.md`
+  - `status.md`
+  - `open-questions.md`
+
+No crea una carpeta nueva por cada chat. La idea es que varias sesiones alimenten la misma memoria del proyecto.
 
 ---
 

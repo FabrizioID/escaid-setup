@@ -28,15 +28,40 @@
       "args": ["SETUP_DIR\\mcps\\word-document\\word_mcp_server.py"],
       "env": {}
     },
+    "google-sheets": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["SETUP_DIR\\mcps\\google-docs-mcp\\dist\\index.js"],
+      "env": {}
+    },
+    "docx-editor-local": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["SETUP_DIR\\mcps\\docx-editor-local\\server.js"],
+      "env": {}
+    },
     "playwright": {
       "type": "stdio",
       "command": "npx",
       "args": ["@playwright/mcp@latest"],
       "env": {}
     },
+    "docx-drive": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-gdrive"],
+      "env": {
+        "GDRIVE_CREDENTIALS_PATH": "DOCX_DRIVE_CREDENTIALS_PATH_PLACEHOLDER",
+        "GDRIVE_OAUTH_PATH": "DOCX_DRIVE_OAUTH_PATH_PLACEHOLDER"
+      }
+    },
     "canva": {
       "type": "http",
       "url": "https://mcp.canva.com/mcp"
+    },
+    "miro": {
+      "type": "http",
+      "url": "https://mcp.miro.com/"
     },
     "n8n": {
       "type": "stdio",
@@ -46,12 +71,6 @@
         "N8N_BASE_URL": "REEMPLAZAR_CON_TU_N8N_URL",
         "N8N_API_KEY": "REEMPLAZAR_CON_TU_N8N_API_KEY"
       }
-    },
-    "google-sheets": {
-      "type": "stdio",
-      "command": "node",
-      "args": ["SETUP_DIR\\mcps\\google-docs-mcp\\dist\\index.js"],
-      "env": {}
     }
   },
   "effortLevel": "medium",

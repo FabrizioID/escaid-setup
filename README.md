@@ -78,6 +78,8 @@ El script automatiza:
 | `interaction-memory` | Custom | Captura memoria compartida del proyecto y tambien crea carpetas por chat/hilo |
 | `project-thread-assistant` | Custom | Opera un asistente persistente con memoria por hilo, shared memory y contexto para apps conectadas |
 | `marketing-master` | Custom | Orquesta estrategia de funnels, contenido, Meta Ads, email y SEO |
+| `meta-ads-n8n-workflow` | Custom | Mantiene el flujo n8n que reemplaza Adveronix para Meta Ads hacia Google Sheets |
+| `google-docs-quotation-editor` | Custom | Edita cotizaciones y propuestas en Google Docs sin romper la plantilla visual, usando el MCP de Google Workspace |
 
 ---
 

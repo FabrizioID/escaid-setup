@@ -1,0 +1,4 @@
+interface:
+  display_name: "Google Docs Quotation Editor"
+  short_description: "Edit proposals safely in Google Docs"
+  default_prompt: "Use $google-docs-quotation-editor to edit a quotation or proposal in Google Docs with surgical changes, preserve the original template, and rely on the Google Workspace MCP for safe table and document operations."

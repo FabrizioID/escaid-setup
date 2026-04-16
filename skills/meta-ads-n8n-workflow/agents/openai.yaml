@@ -1,0 +1,4 @@
+interface:
+  display_name: "Meta Ads n8n Workflow"
+  short_description: "Maintain the Meta Ads to Sheets pipeline"
+  default_prompt: "Use $meta-ads-n8n-workflow to work on the free Adveronix replacement in n8n, preserve the existing RAW_Adveronix and AGG_Ads contract, and troubleshoot extraction, matching, filtering, aggregation, or token-renewal issues."

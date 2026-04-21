@@ -9,12 +9,16 @@ tools:
   - Glob
   - mcp__word-document-server__get_document_text
   - mcp__word-document-server__get_document_outline
+  - mcp__word-document-server__get_document_info
+  - mcp__word-document-server__get_paragraph_text_from_document
   - mcp__word-document-server__search_and_replace
   - mcp__word-document-server__add_paragraph
   - mcp__word-document-server__add_heading
   - mcp__word-document-server__add_table
+  - mcp__word-document-server__add_picture
   - mcp__word-document-server__format_text
   - mcp__word-document-server__insert_line_or_paragraph_near_text
+  - mcp__word-document-server__delete_paragraph
   - mcp__word-document-server__replace_paragraph_block_below_header
   - mcp__word-document-server__find_text_in_document
   - mcp__word-document-server__copy_document
@@ -96,24 +100,77 @@ Para guía de integración con Word MCP → [references/word-workflow.md](refere
 **Objetivo**: modificar el .docx directamente sin que el usuario tenga que copiar/pegar.
 
 ### Flujo estándar
-1. `get_document_outline` → mapear estructura
-2. `find_text_in_document` → localizar punto de inserción
-3. `copy_document` → crear backup si la edición es mayor
-4. Ejecutar la edición con la herramienta adecuada:
+1. `get_document_info` → verificar párrafos/tablas totales
+2. `find_text_in_document` → localizar índice del párrafo objetivo
+3. `get_paragraph_text_from_document` → leer párrafos específicos y verificar texto exacto antes de editar
+4. `copy_document` → crear backup si la edición es mayor
+5. Ejecutar la edición con la herramienta adecuada:
 
 | Tarea | Herramienta |
 |---|---|
-| Reemplazar texto existente | `search_and_replace` |
-| Insertar párrafo cerca de un texto | `insert_line_or_paragraph_near_text` |
+| Reemplazar texto en párrafo Normal | `search_and_replace` |
+| Reemplazar texto en Heading 2/3 | **insert+delete** (search_and_replace NO funciona en headings) |
+| Insertar párrafo en posición exacta | `insert_line_or_paragraph_near_text` con `target_paragraph_index` |
 | Reemplazar bloque bajo un encabezado | `replace_paragraph_block_below_header` |
 | Agregar párrafo al final | `add_paragraph` |
 | Agregar tabla nueva | `add_table` |
 | Formatear texto (negrita, cursiva) | `format_text` |
 | Formatear tabla existente | `format_table` + `highlight_table_header` |
+| Insertar imagen | `add_picture` (solo agrega al FINAL del doc, no en posición específica) |
+| Eliminar párrafo | `delete_paragraph` |
+
+### Técnica insert+delete (reemplazar sin desplazar índices)
+Para reemplazar un heading o párrafo problemático sin afectar índices circundantes:
+```
+1. insert_line_or_paragraph_near_text(target_paragraph_index=N, position="after", line_text="nuevo texto", line_style="Heading 3")
+   → crea nuevo párrafo en N+1
+2. delete_paragraph(paragraph_index=N)
+   → elimina original; nuevo párrafo sube a N
+Resultado: índices externos NO cambian (net-zero)
+```
+Cuando se hacen múltiples reemplazos sin insert+delete, proceder de **mayor a menor índice** para evitar cascade.
+
+### format_text — cómo contar end_pos exacto
+- Cada carácter unicode = 1 (ñ, á, é, ó, ú, ₂, ° etc.)
+- Si end_pos > longitud real → el tool devuelve el error con la longitud exacta; reenviar con ese valor
+- Batch: aplicar múltiples format_text en paralelo para distintos párrafos
+
+### APA 7 — estructura estandarizada para figuras
+```
+Párrafo A: "Figura N"         → bold, end_pos = 8 (N≤9) o 9 (N≥10)
+Párrafo B: "Título descriptivo."  → italic, end_pos = len exacto del título
+Párrafo C: ""                 → párrafo vacío con imagen embebida (NO editar)
+Párrafo D: "Nota. Fuente..."  → "Nota." italic, end_pos = 5
+```
+
+### APA 7 — estructura estandarizada para tablas
+```
+Párrafo A: "Tabla N."         → bold, end_pos = len("Tabla N.")
+Párrafo B: "Título descriptivo."  → italic, end_pos = len exacto
+[tabla Word]
+Párrafo C: "Nota. Fuente..."  → "Nota." italic, end_pos = 5
+```
+
+### TOC / Índice automático de Word
+El TOC de Word es un campo automático — **no editable por MCP**.
+Para actualizarlo después de cambios de estructura: abrir en Word → **Ctrl+A → F9**.
+
+### get_document_outline — parseo del resultado
+El resultado se guarda en archivo por ser demasiado grande. Parsear así:
+```python
+import json
+with open(ruta_archivo, encoding='utf-8') as f:
+    raw = f.read()
+outer = json.loads(raw)
+inner = json.loads(outer[0]['text'])  # inner['paragraphs'] = lista de dicts
+for p in inner['paragraphs']:
+    print(p['index'], p['text'][:80])
+```
 
 ### Regla de seguridad
-- Si el archivo original está abierto en Word → hacer `copy_document` primero y trabajar sobre la copia
-- Siempre confirmar qué sección se va a modificar antes de editar
+- Si el archivo está abierto en Word → "Permission denied". Pedir al usuario que cierre Word.
+- Usar `target_paragraph_index` (no `target_text`) cuando el texto objetivo contiene tildes o caracteres especiales — evita inserciones vacías.
+- Siempre leer el párrafo con `get_paragraph_text_from_document` antes de formatear — los índices cambian con cada insert/delete.
 
 ---
 

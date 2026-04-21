@@ -97,6 +97,77 @@ os.replace(tmp, src)
 
 - **Archivo abierto en Word**: genera "Permission denied". Solución: cerrar Word o trabajar sobre copia.
 - **Texto en encabezados/pies de página**: no accesible directamente con las herramientas actuales.
-- **Imágenes y figuras**: el MCP no puede modificar imágenes embebidas.
+- **Imágenes y figuras**: el MCP no puede modificar imágenes embebidas ni insertar imágenes en posición específica (`add_picture` solo agrega al final del documento).
 - **Ecuaciones**: las ecuaciones en formato OMML no son editables como texto.
 - **Tablas muy grandes**: `get_document_xml` puede superar el límite de tokens; usar el archivo de resultado guardado.
+- **TOC / Índice automático**: no editable por MCP. Actualizar en Word con Ctrl+A → F9.
+- **search_and_replace en Headings (Heading 2, Heading 3)**: no aplica cambios aunque `find_text_in_document` sí los encuentre. Usar técnica insert+delete.
+
+---
+
+## Técnica insert+delete — reemplazar párrafo sin cascade
+
+Para modificar un heading o cualquier párrafo donde search_and_replace falla:
+
+```
+insert_line_or_paragraph_near_text(
+  target_paragraph_index = N,
+  position = "after",
+  line_text = "nuevo texto",
+  line_style = "Heading 3"   # o el estilo que corresponda
+)
+→ nuevo párrafo queda en índice N+1
+
+delete_paragraph(paragraph_index = N)
+→ elimina original; nuevo sube a N
+
+Resultado neto: índices externos no cambian.
+```
+
+**Importante**: usar `target_paragraph_index` (número entero), NO `target_text` cuando el texto contiene tildes (á, é, í, ó, ú, ñ) o caracteres especiales (₂, °, —). Los caracteres especiales en `target_text` producen párrafos insertados vacíos.
+
+---
+
+## Operaciones en batch masivo (APA compliance)
+
+Para aplicar formato APA a múltiples figuras/tablas en un solo turno:
+
+1. `find_text_in_document("Figura 1")` → devuelve todos los "Figura N" de una vez
+2. Leer títulos en paralelo con múltiples `get_paragraph_text_from_document` (label+1 para cada figura)
+3. Calcular `end_pos` de cada título (contar chars unicode: ñ=1, á=1, ₂=1)
+4. Enviar todos los `format_text` en paralelo (hasta 20 llamadas simultáneas)
+
+```
+Figura N label: end_pos = 8 si N≤9, 9 si N≥10
+Nota.:          end_pos = 5 (siempre)
+Título:         end_pos = len(texto) — contar manualmente
+```
+
+---
+
+## get_paragraph_text_from_document — uso crítico
+
+Siempre leer el párrafo con este tool ANTES de formatearlo o borrarlo. Los índices cambian con cada insert/delete en la sesión.
+
+```python
+# Ejemplo de respuesta:
+{
+  "index": 696,
+  "text": "Figura 22",
+  "style": "Normal",
+  "is_heading": false
+}
+```
+
+Los párrafos de imagen devuelven `"text": ""` (vacío) — no borrar estos párrafos vacíos si están entre un título y una Nota.
+
+---
+
+## Renombrado masivo de secciones (reestructuración)
+
+Al renombrar secciones (ej. 3.4.1→3.4.1.1, 3.4.5→3.4.2):
+
+1. Usar `search_and_replace` con texto muy específico para párrafos Normal (incluir parte del título para evitar conflictos)
+2. Para headings: usar insert+delete
+3. Proceder de **número de sección mayor a menor** para evitar que un replace afecte a secciones que aún hay que renombrar
+4. Verificar con `find_text_in_document` que no queden ocurrencias del número viejo

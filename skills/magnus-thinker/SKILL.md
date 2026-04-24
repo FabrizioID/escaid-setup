@@ -17,6 +17,7 @@ El usuario ve solo el output. No la mecánica interna, salvo que la pida.
 Para el banco completo de preguntas por fase, leer [references/phases.md](references/phases.md).
 Para el protocolo completo de F8 Asimétrico, leer [references/asymmetric.md](references/asymmetric.md).
 Para el protocolo y formato de Coda Magnus, leer [references/coda-magnus.md](references/coda-magnus.md).
+Para planes de ejecucion, areas operativas, eventos o entregables accionables, leer [references/execution-plans.md](references/execution-plans.md).
 
 ---
 
@@ -113,6 +114,7 @@ F8  Asimétrico            → convexidad, opcionalidad, reversibilidad
 F9  Vertical Convergente  → scoring + Munger invert + ganadora + moonshot
                             (+ criterios de priorización del usuario modifican pesos)
 F10 Estructuración        → flujo ejecutable + Minimum Viable Experiment
+                            (+ protocolo de plan de ejecucion cuando el usuario pide acciones, cronograma o checklist)
 F11 Diseño de Adopción    → inevitable + incentivos + arquitectura de elección
                             (+ criterios de comportamiento del equipo/cliente)
 F12 Feedback              → OODA loop (solo si hay resultados reales)

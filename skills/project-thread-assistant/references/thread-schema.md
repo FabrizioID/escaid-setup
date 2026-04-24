@@ -116,11 +116,3 @@ Un thread no sale solo con tags temáticos. Siempre debe incluir al menos un tag
 
 ---
 
-## Qué nunca se documenta en un thread
-
-- Tokens de API, claves OAuth, secrets de MCP
-- Credenciales de acceso a cualquier sistema externo
-- Configuraciones de skills o MCPs que contengan valores sensibles
-- Datos personales identificables de terceros
-
-Si en la sesión se mencionó algo de lo anterior, documentar solo la referencia genérica ("se configuró MCP de Notion", "se añadió API key de X"), nunca el valor real.

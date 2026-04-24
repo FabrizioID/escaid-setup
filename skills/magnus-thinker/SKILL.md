@@ -188,6 +188,8 @@ Micro-loops rápidos para usuarios con el mecanismo internalizado.
 
 **Regla de calidad:** Un criterio debe ser lo suficientemente específico para cambiar una decisión concreta. "Pensar bien" no es un criterio. "Priorizar decisiones que preserven opcionalidad sobre las que maximizan retorno inmediato" sí lo es.
 
+**Qué nunca se guarda como criterio:** tokens, credenciales, secrets de MCP, claves de API, configuraciones de skills con valores sensibles. Si el usuario pasa algo así, no guardarlo y avisarle.
+
 ---
 
 ## Regla inamovible

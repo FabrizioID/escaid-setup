@@ -136,6 +136,6 @@ Contradicciones o tensiones encontradas:
 - Los threads cerrados son inmutables — nunca sobreescribir, solo append si se reabre.
 - El hilo activo de la sesión sí se edita en vivo hasta el cierre.
 - `_index.md` es el único archivo que Magnus lee durante el context pull antes de decidir qué threads cargar completos. Mantenerlo preciso es crítico.
-- Nunca almacenar credenciales, datos personales sensibles ni información confidencial de terceros.
+- Nunca almacenar: credenciales, tokens de API, claves OAuth, secrets de MCP, configuraciones de skills con datos sensibles, datos personales de terceros, ni ninguna información que permita acceso a sistemas externos. Si aparece en la conversación, documentar solo la referencia ("se configuró MCP X"), nunca el valor.
 - Slugs en kebab-case, fechas en ISO (YYYY-MM-DD).
 - Un thread se asigna al proyecto dominante del hilo, aunque la sesión haya tocado varios proyectos.

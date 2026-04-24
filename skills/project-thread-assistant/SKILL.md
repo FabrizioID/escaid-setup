@@ -1,121 +1,141 @@
 ---
 name: project-thread-assistant
-description: Run a persistent local assistant with memory organized by chat thread plus shared project knowledge. Use when Codex should open or reuse a thread folder, document relevant work into `assistant/`, preserve generated artifacts, promote durable knowledge to shared memory, or operate with connected apps using the active thread as context.
+description: Sistema de documentación de hilos y context pull para proyectos de inteligencia estratégica. Usar cuando Magnus deba abrir un hilo, documentar en vivo, cerrar una sesión, o ejecutar un context pull antes de razonar. Los threads viven en inteligencia/<proyecto>/threads/ y son nodos independientes de memoria cruzable por tags.
 ---
 
 # Project Thread Assistant
 
-Operate a persistent assistant whose memory lives in the workspace under `assistant/`.
+Gestiona los threads de memoria de proyectos estratégicos. Cada thread es un nodo independiente que puede venir de cualquier chat o sesión. Magnus los cruza por similitud de tags antes de responder.
 
-Use this skill to keep continuity across chats, preserve reusable context, and anchor app operations to the current thread instead of relying on transient conversation context.
+Los threads viven en `inteligencia/<proyecto>/threads/`. Para el formato completo de cada archivo, leer [references/thread-schema.md](references/thread-schema.md).
 
-## Quick Start
+---
 
-When invoked, do this first:
+## Modos de operación
 
-1. Confirm that the workspace has an `assistant/` folder.
-2. Read `assistant/AGENT.md`.
-3. Read `assistant/index/project-map.md`.
-4. Identify the active thread, or create one if the user names a new topic.
-5. Read the active thread's `summary.md`, `decisions.md`, and `pending.md`.
-6. Read shared memory only after the thread.
+### MODO 1 — ABRIR HILO
 
-If the workspace does not have the expected structure, create it before continuing.
+**Cuándo:** Al inicio de una sesión cuando hay un proyecto activo, o cuando el usuario lo pide explícitamente.
 
-If `assistant/scripts/open_thread.py` exists, prefer it for opening or resuming a thread and updating the index.
+**Triggers:** `abre hilo en <proyecto>`, `nuevo hilo sobre <tema>`, inicio de sesión con proyecto identificado.
 
-For layout details and file semantics, read [references/memory-layout.md](references/memory-layout.md).
+**Pasos:**
+1. Leer `inteligencia/<proyecto>/threads/_index.md` para conocer el historial.
+2. Crear `inteligencia/<proyecto>/threads/<YYYY-MM-DD>-<slug-tema>.md` con el frontmatter y secciones vacías.
+3. Registrar el hilo en `_index.md` con slug, fecha y tipo (las demás columnas se completan al cierre).
+4. Tratar ese archivo como el hilo activo de la sesión.
 
-## Supported User Intents
+---
 
-Treat requests like these as direct triggers:
+### MODO 2 — CONTEXT PULL
 
-- `abre un hilo <tema>`
-- `documenta este chat`
-- `ingesta este archivo en el hilo actual`
-- `promueve esto a shared`
-- `genera este entregable en el hilo`
-- `usa este hilo como contexto para trabajar con apps`
+**Cuándo:** Antes de cada respuesta de Magnus cuando hay un proyecto activo. Es automático, no requiere que el usuario lo pida.
 
-Also use this skill when the user wants:
+**Propósito:** Recuperar threads previos relevantes para enriquecer el razonamiento antes de responder.
 
-- a personalized assistant with persistent memory
-- continuity across multiple chats
-- documentation that survives context window limits
-- app actions anchored to a specific thread of work
+**Pasos:**
+1. Identificar en el mensaje actual: tema principal, tipo de necesidad, patrones implicados.
+2. Leer `inteligencia/<proyecto>/threads/_index.md`.
+3. Filtrar filas por coincidencia de tags (temáticos + patrón + señal). Priorizar:
+   - Tags temáticos coincidentes con el input actual
+   - Tags de patrón similares (ej. si el input tiene tensión de decisión → buscar `decision_sin_validacion`)
+   - Tags de señal con `riesgo` u `oportunidad` sobre el mismo tema
+4. Seleccionar máximo 4 threads: priorizar los más recientes y los de mayor intensidad de aprendizaje.
+5. Leer solo esos threads seleccionados.
+6. Construir internamente el CONTEXT PULL BLOCK:
 
-## Core Modes
+```
+CONTEXT PULL BLOCK
 
-Use one or more of these modes on every invocation:
+Proyecto: <nombre>
+Tema del input: <tema>
+Patrón detectado: <patrón>
+Señal detectada: <señal>
 
-1. Open or resume thread
-2. Capture thread memory
-3. Promote to shared memory
-4. Ingest a source into the active thread
-5. Save a generated artifact into the thread
-6. Use the active thread as context for app work
+Threads relevantes encontrados:
+- <slug>: <resumen corto> [tags: ...]
+- <slug>: <resumen corto> [tags: ...]
 
-## Thread Workflow
+Aprendizajes útiles:
+- <aprendizaje 1>
 
-When opening or resuming a thread:
+Riesgos históricos relevantes:
+- <riesgo 1>
 
-1. Choose or derive the slug.
-2. Prefer `python assistant/scripts/open_thread.py --name "<topic>" --purpose "<short purpose>"`.
-3. If the script is unavailable, create the thread folder manually.
-4. Ensure the folder contains:
-   - `thread.md`
-   - `summary.md`
-   - `decisions.md`
-   - `pending.md`
-   - `sources.md`
-   - `artifacts/`
-5. Update `assistant/index/chats-index.md`.
-6. Treat that thread as the default destination for related documentation and artifacts.
+Oportunidades similares detectadas:
+- <oportunidad 1>
 
-If the user does not provide a name, derive one from the topic. If ambiguity remains, prefix it with the current date.
+Contradicciones o tensiones encontradas:
+- <contradicción 1>
+```
 
-## Documentation Rules
+7. Pasar este bloque como contexto adicional al razonamiento antes de producir la respuesta.
 
-When documenting a chat:
+**Regla:** Si `_index.md` está vacío o no hay coincidencias de tags, proceder sin context pull. No forzar contexto irrelevante.
 
-- write compact durable notes, not transcript dumps
-- separate facts, decisions, and pending items
-- keep artifacts in the thread folder when they belong to that line of work
-- capture only knowledge that will help future sessions
-- never store secrets or credentials
+---
 
-Use semi-automatic behavior:
+### MODO 3 — DOCUMENTAR EN VIVO
 
-- if a milestone is clearly relevant, propose documenting it
-- if the user confirms or the request is explicit, update the thread files
-- do not capture every exchange by default
+**Cuándo:** Durante la sesión, cuando Magnus detecta un momento relevante sin que el usuario lo pida.
 
-## Shared Memory Rules
+**Triggers internos (Magnus los detecta):**
+- Se tomó una decisión explícita o implícita
+- Apareció un bloqueo o tensión nueva
+- Se identificó una oportunidad concreta
+- El usuario confirmó o rechazó algo importante
+- Surgió un aprendizaje reutilizable
 
-Promote to `assistant/memory/shared/` only when something matters across threads:
+**Pasos:**
+1. Identificar a qué sección del hilo activo pertenece el momento (Decisiones, Bloqueos, Oportunidades, Aprendizajes, etc.).
+2. Actualizar esa sección del archivo del hilo activo con una línea compacta.
+3. No interrumpir la conversación para anunciarlo — hacerlo en silencio, salvo que el usuario lo pida explícitamente.
 
-- stable facts
-- project-wide decisions
-- major status changes
-- unresolved questions with multi-thread impact
+**Regla:** Una línea por momento relevante, no párrafos.
 
-Do not promote:
+---
 
-- scratch notes
-- temporary hypotheses
-- chat-local logistics
+### MODO 4 — CERRAR HILO
 
-## Apps Pattern
+**Cuándo:** El usuario lo pide explícitamente al final de la sesión.
 
-When the user asks to work with connected apps:
+**Triggers:** `cierra el hilo`, `documenta este chat`, `guarda la sesión`
 
-1. Use the active thread as the context anchor.
-2. Perform the requested app action.
-3. Write back only the useful result into the thread.
-4. Promote to shared memory only if the result becomes durable project knowledge.
+**Pasos:**
+1. Leer el hilo activo para ver qué ya fue documentado en vivo.
+2. Completar todas las secciones faltantes del THREAD MEMORY BLOCK:
+   - Resumen ejecutivo
+   - Estado del proyecto en este momento
+   - Patrones detectados
+   - Tags temáticos, de patrón y de señal
+   - Relaciones internas del hilo
+   - Señales exportables a otros proyectos
+3. Actualizar la fila del hilo en `_index.md` con los tags y resumen corto finales.
+4. Si hay aprendizajes, oportunidades o decisiones que aplican a todo el proyecto (no solo al hilo), proponer promoverlos a `memory/facts.md`, `memory/tensions.md` o `memory/decisions.md`.
+5. Confirmar al usuario el cierre con un resumen de 3-5 puntos de lo documentado.
 
-## Output Discipline
+---
 
-Prefer updating existing files over creating new ad hoc files.
+### MODO 5 — INGESTAR THREAD EXTERNO
 
-Only create new files in the thread when the user explicitly wants a new deliverable or when the artifact clearly belongs in `artifacts/`.
+**Cuándo:** El usuario trae un documento, resumen o chat de otra sesión para incorporarlo al proyecto.
+
+**Triggers:** `ingesta esto al proyecto <nombre>`, `añade este hilo`, `documenta esta sesión externa`
+
+**Pasos:**
+1. Leer el contenido externo.
+2. Extraer todos los campos del THREAD MEMORY BLOCK.
+3. Crear `inteligencia/<proyecto>/threads/<YYYY-MM-DD>-<slug-derivado>.md` con el contenido extraído.
+4. Actualizar `_index.md`.
+5. Confirmar con slug y tags asignados.
+
+---
+
+## Reglas generales
+
+- Los threads cerrados son inmutables — nunca sobreescribir, solo append si se reabre.
+- El hilo activo de la sesión sí se edita en vivo hasta el cierre.
+- `_index.md` es el único archivo que Magnus lee durante el context pull antes de decidir qué threads cargar completos. Mantenerlo preciso es crítico.
+- Nunca almacenar credenciales, datos personales sensibles ni información confidencial de terceros.
+- Slugs en kebab-case, fechas en ISO (YYYY-MM-DD).
+- Un thread se asigna al proyecto dominante del hilo, aunque la sesión haya tocado varios proyectos.

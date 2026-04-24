@@ -1,57 +1,60 @@
-# Memory Layout
+# Memory Layout — Project Thread Assistant
 
-This skill expects a workspace-local `assistant/` folder.
+Los threads viven dentro del proyecto de inteligencia estratégica correspondiente. No existe una carpeta `assistant/` separada — todo está integrado en `inteligencia/`.
 
-## Minimum Layout
+## Estructura completa
 
 ```text
-assistant/
-|-- AGENT.md
-|-- index/
-|   |-- project-map.md
-|   |-- chats-index.md
-|   `-- entities.md
-|-- memory/
-|   |-- shared/
-|   |   |-- facts.md
-|   |   |-- decisions.md
-|   |   |-- status.md
-|   |   `-- open-questions.md
-|   `-- chats/
-|       `-- <chat-slug>/
-|           |-- thread.md
-|           |-- summary.md
-|           |-- decisions.md
-|           |-- pending.md
-|           |-- sources.md
-|           `-- artifacts/
-|-- inbox/
-|-- outputs/
-`-- templates/
+inteligencia/
+├── _registry.md
+└── <proyecto-slug>/
+    ├── PROJECT.md
+    ├── signals/
+    ├── memory/
+    │   ├── facts.md
+    │   ├── variables.md
+    │   ├── tensions.md
+    │   ├── decisions.md
+    │   └── criteria.md          ← criterios absorbidos por Magnus
+    ├── threads/
+    │   ├── _index.md            ← índice de tags — punto de entrada del context pull
+    │   └── <YYYY-MM-DD>-<slug>.md  ← un archivo por hilo
+    └── analysis/
+        └── <YYYY-MM-DD>-magnus.md
 ```
 
-## Reading Order
+---
 
-1. `assistant/AGENT.md`
-2. `assistant/index/project-map.md`
-3. active thread `thread.md`
-4. active thread `summary.md`
-5. active thread `decisions.md`
-6. active thread `pending.md`
-7. shared memory only after thread-local context
+## Archivos clave
 
-## File Roles
+### threads/_index.md
+Tabla de todos los threads del proyecto. Magnus lee **solo este archivo** para decidir qué threads cargar completos durante el context pull. Mantenerlo actualizado es crítico.
 
-- `thread.md`: scope and identity of the thread
-- `summary.md`: compressed session memory
-- `decisions.md`: confirmed decisions and rationale
-- `pending.md`: next actions and blockers
-- `sources.md`: traceability for inputs
-- `artifacts/`: generated outputs belonging to that thread
+### threads/<YYYY-MM-DD>-<slug>.md
+Un archivo por hilo. Nodo independiente de memoria. Puede crearse desde cualquier interfaz — Codex CLI, Claude desktop, cualquier chat — siempre que escriba al mismo filesystem. El formato es el THREAD MEMORY BLOCK definido en [thread-schema.md](thread-schema.md).
 
-## Shared Files
+### memory/criteria.md
+Criterios de razonamiento que Magnus absorbió del usuario. Magnus los aplica automáticamente como lentes en F6, F8 y F9 sin que el usuario los repita.
 
-- `facts.md`: confirmed reusable facts
-- `decisions.md`: project-wide decisions
-- `status.md`: major state changes
-- `open-questions.md`: unresolved cross-thread issues
+---
+
+## Compatibilidad entre interfaces
+
+Dado que todo es filesystem local, cualquier cliente que tenga acceso al mismo directorio puede:
+- Leer threads existentes
+- Crear nuevos threads
+- Actualizar `_index.md`
+- Alimentar `criteria.md`
+
+Codex CLI, Claude desktop y cualquier otra interfaz comparten el mismo pool de threads sin configuración adicional. El único requisito es que apunten al mismo `inteligencia/` raíz.
+
+---
+
+## Orden de lectura al inicio de sesión
+
+1. `inteligencia/<proyecto>/PROJECT.md`
+2. `inteligencia/<proyecto>/memory/variables.md`
+3. `inteligencia/<proyecto>/memory/tensions.md`
+4. `inteligencia/<proyecto>/memory/criteria.md`
+5. `inteligencia/<proyecto>/threads/_index.md` → context pull
+6. Threads seleccionados por tags (máximo 4)

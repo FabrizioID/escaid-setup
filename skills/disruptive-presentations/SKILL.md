@@ -1,6 +1,6 @@
 ---
 name: disruptive-presentations
-description: End-to-end pipeline to create disruptive standalone HTML presentations using Imagen 4 plus optional Canva export. Use when asked to create any presentation, deck, or slideshow.
+description: Motor de generación de slides disruptivas de alta calidad visual. Modo activo — FULL IMAGE (ChatGPT): genera slides como imagen completa con razonamiento semántico, selección de analogías y debug total. Modo legacy disponible — HTML + Imagen 4. Usar cuando el usuario quiera crear slides individuales o una presentación completa. Recibe input estructurado del Presentation Orchestrator o directamente del usuario.
 ---
 
 # Disruptive Presentations
@@ -8,6 +8,201 @@ description: End-to-end pipeline to create disruptive standalone HTML presentati
 Full prompt templates and HTML shell -> [references/full-reference.md](references/full-reference.md)
 
 ---
+
+# MODO ACTIVO: FULL IMAGE (ChatGPT)
+
+> Fase actual de validación. Genera cada slide como imagen completa usando ChatGPT (DALL-E 3 o GPT-4o image). Sin HTML. Foco en calidad conceptual y visual.
+
+## INPUT ESPERADO (por slide)
+
+```
+- objetivo: qué debe comunicar esta slide
+- texto_base: contenido mínimo (títulos, puntos clave)
+- contexto: tema/clase general
+- audiencia: tipo de receptor
+- tono: (técnico / inspiracional / reflexivo / energético)
+- impacto: (alto / medio / sutil)
+- branding: colores, estilo (opcional)
+```
+
+---
+
+## FLUJO DE GENERACIÓN (FULL IMAGE MODE)
+
+### PASO 1 — Interpretación semántica
+
+Analiza el input y define:
+
+**Tipo de contenido:**
+- `conceptual` → idea abstracta que necesita analogía
+- `secuencial` → proceso, pasos, pipeline
+- `comparativo` → dos o más elementos en tensión
+- `enumerativo` → lista de componentes o atributos
+- `métrico` → datos, números, rankings
+- `narrativo` → historia, apertura, cierre
+
+**Profundidad conceptual:**
+- ¿El concepto es directo o necesita metáfora para entenderse?
+
+**Intención emocional:**
+- ¿Qué debe sentir quien ve la slide?
+
+---
+
+### PASO 2 — Decisión de analogía
+
+Evalúa si usar analogía visual.
+
+**Usar analogía cuando:**
+- El concepto es abstracto o técnico
+- La analogía lo hace más intuitivo
+- El tipo es `conceptual` o `narrativo`
+
+**No usar analogía cuando:**
+- El contenido es datos o métricas
+- Hay un software/herramienta específica a mostrar
+- El contenido ya es visualmente concreto
+
+**Si decides usar analogía:**
+→ Genera mínimo 3 alternativas en este formato:
+
+```
+Alternativa A: [nombre]
+- Imagen: [qué se vería]
+- Por qué comunica: [razonamiento]
+- Riesgo: [posible ambigüedad]
+
+Alternativa B: ...
+Alternativa C: ...
+
+→ Selección: [cuál y por qué]
+```
+
+---
+
+### PASO 3 — Decisión de diagramación
+
+Define la estructura compositiva de la slide.
+
+**Para contenido secuencial:**
+- Pipeline horizontal o vertical
+- Nodos conectados con flechas
+
+**Para contenido comparativo:**
+- División en dos mitades
+- Tensión visual izquierda/derecha o arriba/abajo
+
+**Para contenido enumerativo:**
+- Estructuras no lineales: circular, radial, perspectiva 3D, hexagonal
+- Nunca bullet list plano
+
+**Para contenido conceptual:**
+- Composición centrada en la analogía
+- Texto integrado dentro de la escena
+
+**Para métricas:**
+- Números grandes como protagonistas
+- Mínimo decorativo
+
+→ Genera mínimo 2 alternativas de diagramación y selecciona la mejor.
+
+---
+
+### PASO 4 — Construcción del prompt
+
+Construye el prompt final para generación de imagen siguiendo este orden:
+
+```
+1. Escena base (ambiente, fotografía o render)
+2. Elemento visual principal (analogía o diagrama)
+3. Integración del texto (dónde y cómo aparece)
+4. Proporciones y zonas seguras
+5. Estilo visual: minimalista tipo Apple, tipografía [Inter / Plus Jakarta / Ruberoid]
+6. Colores: [branding definido o paleta tech elegante]
+7. Calidad: photorealistic, 4K, editorial quality, 16:9
+8. Restricción final: no generated text artifacts, no watermarks, no clutter
+```
+
+**Reglas del prompt:**
+- 100-150 palabras mínimo
+- Texto de la slide integrado en la escena como parte visual, no superpuesto
+- No más de 4 elementos textuales
+- Especificar zonas de calma para el texto
+- Estilo elegante, no saturado
+
+---
+
+### PASO 5 — Generación
+
+Envía el prompt a ChatGPT (DALL-E 3 o GPT-4o image generation).
+
+Si el resultado falla QA:
+1. Ajustar prompt (reforzar restricciones o cambiar analogía)
+2. Segundo intento con variación
+3. Después de 3 fallos → cambiar técnica o analogía
+
+---
+
+### PASO 6 — DEBUG OUTPUT (obligatorio)
+
+Siempre retornar:
+
+```
+=== DEBUG SLIDE [N] ===
+
+INTERPRETACIÓN:
+- Tipo de contenido: [tipo]
+- Profundidad conceptual: [alta/media/baja]
+- Intención emocional: [qué debe sentir]
+
+ANALOGÍAS CONSIDERADAS:
+- A: [nombre] → [razón]
+- B: [nombre] → [razón]
+- C: [nombre] → [razón]
+→ Seleccionada: [X] porque [razón]
+
+DIAGRAMACIÓN CONSIDERADA:
+- Opción 1: [descripción]
+- Opción 2: [descripción]
+→ Seleccionada: [X] porque [razón]
+
+PROMPT FINAL USADO:
+[prompt completo]
+
+OUTPUT:
+[imagen generada]
+```
+
+---
+
+## ESTILO VISUAL (FULL IMAGE MODE)
+
+- Minimalista tipo Apple
+- Elegante, no saturado
+- Texto integrado en la escena, no superpuesto genéricamente
+- Tipografías referencia: Inter, Plus Jakarta, Ruberoid
+- La imagen debe poder comunicar el concepto por sí sola
+- No usar: colores chillones, partículas genéricas, orbes abstractos, circuit boards sin sentido semántico
+
+---
+
+## QA (FULL IMAGE MODE)
+
+1. ¿La imagen comunica el concepto sin leer el texto?
+2. ¿El texto está integrado naturalmente en la escena?
+3. ¿Hay máximo 4 elementos textuales?
+4. ¿El estilo es elegante y no saturado?
+5. ¿Hay artefactos de texto generados por la IA? → Si sí: regenerar
+6. ¿La analogía elegida refuerza el mensaje o lo distrae?
+7. ¿La diagramación es no convencional?
+
+Threshold: fallar en 1, 2, 5 o 6 → regenerar. 3 fallos en el mismo slide → cambiar técnica.
+
+---
+
+# MODO LEGACY: HTML + IMAGEN 4
+
+> Disponible para cuando se requiera mayor control de layout, coordinadas HTML, o integración con Canva. Activar explícitamente.
 
 ## PIPELINE (10 steps)
 

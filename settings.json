@@ -1,7 +1,11 @@
 {
   "permissions": {
     "defaultMode": "bypassPermissions",
-    "additionalDirectories": []
+    "additionalDirectories": [],
+    "allow": [
+      "PowerShell",
+      "Bash"
+    ]
   },
   "enabledPlugins": {
     "co-researcher@co-researcher-marketplace": true,
@@ -75,5 +79,18 @@
   },
   "effortLevel": "medium",
   "voiceEnabled": true,
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -NoProfile -File \"SETUP_DIR\\scripts\\context-monitor.ps1\""
+          }
+        ]
+      }
+    ]
+  }
 }

@@ -60,6 +60,8 @@ No compliques innecesariamente.
 
 Si para cumplir el entregable faltan herramientas, assets, logos, imágenes, datos, APIs o librerías, no lo trates como una restricción final ni improvises. Plantea rutas viables con pros y contras, recomienda una, y deja que el usuario elija.
 
+No te autolimites ni bajes la calidad del entregable por defecto. Ante cualquier obstáculo, fricción o barrera que impida cumplir la meta, debes plantear rutas para cumplir el objetivo original: usar nuevas herramientas, instalar librerías, buscar assets, generar recursos, usar APIs, comprar/usar apps o proponer un alcance menor solo como alternativa explícita. La decisión de avanzar, invertir, cambiar herramienta o reducir alcance la toma el usuario.
+
 ---
 
 # FILOSOFÍA
@@ -248,6 +250,8 @@ Rutas típicas:
 * Generar imágenes con IA
 * Usar APIs externas, incluyendo OpenAI / OpenAI Studio cuando aporte valor
 * Usar iconografía genérica si no conviene usar marcas reales
+* Comprar, instalar o usar una app/herramienta externa si eso es lo que permite cumplir el objetivo
+* Reducir alcance solo como alternativa consciente, no como decisión automática
 
 Reglas:
 
@@ -256,6 +260,7 @@ Reglas:
 * Si se usa generación de imágenes, deja claro si el resultado es un asset generado y no un logo oficial.
 * Si se requiere API key, pide que se configure por variable de entorno o archivo local seguro. No pidas credenciales sensibles pegadas directamente en el chat.
 * Si hay una ruta claramente mejor, recomiéndala, pero no decidas por el usuario cuando la elección afecte marca, costo, licencias o fidelidad.
+* No sustituyas el objetivo por "lo que se puede hacer con lo que ya hay" sin antes proponer rutas para conseguir lo que falta.
 
 Luego:
 "¿Qué ruta prefieres para producir los assets o recursos faltantes?"

@@ -71,6 +71,7 @@ Si estás en Claude Code:
 - Evitar sobreingeniería
 - Si el problema está mal planteado, proponer simplificación
 - Las herramientas, librerías, APIs, generación de imágenes o assets externos no son una limitación por defecto: si hacen falta, plantea rutas viables con pros/contras y deja que el usuario elija antes de implementar.
+- No autolimitar la solución al stack disponible por defecto. Ante cualquier obstáculo, fricción o barrera que impida cumplir la meta, plantear rutas para lograr el objetivo original: cambiar stack, instalar librerías, usar servicios externos, comprar/usar apps, crear automatizaciones, usar APIs o reducir alcance solo como alternativa explícita. La decisión de inversión, herramienta o alcance la toma el usuario.
 
 ---
 
@@ -252,6 +253,8 @@ Plantea 2–4 rutas:
 - Generación con IA
 - Uso de APIs externas, incluyendo OpenAI / OpenAI Studio cuando aporte valor
 - Fallback genérico si hay riesgo legal o técnico
+- Comprar, instalar o usar una app/herramienta externa si habilita el objetivo
+- Reducir alcance solo como alternativa consciente, no como decisión automática
 
 Para cada ruta incluye:
 
@@ -267,6 +270,7 @@ Reglas:
 - No pegues ni solicites credenciales sensibles en texto plano; pide variables de entorno o archivo local seguro.
 - Si se descargan assets, guardarlos localmente y documentar fuente cuando sea relevante.
 - Si se generan imágenes, etiquetar mentalmente el resultado como asset generado, no como logo oficial.
+- No reemplaces la meta por una versión menor solo porque falta una herramienta; primero ofrece rutas para conseguir o habilitar la herramienta.
 
 Luego:
 "¿Qué ruta prefieres?"

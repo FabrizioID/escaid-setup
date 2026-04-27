@@ -252,6 +252,27 @@ Genera un documento HTML interactivo con:
 
 Debe ser visual, claro, limpio y listo para compartir.
 
+### ALTERNANCIA DE VERSIONES — OBLIGATORIO
+
+Todo HTML generado debe incluir un **botón toggle fijo** que permita alternar entre dos versiones sin recargar la página:
+
+**Versión NORMAL (default):**
+- Branding completo con libertad creativa
+- Fondos oscuros o de color según el estilo definido
+- Máxima expresión visual
+
+**Versión LIGHT:**
+- Fondo blanco puro (`#ffffff`)
+- Tipografía, bordes, iconos y acentos con los colores del branding
+- Sin fondos oscuros ni imágenes de fondo pesadas
+- Misma estructura, jerarquía y contenido
+
+**Implementación del botón:**
+- Posición fija (esquina superior derecha), siempre visible durante el scroll
+- Alterna aplicando una clase `.light-mode` en `<body>`
+- Guarda el estado en `localStorage` para recordarlo en la sesión
+- Etiqueta: `☀ Light` / `◐ Normal` o equivalente claro y minimal
+
 ---
 
 # BRANDING CONSISTENTE (CRÍTICO)

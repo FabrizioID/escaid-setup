@@ -342,6 +342,22 @@ Luego:
 
 ## ETAPA 13 — Branding *(solo si aplica: el output necesita presentación o es para cliente)*
 
+### REGLA OBLIGATORIA DE BRANDING
+
+Si el output necesita presentarse a cliente, equipo, dirección o público, o si será `HTML`, presentación, reporte visual, mapa, tablero, guía o documento visual, **debes preguntar o validar branding sí o sí antes de generar**.
+
+No avances a la generación visual sin confirmar:
+
+* Colores / paleta
+* Estilo o mood
+* Público que recibirá el entregable
+* Nivel de formalidad
+* Nivel de animación y efectos
+* Assets/logos/imágenes necesarias
+* Modo normal con branding y modo light si se genera HTML
+
+Si el usuario ya dio una dirección visual, igualmente reformula cómo la entendiste y espera validación.
+
 Antes de iniciar, pregunta:
 "¿Este proceso necesita presentación visual para un cliente o equipo? Si no, saltamos esta etapa."
 
@@ -366,8 +382,11 @@ Genera un HTML moderno con:
 * Roles claros
 * Representación de restricciones
 * Animaciones suaves
+* Fondo animado o con vida visual cuando el entregable sea premium: glow ambiental, malla/dot-grid, líneas vivas, partículas sutiles, canvas/SVG o gradientes animados según convenga
+* Efectos premium moderados: brillos, halos, hover luminoso, mouse glow, depth parallax o reveal por capas
 * Estilo tech limpio (tipo Apple)
 * SVG, canvas, Mermaid, React Flow / xyflow, Miro u otra herramienta cuando el flujo requiera precisión visual
+* Si el entregable es una guía, reporte o sistema explicativo en HTML, considera usar `premium-interactive-docs` como capa de diseño visual.
 
 Debe ser claro, visual y entendible.
 

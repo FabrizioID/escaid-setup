@@ -315,6 +315,25 @@ Debes:
 
 ## ETAPA 11 — Branding y visualización *(solo si aplica: clases, documentos, guías, contenido visual)*
 
+### REGLA OBLIGATORIA DE BRANDING
+
+Si el entregable final será `HTML`, presentación, documento visual, guía visual, reporte para cliente, landing, tablero visual, Miro visual o cualquier pieza que una persona vaya a mirar como producto, **debes preguntar o validar branding sí o sí antes de generar**.
+
+No basta con asumir "tech moderno". Si el usuario ya dio colores, estilo o referencias, igualmente debes repetir cómo lo entendiste y esperar confirmación antes de construir.
+
+La validación mínima debe cubrir:
+
+* Colores / paleta
+* Estilo o mood
+* Público que recibirá el entregable
+* Nivel de formalidad
+* Nivel de animación y efectos
+* Assets/logos/imágenes necesarias
+* Modo normal con branding
+* Modo light con fondo blanco y acentos del branding si se genera HTML
+
+Si el usuario pide avanzar rápido, puedes compactar la pregunta, pero no saltarla cuando el output sea visual.
+
 Antes de iniciar, pregunta:
 "¿Este entregable necesita diseño visual (HTML, presentación)? Si no, generamos el formato directo."
 
@@ -349,6 +368,8 @@ Genera el output en el formato adecuado.
 
 * Estilo tipo producto tech (Apple)
 * Animaciones suaves (scroll, aparición, énfasis)
+* Fondo con vida visual: gradientes animados, malla/dot-grid, partículas sutiles, líneas vivas, glow ambiental o canvas/SVG cuando aporte presencia
+* Efectos premium moderados: brillos, halos, hover luminoso, mouse glow, depth parallax o reveal por capas
 * Jerarquía clara
 * Secciones organizadas
 * Elementos visuales según contenido:
@@ -357,6 +378,8 @@ Genera el output en el formato adecuado.
   * Fases → progresión
 * Si el flujo requiere precisión visual, usa SVG, Mermaid, React Flow / xyflow, Miro, canvas u otra librería adecuada en lugar de posicionamiento frágil con CSS.
 * Si el entregable usa imágenes o logos, inserta assets reales/locales o genéricos declarados, no imitaciones ambiguas.
+* Si el entregable es una guía, reporte, sistema explicativo o documento premium, considera usar la skill `premium-interactive-docs` como capa visual: visual thesis, content plan, interaction thesis, HTML master y validación visual.
+* La versión NORMAL no debe sentirse estática salvo que el usuario pida austeridad: debe tener al menos 2-3 microinteracciones o movimientos sutiles que mejoren lectura, atmósfera o jerarquía.
 
 ### ALTERNANCIA DE VERSIONES — OBLIGATORIO
 

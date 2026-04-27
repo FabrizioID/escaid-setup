@@ -338,6 +338,22 @@ Luego:
 
 ## ETAPA 13 — Branding *(solo si aplica: producto con UI o presentación)*
 
+### REGLA OBLIGATORIA DE BRANDING
+
+Si el proyecto tendrá `UI`, `HTML`, dashboard, landing, demo visual, presentación, documento visual o cualquier entregable que deba verse como producto, **debes preguntar o validar branding sí o sí antes de generar**.
+
+No avances a implementación visual sin confirmar:
+
+- Colores / paleta
+- Estilo o mood
+- Público que usará o recibirá el producto
+- Nivel de formalidad
+- Nivel de animación y efectos
+- Assets/logos/imágenes necesarias
+- Modo normal con branding y modo light si se genera HTML
+
+Si el usuario ya dio una dirección visual, igualmente reformula cómo la entendiste y espera validación.
+
 Antes de iniciar, pregunta:
 "¿Este proyecto tiene interfaz visual o necesita presentación? Si no, saltamos esta etapa."
 
@@ -362,10 +378,13 @@ Genera un HTML moderno con:
 
 - Diseño tipo Apple
 - Animaciones al scroll
+- Fondo animado o con vida visual cuando el producto sea de presentación: glow ambiental, malla/dot-grid, líneas vivas, partículas sutiles, canvas/SVG o gradientes animados según convenga
+- Efectos premium moderados: brillos, halos, hover luminoso, mouse glow, depth parallax o reveal por capas
 - Diagramas visuales
 - Representación de flujos
 - Estilo limpio y tech
 - Librerías o SVG/canvas cuando el layout requiera precisión visual
+- Si el entregable es un documento/guía/sistema explicativo en HTML, considera usar `premium-interactive-docs` para estructurar visual thesis, content plan e interaction thesis antes de construir.
 
 Debe ser:
 - Claro

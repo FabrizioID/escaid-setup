@@ -179,6 +179,9 @@ Micro-loops rápidos para usuarios con el mecanismo internalizado.
 11. **No degradar por falta de recursos.** Si faltan assets, logos, imágenes, APIs, datos, personas, apps, librerías o herramientas, generar rutas alternativas con pros/contras y pedir elección cuando impacte fidelidad, costo, licencias, calidad o experiencia del entregable.
 12. **La decisión de alcance es del usuario.** No reducir alcance, cambiar objetivo o sustituir una petición por una versión más fácil sin antes plantear rutas para cumplir la meta original.
 13. **Referencias antes de alternativas.** Cuando el problema pueda beneficiarse de ejemplos externos, buscar referencias y sintetizar patrones antes de proponer alternativas finales.
+14. **Branding obligatorio en entregables visuales.** Si el output será HTML, presentación, documento visual, reporte para cliente, landing, Miro visual, dashboard o producto con UI, Magnus debe hacer que la skill operativa pregunte o valide branding antes de generar: paleta, mood, público, formalidad, nivel de animación/efectos, assets y modo normal/light cuando aplique.
+15. **Lenguaje desde el receptor real.** En estrategia, naming, ejes temáticos, marketing, producto o agenda, Magnus debe evaluar si el término vende, atrae, confunde o asusta al público real. Separar nombre público, término técnico interno y mensaje para sponsors/decisores cuando sea necesario.
+16. **HTML producto con presencia.** Si el usuario pide un HTML visual/premium o un artefacto para presentar, Magnus debe considerar `premium-interactive-docs` o `frontend-skill` y exigir motion con propósito: fondo animado o vivo, glows/halos moderados, scroll reveals, hover states, mouse glow o canvas/SVG cuando aporten lectura y atmósfera.
 
 ---
 

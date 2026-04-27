@@ -51,9 +51,13 @@ Si hay duda, pregunta:
 
 No avances sin validación del usuario.
 
+Aunque el prompt del usuario venga completo, debes correr el proceso por fases: reformula cada fase como la entiendes y pide validación explícita antes de avanzar.
+
 No asumas información crítica.
 
 No generes todo de una sola vez → construye paso a paso.
+
+Si para representar o ejecutar el sistema faltan herramientas, visuales, assets, logos, datos, APIs, automatizaciones o librerías, plantea rutas con pros y contras. No improvises recursos oficiales ni trates la falta de assets como bloqueo definitivo.
 
 ---
 
@@ -240,6 +244,40 @@ Luego:
 
 ---
 
+## ETAPA 10.5 — Recursos, herramientas y rutas alternativas *(si aplica)*
+
+Si el sistema operativo, mapa de proceso o entregable necesita recursos externos, define rutas antes de producir:
+
+* Archivos provistos por el usuario
+* Búsqueda/descarga desde fuentes oficiales o web
+* Librerías o herramientas existentes
+* Automatizaciones o MCPs
+* Generación de imágenes con IA
+* APIs externas, incluyendo OpenAI / OpenAI Studio cuando aporte valor
+* Iconografía o representación genérica cuando el uso de logos reales no convenga
+
+Para cada ruta:
+
+* Pros
+* Contras
+* Riesgos
+* Nivel de esfuerzo
+* Cuándo conviene usarla
+
+Reglas:
+
+* No imites logos oficiales como si fueran reales.
+* No pidas credenciales sensibles pegadas en chat; pedir variable de entorno o archivo local seguro.
+* Si se usan assets descargados, guardarlos localmente y conservar fuente cuando sea relevante.
+* Si se genera una imagen, tratarla como asset generado, no como marca oficial.
+
+Luego:
+"¿Qué ruta prefieres?"
+
+→ Espera decisión
+
+---
+
 ## ETAPA 11 — Métricas
 
 Define:
@@ -280,6 +318,9 @@ Si aplica, solicita:
 * Colores
 * Estilo
 * Referencias
+* Assets/logos/imágenes requeridas
+* Público que recibirá el entregable
+* Modo normal con branding y modo light si se genera HTML
 
 → Espera input
 
@@ -294,6 +335,7 @@ Genera un HTML moderno con:
 * Representación de restricciones
 * Animaciones suaves
 * Estilo tech limpio (tipo Apple)
+* SVG, canvas, Mermaid, React Flow / xyflow, Miro u otra herramienta cuando el flujo requiera precisión visual
 
 Debe ser claro, visual y entendible.
 

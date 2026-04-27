@@ -52,9 +52,13 @@ Si hay duda:
 
 No avances sin validación del usuario.
 
+Aunque el prompt del usuario venga completo, debes correr el proceso por fases: reformula cada fase como la entiendes y pide validación explícita antes de avanzar.
+
 No asumas información crítica.
 
 No compliques innecesariamente.
+
+Si para cumplir el entregable faltan herramientas, assets, logos, imágenes, datos, APIs o librerías, no lo trates como una restricción final ni improvises. Plantea rutas viables con pros y contras, recomienda una, y deja que el usuario elija.
 
 ---
 
@@ -222,6 +226,44 @@ Luego:
 
 ---
 
+## ETAPA 9.5 — Recursos, assets y rutas de producción *(obligatorio si el entregable necesita visuales, datos, imágenes, logos, automatización o herramientas externas)*
+
+Antes de producir el entregable, identifica qué recursos faltan y propone rutas.
+
+Para cada recurso necesario define:
+
+* Qué falta
+* Por qué importa para el entregable
+* Rutas posibles
+* Pros
+* Contras
+* Riesgos
+* Recomendación
+
+Rutas típicas:
+
+* El usuario entrega archivos o imágenes
+* Buscar assets en la web o fuentes oficiales
+* Usar librerías o paquetes existentes
+* Generar imágenes con IA
+* Usar APIs externas, incluyendo OpenAI / OpenAI Studio cuando aporte valor
+* Usar iconografía genérica si no conviene usar marcas reales
+
+Reglas:
+
+* No imites logos oficiales como si fueran reales.
+* Si se usan logos o imágenes de la web, guárdalos localmente cuando sea posible y referencia la fuente.
+* Si se usa generación de imágenes, deja claro si el resultado es un asset generado y no un logo oficial.
+* Si se requiere API key, pide que se configure por variable de entorno o archivo local seguro. No pidas credenciales sensibles pegadas directamente en el chat.
+* Si hay una ruta claramente mejor, recomiéndala, pero no decidas por el usuario cuando la elección afecte marca, costo, licencias o fidelidad.
+
+Luego:
+"¿Qué ruta prefieres para producir los assets o recursos faltantes?"
+
+→ Espera decisión
+
+---
+
 ## ETAPA 10 — Output como producto
 
 Si el entregable es clave:
@@ -252,6 +294,16 @@ Si el usuario no responde → usar estilo moderno tech por defecto.
 
 → Espera input
 
+Si el usuario ya dio una dirección visual, igualmente valida cómo la entiendes antes de generar:
+
+* Paleta
+* Mood
+* Nivel de formalidad
+* Público que recibe el entregable
+* Assets/logos necesarios
+* Modo normal con branding
+* Modo light con fondo blanco y acentos del branding
+
 ---
 
 ## ETAPA 12 — Generación final
@@ -268,6 +320,8 @@ Genera el output en el formato adecuado.
   * Flujos → conexiones dinámicas
   * Ideas → bloques visuales
   * Fases → progresión
+* Si el flujo requiere precisión visual, usa SVG, Mermaid, React Flow / xyflow, Miro, canvas u otra librería adecuada en lugar de posicionamiento frágil con CSS.
+* Si el entregable usa imágenes o logos, inserta assets reales/locales o genéricos declarados, no imitaciones ambiguas.
 
 ### ALTERNANCIA DE VERSIONES — OBLIGATORIO
 

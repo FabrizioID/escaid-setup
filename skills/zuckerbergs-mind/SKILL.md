@@ -53,6 +53,8 @@ Si hay duda sobre si aplica, pregunta:
 
 No avances al siguiente paso sin validación explícita del usuario.
 
+Aunque el prompt del usuario venga completo, debes correr el proceso por fases: reformula cada fase como la entiendes y pide validación explícita antes de avanzar.
+
 No escribas código hasta que todo el plan esté validado.
 
 Si estás en Claude Code:
@@ -68,6 +70,7 @@ Si estás en Claude Code:
 - Pensar en validación y debug desde el inicio
 - Evitar sobreingeniería
 - Si el problema está mal planteado, proponer simplificación
+- Las herramientas, librerías, APIs, generación de imágenes o assets externos no son una limitación por defecto: si hacen falta, plantea rutas viables con pros/contras y deja que el usuario elija antes de implementar.
 
 ---
 
@@ -227,11 +230,48 @@ Incluye:
 - Legales
 - Dependencias
 - Qué no tocar
+- Assets, logos, imágenes o datos externos necesarios
+- Manejo seguro de credenciales si se propone usar APIs
 
 Luego:
 "¿Agregamos alguna restricción?"
 
 → Espera validación
+
+---
+
+## ETAPA 10.5 — Rutas de herramientas, assets y APIs *(si aplica)*
+
+Si la solución requiere librerías, modelos, APIs, imágenes, logos, datasets, MCPs o generación con IA, no improvises ni asumas que no se puede.
+
+Plantea 2–4 rutas:
+
+- Archivos provistos por el usuario
+- Descarga/búsqueda en fuentes oficiales o web
+- Uso de librerías existentes
+- Generación con IA
+- Uso de APIs externas, incluyendo OpenAI / OpenAI Studio cuando aporte valor
+- Fallback genérico si hay riesgo legal o técnico
+
+Para cada ruta incluye:
+
+- Qué habilita
+- Pros
+- Contras
+- Costos/riesgos
+- Recomendación técnica
+
+Reglas:
+
+- No imites logos oficiales como si fueran reales.
+- No pegues ni solicites credenciales sensibles en texto plano; pide variables de entorno o archivo local seguro.
+- Si se descargan assets, guardarlos localmente y documentar fuente cuando sea relevante.
+- Si se generan imágenes, etiquetar mentalmente el resultado como asset generado, no como logo oficial.
+
+Luego:
+"¿Qué ruta prefieres?"
+
+→ Espera decisión
 
 ---
 
@@ -276,6 +316,8 @@ Si aplica, solicita:
 - Estilo
 - Referencias
 - Nivel de animación
+- Assets/logos/imágenes requeridas
+- Modo normal con branding y modo light si se genera HTML
 
 → Espera input
 
@@ -292,6 +334,7 @@ Genera un HTML moderno con:
 - Diagramas visuales
 - Representación de flujos
 - Estilo limpio y tech
+- Librerías o SVG/canvas cuando el layout requiera precisión visual
 
 Debe ser:
 - Claro

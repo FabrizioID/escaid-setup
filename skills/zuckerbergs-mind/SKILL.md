@@ -126,6 +126,33 @@ Luego:
 
 ## ETAPA 4 — Alternativas de lógica interna
 
+Antes de proponer alternativas, ejecuta una búsqueda de referencias externas cuando el sistema, app, arquitectura, UI, automatización o flujo pueda beneficiarse de benchmarks reales.
+
+Busca:
+
+- Productos o apps similares
+- Patrones de arquitectura
+- Documentación oficial de frameworks/APIs
+- Casos técnicos comparables
+- UI/UX flows, dashboards o landing pages si aplica
+- Librerías, SDKs o herramientas que resuelvan partes del problema
+
+Luego presenta:
+
+- 3–7 referencias o patrones relevantes
+- Qué idea aporta cada una
+- Qué conviene adoptar, adaptar o evitar
+- Riesgos o restricciones detectadas
+
+El objetivo es alimentar el criterio del usuario y del agente antes de elegir alternativas internas.
+
+Luego:
+"¿Qué referencias o patrones te sirven para orientar las alternativas?"
+
+→ Espera validación
+
+Después de esa validación:
+
 Plantea mínimo 2–3 alternativas distintas.
 
 Para cada una:

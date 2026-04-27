@@ -135,6 +135,33 @@ Luego:
 
 ## ETAPA 5 — Estrategias de proceso (alternativas)
 
+Antes de plantear estrategias, busca referencias externas cuando el sistema operativo, flujo, proceso, evento, equipo o entregable pueda beneficiarse de casos comparables.
+
+Busca:
+
+* Procesos similares
+* Benchmarks operativos
+* Diagramas de flujo, mapas de proceso o sistemas de trabajo comparables
+* Ejemplos de implementación en la industria
+* Herramientas, plantillas o frameworks usados en casos reales
+* Referencias visuales si el proceso debe presentarse a cliente/equipo
+
+Luego presenta:
+
+* 3–7 referencias o patrones útiles
+* Qué idea aporta cada una
+* Qué conviene adoptar, adaptar o evitar
+* Qué restricciones o cuellos de botella se observan en esas referencias
+
+El objetivo es alimentar el criterio antes de elegir estrategia, no copiar el caso externo.
+
+Luego:
+"¿Qué referencias o patrones te sirven para orientar las estrategias?"
+
+→ Espera validación
+
+Después de esa validación:
+
 Plantea mínimo 2–3 formas distintas de estructurar el proceso.
 
 Para cada una:

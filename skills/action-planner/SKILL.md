@@ -141,6 +141,36 @@ Luego:
 
 ---
 
+## ETAPA 4.5 — Referencias externas e inspiración
+
+Antes de proponer estructura o alternativas, busca referencias existentes cuando el tema pueda beneficiarse de ejemplos del mundo real.
+
+Aplica para:
+
+* Procesos similares
+* Productos, landing pages, apps, dashboards o documentos comparables
+* Diagramas, flujos, Miro boards, presentaciones o mapas visuales
+* Benchmarks de industria
+* Estilos visuales, layouts, componentes o entregables parecidos
+
+Qué debes hacer:
+
+* Buscar referencias en la web o en fuentes disponibles cuando el conocimiento pueda estar incompleto, ser reciente o visual.
+* Priorizar fuentes oficiales, ejemplos reales, documentación primaria, portfolios reconocibles o casos comparables.
+* Mostrar al usuario una síntesis breve de 3–7 referencias o patrones útiles.
+* Extraer ideas aplicables: estructura, lenguaje, estética, flujo, interacción, formato, nivel de detalle o criterios de calidad.
+* Indicar qué ideas conviene adoptar, adaptar o evitar.
+* Pedir validación del usuario antes de convertir esas referencias en alternativas.
+
+No copies referencias literalmente; úsalas como insumo para pensar mejor.
+
+Luego:
+"¿Qué referencias o ideas te sirven, cuáles descartamos y qué dirección quieres que pese más?"
+
+→ Espera validación
+
+---
+
 ## ETAPA 5 — Estructura
 
 Convierte en:

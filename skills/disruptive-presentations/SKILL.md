@@ -1,210 +1,440 @@
 ---
 name: disruptive-presentations
-description: Motor de generación de slides disruptivas de alta calidad visual. Modo activo — FULL IMAGE (ChatGPT): genera slides como imagen completa con razonamiento semántico, selección de analogías y debug total. Modo legacy disponible — HTML + Imagen 4. Usar cuando el usuario quiera crear slides individuales o una presentación completa. Recibe input estructurado del Presentation Orchestrator o directamente del usuario.
+description: Motor de generacion de slides disruptivas de alta calidad visual. Modo activo: FULL IMAGE con ChatGPT, para generar slides completas como imagen final con interpretacion semantica, decision de analogia, alternativas de diagramacion, prompt final y debug completo. Modo legacy disponible: HTML + Imagen 4 + Canva export. Usar cuando el usuario quiera crear o mejorar slides individuales, una presentacion completa, una clase visual, o depurar el razonamiento visual de una slide.
 ---
 
 # Disruptive Presentations
 
-Full prompt templates and HTML shell -> [references/full-reference.md](references/full-reference.md)
+Full legacy prompt templates and HTML shell -> [references/full-reference.md](references/full-reference.md)
 
 ---
 
-# MODO ACTIVO: FULL IMAGE (ChatGPT)
+## DEFAULT MODE: FULL IMAGE WITH CHATGPT
 
-> Fase actual de validación. Genera cada slide como imagen completa usando ChatGPT (DALL-E 3 o GPT-4o image). Sin HTML. Foco en calidad conceptual y visual.
+Use this mode unless the user explicitly asks for HTML, editable layout, Imagen 4, Canva export, or legacy mode.
 
-## INPUT ESPERADO (por slide)
+Current goal: generate each slide as one finished 16:9 image. Do not build HTML in this phase. Do not manually place coordinates. The slide image must carry the concept through visual thesis, composition, metaphor, typography, spacing, and text integration.
 
-```
-- objetivo: qué debe comunicar esta slide
-- texto_base: contenido mínimo (títulos, puntos clave)
-- contexto: tema/clase general
-- audiencia: tipo de receptor
-- tono: (técnico / inspiracional / reflexivo / energético)
-- impacto: (alto / medio / sutil)
-- branding: colores, estilo (opcional)
-```
+Core rule:
 
----
+`The image is not decoration. The image is part of the argument.`
 
-## FLUJO DE GENERACIÓN (FULL IMAGE MODE)
+Disruption rule:
 
-### PASO 1 — Interpretación semántica
+`Disruption is not an extra visual effect. It must be implicit in the analogy and/or in the diagramming structure. If no analogy is selected, the layout itself must carry the disruption.`
 
-Analiza el input y define:
+Template rule:
 
-**Tipo de contenido:**
-- `conceptual` → idea abstracta que necesita analogía
-- `secuencial` → proceso, pasos, pipeline
-- `comparativo` → dos o más elementos en tensión
-- `enumerativo` → lista de componentes o atributos
-- `métrico` → datos, números, rankings
-- `narrativo` → historia, apertura, cierre
-
-**Profundidad conceptual:**
-- ¿El concepto es directo o necesita metáfora para entenderse?
-
-**Intención emocional:**
-- ¿Qué debe sentir quien ve la slide?
+`A template is a brand frame, not a creative cage. Use it to align background, logo, header, spacing, and colors; keep the disruptive visual idea alive inside the space the template defines.`
 
 ---
 
-### PASO 2 — Decisión de analogía
+## INPUT CONTRACT
 
-Evalúa si usar analogía visual.
+Accept direct user input or structured input from `presentation-orchestrator`.
 
-**Usar analogía cuando:**
-- El concepto es abstracto o técnico
-- La analogía lo hace más intuitivo
-- El tipo es `conceptual` o `narrativo`
+Minimum fields:
 
-**No usar analogía cuando:**
-- El contenido es datos o métricas
-- Hay un software/herramienta específica a mostrar
-- El contenido ya es visualmente concreto
-
-**Si decides usar analogía:**
-→ Genera mínimo 3 alternativas en este formato:
-
+```yaml
+objective: what the slide must communicate
+base_text: title, subtitle, concepts, numbers, or short copy
+context: class, deck, audience situation, or topic
+audience: learner, executive, client, technical team, sponsor, etc.
+tone: technical | inspirational | reflective | energetic | executive | premium
+brand:
+  fonts: Inter, Ruberoid, Plus Jakarta Sans, or similar clean geometric sans
+  colors: optional brand colors or accent guidance
+  avoid: loud colors, clutter, generic tech decoration
+template:
+  provided: true/false
+  must_preserve: logo, header, sidebars, lines, margins, background, footer
+  free_area: where the disruptive scene can live
+debug: true
 ```
-Alternativa A: [nombre]
-- Imagen: [qué se vería]
-- Por qué comunica: [razonamiento]
-- Riesgo: [posible ambigüedad]
 
-Alternativa B: ...
-Alternativa C: ...
-
-→ Selección: [cuál y por qué]
-```
+If a field is missing, infer conservatively from context. Ask only when the missing information changes the visual decision materially, such as brand, audience, required text, or factual accuracy.
 
 ---
 
-### PASO 3 — Decisión de diagramación
+## TEMPLATE-AWARE DISRUPTION
 
-Define la estructura compositiva de la slide.
+Before generating, decide whether the slide has a template or not.
 
-**Para contenido secuencial:**
-- Pipeline horizontal o vertical
-- Nodos conectados con flechas
+### No Template
 
-**Para contenido comparativo:**
-- División en dos mitades
-- Tensión visual izquierda/derecha o arriba/abajo
+Use full visual freedom. The analogy can become the whole world of the slide.
 
-**Para contenido enumerativo:**
-- Estructuras no lineales: circular, radial, perspectiva 3D, hexagonal
-- Nunca bullet list plano
+Examples:
 
-**Para contenido conceptual:**
-- Composición centrada en la analogía
-- Texto integrado dentro de la escena
+- galaxy concept -> full-screen cosmic/orbital scene
+- lighthouse concept -> full-bleed fog and light beam
+- ocean depth concept -> entire slide becomes underwater hierarchy
+- decision observatory -> whole slide becomes the room/scene
 
-**Para métricas:**
-- Números grandes como protagonistas
-- Mínimo decorativo
+Rules:
 
-→ Genera mínimo 2 alternativas de diagramación y selecciona la mejor.
+- Let the metaphor dominate the background, depth, lighting, and reading path.
+- Integrate the title and key text into the scene.
+- Use cinematic or editorial composition when it clarifies the message.
+- Preserve elegance and readability; do not turn freedom into clutter.
 
----
+### Template Provided
 
-### PASO 4 — Construcción del prompt
+Use the template as a brand frame. Preserve fixed brand elements and inject disruption into the free area.
 
-Construye el prompt final para generación de imagen siguiendo este orden:
+What to preserve:
 
-```
-1. Escena base (ambiente, fotografía o render)
-2. Elemento visual principal (analogía o diagrama)
-3. Integración del texto (dónde y cómo aparece)
-4. Proporciones y zonas seguras
-5. Estilo visual: minimalista tipo Apple, tipografía [Inter / Plus Jakarta / Ruberoid]
-6. Colores: [branding definido o paleta tech elegante]
-7. Calidad: photorealistic, 4K, editorial quality, 16:9
-8. Restricción final: no generated text artifacts, no watermarks, no clutter
-```
+- logo placement
+- header or footer system
+- sidebars, lines, margins, and white space
+- brand colors, fonts, and overall corporate mood
 
-**Reglas del prompt:**
-- 100-150 palabras mínimo
-- Texto de la slide integrado en la escena como parte visual, no superpuesto
-- No más de 4 elementos textuales
-- Especificar zonas de calma para el texto
-- Estilo elegante, no saturado
+What to avoid:
 
----
+- treating the template as a reason to downgrade into cards, grids, or safe corporate layout by default
+- flattening a strong analogy into generic icons
+- making the visual idea merely decorative
 
-### PASO 5 — Generación
+How to adapt:
 
-Envía el prompt a ChatGPT (DALL-E 3 o GPT-4o image generation).
+- Identify the free content area first.
+- Make the analogy inhabit that area as a contained scene, object, map, orbit, diagram, or visual system.
+- Use phrasing such as: `Use the template as the exact visual foundation and brand frame, but do not let it flatten the concept.`
+- If the no-template version would be full-screen, convert it into a contained version:
+  - full-screen galaxy -> contained orbital system inside the white content area
+  - full-bleed lighthouse -> contained beam crossing the content area
+  - full ocean scene -> contained depth window or vertical cutaway
+  - full cinematic room -> contained architectural panel or perspective viewport
+- The template should align the disruption, not contain it into mediocrity.
 
-Si el resultado falla QA:
-1. Ajustar prompt (reforzar restricciones o cambiar analogía)
-2. Segundo intento con variación
-3. Después de 3 fallos → cambiar técnica o analogía
+Decision rule:
+
+`No template = maximum scene freedom. Template = maximum concept intensity inside brand constraints.`
 
 ---
 
-### PASO 6 — DEBUG OUTPUT (obligatorio)
+## FULL IMAGE PIPELINE
 
-Siempre retornar:
+### 1. Semantic Interpretation
 
+Before selecting an image or layout, classify the slide:
+
+| Content type | Use when | Primary visual strategy |
+|---|---|---|
+| conceptual | abstract idea, principle, mental model | metaphor, spatial analogy, iconic scene |
+| sequential | process, pipeline, before/after over time | path, flow, stages, depth progression |
+| comparative | two or more elements in tension | split world, contrast field, balance, mirror |
+| enumerative | components, attributes, categories | radial, constellation, 3D cluster, non-flat grid |
+| metric | numbers, rankings, evidence | giant metrics, editorial data, restrained visual field |
+| systemic | many relationships or forces | network, orbit, map, architecture, control room |
+| narrative | opening, closing, persuasion, emotional turn | cinematic thesis image, editorial hero, symbolic scene |
+
+Also define:
+
+- textual prompt nucleus: the exact concept, phrase, tension, or relation that must not be lost
+- communication thesis: what the viewer must understand or feel
+- original-theme anchors: 3 to 5 words or ideas that any analogy must stay close to
+- disruption opportunity: what conventional slide pattern must be broken and why
+- template mode: no template / template provided
+- template constraints: what must stay fixed and what area can host the disruptive scene
+- depth: low, medium, high
+- emotional intent: clarity, urgency, awe, trust, tension, ambition, relief
+- text load: minimal, moderate, risky
+
+Write the thesis as:
+
+`This slide is really communicating "[message]" through "[visual mechanism]".`
+
+If this sentence is weak, do not generate yet.
+
+---
+
+### 2. Analogy Gate
+
+Decide whether to use visual analogy.
+
+The analogy generator starts from the textual prompt nucleus. Generate analogies by similarity, not by spectacle. The winning analogy is the one most semantically and structurally attached to the original theme while still creating a disruptive visual reading.
+
+Use analogy when:
+
+- the concept is abstract, deep, or difficult to feel through text
+- the audience needs intuition before detail
+- the metaphor makes the idea more concrete, memorable, or emotionally legible
+- the content is conceptual, narrative, systemic, or a high-level transition
+
+Avoid analogy when:
+
+- the slide requires factual precision or software specificity
+- the content is already visually concrete
+- the metaphor would add ambiguity
+- the deck needs an executive data slide, not poetic interpretation
+
+If analogy is useful, generate at least 3 options:
+
+```text
+Analogia A: [name]
+- Visual: what the image would show
+- Similarity to original prompt: high/medium/low
+- Structural match: what relation it preserves (depth, sequence, tension, hierarchy, system, etc.)
+- Disruption move: what makes the slide non-obvious without breaking meaning
+- Why it communicates: semantic fit
+- Risk: possible confusion, cliche, or overdrama
+
+Analogia B: ...
+Analogia C: ...
+Selected: [name] because it has the strongest similarity to the original prompt and the cleanest disruptive visual path.
+Moonshot preserved: [bolder option worth testing later]
 ```
+
+If no analogy is selected, state:
+
+`No analogy selected because [reason]. Disruption moves to diagramming. Visual strategy: [diagram/editorial/data/system].`
+
+Selection priority:
+
+1. semantic similarity to the textual prompt
+2. structural similarity to the concept relation
+3. clarity for the audience
+4. ability to become a clean diagram/layout
+5. disruptive potential
+6. aesthetic potential
+
+Do not choose the most spectacular analogy if it drifts away from the original topic.
+
+---
+
+### 3. Layout Exploration
+
+Generate at least 2 layout alternatives before choosing.
+
+The layout must be derived from the selected analogy. If there is no analogy, the layout must become the disruptive mechanism by itself.
+
+If a template is provided, create two mental versions before selecting:
+
+1. no-template ideal: the strongest possible version of the analogy with full freedom
+2. template adaptation: the same disruptive idea contained inside the template's free area
+
+Choose the template adaptation only after preserving the core visual force of the no-template ideal.
+
+Examples:
+
+- depth concept -> layered descent, vertical depth zones, nested thresholds
+- sequence -> path, stations, tunnel, timeline in perspective, process arena
+- comparison -> split world, mirror tension, forked path, before/after field
+- enumeration -> roulette, radial orbit, circular modules, constellation, non-flat grid
+- system -> nodes, control map, orbital dependencies, architecture stack
+- hierarchy -> levels, strata, tower, stack, nested frames
+- metric -> giant number field, editorial data monument, scale contrast
+
+Useful layout families:
+
+- full-bleed cinematic metaphor with quiet text zone
+- ocean/depth hierarchy
+- radial or orbital system
+- perspective 3D progression
+- asymmetric editorial composition
+- split-world comparison
+- giant metric field
+- constellation map
+- architectural stack
+- cinematic object plus callouts
+- pure typography with symbolic background
+
+Avoid:
+
+- flat bullet list
+- generic left-title/right-image by habit
+- four equal cards unless the content genuinely needs parity
+- decorative particles, abstract orbs, circuit boards, or geometric clutter with no semantic role
+- more visual elements than the message can support
+
+Score each layout quickly:
+
+| Criterion | Question |
+|---|---|
+| clarity | Is the idea understood within 3 seconds? |
+| semantic fit | Does the composition embody the message? |
+| elegance | Is there enough negative space and restraint? |
+| disruption | Does it escape a conventional slide pattern? |
+| disruption source | Does disruption come from analogy, diagramming, or both? |
+| template fit | If there is a template, does the disruptive idea live inside it without being weakened? |
+| text safety | Can text be readable without crowding? |
+| risk | What could fail in image generation? |
+
+Select one winner and one backup.
+
+---
+
+### 4. Prompt Assembly
+
+Build the final image prompt in this order:
+
+1. Format: finished 16:9 premium presentation slide, single image
+2. Communication goal
+3. Visual thesis
+4. Similarity logic: why the chosen analogy or diagram is close to the original prompt
+5. Disruption source: analogy, diagramming, or both
+6. Template mode:
+   - no template: let the scene/metaphor dominate the whole slide
+   - template provided: preserve fixed template elements and place the disruptive visual system inside the free area
+7. Base scene or metaphor
+8. Main composition and reading path
+9. Text to include, max 4 text elements
+10. Text integration: where it lives and why that zone is calm
+11. Visual style: Apple-like, elegant, minimal, editorial, high-end
+12. Typography: clean geometric sans similar to Inter / Plus Jakarta Sans / Ruberoid
+13. Brand color guidance using color names, not hex codes
+14. Constraints: no clutter, no generated text artifacts, no watermarks, no stock-photo feel, no random UI, no unreadable text
+15. Language lock: all visible text must be in the requested language
+
+Prompt target: usually 120-220 words. Be specific enough to control composition, but not so overloaded that the image model collapses into clutter.
+
+Text rule:
+
+- Prefer 1 title + 1 subtitle + up to 2 short labels.
+- If the base text has more than 4 items, compress before prompting or ask whether to split into multiple slides.
+- Never rely on the image model to render dense paragraphs, tables, small labels, or long lists.
+
+---
+
+### 5. Generate Image
+
+Use ChatGPT image generation when available. Generate one finished 16:9 slide image.
+
+If generation is not available in the current environment, output the full debug block plus the final prompt ready to paste into the image generator. Do not silently switch to HTML.
+
+Regeneration loop:
+
+1. If text is wrong, garbled, misspelled, or cluttered: regenerate with stricter text constraints.
+2. If metaphor is beautiful but unclear: change analogy or simplify scene.
+3. If layout is conventional: change layout family, not just style words.
+4. After 3 failed attempts: switch analogy or use the backup layout.
+
+---
+
+### 6. Debug Output
+
+Always return the reasoning when `debug: true` or when the user is testing the skill.
+
+```text
 === DEBUG SLIDE [N] ===
 
-INTERPRETACIÓN:
-- Tipo de contenido: [tipo]
-- Profundidad conceptual: [alta/media/baja]
-- Intención emocional: [qué debe sentir]
+INPUT SUMMARY
+- Objective:
+- Base text:
+- Context:
+- Audience:
+- Brand/style:
 
-ANALOGÍAS CONSIDERADAS:
-- A: [nombre] → [razón]
-- B: [nombre] → [razón]
-- C: [nombre] → [razón]
-→ Seleccionada: [X] porque [razón]
+INTERPRETATION
+- Content type:
+- Textual prompt nucleus:
+- Original-theme anchors:
+- Conceptual depth:
+- Disruption opportunity:
+- Template mode:
+- Template constraints / free area:
+- Emotional intent:
+- Text load:
+- Communication thesis:
 
-DIAGRAMACIÓN CONSIDERADA:
-- Opción 1: [descripción]
-- Opción 2: [descripción]
-→ Seleccionada: [X] porque [razón]
+ANALOGY DECISION
+- Use analogy: yes/no
+- Why:
+- Options considered:
+  A. [name] / similarity: / structural match: / disruption move: / risk:
+  B. [name] / similarity: / structural match: / disruption move: / risk:
+  C. [name] / similarity: / structural match: / disruption move: / risk:
+- Selected:
+- Moonshot preserved:
 
-PROMPT FINAL USADO:
-[prompt completo]
+LAYOUT DECISION
+- Disruption source: analogy / diagramming / both
+- No-template ideal:
+- Template adaptation:
+- Options considered:
+  1. [layout] / derived from: / text integration: / disruption move:
+  2. [layout] / derived from: / text integration: / disruption move:
+- Selected:
+- Backup:
 
-OUTPUT:
-[imagen generada]
+FINAL IMAGE PROMPT
+[complete prompt]
+
+QA RESULT
+- Concept visible without text:
+- Text legible:
+- Max 4 text elements:
+- No artifacts:
+- Elegant/non-saturated:
+- Image adds meaning:
+
+OUTPUT
+- Image generated or prompt ready:
 ```
 
----
-
-## ESTILO VISUAL (FULL IMAGE MODE)
-
-- Minimalista tipo Apple
-- Elegante, no saturado
-- Texto integrado en la escena, no superpuesto genéricamente
-- Tipografías referencia: Inter, Plus Jakarta, Ruberoid
-- La imagen debe poder comunicar el concepto por sí sola
-- No usar: colores chillones, partículas genéricas, orbes abstractos, circuit boards sin sentido semántico
+For normal production requests, summarize the debug briefly unless the user asks for full trace.
 
 ---
 
-## QA (FULL IMAGE MODE)
+## FULL IMAGE STYLE RULES
 
-1. ¿La imagen comunica el concepto sin leer el texto?
-2. ¿El texto está integrado naturalmente en la escena?
-3. ¿Hay máximo 4 elementos textuales?
-4. ¿El estilo es elegante y no saturado?
-5. ¿Hay artefactos de texto generados por la IA? → Si sí: regenerar
-6. ¿La analogía elegida refuerza el mensaje o lo distrae?
-7. ¿La diagramación es no convencional?
+- Use Apple-like restraint: confident negative space, precise hierarchy, premium materials, quiet color.
+- Keep the slide emotionally clear: calm, sharp, intentional.
+- Use visual analogies only when they clarify the message.
+- Let the composition do cognitive work: depth, contrast, scale, alignment, direction, proximity, and light should communicate relationships.
+- Prefer real-world, cinematic, editorial, or high-end 3D scenes over generic "AI tech" decoration.
+- Integrate text into the scene naturally, but keep it readable and sparse.
+- Use brand accents as signals, not as flood fill.
+- When a slide is for executives or non-technical audiences, translate technology into outcomes: speed, control, productivity, risk, cost, opportunity, decision quality.
 
-Threshold: fallar en 1, 2, 5 o 6 → regenerar. 3 fallos en el mismo slide → cambiar técnica.
+Hard rejects:
+
+- flat bullet-list slide
+- crowded infographic
+- neon chaos
+- generic particles/orbs/circuit backgrounds
+- tiny unreadable labels
+- random fake UI
+- generated text artifacts in important areas
+- stock-photo background with unrelated text slapped on top
+- metaphor that is prettier than it is meaningful
 
 ---
 
-# MODO LEGACY: HTML + IMAGEN 4
+## FULL IMAGE QA CHECKLIST
 
-> Disponible para cuando se requiera mayor control de layout, coordinadas HTML, o integración con Canva. Activar explícitamente.
+Fail and revise if any critical item fails:
 
-## PIPELINE (10 steps)
+1. The image communicates the concept before reading the text.
+2. The selected analogy or visual strategy fits the message.
+3. The analogy, if used, is the closest useful similarity to the original prompt, not just a pretty metaphor.
+4. If no analogy is used, the diagramming itself creates the disruption.
+5. If a template is used, the template aligns the disruption without weakening it.
+6. If no template is used, the visual world fully supports the analogy.
+7. Text is readable, short, and correct.
+8. There are no generated text artifacts, watermarks, fake logos, or malformed UI.
+9. The slide feels like one coherent idea.
+10. The layout is not a conventional bullet slide.
+11. The visual is elegant and not saturated.
+12. The image adds meaning rather than decoration.
+
+After QA, state the next action:
+
+- accept
+- regenerate with prompt revision
+- switch analogy
+- switch layout
+- split into multiple slides
+- use legacy HTML mode for layout precision
+
+---
+
+## LEGACY MODE: HTML + IMAGEN 4
+
+Use only when the user explicitly asks for HTML, editable exported deck, Canva handoff, tighter layout control, or when full-image generation repeatedly fails due to text or diagram precision.
+
+## LEGACY PIPELINE (10 steps)
 
 1. **Plan** - topic, brand color, slide count (default 11), assign one disruption technique per slide (no repeats)
 2. **Disruption thesis** - define the one visual idea the slide must communicate before choosing layout

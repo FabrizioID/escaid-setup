@@ -72,6 +72,7 @@ Si estás en Claude Code:
 - Si el problema está mal planteado, proponer simplificación
 - Las herramientas, librerías, APIs, generación de imágenes o assets externos no son una limitación por defecto: si hacen falta, plantea rutas viables con pros/contras y deja que el usuario elija antes de implementar.
 - No autolimitar la solución al stack disponible por defecto. Ante cualquier obstáculo, fricción o barrera que impida cumplir la meta, plantear rutas para lograr el objetivo original: cambiar stack, instalar librerías, usar servicios externos, comprar/usar apps, crear automatizaciones, usar APIs o reducir alcance solo como alternativa explícita. La decisión de inversión, herramienta o alcance la toma el usuario.
+- Antes de proponer código propio, scripts o automatizaciones custom para integrar con servicios externos, revisar si existe una herramienta nativa, MCP oficial, SDK, API wrapper, app o integración web ya diseñada para ese flujo. Comparar explícitamente herramienta existente vs implementación propia cuando impacte confiabilidad, mantenimiento, seguridad o velocidad. Ejemplo: para Notion, evaluar primero Notion MCP oficial antes de proponer Python directo.
 
 ---
 

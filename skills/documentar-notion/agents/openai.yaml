@@ -1,0 +1,5 @@
+name: documentar-notion
+display_name: Documentar Notion
+short_description: Crea o actualiza proyectos en Notion sin romper estructura.
+default_prompt: Usa $documentar-notion para documentar esta informacion en Notion. Primero identifica si debo crear proyecto, actualizar proyecto o anadir contenido directo; usa Notion MCP como ruta principal, pide destino/plantilla si falta, y no reemplaces ni elimines nada sin confirmacion explicita.
+

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Docx MCP Document Editor"
+  short_description: "Safe live document editing and QA"
+  default_prompt: "Use this skill to plan, edit, and QA a live Google Docs or Docx document while preserving structure, formatting, branding, and text logic."

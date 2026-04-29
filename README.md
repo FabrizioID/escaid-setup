@@ -80,6 +80,8 @@ El script automatiza:
 | `marketing-master` | Custom | Orquesta estrategia de funnels, contenido, Meta Ads, email y SEO |
 | `meta-ads-n8n-workflow` | Custom | Mantiene el flujo n8n que reemplaza Adveronix para Meta Ads hacia Google Sheets |
 | `google-docs-quotation-editor` | Custom | Edita cotizaciones y propuestas en Google Docs sin romper la plantilla visual, usando el MCP de Google Workspace |
+| `docx-mcp-document-editor` | Custom | Edita documentos vivos Google Docs/Docx con pre-razonamiento, preservacion de formato y QA semantico/visual |
+| `technical-quotation-builder` | Custom | Estructura cotizaciones tecnicas: jerarquia comercial, alcance, unidades de cobro, sustento y redaccion |
 | `miro-maps-and-flows` | Custom | Diseña mapas y flujos visuales con lógica de diagrama correcta, crea primero una versión premium en HTML/PDF cuando importa la claridad visual y luego la adapta a Miro |
 | `premium-interactive-docs` | Custom | Documenta sistemas, agentes y flujos como guías HTML premium con jerarquía visual, motion, exportación a PDF y posible adaptación posterior a Miro |
 

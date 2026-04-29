@@ -1,0 +1,4 @@
+interface:
+  display_name: "Technical Quotation Builder"
+  short_description: "Technical quotation logic and structure"
+  default_prompt: "Use this skill to structure a technical quotation, define proposal hierarchy, scope boundaries, pricing units, support logic, and client-facing wording."

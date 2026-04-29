@@ -44,6 +44,17 @@ No cambiar schema por defecto.
 
 Completar propiedades vacias puede ser seguro si el valor es claro. Reemplazar propiedades existentes requiere confirmacion.
 
+Para matrices editables, planes, ejes, listas de decision, agendas, tareas, sponsors, speakers o cualquier informacion que sera filtrada/ordenada, preferir crear una base de datos inline y cargar filas. No convertir ese tipo de contenido en una tabla estatica salvo que el usuario pida un documento cerrado.
+
+Patron recomendado:
+1. Crear la base con `notion_create_database` bajo la pagina destino.
+2. Definir un title claro y propiedades gestionables: `Orden`, `Descripcion`, `Estado`, `Relevancia`, `Audiencia`, `Responsable`, `Fecha`, `Tags`, segun el caso.
+3. Cargar filas con `notion_create_pages` sobre el data source creado.
+4. Ajustar la vista principal con `notion_update_view` para ordenar y mostrar columnas clave.
+5. Hacer `fetch` final de la pagina destino para detectar si quedaron dos representaciones visibles de la misma data.
+
+Si se crea una base y ademas una vista vinculada, puede aparecer duplicada. Dejar una sola representacion visible salvo que el usuario pida vistas separadas.
+
 ### Vistas, boards y cronogramas
 
 Proteger por defecto. No modificar vistas, boards, timeline, calendars, grouping o sorting sin instruccion explicita.
@@ -153,6 +164,7 @@ Si hay `ambiguous_matches`, no escribir hasta que el usuario seleccione.
 
 Seguro:
 - `create_page` si destino y plantilla estan confirmados;
+- `create_inline_database` si el parent esta confirmado y el contenido necesita gestion;
 - `append_block`;
 - `add_database_row`;
 - `fill_empty_property`;
@@ -167,6 +179,7 @@ Confirmacion:
 - `reorder_blocks`;
 - `change_date_or_status`;
 - `replace_image`.
+- `delete_duplicate_linked_view`;
 
 Bloqueado por defecto:
 - `delete_block`;
@@ -183,6 +196,7 @@ Heuristicas utiles:
 - buscar headings similares;
 - revisar propiedades vacias antes de escribir;
 - detectar filas con mismo nombre/fecha/estado;
+- detectar bases o vistas duplicadas sobre el mismo data source;
 - marcar conflictos si hay dos versiones no equivalentes.
 
 Si no hay confianza suficiente, pedir confirmacion.
@@ -209,4 +223,3 @@ Siempre reportar:
 - cambios pendientes;
 - limitaciones;
 - link de Notion si existe.
-

@@ -58,10 +58,22 @@ Trigger ejemplo: `anade esto a Notion`
 
 Flujo:
 1. Preguntar donde insertarlo.
-2. Preguntar formato: texto, tabla, imagen, bloque, tarea, cronograma, fila de base de datos o seccion.
+2. Preguntar formato: texto, tabla estatica, base de datos inline, imagen, bloque, tarea, cronograma, fila de base de datos o seccion.
 3. Validar destino.
 4. Insertar sin alterar el resto.
 5. Confirmar ubicacion y formato.
+
+### Matrices y contenido editable
+
+Cuando la informacion tendra vida operativa, evaluacion, filtros, orden, estados o ownership, no usar una tabla Markdown/HTML como salida principal. Preferir:
+
+1. Crear una base de datos inline dentro de la pagina destino.
+2. Definir propiedades utiles antes de cargar filas: titulo, orden, descripcion, estado, relevancia, responsable, audiencia, fecha, tags o recomendacion.
+3. Cargar cada item como fila/pagina de la base.
+4. Crear o ajustar una vista principal limpia con las columnas clave.
+5. Evitar vistas duplicadas: si se crea la base y luego una vista vinculada, dejar solo una representacion visible salvo que el usuario pida varias vistas.
+
+Usar tabla estatica solo cuando el contenido sea puramente expositivo y no necesite gestion posterior.
 
 ## Cambios seguros vs sensibles
 
@@ -69,6 +81,7 @@ Seguro por defecto:
 - Crear pagina nueva si destino y plantilla estan confirmados.
 - Anadir bloque.
 - Anadir fila nueva.
+- Crear base de datos inline nueva si el usuario pidio contenido gestionable o editable y el parent esta confirmado.
 - Completar campo vacio.
 - Extender seccion existente.
 - Insertar imagen nueva si la ruta es valida.
@@ -81,6 +94,7 @@ Requiere confirmacion:
 - Reordenar estructura.
 - Mover/reparentar paginas o bases.
 - Reemplazar imagen existente.
+- Eliminar vistas, bases duplicadas o bloques hijos. Si el sistema advierte que un replace borraria child pages/databases, preservar esos bloques o pedir confirmacion explicita.
 
 Prohibido salvo instruccion literal:
 - Eliminar contenido.
@@ -106,6 +120,7 @@ Antes de escribir:
 - El contenido no es duplicado probable.
 - El cambio no implica reemplazo/eliminacion sin confirmacion.
 - Las imagenes tienen ruta viable.
+- Si se crean bases o vistas, verificar despues con fetch que no quedaron duplicadas visibles.
 
 ## Referencia tecnica
 
@@ -147,4 +162,3 @@ Limitaciones:
 Siguiente paso:
 - ...
 ```
-

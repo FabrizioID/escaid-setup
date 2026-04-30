@@ -152,11 +152,47 @@ Define:
 * Intensidad
 * Momentos clave
 * Tipo de sesión (dinámica, reflexiva, técnica)
+* Formato de exposición: ponencia, clase, workshop, demo, capacitación, comité, pitch o sesión híbrida
+* Nivel de participación esperado
+* Balance entre exposición, interacción, demostración y práctica
 
 Luego:
 "¿La experiencia está bien definida?"
 
 → Espera validación
+
+### Regla de experiencia activa
+
+Una buena presentación no siempre es un monólogo.
+
+Antes de diseñar slides, clasificar el formato:
+
+```text
+Formato:
+- ponencia individual: exposición principal, preguntas al final o momentos breves de reflexión
+- clase/capacitación: interacción frecuente, ejercicios, preguntas guiadas, checks de comprensión
+- workshop: co-creación, dinámicas, trabajo por grupos, plantillas, votaciones
+- demo práctica: mostrar, pausar, preguntar, ejecutar, comparar resultado
+- comité/pitch: narrativa ejecutiva, tensión clara, pocas interrupciones, decisión final
+```
+
+Si el formato permite interacción, proponer dinámicas concretas:
+
+* pregunta de apertura;
+* sondeo rápido;
+* mini caso;
+* Kahoot, Mentimeter, Forms, Miro, Jamboard o herramienta equivalente;
+* votación/priorización;
+* ejercicio individual o por grupos;
+* pausa de reflexión;
+* revisión colectiva de outputs;
+* reto breve con resultado visible.
+
+No forzar interacción si el contexto es una ponencia formal o una presentación de alto protocolo. En ese caso, diseñar momentos de respiración, preguntas retóricas o cierre con Q&A.
+
+Regla práctica:
+
+`El Orchestrator no solo ordena slides; diseña atención, participación y ritmo.`
 
 ---
 
@@ -167,11 +203,34 @@ Define:
 * Interacción (Mentimeter, Kahoot, preguntas)
 * Demos
 * Participación activa
+* Objetivo de cada dinámica
+* Tiempo estimado
+* Momento exacto donde entra
+* Materiales o apps necesarias
+* Qué output produce la dinámica
+* Plan B si la app o participación falla
 
 Luego:
 "¿Las dinámicas son correctas?"
 
 → Espera validación
+
+### Matriz de dinámicas
+
+Cuando el formato no sea una ponencia puramente individual, incluir una matriz:
+
+```text
+Momento:
+Dinámica:
+Herramienta:
+Pregunta o consigna:
+Duración:
+Output esperado:
+Cómo conecta con la siguiente slide:
+Plan B:
+```
+
+Las dinámicas deben tener sentido narrativo. No insertar juegos o apps por entretenimiento si no empujan comprensión, energía, diagnóstico o decisión.
 
 ---
 
@@ -238,6 +297,7 @@ Para cada slide definir:
 * Rol narrativo dentro del arco
 * Qué tensión resuelve o abre
 * Qué prepara para la siguiente slide
+* Si requiere interacción, pregunta, demo o participación
 
 **Regla:** cada slide debe quedar completamente definido en contenido antes de continuar.
 
@@ -327,6 +387,7 @@ Cada prompt debe incluir:
 * Analogía seleccionada y por qué
 * Familia visual de la sección
 * Si la slide respeta plantilla o rompe plantilla de forma controlada
+* Dinámica asociada si aplica
 
 Antes del prompt final, incluir este bloque:
 
@@ -342,6 +403,7 @@ Analogía elegida:
 Por qué calza:
 Coherencia con la familia visual:
 Propuesta visual:
+Interacción/dinámica:
 Modo de plantilla:
 Prompt final:
 ```
@@ -374,10 +436,12 @@ Genera un documento HTML interactivo con:
 * Story spine visible al inicio
 * Flujo narrativo
 * Arco por bloques o actos
+* Mapa de dinámicas, preguntas, apps o ejercicios
 * Timeline visual
 * Slides como cards
 * Rol narrativo de cada slide
 * Tensión que abre/resuelve cada slide
+* Interacción asociada a cada slide cuando aplique
 * Prompt completo por cada slide, listo para ejecutar
 * Jerarquía clara
 * Animaciones suaves (scroll, aparición)

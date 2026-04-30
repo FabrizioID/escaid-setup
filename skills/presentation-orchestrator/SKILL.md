@@ -12,6 +12,16 @@ Tu objetivo es convertir un tema, contexto y objetivo en una **experiencia de pr
 1. Un **plan visual interactivo (HTML) con branding**
 2. Un **prompt listo por cada slide** para la skill `disruptive-presentations`
 
+El output central no es una lista de slides. Es un **mapa de storytelling ejecutable**:
+
+* qué historia cuenta la presentación;
+* qué tensión abre;
+* qué descubrimiento guía a la audiencia;
+* qué cambio de criterio busca;
+* qué debe sentir y hacer la audiencia al final;
+* qué rol cumple cada slide dentro de ese arco;
+* qué prompt permite materializar cada slide visualmente.
+
 ---
 
 # INTEGRACIÓN — MAGNUS THINKER (OBLIGATORIO)
@@ -44,6 +54,7 @@ Si hay duda:
 
 * Una presentación es una experiencia, no slides
 * Primero narrativa → luego contenido → luego slides
+* Cada slide debe existir porque mueve la historia, no porque "toca cubrir un punto"
 * Cada slide tiene un propósito claro
 * Menos texto, más impacto
 * Diseñar para lo que el usuario siente y entiende
@@ -172,11 +183,42 @@ Define:
 * Desarrollo
 * Clímax
 * Cierre
+* Tensión principal de la historia
+* Transformación de la audiencia
+* Revelaciones o cambios de perspectiva por bloque
+* Momentos de respiro, demostración o aterrizaje práctico
+* Frase narrativa central de la presentación
 
 Luego:
 "¿El arco narrativo tiene sentido?"
 
 → Espera validación
+
+### Story Spine obligatorio
+
+Antes de pasar a la secuencia de slides, construir un story spine claro:
+
+```text
+Antes:
+La audiencia piensa/siente que...
+
+Problema:
+Pero en la práctica ocurre que...
+
+Giro:
+La idea que cambia el enfoque es...
+
+Demostración:
+Lo probamos mediante...
+
+Resultado:
+Al final la audiencia puede...
+
+Frase madre:
+Si solo recuerdan una idea, debe ser...
+```
+
+Este story spine debe aparecer en el plan HTML.
 
 ---
 
@@ -191,8 +233,73 @@ Para cada slide definir:
 * Qué debe entender el usuario
 * Emoción buscada
 * Relación con anterior y siguiente
+* Potencial de analogía o disrupción visual
+* Familia conceptual/visual de la sección
+* Rol narrativo dentro del arco
+* Qué tensión resuelve o abre
+* Qué prepara para la siguiente slide
 
 **Regla:** cada slide debe quedar completamente definido en contenido antes de continuar.
+
+### Regla de continuidad narrativa
+
+Cada slide debe responder:
+
+```text
+¿Por qué esta slide existe justo aquí?
+¿Qué sabe o siente la audiencia antes de verla?
+¿Qué sabe o siente después?
+¿Qué pregunta deja abierta para la siguiente?
+```
+
+Si una slide no mueve la historia, debe fusionarse, eliminarse o convertirse en apoyo/demo.
+
+### Regla de analogía y coherencia conceptual
+
+Antes de pasar una slide a `disruptive-presentations`, evaluar si conviene usar analogía.
+
+No todas las slides necesitan analogía. Usarla cuando:
+
+* ayuda a entender una idea abstracta;
+* hace memorable una transición o concepto clave;
+* conecta un dolor real de la audiencia con una imagen mental clara;
+* permite romper el patrón corporativo sin perder precisión.
+
+Evitar analogía cuando:
+
+* la slide es operativa, factual o de instrucciones concretas;
+* la metáfora fuerza la comprensión;
+* agrega espectáculo sin mejorar el mensaje.
+
+Cuando una sección use varias analogías, deben pertenecer a una familia visual o conceptual común, salvo que se abra una sección nueva o una analogía distinta sea claramente superior.
+
+Ejemplos de familias:
+
+* navegación/control/logística: faro, torre de control, puerto, sala de control;
+* construcción/ingeniería: plano, obra, sala de máquinas, puente;
+* conocimiento/exploración: mapa, brújula, laboratorio, observatorio.
+
+Regla práctica:
+
+`La analogía no debe ser una ocurrencia aislada; debe sostener el arco mental de la sección.`
+
+### Regla de ruptura controlada de plantilla
+
+Si existe una plantilla, debe tratarse como marco de marca, no como límite creativo absoluto.
+
+En una presentación con plantilla, evaluar si 1 a 3 slides clave merecen una ruptura full visual:
+
+* apertura;
+* transición de sección;
+* concepto central;
+* momento de impacto;
+* cierre.
+
+Estas slides pueden romper parcialmente la plantilla si aumentan recordación y claridad, manteniendo señales mínimas de marca.
+
+Regla práctica:
+
+`La plantilla da consistencia; la disrupción da memoria.`
 
 Luego:
 "¿La secuencia de slides está completa?"
@@ -207,6 +314,7 @@ Para cada slide genera un prompt listo para la skill `disruptive-presentations`.
 
 Cada prompt debe incluir:
 
+* Rol narrativo de la slide
 * Objetivo del slide
 * Mensaje clave
 * Contenido textual
@@ -215,6 +323,28 @@ Cada prompt debe incluir:
 * Tono
 * Nivel de impacto
 * Branding
+* Analogías evaluadas cuando aplique
+* Analogía seleccionada y por qué
+* Familia visual de la sección
+* Si la slide respeta plantilla o rompe plantilla de forma controlada
+
+Antes del prompt final, incluir este bloque:
+
+```text
+Slide:
+Rol narrativo:
+Idea didáctica:
+Dolor/audiencia:
+Antes de esta slide:
+Después de esta slide:
+Analogías evaluadas:
+Analogía elegida:
+Por qué calza:
+Coherencia con la familia visual:
+Propuesta visual:
+Modo de plantilla:
+Prompt final:
+```
 
 **Un prompt por slide. No un único prompt global.**
 
@@ -241,9 +371,14 @@ Si no se define → preguntar antes de continuar, o usar estilo moderno tech (ti
 
 Genera un documento HTML interactivo con:
 
+* Story spine visible al inicio
 * Flujo narrativo
+* Arco por bloques o actos
 * Timeline visual
 * Slides como cards
+* Rol narrativo de cada slide
+* Tensión que abre/resuelve cada slide
+* Prompt completo por cada slide, listo para ejecutar
 * Jerarquía clara
 * Animaciones suaves (scroll, aparición)
 * Fondo animado

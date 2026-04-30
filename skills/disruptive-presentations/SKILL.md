@@ -27,6 +27,14 @@ Template rule:
 
 `A template is a brand frame, not a creative cage. Use it to align background, logo, header, spacing, and colors; keep the disruptive visual idea alive inside the space the template defines.`
 
+Controlled break rule:
+
+`Even when a template is provided, 1 to 3 high-impact slides in a deck may intentionally break the template if the concept needs a full-scene metaphor. Keep subtle brand signals, but let the idea dominate. Do this sparingly: openings, section transitions, core concepts, or closings.`
+
+Analogy coherence rule:
+
+`Analogies are not random decorations. Within the same section, keep them in a shared conceptual family unless a new section begins or a different analogy is clearly stronger. Prefer connected worlds such as navigation/control/logistics, construction/engineering, or exploration/knowledge.`
+
 ---
 
 ## INPUT CONTRACT
@@ -59,6 +67,18 @@ If a field is missing, infer conservatively from context. Ask only when the miss
 ## TEMPLATE-AWARE DISRUPTION
 
 Before generating, decide whether the slide has a template or not.
+
+Also decide whether this is a normal template slide or a controlled template break:
+
+- normal template slide: preserve the frame and inject the disruptive idea inside the available area
+- controlled break slide: remove or minimize the frame, keep only subtle brand signals, and let the analogy become the whole scene
+
+Use controlled break only when:
+
+- the slide is an opener, transition, central concept, or closing
+- the analogy is strong enough to be remembered without explanation
+- the brand frame would weaken the concept
+- the deck has enough normal slides around it to preserve consistency
 
 ### No Template
 
@@ -186,6 +206,29 @@ Selected: [name] because it has the strongest similarity to the original prompt 
 Moonshot preserved: [bolder option worth testing later]
 ```
 
+When the slide belongs to an existing section, also evaluate family coherence:
+
+```text
+Section visual family: [navigation/control/logistics | construction/engineering | exploration/knowledge | other]
+Does this analogy belong to the family? [yes/no]
+If no, why is the exception worth it?
+Could an analogy from the same family work better?
+```
+
+Do not jump between unrelated analogy worlds inside the same section by default.
+
+Bad pattern:
+
+`boat -> bull -> kitchen -> galaxy`
+
+Better pattern:
+
+`lighthouse -> control tower -> logistics port -> control room`
+
+Exception:
+
+Use a different analogy only when the slide starts a new section or when the new metaphor is clearly more precise, memorable, and useful.
+
 If no analogy is selected, state:
 
 `No analogy selected because [reason]. Disruption moves to diagramming. Visual strategy: [diagram/editorial/data/system].`
@@ -215,6 +258,14 @@ If a template is provided, create two mental versions before selecting:
 2. template adaptation: the same disruptive idea contained inside the template's free area
 
 Choose the template adaptation only after preserving the core visual force of the no-template ideal.
+
+If the no-template ideal is dramatically stronger and the slide is a key moment, propose or generate a controlled template-break variant. Label it clearly:
+
+```text
+Template version: [how the concept lives inside the brand frame]
+Controlled-break version: [how the concept becomes the whole scene]
+Recommendation: [template | controlled break] because [reason]
+```
 
 Examples:
 

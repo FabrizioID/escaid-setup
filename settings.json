@@ -75,6 +75,12 @@
         "N8N_BASE_URL": "https://aecode.app.n8n.cloud",
         "N8N_API_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Nzk2OGQxNi1jODVjLTRkM2MtOTkwNS1kNGU3YWIwZjVmOGEiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzc2MjAxMjA1fQ.dEI2Cxbnv1iR5h_jGSogkON0b07nTDbwEwXqxOpwYG8"
       }
+    },
+    "excel": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@negokaz/excel-mcp-server"],
+      "env": {}
     }
   },
   "effortLevel": "medium",

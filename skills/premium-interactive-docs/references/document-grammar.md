@@ -47,7 +47,8 @@ Use a restrained set:
 - big section headers
 - clean rounded panels
 - board-style diagrams
-- timelines, steps, metrics, chats, or legends when useful
+- grouped metrics, steps, timelines, or chat examples
+- short labels with optional subtitles
 
 ## Motion Ingredients
 
@@ -61,6 +62,77 @@ Use only what improves feel or hierarchy:
 - hover lift
 - animated chat or message blocks
 - slight hero tilt
+
+## Animated Background Rules
+
+When the document uses a canvas, Three.js, or particle animation as background, sections must never fight the background — they must coordinate with it.
+
+### The Core Rule
+
+The animated background is a design element, not decoration.
+Every section that sits above it must choose one of three valid approaches.
+Never use a solid opaque background that simply covers the canvas without intention.
+
+### Three Valid Approaches
+
+**1. Semi-transparent sections**
+Section uses rgba dark tint + backdrop-filter blur.
+The background stays visible through the tint.
+Use for standard dark-theme sections.
+
+**2. Canvas mutation by zone**
+The background changes hue, brightness, or element color as the user scrolls into each section zone.
+Sections remain transparent — the canvas IS the atmosphere.
+Use GSAP + ScrollTrigger to animate a shared state object.
+
+**3. Color-contrast zones**
+Two flavors:
+- Purple zone: section has solid or semi-solid purple background. Canvas logos switch to white wireframe so they show through the tint.
+- White zone: canvas transitions to a near-white overlay. Section is transparent. Canvas IS the white background. Logos render dark on white.
+
+Both require the canvas and section to move together — not independently.
+
+### Canvas Zone State System
+
+Use a shared object to drive all canvas colors dynamically:
+
+```
+const bgColor = { h: 270, lit: 0, inv: 0 };
+// h   — hue of entire canvas (logos, connections, pulses)
+// lit — white overlay opacity: 0=dark, 1=white bg
+// inv — invert logos to white: 0=off, 1=on (for purple zones)
+```
+
+Animate it with GSAP:
+
+```
+gsap.to(bgColor, { h: 265, lit: 1, inv: 0, duration: 1.5, ease: 'power2.inOut' });
+```
+
+The canvas draw loop reads bgColor every frame — no manual color strings in draw code.
+
+### Divider Bands
+
+Place transparent bands between zone transitions.
+A band: 80px height, no background, centered label pill, horizontal gradient glow line.
+The band line color follows a CSS variable updated on each transition.
+Bands signal the visual shift without creating abrupt boundaries.
+
+### ScrollTrigger Bidirectional Requirement
+
+Always define both directions explicitly per trigger:
+
+```
+ScrollTrigger.create({
+  trigger: el,
+  start: 'top 68%',
+  onEnter:     () => shiftBg(h, lit, inv),             // scrolling down
+  onLeaveBack: () => shiftBg(prevH, prevLit, prevInv)  // scrolling back up
+});
+```
+
+A trigger with only onEnter breaks the state when the user scrolls back up.
+Always pair enter and leaveBack with the correct before/after state for each zone boundary.
 
 ## Readability Rules
 

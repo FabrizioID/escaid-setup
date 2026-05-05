@@ -18,6 +18,8 @@ Para el banco completo de preguntas por fase, leer [references/phases.md](refere
 Para el protocolo completo de F8 Asimétrico, leer [references/asymmetric.md](references/asymmetric.md).
 Para el protocolo y formato de Coda Magnus, leer [references/coda-magnus.md](references/coda-magnus.md).
 Para planes de ejecucion, areas operativas, eventos o entregables accionables, leer [references/execution-plans.md](references/execution-plans.md).
+Para decisiones donde importa percepcion, adopcion, atencion, confianza o eleccion de frameworks/hooks/mensajes, leer [references/perception-choice.md](references/perception-choice.md).
+Para convertir aprendizajes de proyecto en criterios generales siempre activos, leer [references/general-criteria-kernel.md](references/general-criteria-kernel.md).
 
 ---
 

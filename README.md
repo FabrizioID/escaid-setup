@@ -28,6 +28,34 @@ escaid-setup/
 
 ---
 
+## Second Brain (inteligencia cross-proyecto)
+
+Repo separado: [FabrizioID/second-brain](https://github.com/FabrizioID/second-brain)
+
+Contiene `MASTER_IDEAS.md` — el motor de inteligencia cross-proyecto que Magnus lee al inicio de cada sesión para detectar conexiones, oportunidades y conflictos entre proyectos activos.
+
+**Path local esperado:** `C:\Users\USUARIO\inteligencia\`
+
+### Clonar en maquina nueva
+
+```powershell
+git clone https://github.com/FabrizioID/second-brain.git "$env:USERPROFILE\inteligencia"
+```
+
+### Mantener sincronizado
+
+```powershell
+# Antes de una sesión importante (pull cambios remotos)
+git -C "$env:USERPROFILE\inteligencia" pull
+
+# Después de que Magnus actualice MASTER_IDEAS al cerrar sesión
+git -C "$env:USERPROFILE\inteligencia" add MASTER_IDEAS.md
+git -C "$env:USERPROFILE\inteligencia" commit -m "chore: update MASTER_IDEAS"
+git -C "$env:USERPROFILE\inteligencia" push
+```
+
+---
+
 ## Setup en maquina nueva
 
 ### Requisitos previos

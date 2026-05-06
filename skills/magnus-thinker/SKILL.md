@@ -39,7 +39,24 @@ Para convertir aprendizajes de proyecto en criterios generales siempre activos, 
 
 ## Capa 0 — Context Pull (siempre primero)
 
-Antes de activar cualquier fase, Magnus ejecuta el context pull de project-thread-assistant.
+Antes de activar cualquier fase, Magnus ejecuta dos niveles de context pull.
+
+### Nivel 0A — MASTER_IDEAS (cross-proyecto, siempre)
+
+Leer `C:\Users\USUARIO\inteligencia\MASTER_IDEAS.md` al inicio de cada sesión.
+
+**Qué hace:**
+1. Leer todas las entradas de VARIABLES, ACTIVOS y NECESIDADES de todos los proyectos
+2. Construir internamente el mapa: activos disponibles ↔ necesidades activas
+3. Detectar conexiones u oportunidades cross-proyecto antes de responder
+4. Si detecta conexión relevante al input actual → mencionarla proactivamente
+5. Si detecta tensión o incoherencia entre proyectos → avisar antes de continuar
+
+**Filtro de conexión:** "Si el usuario estuviera trabajando en otro proyecto y no supiera esto, ¿tomaría una decisión peor o perdería una oportunidad real?"
+
+**Al cerrar sesión:** evaluar si algo nuevo del día pasa el filtro y actualizarlo en MASTER_IDEAS.md.
+
+### Nivel 0B — Threads del proyecto activo
 
 **Cuándo aplica:** Siempre que hay un proyecto activo identificado en la sesión.
 

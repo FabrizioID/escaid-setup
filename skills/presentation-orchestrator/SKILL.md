@@ -36,6 +36,50 @@ No es opcional. No avances sin haberlo aplicado primero.
 
 ---
 
+# REGLA DE VALIDACION OBLIGATORIA
+
+Presentation Orchestrator es una skill de co-diseno guiado, no de produccion directa.
+
+No puedes generar secuencia final de slides, prompts por slide, HTML de plan, handoff a `disruptive-presentations`, PPTX, deck visual o entregable final sin validacion explicita del usuario en las etapas previas.
+
+Aunque el prompt venga completo, aunque exista contexto previo y aunque parezca suficiente para avanzar, debes validar por etapas: contexto, audiencia, objetivo, sensacion final, experiencia, dinamicas, arco narrativo y secuencia de slides.
+
+Solo despues de esas validaciones puedes generar prompts, HTML o handoff.
+
+Si el usuario pide "corre Orchestrator", eso significa iniciar el flujo de validacion, no saltar al output final.
+
+## EJECUCION GUIADA ESTRICTA
+
+Cuando el usuario pida correr, activar, iniciar o usar Presentation Orchestrator, debes ejecutar la secuencia guiada real:
+
+1. Presentar solo la etapa activa.
+2. Formular la pregunta de validacion de esa etapa.
+3. Detenerte y esperar respuesta del usuario.
+4. No avanzar a la siguiente etapa hasta recibir validacion explicita o correccion.
+
+No sustituyas el flujo por una sintesis general, una propuesta preliminar completa, una estructura tentativa de slides o una validacion agrupada. Aunque ya tengas suficiente contexto para inferir varias etapas, solo debes mostrar la etapa actual.
+
+Si el usuario corrige una etapa, actualiza esa etapa y vuelve a pedir validacion. Si el usuario valida, avanza solo a la etapa siguiente.
+
+## HANDOFF LOCK POST-APROBACION
+
+Cuando el usuario apruebe el plan, la secuencia o el HTML maestro de Orchestrator con frases como "plan aprobado", "continua", "sigue", "dale", "aprobado" o equivalentes, el siguiente paso por defecto es activar y ejecutar `disruptive-presentations`.
+
+No cambies a `slides`, PptxGenJS, PPTX editable, Canva, HTML legacy u otra ruta de produccion salvo que el usuario lo pida explicitamente despues de aprobar el plan.
+
+Orden obligatorio tras aprobacion:
+
+1. Leer el handoff de Orchestrator.
+2. Activar `disruptive-presentations`.
+3. Generar las imagenes/slide visuals segun su pipeline.
+4. Crear o actualizar el HTML global de revision.
+5. Pedir revision o continuar por lotes segun el alcance.
+6. Solo despues de QA visual, si el usuario pide PPTX/export, usar `slides` u otra herramienta de exportacion.
+
+Si el usuario dice "continua" despues de aprobar Orchestrator, interpretalo como "continua con disruptive-presentations", no como "crea un PPTX editable".
+
+---
+
 # ACTIVACIÓN
 
 Activa esta skill cuando el usuario quiere:
@@ -65,11 +109,27 @@ Si hay duda:
 
 Esta skill **NO diseña slides**.
 
+Esta skill **NO genera PPTX, no exporta decks y no debe activar la skill `slides` como parte de su flujo principal**.
+
+Su responsabilidad termina en el **plan maestro de orquestación**:
+* storytelling validado;
+* experiencia de sesión;
+* estructura slide-by-slide;
+* intención, dinámica y mensaje por slide;
+* prompts ejecutables por slide para `disruptive-presentations`;
+* HTML del plan/orquestación.
+
+La producción visual final corresponde a `disruptive-presentations`, que debe correr los prompts slide por slide, generar imágenes finales y apilarlas en un HTML global de revisión.
+
 No debes:
 * Proponer diagramación
 * Definir layouts
 * Sugerir estructuras visuales
 * Indicar tipos de imágenes
+* Generar PPTX
+* Crear decks editables
+* Convertir el plan en presentación final
+* Saltar directamente a producción visual antes de validar storytelling y secuencia
 * Decidir diseño gráfico
 
 Tu rol es:
@@ -449,6 +509,18 @@ Genera un documento HTML interactivo con:
 * Estilo moderno tech tipo Apple
 * Coherencia total con el branding definido
 
+Este HTML es el **plan maestro**, no el deck final.
+
+Debe incluir una sección explícita llamada `handoff a disruptive-presentations` con:
+* orden final de slides;
+* prompt final por slide;
+* dinámica asociada;
+* notas de template o branding;
+* criterio de analogía sugerido, sin resolver diseño visual definitivo;
+* instrucción de que `disruptive-presentations` debe generar las imágenes finales y apilarlas en un HTML global de revisión.
+
+No generar PPTX desde esta etapa. Si el usuario pide PPTX, tratarlo como una fase posterior de exportación después de que `disruptive-presentations` haya generado y validado las imágenes.
+
 Debe ser visual, claro, limpio y listo para compartir.
 
 ### ALTERNANCIA DE VERSIONES — OBLIGATORIO
@@ -503,6 +575,8 @@ El output no está completo si:
 * No hay contenido definido por slide
 * No hay prompt por slide listo para ejecutar
 * No hay coherencia de branding
+* No hay HTML de plan/orquestación
+* No hay handoff claro a `disruptive-presentations`
 
 ---
 
@@ -514,4 +588,13 @@ Diseñar una presentación como sistema completo:
 * Experiencia bien pensada
 * Contenido estructurado
 * Prompts ejecutables por slide
-* Plan visual listo para guiar la construcción
+* Plan HTML listo para guiar la construcción
+* Handoff operativo a `disruptive-presentations`
+
+Resultado final de esta skill:
+
+`Orchestrator -> storytelling + experiencia + prompts slide-by-slide + HTML de plan`
+
+Resultado que NO corresponde a esta skill:
+
+`PPTX final`, `deck editable`, `imagenes finales`, `Canva export`.

@@ -13,7 +13,11 @@ Full legacy prompt templates and HTML shell -> [references/full-reference.md](re
 
 Use this mode unless the user explicitly asks for HTML, editable layout, Imagen 4, Canva export, or legacy mode.
 
-Current goal: generate each slide as one finished 16:9 image. Do not build HTML in this phase. Do not manually place coordinates. The slide image must carry the concept through visual thesis, composition, metaphor, typography, spacing, and text integration.
+Current goal: generate each slide as one finished 16:9 image. Do not manually place coordinates. The slide image must carry the concept through visual thesis, composition, metaphor, typography, spacing, and text integration.
+
+For full-deck production, after generating each slide image, maintain a global review HTML that stacks all generated slide images in order. This HTML is not the slide design source; it is the review/contact-sheet artifact. Update it incrementally as images are generated.
+
+Do not generate PPTX as the default output. PPTX, Canva export, or editable deck conversion is a later export phase after image generation and QA.
 
 Core rule:
 
@@ -134,6 +138,20 @@ Decision rule:
 ---
 
 ## FULL IMAGE PIPELINE
+
+For a multi-slide deck, the pipeline is:
+
+1. Receive slide-by-slide prompts from `presentation-orchestrator` or the user.
+2. For each slide, run semantic interpretation, analogy decision, layout exploration and prompt assembly.
+3. Generate the slide as a finished 16:9 image.
+4. Save/copy the generated image into an ordered project folder as `slide_01.png`, `slide_02.png`, etc.
+5. Append or refresh a global HTML review page that stacks all generated slides in order.
+6. QA the image and mark slides that need regeneration.
+7. Only after image QA, optionally export to PPTX/Canva if explicitly requested.
+
+Rule:
+
+`Image generation is the production step. HTML review is the tracking/review artifact. PPTX is optional export, not the default.`
 
 ### 1. Semantic Interpretation
 
@@ -354,6 +372,15 @@ Use ChatGPT image generation when available. Generate one finished 16:9 slide im
 
 If generation is not available in the current environment, output the full debug block plus the final prompt ready to paste into the image generator. Do not silently switch to HTML.
 
+When image generation is available and the task is a deck:
+
+* generate images sequentially or in controlled batches;
+* preserve the provided template if present;
+* keep the original generated image in its default generated-images folder;
+* copy the accepted image into the project deck folder with an ordered filename;
+* update the global HTML review after each batch or at minimum at the end of the generation run;
+* report the image folder and HTML review path to the user.
+
 Regeneration loop:
 
 1. If text is wrong, garbled, misspelled, or cluttered: regenerate with stricter text constraints.
@@ -426,6 +453,16 @@ OUTPUT
 
 For normal production requests, summarize the debug briefly unless the user asks for full trace.
 
+For multi-slide deck production, also include or maintain a compact production log with:
+
+* slide number;
+* selected analogy or `no analogy`;
+* image filename;
+* QA status: accept / regenerate / needs review;
+* notes about template fidelity or text risks.
+
+The global HTML review must show the generated images in slide order. It may include slide numbers, titles and QA notes, but it must not replace the image generation step.
+
 ---
 
 ## FULL IMAGE STYLE RULES
@@ -484,6 +521,11 @@ After QA, state the next action:
 ## LEGACY MODE: HTML + IMAGEN 4
 
 Use only when the user explicitly asks for HTML, editable exported deck, Canva handoff, tighter layout control, or when full-image generation repeatedly fails due to text or diagram precision.
+
+Do not confuse legacy HTML composition with the global review HTML from full-image mode:
+
+* Legacy HTML = design/composition method.
+* Full-image review HTML = stacked preview of already generated images.
 
 ## LEGACY PIPELINE (10 steps)
 
@@ -648,6 +690,45 @@ Rules:
   2. Reframe or crop if artifacts sit outside key zones
   3. Mask or wash contaminated areas only if the slide still reads cleanly
 - Do not let visible garbage survive just because the composition is otherwise good
+
+---
+
+## ORIGINAL EVIDENCE LOCK: TABLES, FIGURES AND CHARTS
+
+When the user asks to use original data, tables, charts, figures, screenshots, thesis images, report visuals, or "figuras/tablas/graficos tal cual", treat those assets as evidence, not inspiration.
+
+Default behavior:
+- Do not ask GPT Image/Imagen to redraw small factual charts, tables, software screenshots, numeric labels, axes, legends, or captions when factual fidelity matters.
+- Generate the slide background/composition with an intentional clean empty area for the original asset.
+- Insert the original asset afterward as a real bitmap/object, preserving its factual content.
+- If the generated background includes a rigid border/frame for the asset and the proportions do not match, remove the border instead of forcing a bad fit.
+- Prefer a clean white or brand-neutral quiet zone with no border, or only a very subtle shadow, so slight aspect-ratio differences do not look misaligned.
+- Make the original asset large enough to be readable. Legibility beats decorative integration.
+- Do not crop away axes, legends, notes, table headers, row labels, numeric values, or source-critical captions unless the user explicitly approves.
+- If exact table/chart text must remain editable later, mark the slide for PPTX/native reconstruction during export; otherwise keep the original raster evidence locked.
+
+Composition workflow:
+1. Identify the factual asset and its aspect ratio.
+2. Identify protected zones in the slide: title, logo, footer, key metrics, arrows, diagrams, and any required visual narrative.
+3. Reserve a quiet zone that fits the asset aspect ratio as closely as possible.
+4. If the available quiet zone is wider/taller than the asset, leave white space naturally; do not add a visible box that exposes the mismatch.
+5. Place the original asset with precise coordinates after generation.
+6. QA at full size: the asset must be readable, aligned, and visually integrated without appearing as a random sticker.
+
+Failure modes and fixes:
+- Asset too small -> enlarge it or simplify surrounding visual mass.
+- Asset floats awkwardly -> remove border, add a clean white zone, align to nearby geometry.
+- Asset does not fit frame -> delete the frame and use whitespace; do not distort unless the user accepts a slight PPT-style stretch.
+- Generated chart/table has wrong numbers -> fail QA and replace with the original asset.
+- GPT Image changes table/chart text -> fail QA; use evidence-locked insertion.
+
+Prompt language for evidence placeholders:
+
+`Reserve a clean white empty area for an original chart/table/figure to be inserted later. Do not draw a chart, do not invent labels, do not place a rigid border around the placeholder. Keep the area visually calm and aligned with the slide geometry.`
+
+Rule:
+
+`Original evidence is inserted, not hallucinated. The generated image creates the stage; the thesis/report asset carries the facts.`
 
 ---
 

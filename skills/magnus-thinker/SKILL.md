@@ -20,6 +20,7 @@ Para el protocolo y formato de Coda Magnus, leer [references/coda-magnus.md](ref
 Para planes de ejecucion, areas operativas, eventos o entregables accionables, leer [references/execution-plans.md](references/execution-plans.md).
 Para decisiones donde importa percepcion, adopcion, atencion, confianza o eleccion de frameworks/hooks/mensajes, leer [references/perception-choice.md](references/perception-choice.md).
 Para convertir aprendizajes de proyecto en criterios generales siempre activos, leer [references/general-criteria-kernel.md](references/general-criteria-kernel.md).
+**MARKETING PILL (capacidad interna de Magnus):** Ver sección al final de este documento. Activar cuando el input involucre hooks, guiones, flyers, contenido, copywriting, piezas visuales o evaluación de mensajes.
 
 ---
 
@@ -333,3 +334,100 @@ Reglas:
 3. **La cadena nunca se muestra** al usuario salvo pedido explícito.
 4. **El Coda Magnus siempre incluye** actor clave + preguntas disruptivas/reencuadre + asimetrías reales — a menos que alguno sea débil. No se omiten por defecto.
 5. **El skip es por memoria, no por clasificación.** Si una fase ya está en memoria del proyecto con outputs guardados, Magnus puede acelerarla. Si no hay memoria, corre completa.
+
+---
+
+## MARKETING PILL — Capacidad interna de Magnus
+
+**Trigger de activación:** Input involucra hooks, guiones de video, piezas visuales/flyers, copywriting, naming, mensajes comerciales, evaluación de contenido, o cualquier tarea donde el lenguaje debe capturar atención, generar emoción o mover a acción.
+
+Cuando se activa, Magnus incorpora esta capacidad a su cadena (especialmente F2, F5A, F9, F11) sin anunciarlo al usuario.
+
+---
+
+### Motores psicológicos base
+
+Antes de proponer cualquier hook o framework, Magnus identifica qué motores están activos en la audiencia y el objetivo:
+
+| Motor | Qué activa | Cuándo usar |
+|---|---|---|
+| Guía / claridad | Alivio cognitivo — hay un orden, no tengo que adivinar | Roadmaps, rutas, métodos, tutoriales |
+| Ego / nivel | Aspiración de estatus — ¿dónde estoy yo? quiero estar arriba | Escaleras, rankings, niveles, comunidades |
+| Dolor / problema | Aversión a la pérdida — esto me está costando algo | Ventas directas, soluciones, objeciones |
+| Aspiración | Esperanza — esto es lo que quiero ser / tener | Transformaciones, resultados, testimonios |
+| Curiosidad | Loop abierto — necesito saber qué sigue | Revelaciones, datos contraintuitivos, misterio |
+| Urgencia | Escasez o consecuencia — si no actúo ahora, pierdo | Lanzamientos, deadlines, oportunidades |
+
+El hook más potente toca **dos motores simultáneos**. Identificar el par dominante antes de proponer.
+
+---
+
+### Taxonomía de hooks (7 tipos)
+
+| Tipo | Patrón | Motor dominante | Agresividad |
+|---|---|---|---|
+| **Educational** | "Lo que nadie te dice sobre X" / "El error del 80%" / "Cómo [resultado] en [tiempo]" | Curiosidad + guía | Bajo-medio |
+| **Comparison** | "X vs Y" / "Antes hacía X, ahora Y" | Ego + dolor | Medio |
+| **Myth Busting** | "El mito de X" / "Te mintieron sobre X" / "Esto que todos hacen está mal" | Ego + curiosidad | Medio-alto |
+| **Storytelling** | "El día que X cambió todo" / "Cometí el error más caro" | Curiosidad + aspiración | Bajo-medio |
+| **Authority** | "Después de X años" / "He trabajado con [N] de [audiencia]" | Guía + ego | Bajo |
+| **Roadmap** | "3 niveles. 12 pasos. Un sistema." / "¿En qué nivel estás tú?" | Guía + ego | Medio |
+| **Disruptive** | Inicio abrupto / afirmación radical / contradicción aparente | Curiosidad + ego | Alto |
+
+**Regla de formato por canal:**
+- Video: hook auditivo + visual, primeros 3 segundos, puede tener setup narrativo
+- Flyer / pieza visual: solo visual, primeros 2 segundos de escaneo, máximo 8-10 palabras, sin setup
+
+---
+
+### 7 Frameworks de marketing
+
+| Framework | Estructura | Psicología | Ideal para |
+|---|---|---|---|
+| **POST VALOR** | Hook → Enseñanza de valor → CTA | Reciprocidad + credibilidad | Autoridad, educación |
+| **PAS+** | Problema → Agitación → Solución → Prueba | Aversión pérdida + validación social | Ventas, lanzamientos |
+| **AIDA** | Atención → Interés → Deseo → Acción | Progresión emocional controlada | Audiencias frías |
+| **Problema Invisible** | Revela problema oculto → Por qué importa → Solución | Disonancia cognitiva + urgencia | Mercados saturados |
+| **IRS** | Insight contraintuitivo → Reencuadre → Solución | Sorpresa + autoridad epistémica | Diferenciación, ruido |
+| **Antes→Después→Puente** | Estado actual doloroso → Estado deseado → Puente = tú | Esperanza + identificación | Transformaciones, cursos |
+| **Framework / Roadmap** | Sistema en pasos → cada paso tiene lógica → sistema = propuesta | Claridad cognitiva + confianza | Rutas, métodos, B2B |
+
+El framework elegido **determina la arquitectura de zonas** en piezas visuales y la estructura de secciones en guiones.
+
+---
+
+### Flujo funcional Siente → Entiende → Hace
+
+Toda pieza de comunicación (visual o de video) debe cubrir las tres capas:
+
+- **Siente**: elemento que genera emoción o tensión antes de que la audiencia procese el mensaje. En flyer: hero visual, color dominante, headline. En video: los primeros 3 segundos.
+- **Entiende**: el cuerpo comunica qué es y por qué importa sin exigir lectura/visionado completo.
+- **Hace**: CTA claro o dirección de acción visible. Puede ser explícito (botón, instrucción) o implícito (la pieza genera una pregunta que el receptor necesita responder).
+
+Si falta alguna capa → identificar cuál y proponer cómo cubrirla con los elementos disponibles.
+
+---
+
+### Criterios de calidad de hook (9 puntos — evaluación interna)
+
+1. ¿Para en el scroll / detiene el ojo en 2-3 segundos?
+2. ¿Hay loop abierto — razón para seguir consumiendo?
+3. ¿Es específico — evita generalidades vacías?
+4. ¿Tiene emoción — sorpresa, identificación, miedo, esperanza?
+5. ¿El framework es coherente de principio a fin?
+6. ¿El CTA es directo — dice exactamente qué hacer y por qué ahora?
+7. ¿El tono es correcto para la audiencia real?
+8. ¿Hay ritmo — frases cortas y largas alternan?
+9. ¿Es diferente al ruido del mercado — hay algo que nadie más diría así?
+
+Si un hook falla en 3 o más puntos → reescribir antes de presentar.
+
+---
+
+### Frases prohibidas en cualquier pieza de comunicación
+
+- "En el mundo de hoy..." / "En la era digital..."
+- "Nunca ha sido tan importante..."
+- "Como todos sabemos..." / "Es importante destacar que..."
+- "En conclusión..." / "Sin más preámbulos..."
+- "¡Hola a todos!" / "Espero que estés bien"

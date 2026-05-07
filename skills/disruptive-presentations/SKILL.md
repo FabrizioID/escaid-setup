@@ -31,6 +31,14 @@ Template rule:
 
 `A template is a brand frame, not a creative cage. Use it to align background, logo, header, spacing, and colors; keep the disruptive visual idea alive inside the space the template defines.`
 
+Brand adaptation rule:
+
+`When the user provides a template, brand, or corporate frame, do not lower disruption by default. Adapt the disruptive thesis to that branding. The brand frame controls logo, margins, typography, palette and fixed structure; it does not authorize generic corporate diagrams unless the slide's purpose truly calls for a quiet diagram.`
+
+Explicit disruptive mandate rule:
+
+`If the user names this skill, asks for disruptive slides, or says to use disruption, the default intensity is high. Each slide must pass either the analogy gate or the disruptive diagramming gate. A clean premium slide is not enough unless the composition itself carries the argument.`
+
 Controlled break rule:
 
 `Even when a template is provided, 1 to 3 high-impact slides in a deck may intentionally break the template if the concept needs a full-scene metaphor. Keep subtle brand signals, but let the idea dominate. Do this sparingly: openings, section transitions, core concepts, or closings.`
@@ -38,6 +46,10 @@ Controlled break rule:
 Analogy coherence rule:
 
 `Analogies are not random decorations. Within the same section, keep them in a shared conceptual family unless a new section begins or a different analogy is clearly stronger. Prefer connected worlds such as navigation/control/logistics, construction/engineering, or exploration/knowledge.`
+
+Disruption rhythm rule:
+
+`Disruption does not mean every slide must be cinematic or metaphor-heavy. Some slides should be diagrams, schemas, tables, matrices or simple control panels. But even quiet slides must avoid default bullet layouts and must make the visual structure do cognitive work. Use high-disruption slides for openers, transitions, core concepts and closings; use precise disruptive diagrams for operational/explanatory slides.`
 
 ---
 
@@ -77,12 +89,31 @@ Also decide whether this is a normal template slide or a controlled template bre
 - normal template slide: preserve the frame and inject the disruptive idea inside the available area
 - controlled break slide: remove or minimize the frame, keep only subtle brand signals, and let the analogy become the whole scene
 
+Important:
+
+- Template provided does not mean "make it safer". It means "make the strongest disruptive version that still belongs to the brand".
+- Do not treat a corporate or training template as a reason to downgrade into cards, bullets, or generic icons.
+- If the user's direction is explicitly disruptive, preserve that mandate unless the deck type or factual constraints justify lowering intensity.
+- If lowering intensity, state the reason in the debug block: academic precision, legal/regulatory caution, dense factual evidence, exact table/chart readability, or formal executive restraint.
+
 Use controlled break only when:
 
 - the slide is an opener, transition, central concept, or closing
 - the analogy is strong enough to be remembered without explanation
 - the brand frame would weaken the concept
 - the deck has enough normal slides around it to preserve consistency
+
+### When to Lower Disruption
+
+Lower disruption only when the slide's job genuinely requires it:
+
+- academic or thesis defense slide where exact evidence and method clarity dominate;
+- legal, compliance, safety, or contractual slide where restraint builds trust;
+- dense technical table, formula, chart, screenshot or original evidence that must remain readable;
+- formal board/executive update where the best move is calm authority rather than metaphor;
+- step-by-step instruction slide where over-metaphor would slow comprehension.
+
+Even then, do not fall back to flat bullet lists. Use a precise diagram, hierarchy, table, matrix, annotated evidence zone, or structured flow.
 
 ### No Template
 

@@ -85,6 +85,54 @@ Flujo:
 4. Insertar sin alterar el resto.
 5. Confirmar ubicacion y formato.
 
+### Cargar reunion
+
+Trigger ejemplo: `sube la reunion a Notion` / `carga esto a reuniones`
+
+Este activador tiene dos pasos obligatorios antes de escribir en Notion:
+
+**Paso 1 — Resumen WhatsApp (previo al upload)**
+
+Antes de tocar Notion, generar un resumen en formato mensaje de grupo de WhatsApp con este molde:
+
+```
+📋 *[Nombre del proyecto] — [Fecha]*
+
+*Objetivo:*
+• [objetivo principal de la reunion]
+
+*Observaciones:*
+• [punto 1]
+• [punto 2]
+• ...
+
+*Acuerdos / Pendientes:*
+• [acuerdo o pendiente 1]
+• [acuerdo o pendiente 2]
+• ...
+
+[Si aplica: linea de cierre, ej: "✅ Todo lo demas aprobado."]
+```
+
+Reglas del formato WA:
+- Texto plano, sin markdown de codigo, sin tablas.
+- Negrita solo con asteriscos simples (*texto*).
+- Cada punto es una linea con bullet •.
+- Tono directo, sin saludos ni firmas.
+- Maximo 20 lineas en total; si hay mas contenido, agrupar puntos similares.
+
+Mostrar el mensaje al usuario y esperar confirmacion o edicion antes de continuar.
+
+**Paso 2 — Upload a Notion REUNIONES**
+
+Con el contenido aprobado, crear entrada en la base REUNIONES del proyecto usando:
+- OBJETIVOS: titulo/objetivo de la reunion
+- Date: fecha de la reunion (ISO)
+- OBSERVACIONES: lista de observaciones detalladas
+- ACUERDOS: lista de acuerdos y pendientes
+
+Si el usuario edito el mensaje WA antes de confirmar, usar la version editada como fuente de verdad para el upload.
+
 ### Matrices y contenido editable
 
 Cuando la informacion tendra vida operativa, evaluacion, filtros, orden, estados o ownership, no usar una tabla Markdown/HTML como salida principal. Preferir:

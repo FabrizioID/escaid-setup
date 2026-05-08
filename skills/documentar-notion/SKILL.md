@@ -96,7 +96,7 @@ Este activador tiene dos pasos obligatorios antes de escribir en Notion:
 Antes de tocar Notion, generar un resumen en formato mensaje de grupo de WhatsApp con este molde:
 
 ```
-📋 *[Nombre del proyecto] — [DD/MM/AAAA]*
+📋 *REUNION [Nombre del proyecto] — [DD/MM/AAAA]*
 
 *Objetivo:*
 • [objetivo principal de la reunion]
@@ -114,7 +114,7 @@ Antes de tocar Notion, generar un resumen en formato mensaje de grupo de WhatsAp
 ✅ [cierre si aplica, ej: "Todo lo demas aprobado y validado."]
 ```
 
-Regla de titulo: solo `*[Proyecto] — [Fecha]*`, sin la palabra "Reunion".
+Regla de titulo: siempre `*REUNION [Proyecto] — [DD/MM/AAAA]*`, con la palabra REUNION al inicio.
 
 Reglas del formato WA:
 - Texto plano, sin markdown de codigo, sin tablas.

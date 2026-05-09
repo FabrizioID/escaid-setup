@@ -1,0 +1,3 @@
+display_name: Google Docs MCP Editor
+short_description: Edit Google Docs carefully with MCP while preserving structure and formatting.
+default_prompt: Edit this Google Doc through the Google Workspace MCP while preserving its layout, tables, and formatting.

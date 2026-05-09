@@ -1,0 +1,3 @@
+display_name: Google Workspace Credentials
+short_description: Check Google Workspace MCP auth without exposing secrets.
+default_prompt: Verify Google Workspace MCP access and tell me what is missing without revealing or requesting secrets in chat.

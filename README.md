@@ -20,7 +20,8 @@ escaid-setup/
 |-- skills/
 |   |-- interaction-memory/    <- skill para memoria shared + carpetas por chat
 |   |-- project-thread-assistant/ <- skill para asistente persistente con memoria por hilo
-|   `-- marketing-master/      <- skill custom para estrategia/marketing
+|   |-- marketing-master/      <- skill custom para estrategia/marketing
+|   `-- email-html-marketing/  <- skill para correos HTML, Drive assets y Apps Script/MailApp
 |-- settings.json              <- config global sanitizada (sin secrets)
 |-- .env.example               <- template de variables y rutas sensibles
 `-- setup.ps1                  <- script de instalacion automatica (Windows)
@@ -106,6 +107,7 @@ El script automatiza:
 | `interaction-memory` | Custom | Captura memoria compartida del proyecto y tambien crea carpetas por chat/hilo |
 | `project-thread-assistant` | Custom | Opera un asistente persistente con memoria por hilo, shared memory y contexto para apps conectadas |
 | `marketing-master` | Custom | Orquesta estrategia de funnels, contenido, Meta Ads, email y SEO |
+| `email-html-marketing` | Custom | Produce correos HTML seguros para Gmail/clientes, normaliza assets en Drive y genera automatizaciones Apps Script/MailApp con triggers desde Sheets |
 | `meta-ads-n8n-workflow` | Custom | Mantiene el flujo n8n que reemplaza Adveronix para Meta Ads hacia Google Sheets |
 | `google-docs-quotation-editor` | Custom | Edita cotizaciones y propuestas en Google Docs sin romper la plantilla visual, usando el MCP de Google Workspace |
 | `docx-mcp-document-editor` | Custom | Edita documentos vivos Google Docs/Docx con pre-razonamiento, preservacion de formato y QA semantico/visual |

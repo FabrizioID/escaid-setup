@@ -1,6 +1,6 @@
 ---
 name: disruptive-presentations
-description: Motor de generacion de slides disruptivas de alta calidad visual. Modo activo: FULL IMAGE con ChatGPT, para generar slides completas como imagen final con interpretacion semantica, decision de analogia, alternativas de diagramacion, prompt final y debug completo. Modo legacy disponible: HTML + Imagen 4 + Canva export. Usar cuando el usuario quiera crear o mejorar slides individuales, una presentacion completa, una clase visual, o depurar el razonamiento visual de una slide.
+description: "Motor de generacion de slides disruptivas de alta calidad visual. Modo activo: FULL IMAGE con ChatGPT/GPT Image, para generar slides completas como imagen final con interpretacion semantica, decision de analogia, alternativas de diagramacion, prompt final, debug completo y, cuando aplica, insercion posterior de evidencia nativa real como graficos, tablas, logos o figuras de tesis. Modo legacy disponible: HTML + Imagen 4 + Canva export. Usar cuando el usuario quiera crear o mejorar slides individuales, una presentacion completa, una clase visual, una sustentacion academica, o depurar el razonamiento visual de una slide."
 ---
 
 # Disruptive Presentations
@@ -13,11 +13,7 @@ Full legacy prompt templates and HTML shell -> [references/full-reference.md](re
 
 Use this mode unless the user explicitly asks for HTML, editable layout, Imagen 4, Canva export, or legacy mode.
 
-Current goal: generate each slide as one finished 16:9 image. Do not manually place coordinates. The slide image must carry the concept through visual thesis, composition, metaphor, typography, spacing, and text integration.
-
-For full-deck production, after generating each slide image, maintain a global review HTML that stacks all generated slide images in order. This HTML is not the slide design source; it is the review/contact-sheet artifact. Update it incrementally as images are generated.
-
-Do not generate PPTX as the default output. PPTX, Canva export, or editable deck conversion is a later export phase after image generation and QA.
+Current goal: generate each slide as one finished 16:9 image. Do not build HTML in this phase. Do not manually place coordinates. The slide image must carry the concept through visual thesis, composition, metaphor, typography, spacing, and text integration.
 
 Core rule:
 
@@ -50,6 +46,14 @@ Analogy coherence rule:
 Disruption rhythm rule:
 
 `Disruption does not mean every slide must be cinematic or metaphor-heavy. Some slides should be diagrams, schemas, tables, matrices or simple control panels. But even quiet slides must avoid default bullet layouts and must make the visual structure do cognitive work. Use high-disruption slides for openers, transitions, core concepts and closings; use precise disruptive diagrams for operational/explanatory slides.`
+
+Native evidence rule:
+
+`When the user provides original charts, tables, figures, screenshots, logos, thesis visuals, or says to use evidence/data "tal cual", the generated image creates the stage; the original asset carries the facts. Do not ask GPT Image to redraw factual evidence that must remain accurate.`
+
+Academic disruption rule:
+
+`Academic does not mean generic. For thesis, jury, professional, legal, or technical defense decks, lower visual noise but keep the disruption in the analogy, diagramming, evidence hierarchy, and reading path. The slide must feel rigorous, not timid.`
 
 ---
 
@@ -170,19 +174,100 @@ Decision rule:
 
 ## FULL IMAGE PIPELINE
 
-For a multi-slide deck, the pipeline is:
+### 0. Native Evidence And Brand Assets
 
-1. Receive slide-by-slide prompts from `presentation-orchestrator` or the user.
-2. For each slide, run semantic interpretation, analogy decision, layout exploration and prompt assembly.
-3. Generate the slide as a finished 16:9 image.
-4. Save/copy the generated image into an ordered project folder as `slide_01.png`, `slide_02.png`, etc.
-5. Append or refresh a global HTML review page that stacks all generated slides in order.
-6. QA the image and mark slides that need regeneration.
-7. Only after image QA, optionally export to PPTX/Canva if explicitly requested.
+Use this before semantic interpretation when the user provides original evidence or brand assets.
 
-Rule:
+Native evidence includes: thesis charts, tables, screenshots, diagrams, lab reports, financial tables, original figures, mandatory logos, seals, or reference images that must remain factually faithful.
 
-`Image generation is the production step. HTML review is the tracking/review artifact. PPTX is optional export, not the default.`
+Workflow:
+
+1. Identify each asset's role:
+   - `evidence`: factual chart/table/figure/screenshot to preserve;
+   - `brand`: logo, institutional seal, official color or template;
+   - `style reference`: mood or visual direction only;
+   - `source material`: content to interpret, not necessarily visible.
+2. Measure factual assets before prompting: pixel width, height, and aspect ratio.
+3. Extract the exact thesis/report facts that must appear in the prompt. Put only verified facts in the prompt.
+4. Choose an analogy that can naturally contain an evidence zone. Do not say only "leave blank space"; make the blank a meaningful object in the analogy:
+   - calibration sheet;
+   - lab notebook page;
+   - evidence board;
+   - technical drawing surface;
+   - instrument panel glass;
+   - report sheet on a desk;
+   - inspection window;
+   - dashboard only when the topic is actually control/monitoring.
+5. Prompt GPT Image to generate the full slide/background with a protected integrated evidence zone:
+   - exact location as relative coordinates when useful;
+   - aspect ratio of the original asset;
+   - no generated graph/table/axes/text inside;
+   - no objects crossing the area;
+   - no hard border unless the asset ratio is guaranteed to match.
+6. Generate the native image with the selected style and analogy.
+7. Insert the real evidence asset afterward with image compositing or PPTX object placement.
+8. Insert real brand assets afterward when fidelity matters. Do not let GPT invent official logos.
+9. QA at full size: evidence must be readable, aligned, not distorted, and not look like a random sticker.
+
+Default placement rule:
+
+`For factual evidence, prefer a soft white/neutral quiet zone with no visible border. If a visible frame reveals misalignment, remove the frame and let whitespace absorb small differences.`
+
+Failure modes:
+
+- generated chart/table appears -> fail QA; regenerate or cover it with the original asset;
+- evidence too small -> enlarge evidence zone and simplify surrounding scene;
+- evidence floats -> integrate it as a sheet, board, aperture, or surface in the analogy;
+- evidence frame does not fit -> remove frame; never distort factual evidence;
+- prompt becomes less disruptive because of blank space -> change analogy so the evidence zone is part of the metaphor.
+
+Useful prompt language:
+
+```text
+Reserve a calm integrated white area for the original [chart/table/figure] to be inserted later. This area is part of the scene as a [calibration sheet / evidence board / lab notebook page]. Do not draw any chart, axes, table, labels, fake data or placeholder text inside. Keep all visual elements outside this protected area. No hard border; use only subtle paper texture and soft shadow.
+```
+
+### 0.1 Academic Style Dial
+
+For thesis defenses, juries, university presentations, engineering reports, legal/compliance, or high-stakes professional decks:
+
+- Use high conceptual disruption but low visual noise.
+- Prefer clean scientific infographics, precise linework, large evidence, restrained hierarchy, and strong whitespace.
+- Make the disruption live in the analogy and evidence architecture, not in loud effects.
+- Good analogies: calibration board, technical bench, evidence wall, method map, inspection window, simulation console, decision matrix, controlled experiment, process cutaway.
+- Avoid: neon, cyberpunk, excessive glassmorphism, decorative particles, fake dashboards, cinematic drama that competes with evidence.
+- If the slide contains real charts/tables, evidence readability outranks spectacle.
+
+Academic full-image prompt pattern:
+
+```text
+Semantic interpretation: [what is being proved].
+Analogy selected: [academic analogy] because [structural fit].
+Style: formal thesis defense, clean academic infographic, institutional palette, precise linework, generous whitespace.
+Evidence zone: [size/aspect/position], integrated as [meaningful surface], no generated data inside.
+Facts to render exactly: [verified short facts only].
+Avoid: invented data, fake logos, fake axes, misspelled labels, visual clutter.
+```
+
+### 0.2 Brand Pill: UNI Thesis / Presentation
+
+Activate this pill only when the user explicitly says the deck, thesis, class, or slides are for UNI / Universidad Nacional de Ingenieria, or provides a UNI template/logo.
+
+Rules:
+
+- Palette: UNI wine red / guinda + white as primary system; graphite gray as neutral; small green/blue accents only when semantically justified by chemistry, environment, water, or data.
+- Logo: use the real UNI logo/seal supplied by the user or extracted from the source. Insert it after generation when fidelity matters. Do not ask GPT Image to invent the logo.
+- Logo placement: small and clean in a corner/header safe zone. Do not generate a giant decorative ring, fake seal, cropped logo, or low-fidelity emblem.
+- Header/footer: prefer sober academic header line, thin wine-red separators, and clean footer only when needed. Avoid overframing every slide.
+- Tone: formal engineering thesis defense, rigorous, confident, restrained.
+- Text: keep Spanish academic labels short; avoid relying on GPT Image for long paragraphs or dense tables.
+- If the user gives a mandatory template, preserve its fixed elements but still apply disruption in the free area.
+
+Prompt snippet:
+
+```text
+UNI academic presentation style: wine red and white, sober engineering thesis defense, clean header line, small safe zone for the real UNI logo to be inserted later. Do not draw or invent the logo; leave the logo area clean and uncropped.
+```
 
 ### 1. Semantic Interpretation
 
@@ -403,14 +488,15 @@ Use ChatGPT image generation when available. Generate one finished 16:9 slide im
 
 If generation is not available in the current environment, output the full debug block plus the final prompt ready to paste into the image generator. Do not silently switch to HTML.
 
-When image generation is available and the task is a deck:
+If the user explicitly requests GPT Image, API, native-image generation, or evidence-native workflow, do not replace the workflow with HTML. Generate the slide image first, then composite original evidence/brand assets afterward.
 
-* generate images sequentially or in controlled batches;
-* preserve the provided template if present;
-* keep the original generated image in its default generated-images folder;
-* copy the accepted image into the project deck folder with an ordered filename;
-* update the global HTML review after each batch or at minimum at the end of the generation run;
-* report the image folder and HTML review path to the user.
+When using an API/CLI path:
+
+- save the exact prompt next to the output;
+- save the raw generated image;
+- save the final composited image;
+- report the paths and which assets were inserted natively;
+- never print API keys.
 
 Regeneration loop:
 
@@ -484,16 +570,6 @@ OUTPUT
 
 For normal production requests, summarize the debug briefly unless the user asks for full trace.
 
-For multi-slide deck production, also include or maintain a compact production log with:
-
-* slide number;
-* selected analogy or `no analogy`;
-* image filename;
-* QA status: accept / regenerate / needs review;
-* notes about template fidelity or text risks.
-
-The global HTML review must show the generated images in slide order. It may include slide numbers, titles and QA notes, but it must not replace the image generation step.
-
 ---
 
 ## FULL IMAGE STYLE RULES
@@ -537,6 +613,9 @@ Fail and revise if any critical item fails:
 10. The layout is not a conventional bullet slide.
 11. The visual is elegant and not saturated.
 12. The image adds meaning rather than decoration.
+13. Native evidence, if used, is original, readable, not distorted, and visually integrated.
+14. Official logos, if used, are real assets inserted afterward or faithfully preserved from the template.
+15. For academic slides, the style is rigorous and restrained while still using analogy/diagramming to avoid generic layouts.
 
 After QA, state the next action:
 
@@ -552,11 +631,6 @@ After QA, state the next action:
 ## LEGACY MODE: HTML + IMAGEN 4
 
 Use only when the user explicitly asks for HTML, editable exported deck, Canva handoff, tighter layout control, or when full-image generation repeatedly fails due to text or diagram precision.
-
-Do not confuse legacy HTML composition with the global review HTML from full-image mode:
-
-* Legacy HTML = design/composition method.
-* Full-image review HTML = stacked preview of already generated images.
 
 ## LEGACY PIPELINE (10 steps)
 
@@ -721,45 +795,6 @@ Rules:
   2. Reframe or crop if artifacts sit outside key zones
   3. Mask or wash contaminated areas only if the slide still reads cleanly
 - Do not let visible garbage survive just because the composition is otherwise good
-
----
-
-## ORIGINAL EVIDENCE LOCK: TABLES, FIGURES AND CHARTS
-
-When the user asks to use original data, tables, charts, figures, screenshots, thesis images, report visuals, or "figuras/tablas/graficos tal cual", treat those assets as evidence, not inspiration.
-
-Default behavior:
-- Do not ask GPT Image/Imagen to redraw small factual charts, tables, software screenshots, numeric labels, axes, legends, or captions when factual fidelity matters.
-- Generate the slide background/composition with an intentional clean empty area for the original asset.
-- Insert the original asset afterward as a real bitmap/object, preserving its factual content.
-- If the generated background includes a rigid border/frame for the asset and the proportions do not match, remove the border instead of forcing a bad fit.
-- Prefer a clean white or brand-neutral quiet zone with no border, or only a very subtle shadow, so slight aspect-ratio differences do not look misaligned.
-- Make the original asset large enough to be readable. Legibility beats decorative integration.
-- Do not crop away axes, legends, notes, table headers, row labels, numeric values, or source-critical captions unless the user explicitly approves.
-- If exact table/chart text must remain editable later, mark the slide for PPTX/native reconstruction during export; otherwise keep the original raster evidence locked.
-
-Composition workflow:
-1. Identify the factual asset and its aspect ratio.
-2. Identify protected zones in the slide: title, logo, footer, key metrics, arrows, diagrams, and any required visual narrative.
-3. Reserve a quiet zone that fits the asset aspect ratio as closely as possible.
-4. If the available quiet zone is wider/taller than the asset, leave white space naturally; do not add a visible box that exposes the mismatch.
-5. Place the original asset with precise coordinates after generation.
-6. QA at full size: the asset must be readable, aligned, and visually integrated without appearing as a random sticker.
-
-Failure modes and fixes:
-- Asset too small -> enlarge it or simplify surrounding visual mass.
-- Asset floats awkwardly -> remove border, add a clean white zone, align to nearby geometry.
-- Asset does not fit frame -> delete the frame and use whitespace; do not distort unless the user accepts a slight PPT-style stretch.
-- Generated chart/table has wrong numbers -> fail QA and replace with the original asset.
-- GPT Image changes table/chart text -> fail QA; use evidence-locked insertion.
-
-Prompt language for evidence placeholders:
-
-`Reserve a clean white empty area for an original chart/table/figure to be inserted later. Do not draw a chart, do not invent labels, do not place a rigid border around the placeholder. Keep the area visually calm and aligned with the slide geometry.`
-
-Rule:
-
-`Original evidence is inserted, not hallucinated. The generated image creates the stage; the thesis/report asset carries the facts.`
 
 ---
 

@@ -14,10 +14,13 @@ This skill assumes the repo has access to the custom Google Workspace MCP in `mc
 When this skill triggers:
 
 1. Confirm the Google Doc URL or `documentId`.
-2. Read `references/editing-rules.md`.
-3. Read `references/mcp-capabilities.md`.
-4. If the task involves tables, read `references/table-patterns.md`.
-5. Inspect the current document structure before editing.
+2. Confirm the intended Google Docs access route before doing any workaround:
+   active Google Workspace MCP tools, local `mcps/google-workspace-mcp`, or the `FabrizioID/escaid-setup` repo copy.
+3. Read `references/editing-rules.md`.
+4. Read `references/mcp-capabilities.md`.
+5. If the task involves tables, read `references/table-patterns.md`.
+6. Inspect the current document structure before editing.
+7. Run a commercial coherence scan before writing.
 
 ## Use This Skill For
 
@@ -31,6 +34,8 @@ When this skill triggers:
 
 - Preserve the template before optimizing wording.
 - Prefer surgical changes over broad replacements.
+- Do not treat inherited template content as confirmed scope.
+- Ask the user before keeping commercial assumptions that were not explicitly confirmed, such as pilots, discounts, client names, reference projects, delivery stages, payment terms, or unit rates.
 - Inspect the live document structure before editing tables.
 - Confirm the document branding before changing colors, fills, or table styling.
 - Before choosing colors, take one existing table in the same document as the visual source of truth whenever possible.
@@ -40,12 +45,46 @@ When this skill triggers:
 - If a table already works as a visual pattern, reuse that pattern instead of inventing a new one.
 - If a visual issue appears right after editing, allow Google Docs time to finish rendering before assuming the structure is broken.
 - When a full-body rewrite would risk the layout, update only the exact values or paragraphs requested.
+- If the expected MCP or skill route is missing, inspect the local setup repo before trying alternate API scripts or plugin installs. Default repo: `https://github.com/FabrizioID/escaid-setup`; common local path: `Proyecto/escaid-setup`.
+- If access is still unclear after checking active tools, local skills, `~/.codex/config.toml`, and `escaid-setup`, stop and ask the user whether they can lift the restriction or point to the right connector. Do not spend time improvising parallel access methods silently.
+
+## MCP And Skill Discovery
+
+Before editing a Google Docs quotation, establish the canonical route:
+
+1. Check active tool names for a Google Workspace or Google Docs MCP.
+2. If the MCP is not exposed in the current tool list, inspect `~/.codex/config.toml` for servers such as `google_docs_cloud`, `google-workspace-mcp`, `google-docs`, or `scd-mcp-docs`.
+3. Inspect the local setup repo before using ad hoc fallbacks:
+   - `Proyecto/escaid-setup/mcps/google-workspace-mcp`
+   - `Proyecto/escaid-setup/skills/google-docs-quotation-editor`
+   - `Proyecto/escaid-setup/skills/google-workspace-credentials`
+4. Use the local MCP implementation and its profile/token conventions when available.
+5. If the route is blocked by auth, missing env vars, missing profile, or unavailable connector exposure, ask the user for direction instead of silently trying unrelated plugins, browser access, or custom scripts.
+
+## Pre-Edit Commercial Coherence Scan
+
+Before making inherited-template edits, scan the document and report questions if any item is ambiguous:
+
+- project name, client, quotation code, and issue date
+- whether a pilot exists for this new project
+- whether any discount, package price, or prior validation case still applies
+- whether the economic table header represents total price, unit rate, or valuation criterion
+- consistency between the first economic table and later payment/valuation tables
+- unit consistency such as `TON`, `m2`, `m²`, `GLB`, and monthly/daily/resource units
+- repeated or contradictory rates, for example `13 USD/TON` in one place and `15 USD/TON` elsewhere
+- inherited project names, buildings, phases, blocks, or client-specific terms
+- scope text that charges the same work twice or keeps an old additional item
+- terms, assumptions, exclusions, and validity that no longer match the current quote
+
+If the scan finds unconfirmed commercial logic, ask before writing. Do not "normalize" the quote by guessing.
 
 ## Editing Workflow
 
 Use this order unless the user asks for one narrow change only:
 
-1. Identify the target area:
+1. Run the pre-edit commercial coherence scan.
+2. Ask the user to confirm unclear commercial assumptions before editing.
+3. Identify the target area:
    header,
    body copy,
    scope section,
@@ -53,21 +92,21 @@ Use this order unless the user asks for one narrow change only:
    comparison table,
    final contact block,
    or embedded graphic.
-2. Read the relevant surrounding section before editing.
-3. If the task affects tables, inspect table start indices and row logic first.
-4. If the task affects colors or visual styling, identify the branding reference first:
+4. Read the relevant surrounding section before editing.
+5. If the task affects tables, inspect table start indices and row logic first.
+6. If the task affects colors or visual styling, identify the branding reference first:
    an existing table,
    a visible band,
    the first pricing table,
    or an explicit user-provided sample.
-5. If the task affects tables, identify whether the issue comes from:
+7. If the task affects tables, identify whether the issue comes from:
    cell fill,
    text highlight,
    paragraph shading,
    or delayed Docs rendering.
-6. Apply the smallest viable change.
-7. Re-read the affected section after the edit.
-8. Call out any visual limitation when the object is a drawing or embedded image rather than editable text.
+8. Apply the smallest viable change.
+9. Re-read the affected section after the edit.
+10. Call out any visual limitation when the object is a drawing or embedded image rather than editable text.
 
 ## Table Rules
 
@@ -100,6 +139,8 @@ For visually sensitive quotations:
 - avoid replacing the entire body with markdown unless the user explicitly wants a rebuild
 - if the user restores an earlier version, continue from that restored version and reapply only the minimum necessary edits
 - if the user requests a technical comparison table, keep it as technical support text and avoid explicit pricing language unless requested
+- when adapting a previous quotation to a new project, preserve price and scope only when the user explicitly says they are the same; otherwise flag the inherited values for confirmation
+- when the user says "same price" or "similar scope", still verify whether inherited pilots, discounts, prior buildings, and unit-rate labels apply to the new project
 
 ## Routing
 

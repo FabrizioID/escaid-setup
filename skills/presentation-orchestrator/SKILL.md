@@ -9,7 +9,7 @@ Actúa como arquitecto de presentaciones, diseñador de narrativa y orquestador 
 
 Tu objetivo es convertir un tema, contexto y objetivo en una **experiencia de presentación completa**, definiendo narrativa, flujo, momentos clave, contenido por slide y generando:
 
-1. Un **plan visual interactivo (HTML) con branding**
+1. Un **plan maestro interactivo (HTML) con branding**
 2. Un **prompt listo por cada slide** para la skill `disruptive-presentations`
 
 El output central no es una lista de slides. Es un **mapa de storytelling ejecutable**:
@@ -72,7 +72,7 @@ Orden obligatorio tras aprobacion:
 1. Leer el handoff de Orchestrator.
 2. Activar `disruptive-presentations`.
 3. Generar las imagenes/slide visuals segun su pipeline.
-4. Crear o actualizar el HTML global de revision.
+4. Crear o actualizar el HTML player de presentacion con navegación por flechas/teclado.
 5. Pedir revision o continuar por lotes segun el alcance.
 6. Solo despues de QA visual, si el usuario pide PPTX/export, usar `slides` u otra herramienta de exportacion.
 
@@ -87,7 +87,7 @@ Activa esta skill cuando el usuario quiere:
 * Diseñar una presentación
 * Estructurar slides
 * Planificar una clase o sesión
-* Crear storytelling para PPT
+* Crear storytelling para una presentación o deck
 
 Si hay duda:
 "¿Quieres que active Presentation Orchestrator?"
@@ -111,6 +111,12 @@ Esta skill **NO diseña slides**.
 
 Esta skill **NO genera PPTX, no exporta decks y no debe activar la skill `slides` como parte de su flujo principal**.
 
+Regla anti-desvío:
+
+Si el usuario dice "hacer slides", "generar slides", "armar slides", "ya pasa a slides", "continua", "dale" o "arranca" después de validar el plan, el siguiente paso es `disruptive-presentations`, no `slides`, no PptxGenJS y no PPTX.
+
+Solo se permite usar `slides`/PPTX si el usuario pide explícitamente una exportación editable después de que las imágenes de `disruptive-presentations` hayan sido generadas y revisadas.
+
 Su responsabilidad termina en el **plan maestro de orquestación**:
 * storytelling validado;
 * experiencia de sesión;
@@ -119,7 +125,7 @@ Su responsabilidad termina en el **plan maestro de orquestación**:
 * prompts ejecutables por slide para `disruptive-presentations`;
 * HTML del plan/orquestación.
 
-La producción visual final corresponde a `disruptive-presentations`, que debe correr los prompts slide por slide, generar imágenes finales y apilarlas en un HTML global de revisión.
+La producción visual final corresponde a `disruptive-presentations`, que debe correr los prompts slide por slide, generar imágenes finales y montarlas en un HTML player de presentación, no en un documento vertical.
 
 No debes:
 * Proponer diagramación
@@ -353,6 +359,8 @@ Para cada slide definir:
 * Emoción buscada
 * Relación con anterior y siguiente
 * Potencial de analogía o disrupción visual
+* Nivel de disrupción sugerido: `normal`, `suave` o `fuerte`
+* Justificación del nivel de disrupción
 * Familia conceptual/visual de la sección
 * Rol narrativo dentro del arco
 * Qué tensión resuelve o abre
@@ -421,6 +429,34 @@ Regla práctica:
 
 `La plantilla da consistencia; la disrupción da memoria.`
 
+### Regla de dosificación de disrupción
+
+No todas las slides deben tener la misma intensidad visual.
+
+Clasificar cada slide antes de pasarla a `disruptive-presentations`:
+
+```text
+Normal:
+- agenda, requisitos, definiciones, tablas, recap, instrucciones operativas
+- esquema limpio, tabla, matriz, roadmap o diagrama claro
+
+Suave:
+- conceptos explicativos, métodos, comparaciones, pasos de taller
+- objetos, piezas, loops, capas, iconos, flujos o analogía ligera
+
+Fuerte:
+- apertura, tensión central, cambio de paradigma, demo, transición importante, cierre o concepto que debe recordarse
+- analogía fuerte con escena/imagen de fondo dentro del área libre de la plantilla
+```
+
+Regla práctica:
+
+`La disrupción fuerte se reserva para memoria; la suave para comprensión; la normal para claridad.`
+
+Para decks de 10 a 20 slides, sugerir al menos 2 slides fuertes, 4 a 7 suaves y el resto normales.
+
+Para decks largos, sugerir 3 a 5 slides fuertes, cuidando que no todas compitan por atención.
+
 Luego:
 "¿La secuencia de slides está completa?"
 
@@ -442,6 +478,8 @@ Cada prompt debe incluir:
 * Tipo de audiencia
 * Tono
 * Nivel de impacto
+* Nivel de disrupción sugerido: normal / suave / fuerte
+* Por qué ese nivel corresponde a la slide
 * Branding
 * Analogías evaluadas cuando aplique
 * Analogía seleccionada y por qué
@@ -464,6 +502,8 @@ Por qué calza:
 Coherencia con la familia visual:
 Propuesta visual:
 Interacción/dinámica:
+Nivel de disrupción:
+Por qué este nivel:
 Modo de plantilla:
 Prompt final:
 ```
@@ -516,8 +556,10 @@ Debe incluir una sección explícita llamada `handoff a disruptive-presentations
 * prompt final por slide;
 * dinámica asociada;
 * notas de template o branding;
+* nivel de disrupción sugerido: normal / suave / fuerte;
+* justificación del nivel;
 * criterio de analogía sugerido, sin resolver diseño visual definitivo;
-* instrucción de que `disruptive-presentations` debe generar las imágenes finales y apilarlas en un HTML global de revisión.
+* instrucción de que `disruptive-presentations` debe generar las imágenes finales y montarlas en un HTML player de presentación con navegación por flechas/teclado.
 
 No generar PPTX desde esta etapa. Si el usuario pide PPTX, tratarlo como una fase posterior de exportación después de que `disruptive-presentations` haya generado y validado las imágenes.
 

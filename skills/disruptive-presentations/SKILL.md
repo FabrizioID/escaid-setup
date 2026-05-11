@@ -11,9 +11,44 @@ Full legacy prompt templates and HTML shell -> [references/full-reference.md](re
 
 ## DEFAULT MODE: FULL IMAGE WITH CHATGPT
 
-Use this mode unless the user explicitly asks for HTML, editable layout, Imagen 4, Canva export, or legacy mode.
+Use this mode unless the user explicitly asks for editable HTML layout, Imagen 4, Canva export, or legacy mode.
 
-Current goal: generate each slide as one finished 16:9 image. Do not build HTML in this phase. Do not manually place coordinates. The slide image must carry the concept through visual thesis, composition, metaphor, typography, spacing, and text integration.
+Current goal: generate each slide as one finished 16:9 image. Do not build HTML as the slide composition method in this phase. Do not manually place coordinates. The slide image must carry the concept through visual thesis, composition, metaphor, typography, spacing, and text integration.
+
+Clarification:
+* Forbidden by default: using HTML/CSS as the slide design/composition engine.
+* Required for decks: a global HTML presentation player that loads the generated PNG slides in order and lets the user present them full-screen.
+
+Do not generate PPTX as the default output. PPTX, Canva export, or editable deck conversion is a later export phase after image generation and QA.
+
+When invoked after `presentation-orchestrator`, the default interpretation of "hacer slides", "generar slides", "continua", "dale" or "arranca" is:
+
+`generate image slides -> copy them into an ordered folder -> update global HTML presentation player`
+
+It does **not** mean:
+
+`create PPTX`, `use PptxGenJS`, `switch to slides skill`, `build an HTML deck as layout`.
+
+HTML presentation player requirement:
+
+When producing a deck, the HTML artifact must be ready to use as a presentation, not a vertical review document.
+
+It must:
+* show one slide at a time, centered in the viewport;
+* preserve 16:9 aspect ratio;
+* use the generated PNG as the full slide image;
+* support keyboard navigation: ArrowRight / Space / PageDown / Enter = next, ArrowLeft / PageUp / Backspace = previous, Home = first, End = last, F = fullscreen;
+* include visible previous/next arrow buttons;
+* include a slide counter;
+* support direct links through hash or query if practical, e.g. `#12`;
+* preload adjacent images when practical;
+* use a dark neutral stage around the slide;
+* never stack all slides vertically as the primary output.
+
+Optional:
+* thumbnail rail or overview mode;
+* presenter notes panel;
+* QA mode that lists all slides, but this must be secondary to the presentation player.
 
 Core rule:
 
@@ -47,6 +82,52 @@ Disruption rhythm rule:
 
 `Disruption does not mean every slide must be cinematic or metaphor-heavy. Some slides should be diagrams, schemas, tables, matrices or simple control panels. But even quiet slides must avoid default bullet layouts and must make the visual structure do cognitive work. Use high-disruption slides for openers, transitions, core concepts and closings; use precise disruptive diagrams for operational/explanatory slides.`
 
+Disruption intensity ladder:
+
+Before generating any deck or batch, assign every slide one of three intensity levels. This is mandatory.
+
+1. **Normal / schematic**
+   - Use for agenda, definitions, tables, requirements, procedural explanations, recap, factual lists.
+   - Visual language: clean schema, matrix, comparison table, roadmap, simple diagram.
+   - Disruption source: hierarchy, spacing, reading path, non-boring structure.
+   - It must still be visually premium; it may be quieter, not generic.
+
+2. **Soft disruption**
+   - Use for explanatory concepts, bridges, method slides, workshop instructions, comparisons.
+   - Visual language: strong diagramming with objects, pieces, icons, flows, layers, loops, boards, signals.
+   - Disruption source: metaphor-light or diagram-as-argument.
+   - The image does not need a cinematic background, but the visual must communicate the idea before reading.
+
+3. **Strong disruption / analogy scene**
+   - Use for openers, core tensions, paradigm shifts, major demos, section transitions, memorable conclusions, and 1-4 key conceptual slides in a deck.
+   - Visual language: strong analogy with an image/scene/background inside the template free area, or controlled template break if explicitly justified.
+   - Disruption source: analogy that embodies the idea, not decoration.
+   - Examples: wind tunnel for model comparison, factory of clarity for a workshop, custom prosthetic/tool for personalized tools, translation booth for prompt engineering, map/territory for AI subfields.
+
+Deck rhythm requirement:
+
+For a deck of 10-20 slides, include at least:
+* 2 strong disruption slides;
+* 4-7 soft disruption slides;
+* the rest normal/schematic but visually premium.
+
+For a deck over 20 slides, include at least:
+* 3-5 strong disruption slides;
+* a recurring family of soft-disruption diagrams;
+* quiet schematic slides for operational clarity.
+
+Never make all slides strong. Never make all slides schematic. The deck must breathe.
+
+Template-aware intensity:
+
+When a template is provided:
+* Normal = use the white/free area for clean schema.
+* Soft = use objects, icons, diagrams, loops or layered systems inside the free area.
+* Strong = use a background-like analogy scene inside the free area while preserving the fixed template frame.
+* Controlled break is allowed only if the user explicitly accepts it or the template would destroy the concept.
+
+If the user says the deck lacks disruption, first identify which slides deserve intensity upgrade instead of regenerating everything.
+
 Native evidence rule:
 
 `When the user provides original charts, tables, figures, screenshots, logos, thesis visuals, or says to use evidence/data "tal cual", the generated image creates the stage; the original asset carries the facts. Do not ask GPT Image to redraw factual evidence that must remain accurate.`
@@ -69,6 +150,8 @@ base_text: title, subtitle, concepts, numbers, or short copy
 context: class, deck, audience situation, or topic
 audience: learner, executive, client, technical team, sponsor, etc.
 tone: technical | inspirational | reflective | energetic | executive | premium
+disruption_intensity: normal | soft | strong
+disruption_role: agenda | definition | comparison | method | demo | workshop | paradigm_shift | closing | other
 brand:
   fonts: Inter, Ruberoid, Plus Jakarta Sans, or similar clean geometric sans
   colors: optional brand colors or accent guidance
@@ -288,6 +371,8 @@ Also define:
 - textual prompt nucleus: the exact concept, phrase, tension, or relation that must not be lost
 - communication thesis: what the viewer must understand or feel
 - original-theme anchors: 3 to 5 words or ideas that any analogy must stay close to
+- disruption intensity: normal / soft / strong
+- why this intensity fits this slide
 - disruption opportunity: what conventional slide pattern must be broken and why
 - template mode: no template / template provided
 - template constraints: what must stay fixed and what area can host the disruptive scene
@@ -306,6 +391,14 @@ If this sentence is weak, do not generate yet.
 ### 2. Analogy Gate
 
 Decide whether to use visual analogy.
+
+Use the intensity ladder first:
+
+* Normal slides may skip analogy if a strong schema/table/roadmap communicates better.
+* Soft disruption slides should evaluate metaphor-light options or diagrammatic metaphors.
+* Strong disruption slides must evaluate at least 3 analogies and select one that can become an image/scene/background inside the slide.
+
+If a slide is marked strong and no analogy is selected, explain why and switch to a strong non-metaphorical visual mechanism. Do not silently downgrade it to a generic diagram.
 
 The analogy generator starts from the textual prompt nucleus. Generate analogies by similarity, not by spectacle. The winning analogy is the one most semantically and structurally attached to the original theme while still creating a disruptive visual reading.
 

@@ -347,6 +347,99 @@ Comparar explícitamente: "Antes vs. después — qué mejoró y qué podría se
 
 ---
 
+## PATTERN PILL — Flyer de eje técnico / concepto institucional
+
+Usar cuando la pieza comunica un eje temático, track, área de conocimiento o concepto técnico de evento/congreso, especialmente para audiencia profesional AEC/BIM/ingeniería.
+
+### Caso absorbido
+
+AI Construction Summit 2026, Eje 02: `Gestión inteligente de datos`.
+
+Aprendizaje: una pieza de eje no debe vender como curso ni saturar con gráficos de IA. Debe generar hype institucional, reconocimiento del problema y deseo de seguir leyendo/deslizar.
+
+### Principio
+
+El flyer debe mostrar una transformación reconocible:
+
+```
+fuentes reales del trabajo -> conexión/orden -> decisión/resultado
+```
+
+No usar visuales genéricos de "IA futurista" si el público necesita reconocerse en su trabajo diario.
+
+### Arquitectura recomendada
+
+- **Texto dominante**: el título y copy deben mantener jerarquía. No achicar texto para lucir más elementos visuales.
+- **Fuentes reales compactas**: usar pocos elementos reconocibles del usuario, no una nube saturada.
+- **Conexión limpia**: líneas finas, flujo claro, pocas capas.
+- **Payoff visual**: 2-4 resultados discretos, no dashboard completo.
+- **Aire premium**: espacio negativo, sobriedad, brillo moderado.
+
+Ejemplo AEC:
+
+```
+DWG / PDF / XLS / BIM / metrados -> modelo o núcleo conectado -> avance / costo / riesgo / calidad
+```
+
+### Copy pattern
+
+Para ejes institucionales, preferir copy editorial con tensión real:
+
+```
+La construcción ya está llena de información: planos, metrados, reportes, expedientes y modelos.
+El reto es conectarla para que la IA convierta datos dispersos en decisiones confiables.
+```
+
+Evitar tono de venta:
+
+- "Aprende cómo..."
+- "Domina..."
+- "Potencia tu carrera..."
+- "Conviértete en..."
+
+Preferir tono de eje/congreso:
+
+- "El reto es..."
+- "Este eje explora..."
+- "La pregunta es..."
+- "De [caos real] a [decisión confiable]"
+
+### Regla de densidad
+
+Si el visual obliga a achicar el copy o el título, reducir elementos visuales primero.
+
+Orden de sacrificio:
+
+1. Quitar iconos/documentos repetidos.
+2. Reducir dashboards o gráficas.
+3. Mantener solo 3-5 fuentes reales.
+4. Mantener solo 2-4 métricas/resultados.
+5. Preservar título, copy y CTA.
+
+### Evaluación Magnus específica
+
+Antes de aprobar una pieza de eje, responder:
+
+- **Cómo lo ve**: ¿parece premium/institucional o parece imagen IA genérica?
+- **Cómo lo siente**: ¿genera reconocimiento, curiosidad y autoridad, o parece venta de curso?
+- **Qué entiende**: ¿se capta el eje en 2-3 segundos?
+- **Qué hace**: ¿desliza por interés conceptual, no por presión comercial?
+- **Densidad**: ¿el visual apoya al texto o le roba espacio?
+- **Realidad del público**: ¿aparecen objetos/variables que el público usa de verdad?
+
+### Prompt skeleton
+
+```
+Pieza vertical 4:5 premium para [evento/marca], [eje].
+Estética [dark/light] tech sobria, institucional, elegante, sin exceso de neón ni sobrecarga.
+Composición narrativa: [fuentes reales] compactas en [zona], conectadas por líneas finas hacia [núcleo/modelo/concepto], y terminando en [2-4 resultados].
+El texto debe dominar: badge, título grande, copy legible, CTA pequeño.
+Los elementos visuales no deben ocupar tanto espacio que obliguen a achicar el texto.
+Mood: hype institucional y curiosidad, no anuncio de curso.
+```
+
+---
+
 ## PROTOCOLO — BRANDING PILL
 
 Se activa cuando no existe branding guardado para la marca solicitada.

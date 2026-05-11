@@ -21,6 +21,32 @@ Clarification:
 
 Do not generate PPTX as the default output. PPTX, Canva export, or editable deck conversion is a later export phase after image generation and QA.
 
+### Production Sequence For Approved Decks
+
+When the user approves a plan and says to generate slides, run this sequence:
+
+1. Treat the run as fresh production. Do not reuse prior images unless explicitly asked.
+2. State, before any image call, the absolute image folder, each separate HTML player path, optional review player path, and generation mode.
+3. Use the direct image tool by default. Use API only for explicit API requests, true native evidence insertion, or direct-tool-unavailable fallback.
+4. For each slide, create the teaching payload first:
+   - message to install;
+   - presenter phrase;
+   - audience shift;
+   - visible takeaway;
+   - visual proof.
+5. Decide visual mode:
+   - `analogy scene` for openers, tension, payoff, evolution, closing;
+   - `artifact schematic` for inputs, steps, validations, outputs, matrices, lists;
+   - `hybrid` when a light metaphor supports an operational explanation.
+6. Build the final image prompt with brand lock, visible text only, internal-note exclusion, and visual proof.
+7. Generate one image in chat.
+8. Copy the generated PNG to the declared folder, preserving the original generated-image file.
+9. Rebuild the HTML player immediately so the new PNG is stacked in order.
+10. Report the current slide, absolute PNG path, HTML player path, and next slide.
+11. Continue until complete unless the user interrupts.
+
+Never let the user feel that generation is hidden. The chat must show progress and the local player must grow slide by slide.
+
 When invoked after `presentation-orchestrator`, the default interpretation of "hacer slides", "generar slides", "continua", "dale" or "arranca" is:
 
 `generate image slides -> copy them into an ordered folder -> update global HTML presentation player`
@@ -28,6 +54,151 @@ When invoked after `presentation-orchestrator`, the default interpretation of "h
 It does **not** mean:
 
 `create PPTX`, `use PptxGenJS`, `switch to slides skill`, `build an HTML deck as layout`.
+
+### Visible one-by-one generation rule
+
+Do not generate a whole deck hidden in a batch by default.
+
+When producing a deck in ChatGPT/Codex:
+
+1. Before the first image, state the output folder for PNGs and the HTML player path, using full absolute paths. This must happen before any image generation call.
+2. Generate one slide image at a time in the chat using the direct image tool when available.
+3. After each image appears, copy the generated PNG into the ordered deck folder when the environment exposes a generated-image path.
+4. Update/rebuild the HTML presentation player immediately after each copied image.
+5. Send a short progress update: current slide, saved filename, current player path, and next slide.
+6. Continue without asking for approval after every slide unless the user asks to pause or revise.
+
+The user should be able to watch progress in the chat and open the HTML player in parallel. Never let generation feel hidden.
+
+Minimum pre-generation announcement:
+
+```text
+Carpeta de imagenes:
+[absolute path]
+
+HTML player:
+[absolute path]
+
+Modo de generacion:
+direct image tool | API fallback | API native evidence
+```
+
+If the deck has multiple separate presentations, state one image folder and one HTML player per presentation before generating the first image. A combined review player can be listed only as secondary.
+
+### No-recycle rule
+
+When invoked after an approved Orchestrator plan, treat the next deck generation as a fresh production pass unless the user explicitly says to reuse existing images.
+
+Do not silently reuse, skip, cache, inherit, or treat old PNGs as valid because filenames already exist. Existing images from earlier attempts are references or rejected drafts until they pass current QA. If a script has `skip existing`, `cache`, `reuse`, or `exists -> continue` behavior, disable it or write to a new versioned output folder.
+
+Default output policy:
+
+* create a new versioned folder for a new approved generation pass;
+* save every generated PNG with full absolute path available in a manifest;
+* keep prompts next to images;
+* keep rejected/draft folders separate or delete them when the user asks to clean root causes;
+* do not merge old and new slides in a final player.
+
+### Orchestrator prompt transformation rule
+
+Prompts from `presentation-orchestrator` are a handoff, not always the final image prompt.
+
+Before generating each slide, reinterpret the Orchestrator prompt through this skill's disruptive pipeline:
+
+1. write the slide thesis: `This slide is really communicating X through Y`;
+2. decide whether the slide needs analogy, disruptive diagramming, or both;
+3. reject generic corporate/dashboard/icon layouts unless the slide's job explicitly requires a quiet schematic;
+4. compress visible text to 1 title + 1 subtitle + up to 2 labels;
+5. build the final image prompt from semantic interpretation, not from the raw bullet list;
+6. only then generate the image.
+
+### Slide Text Visibility Gate
+
+Separate source content into three buckets before prompting:
+
+1. **Visible slide text**: what the audience should read on the slide.
+2. **Presenter/internal note**: production status, ownership, who must create something, facilitation reminders, demo timing, file names, implementation caveats, and speaker-only instructions.
+3. **Teaching message**: the concrete idea the slide must teach, the phrase the presenter can say, and the mental shift the audience should experience.
+4. **Visual guidance**: what the image should imply through layout, objects, emphasis, or flow without writing it as copy.
+
+Never render presenter/internal notes as slide text. Names such as "Fabrizio", ownership statements like "debe ser creado por X", reminders like "mostrar GPT aqui", or implementation status like "ya existe / falta crear" are internal unless the user explicitly says the audience must see them.
+
+If a slide needs to communicate a status to the audience, rewrite it as audience-safe copy:
+
+- Internal: `Debe ser creado por Fabrizio`
+- Audience-safe: `GPT a configurar`
+- Internal: `Mostrar el GPT existente aqui`
+- Audience-safe: `Demo en vivo`
+- Internal: `No construir flujo avanzado`
+- Audience-safe: `Evolucion posible`
+
+The final image prompt must include a negative constraint: `Do not render internal notes, owner names, facilitator instructions, file names, or implementation reminders as visible text.`
+
+### Didactic Content Gate
+
+A beautiful slide is not enough. Before generating, define the slide's teaching payload:
+
+- `message to install`: one sentence the audience should retain;
+- `presenter phrase`: one sentence the speaker can say while showing the slide;
+- `audience shift`: from what belief to what belief;
+- `visible takeaway`: the minimum text that carries the lesson on the slide;
+- `visual proof`: what the image shows that makes the lesson feel true.
+
+If these are missing, do not generate yet. Build them from the Orchestrator plan or from the user's prompt.
+
+The production prompt must not only describe a scene. It must explicitly say what the slide is teaching and how the visual proves it.
+
+Prompt pattern:
+
+```text
+Teaching purpose: [message to install].
+Presenter meaning: the audience should understand that [concrete lesson].
+Visible text: [exact copy].
+Visual proof: show [objects/flow/contrast] so the viewer sees [lesson] before reading.
+```
+
+Reject a generated slide if it looks impressive but the viewer cannot answer: "what did this teach me?"
+
+Recommended visible text balance:
+
+- 1 title;
+- 1 didactic anchor phrase;
+- up to 2 support labels.
+
+Good anchor phrase patterns:
+
+- `No decide por el equipo; ordena lo critico para revisar mejor.`
+- `La plantilla define la forma; las fuentes aportan contenido verificable.`
+- `De ayuda puntual a proceso trazable.`
+- `El resultado no es el final: es un borrador para validar.`
+
+Do not overload every slide with a sentence if the slide is a pure title or closing. But most explanatory slides need at least one compact phrase that teaches the lesson.
+
+If the generated image looks like a plain HTML layout, stock dashboard, generic SaaS screen, icon grid, or decorative tech background, fail QA and regenerate with a stronger metaphor or diagramming structure.
+
+### Separate-deck rule
+
+If the Orchestrator asks for multiple PPTs or separate presentations, generate separate image folders and/or separate players for each deck. A combined review player is allowed only as a secondary QA artifact, never as the final delivery structure.
+
+### API/native evidence rule
+
+Use API/CLI image generation only when one of these is true:
+
+- the user explicitly requests API/GPT Image;
+- the slide needs native insertion or compositing of factual evidence: charts, tables, screenshots, official logos, thesis figures, real UI, or other assets that must remain exact;
+- the direct chat image tool is unavailable and the user approves the API route.
+
+If using API for this workflow, use **ChatGPT/GPT Image 2** as the required model. Do not silently downgrade to a lower image model. If GPT Image 2 is unavailable, stop and ask before using any fallback.
+
+Local file routing, manifests, HTML players, or the user's need to locate outputs are not enough reason by themselves to use the API. They are delivery/traceability needs, not native insertion needs.
+
+If there is no native evidence insertion and the user mainly needs to watch the image appear in the chat, use the direct image-generation tool by default. API/CLI is a fallback path for environments where direct image generation is unavailable, for example when this skill is run from a model/client that cannot call the image tool. If using API as fallback, state that direct image generation was unavailable and still save paths/manifests clearly.
+
+Native evidence insertion means an external image/table/chart/screenshot/logo/figure must be preserved and placed into or composited with the generated slide output. A reference image used only for inspiration, style, or context is not native insertion.
+
+Brand lock rule:
+
+If the user gives a brand palette, it overrides topic defaults. Apply it as a hard production constraint in every prompt and in the generator wrapper. Do not let semantic colors such as risk red, warning yellow, success green, or generic tech violet override the declared brand. Express risk/priority with scale, position, intensity, contrast, shape, and hierarchy unless the user explicitly allows semantic colors.
 
 HTML presentation player requirement:
 
@@ -77,6 +248,32 @@ Controlled break rule:
 Analogy coherence rule:
 
 `Analogies are not random decorations. Within the same section, keep them in a shared conceptual family unless a new section begins or a different analogy is clearly stronger. Prefer connected worlds such as navigation/control/logistics, construction/engineering, or exploration/knowledge.`
+
+Analogy dosing rule:
+
+`Do not force an analogy into every slide. Strong analogy scenes belong to openers, core tension, key payoff, evolution and closing. Operational slides should usually be schematic, matrix-based, checklist-based, artifact-based, or structured-output based. A schematic slide can still be disruptive through hierarchy, spacing, scale, trace lines, object grouping, and reading path.`
+
+For each slide, classify visual mode before prompting:
+
+- `analogy scene`: memorable metaphor dominates the slide.
+- `artifact schematic`: real work objects, documents, matrices, checklists, outputs, and flows are arranged clearly with premium visual hierarchy.
+- `hybrid`: one consistent analogy family supports a mostly schematic layout.
+
+Across one deck, keep 30-45% analogy/hybrid and 55-70% schematic/artifact slides unless the user explicitly requests a cinematic deck. If consecutive slides are in the same topic, preserve the same visual world instead of inventing a new metaphor each time.
+
+### Integration Background Slides
+
+Use a full-background integration scene only for evolution, system-level, or transition slides. The background must communicate the process, not just atmosphere.
+
+Required components:
+
+- one clear didactic anchor phrase over the background;
+- visible integration logic, such as documents + criteria + validation + report;
+- traceability lines or lanes that make the connection visible;
+- a calm text zone with no card unless contrast absolutely requires it;
+- same brand palette as the deck.
+
+Reject generic control rooms, abstract tech wallpaper, or dashboards that do not show what is being integrated.
 
 Disruption rhythm rule:
 
@@ -136,6 +333,10 @@ Academic disruption rule:
 
 `Academic does not mean generic. For thesis, jury, professional, legal, or technical defense decks, lower visual noise but keep the disruption in the analogy, diagramming, evidence hierarchy, and reading path. The slide must feel rigorous, not timid.`
 
+Academic style is not triggered by the word "engineering" alone. A corporate engineering training, sales enablement deck, implementation pitch, demo, workshop, or executive capability presentation should usually use **corporate premium / technical demo** style, not academic thesis style. Use academic style only when the context is explicitly thesis, university, jury, research defense, academic report, formal method validation, regulatory/legal evidence, or exact scientific/technical proof.
+
+If the deck is about engineering work but the goal is adoption, training, commercial conversation, productivity, or implementation opportunity, keep the style executive, practical, premium, and demonstrative. It can be rigorous without looking like a thesis defense.
+
 ---
 
 ## INPUT CONTRACT
@@ -164,6 +365,21 @@ debug: true
 ```
 
 If a field is missing, infer conservatively from context. Ask only when the missing information changes the visual decision materially, such as brand, audience, required text, or factual accuracy.
+
+### Style routing gate
+
+Before selecting visual style, classify the deck/slide environment:
+
+| Environment | Use style | Avoid |
+|---|---|---|
+| Corporate training / demo | premium technical demo, practical, clear, adoption-oriented | thesis-defense sobriety, academic headers, overformal evidence boards |
+| Executive pitch / implementation opportunity | premium executive, strategic, restrained but persuasive | classroom look, excessive process detail |
+| Workshop / hands-on class | clear operational visual systems, steps, artifacts, visible outputs | cinematic drama that slows action |
+| Thesis / jury / university | academic rigorous, restrained, evidence-forward | generic corporate dashboard, loud effects |
+| Legal / compliance / contractual | restrained professional, evidence hierarchy, risk clarity | playful metaphors, overpromising autonomy |
+| Software/product feature | real UI or generated clean equivalent where tool usage matters | fake dashboards, tutorial screenshots |
+
+Do not let one keyword override the environment. "Engineering" can be corporate, academic, legal, workshop, or product depending on goal and audience.
 
 ---
 
@@ -291,6 +507,29 @@ Workflow:
 7. Insert the real evidence asset afterward with image compositing or PPTX object placement.
 8. Insert real brand assets afterward when fidelity matters. Do not let GPT invent official logos.
 9. QA at full size: evidence must be readable, aligned, not distorted, and not look like a random sticker.
+
+### 0.0 Image Source And Provenance Gate
+
+Before generating or composing any slide, classify the origin of every visual element:
+
+| Source type | Meaning | Rule |
+|---|---|---|
+| `generated_scene` | New GPT Image visual created for the slide | Must be freshly generated for the current pass and saved with the final prompt |
+| `native_evidence` | Real chart, table, screenshot, logo, figure, document, or UI that must remain exact | Insert/composite after generation; never ask GPT Image to redraw it |
+| `reference_only` | Mood, style, composition, or inspiration image | Do not copy literally; record that it influenced style only |
+| `stock_or_web_asset` | External photo/icon/visual asset | Record source URL/path and license/usage note when available |
+| `old_draft` | Previous generated slide/image | Treat as rejected reference only unless user explicitly approves reuse |
+
+Every accepted output must have traceable provenance:
+
+* final PNG path;
+* final prompt path;
+* model/tool used;
+* source type for the background/scene;
+* list of native evidence or brand assets inserted afterward, with paths;
+* whether any reference image influenced the result.
+
+If the slide uses only generated imagery, state `source_type: generated_scene`. If it uses real evidence or assets, list them. If provenance is unknown, fail QA until clarified or regenerate from scratch.
 
 Default placement rule:
 
@@ -577,7 +816,7 @@ Text rule:
 
 ### 5. Generate Image
 
-Use ChatGPT image generation when available. Generate one finished 16:9 slide image.
+Use ChatGPT image generation when available. Generate one finished 16:9 slide image at a time, visibly in the chat.
 
 If generation is not available in the current environment, output the full debug block plus the final prompt ready to paste into the image generator. Do not silently switch to HTML.
 
@@ -585,6 +824,7 @@ If the user explicitly requests GPT Image, API, native-image generation, or evid
 
 When using an API/CLI path:
 
+- use GPT Image 2 unless the user explicitly approves another model;
 - save the exact prompt next to the output;
 - save the raw generated image;
 - save the final composited image;
@@ -616,6 +856,7 @@ INPUT SUMMARY
 
 INTERPRETATION
 - Content type:
+- Environment/style route: corporate training / executive pitch / workshop / academic / legal / product
 - Textual prompt nucleus:
 - Original-theme anchors:
 - Conceptual depth:
@@ -659,6 +900,13 @@ QA RESULT
 
 OUTPUT
 - Image generated or prompt ready:
+- Provenance:
+  - source_type:
+  - model/tool:
+  - final_png_path:
+  - prompt_path:
+  - native_assets_inserted:
+  - references_used:
 ```
 
 For normal production requests, summarize the debug briefly unless the user asks for full trace.
@@ -694,6 +942,7 @@ Hard rejects:
 
 Fail and revise if any critical item fails:
 
+0. The slide is freshly generated for this approved pass, not silently reused from a previous folder/cache.
 1. The image communicates the concept before reading the text.
 2. The selected analogy or visual strategy fits the message.
 3. The analogy, if used, is the closest useful similarity to the original prompt, not just a pretty metaphor.
@@ -709,6 +958,10 @@ Fail and revise if any critical item fails:
 13. Native evidence, if used, is original, readable, not distorted, and visually integrated.
 14. Official logos, if used, are real assets inserted afterward or faithfully preserved from the template.
 15. For academic slides, the style is rigorous and restrained while still using analogy/diagramming to avoid generic layouts.
+16. The image has the required slide aspect ratio for the target player/export. If it is 3:2 or another ratio while the deck is 16:9, fail QA unless a deliberate postprocess creates a true 16:9 final slide without distortion.
+17. The output path is traceable: full image path, prompt path, player path, and deck membership are known.
+18. The environment/style route is correct. Corporate engineering training must not be mistaken for academic thesis style unless the user explicitly frames it that way.
+19. Image provenance is documented: generated scene, native evidence, brand assets, references, or old drafts are clearly identified.
 
 After QA, state the next action:
 
@@ -757,9 +1010,11 @@ Exception: if the strongest deck direction is clearly light, keep the whole syst
 ---
 
 ## DISRUPTION SEQUENCE - 3 questions before each slide
+0. What **environment/style route** is this? (corporate training / executive pitch / workshop / academic / legal / product)
 1. What **type** of content is this? (title / definition / hierarchy / process / taxonomy / deep-dive / applications / metrics / ecosystem / closing)
 2. What **metaphor** makes the concept clearer, not just prettier?
 3. Does this **contrast** structurally with the previous slide?
+4. What is the **source/provenance** of the visual? (generated scene / native evidence / reference only / stock or web asset / old draft)
 
 ### Anti-repetition rules
 - Never use the same layout twice in a row

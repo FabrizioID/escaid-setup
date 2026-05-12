@@ -73,10 +73,31 @@ Orden obligatorio tras aprobacion:
 2. Activar `disruptive-presentations`.
 3. Generar las imagenes/slide visuals segun su pipeline.
 4. Crear o actualizar el HTML player de presentacion con navegación por flechas/teclado.
-5. Pedir revision o continuar por lotes segun el alcance.
-6. Solo despues de QA visual, si el usuario pide PPTX/export, usar `slides` u otra herramienta de exportacion.
+5. Mantener generacion visible para el usuario con progreso por slide.
+6. Ejecutar QA interno slide por slide: aceptar, regenerar fallas evidentes o marcar `needs review` si el tema es subjetivo.
+7. Continuar sin pedir aprobacion del usuario por cada slide, salvo que el usuario pida revision manual slide-by-slide o interrumpa.
+8. Solo despues de QA visual, si el usuario pide PPTX/export, usar `slides` u otra herramienta de exportacion.
 
 Si el usuario dice "continua" despues de aprobar Orchestrator, interpretalo como "continua con disruptive-presentations", no como "crea un PPTX editable".
+
+### Regla de aprobacion vs produccion
+
+La validacion obligatoria de Orchestrator ocurre durante el diseno del plan: contexto, audiencia, objetivo, sensacion, experiencia, dinamicas, arco, secuencia, branding y handoff.
+
+Una vez aprobado el plan y autorizado `disruptive-presentations`, la produccion visual no debe convertirse en una aprobacion manual por cada slide.
+
+Default:
+
+- el usuario aprueba el plan;
+- `disruptive-presentations` genera slide por slide;
+- el asistente hace QA interno por cada slide;
+- el asistente regenera fallas claras sin frenar al usuario;
+- el asistente muestra progreso y rutas;
+- el usuario puede interrumpir si ve algo que no va.
+
+Regla:
+
+`Validacion por etapas antes del handoff; QA interno durante generacion; intervencion del usuario solo si pide parar, revisar o corregir.`
 
 ---
 

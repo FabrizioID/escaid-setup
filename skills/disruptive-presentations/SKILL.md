@@ -21,6 +21,39 @@ Clarification:
 
 Do not generate PPTX as the default output. PPTX, Canva export, or editable deck conversion is a later export phase after image generation and QA.
 
+### Sequential Production + Internal QA
+
+When generating a deck after an approved Orchestrator plan, do not ask the user to approve every slide one by one unless they explicitly request that level of review.
+
+Default behavior:
+
+1. Generate slides sequentially and visibly in chat.
+2. After each generated slide, run an internal QA pass yourself.
+3. Save/copy the accepted slide into the ordered output folder.
+4. Update the HTML player/review artifact immediately.
+5. Continue to the next slide without waiting for user validation.
+
+The user can interrupt at any time if they see a problem. Progress updates are for visibility, not mandatory approval gates.
+
+Internal QA means the assistant checks:
+
+- whether the slide teaches the intended message;
+- whether the visual metaphor or diagram is understandable;
+- whether the template was respected or intentionally broken as planned;
+- whether unexpected slide numbers, random labels, fake UI noise, or text artifacts appeared;
+- whether generated text is readable and in the expected language;
+- whether the slide is too cluttered, generic, or decorative;
+- whether brand signals and visual hierarchy are coherent;
+- whether the slide should be accepted, regenerated, or marked as needing review.
+
+If an obvious failure appears, regenerate immediately with a corrected prompt without asking the user first. Obvious failures include wrong visible text, unwanted numbering, broken template use, unreadable/gibberish text, severe clutter, or a visual that does not communicate the lesson.
+
+If the issue is subjective or strategic rather than clearly wrong, continue but flag it in the progress note as `needs review`.
+
+Rule:
+
+`QA slide by slide is the assistant's internal production control, not a requirement for user approval after every image.`
+
 ### Production Sequence For Approved Decks
 
 When the user approves a plan and says to generate slides, run this sequence:
@@ -44,6 +77,7 @@ When the user approves a plan and says to generate slides, run this sequence:
 9. Rebuild the HTML player immediately so the new PNG is stacked in order.
 10. Report the current slide, absolute PNG path, HTML player path, and next slide.
 11. Continue until complete unless the user interrupts.
+12. Do not convert progress updates into approval gates. The user approves the plan/handoff; the assistant produces and self-QAs slides unless the user interrupts or asks for manual review.
 
 Never let the user feel that generation is hidden. The chat must show progress and the local player must grow slide by slide.
 
@@ -971,6 +1005,18 @@ After QA, state the next action:
 - switch layout
 - split into multiple slides
 - use legacy HTML mode for layout precision
+
+Do not stop and ask the user after every accepted slide. A short progress note is enough:
+
+```text
+Slide X accepted and saved. Player updated to X/N. Next: Slide Y.
+```
+
+If regenerated, say briefly why:
+
+```text
+Slide X regenerated because [clear QA failure]. Accepted version saved. Next: Slide Y.
+```
 
 ---
 

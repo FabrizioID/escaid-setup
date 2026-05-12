@@ -21,6 +21,59 @@ Por defecto, la skill **no puede borrar, reemplazar, reestructurar, alterar vist
 
 Antes de proponer codigo propio, verificar si el MCP/herramienta nativa resuelve el flujo.
 
+## Arranque rapido obligatorio
+
+Usar este bloque al inicio de cualquier tarea Notion para evitar diagnosticos largos.
+
+### 1. Determinar cuenta
+
+- Si el usuario menciona `Fabrizio`, `Jose Fabrizio ID`, `josefabrizioid`, `GEN+`, `Tingo`, `PUENTE TINGO` o proyectos GEN+, activar tambien `notion-josefabrizioid` y usar alias `josefabrizioid`.
+- Si el usuario menciona `coordinador`, `AECODE` o `coordinador@aecode.ai`, activar tambien `notion-coordinador-aecode` y usar alias `coordinador-aecode`.
+- Si no hay senal clara de cuenta, preguntar una sola vez: `Uso Notion de Fabrizio o coordinador AECODE?`
+- Si la operacion es sensible o hay duda real de workspace, preguntar antes de escribir aunque parezca inferible.
+- No preguntar si el proyecto tiene una plantilla conocida con cuenta implicita. `PUENTE TINGO` implica Fabrizio.
+
+### 2. Validar conexion rapida
+
+- Primero intentar MCP activo si las herramientas `mcp__notion__.*` o `mcp__notion-easy__*` estan disponibles.
+- Para Fabrizio/Tingo, validar cuenta con `PUENTE TINGO` (`1d5d8cc4cfc180908d55c4da6d801474`).
+- Si MCP devuelve `object_not_found` para una pagina que deberia existir, asumir cuenta incorrecta antes de asumir que no existe.
+- Si MCP apunta a otra cuenta, no repetir busquedas amplias: usar API fallback del perfil elegido o indicar que hay que reiniciar Codex si `config.toml` fue corregido.
+
+### 3. Mapa de herramientas preferido
+
+Con MCP remoto/oficial disponible:
+- Buscar paginas/bases: `mcp__notion__.notion_search`.
+- Leer pagina/base/data source: `mcp__notion__.notion_fetch`.
+- Crear pagina o fila: `mcp__notion__.notion_create_pages`.
+- Actualizar contenido/propiedades: `mcp__notion__.notion_update_page`.
+- Crear/actualizar vistas: `mcp__notion__.notion_create_view`, `mcp__notion__.notion_update_view`.
+- Consultar vista: `mcp__notion__.notion_query_database_view`.
+
+Con easy-notion-mcp:
+- Verificar conexion con `mcp__notion-easy__get_me`.
+- Usar sus herramientas para crear/leer/actualizar paginas y bases cuando esten disponibles.
+
+Con MCP local oficial `@notionhq/notion-mcp-server`:
+- Esperar herramientas API-first con nombres tipo `search`, `retrieve-a-page`, `retrieve-a-database`, `retrieve-a-data-source`, `create-a-page`, `create-a-data-source`, `query-data-source`, `update-a-page` o equivalentes descubiertos por el cliente.
+- Usar `data_source_id` cuando el servidor local use Notion API nueva.
+
+Con API fallback:
+- Identidad: `GET /v1/users/me`.
+- Buscar: `POST /v1/search`.
+- Leer pagina: `GET /v1/pages/{page_id}` y `GET /v1/blocks/{page_id}/children`.
+- Leer database/schema: `GET /v1/databases/{database_id}`.
+- Crear fila/pagina: `POST /v1/pages`.
+- Crear base inline clasica: `POST /v1/databases` con `parent.page_id` e `is_inline: true` cuando aplique.
+- Actualizar: `PATCH /v1/pages/{page_id}` o append de bloques con `PATCH /v1/blocks/{block_id}/children`.
+
+### 4. Configuracion local esperada
+
+- MCP principal de Notion puede estar configurado en `~/.codex/config.toml`.
+- Para Fabrizio, la configuracion preferida es un wrapper local que lee `~/.codex/credentials/notion/josefabrizioid_notion.json` y ejecuta `@notionhq/notion-mcp-server`.
+- No escribir tokens dentro de `config.toml` ni dentro de skills.
+- Tras cambiar `config.toml`, advertir que Codex debe reiniciarse para que el MCP activo se recargue.
+
 ## Setup de easy-notion-mcp
 
 Para activar easy-notion-mcp en Claude Code:
@@ -50,6 +103,9 @@ Verificar conexion con `mcp__notion-easy__get_me`. Si falla con "NOTION_TOKEN is
 - Si MCP falla con `object_not_found` pero la pagina esta compartida, sospechar cuenta/integracion incorrecta antes de asumir falta de permisos.
 - Verificar identidad con `/v1/users/me` cuando se use Notion API directa.
 - Mantener separados los tokens por cuenta/workspace; documentar solo el alias de cuenta y nunca imprimir el secreto.
+- Cuando existan perfiles locales de cuenta, cargar el perfil minimo necesario antes de escribir:
+  - `notion-josefabrizioid` para Fabrizio / GEN+ / Tingo.
+  - `notion-coordinador-aecode` para coordinador AECODE.
 
 ### Versiones API utiles
 
@@ -64,15 +120,16 @@ Verificar conexion con `mcp__notion-easy__get_me`. Si falla con "NOTION_TOKEN is
 Trigger ejemplo: `activa skill documentar notion: crear proyecto`
 
 Flujo:
-1. Pedir nombre del proyecto.
-2. Pedir base raiz/data source destino.
-3. Pedir o identificar plantilla a replicar.
-4. Validar permisos, destino y plantilla.
-5. Leer la plantilla.
-6. Crear pagina/proyecto en la base raiz.
-7. Replicar estructura posible o aplicar template nativo si existe.
-8. Insertar informacion util del contexto del agente.
-9. Reportar creado, insertado, omitido y limitaciones.
+1. Determinar cuenta con el arranque rapido.
+2. Pedir nombre del proyecto si no esta claro.
+3. Pedir base raiz/data source destino si no se puede inferir.
+4. Pedir o identificar plantilla a replicar.
+5. Validar permisos, destino y plantilla.
+6. Leer la plantilla.
+7. Crear pagina/proyecto en la base raiz.
+8. Replicar estructura posible o aplicar template nativo si existe.
+9. Insertar informacion util del contexto del agente.
+10. Reportar creado, insertado, omitido y limitaciones.
 
 #### Crear proyecto desde plantilla existente
 
@@ -123,14 +180,15 @@ Importante: `PUENTE TINGO` es plantilla de estructura, no fuente de contenido. N
 Trigger ejemplo: `activa skill documentar notion: actualizar proyecto`
 
 Flujo:
-1. Pedir proyecto/pagina destino.
-2. Buscar coincidencias; si hay ambiguedad, pedir seleccion.
-3. Leer estructura y contenido existente.
-4. Comparar con informacion nueva disponible en el agente.
-5. Clasificar cambios: nuevo, duplicado, campo vacio, extension, conflicto, reemplazo, destructivo.
-6. Ejecutar solo cambios seguros.
-7. Pedir confirmacion para reemplazos, eliminaciones o cambios estructurales.
-8. Reportar resultado.
+1. Determinar cuenta con el arranque rapido.
+2. Pedir proyecto/pagina destino solo si no se puede inferir.
+3. Buscar coincidencias; si hay ambiguedad real, pedir seleccion.
+4. Leer estructura y contenido existente.
+5. Comparar con informacion nueva disponible en el agente.
+6. Clasificar cambios: nuevo, duplicado, campo vacio, extension, conflicto, reemplazo, destructivo.
+7. Ejecutar solo cambios seguros.
+8. Pedir confirmacion para reemplazos, eliminaciones o cambios estructurales.
+9. Reportar resultado.
 
 ### Anadir contenido directo
 
@@ -147,14 +205,22 @@ Flujo:
 
 Trigger ejemplo: `sube la reunion a Notion` / `carga esto a reuniones`
 
-Este activador tiene dos pasos obligatorios antes de escribir en Notion:
+Este activador produce dos salidas: registro en Notion y mensaje listo para WhatsApp.
 
-**Paso 1 — Resumen WhatsApp (previo al upload)**
+**Paso 1 - Registrar en Notion REUNIONES**
 
-Antes de tocar Notion, generar un resumen en formato mensaje de grupo de WhatsApp con este molde:
+Crear entrada en la base REUNIONES del proyecto usando:
+- OBJETIVOS: titulo/objetivo de la reunion
+- Date: fecha de la reunion (ISO)
+- OBSERVACIONES: lista de observaciones detalladas
+- ACUERDOS: lista de acuerdos y pendientes
+
+**Paso 2 - Mensaje WhatsApp para copiar y pegar**
+
+Despues de documentar, entregar al usuario un mensaje de grupo de WhatsApp con este molde:
 
 ```text
-📋 *REUNION [Nombre del proyecto] — [DD/MM/AAAA]*
+*REUNION [Nombre del proyecto] - [DD/MM/AAAA]*
 
 *Objetivo:*
 • [objetivo principal de la reunion]
@@ -169,29 +235,19 @@ Antes de tocar Notion, generar un resumen en formato mensaje de grupo de WhatsAp
 • [acuerdo o pendiente 2]
 • ...
 
-✅ [cierre si aplica, ej: "Todo lo demas aprobado y validado."]
+✅ [cierre si aplica, ej: "Todo lo demas aprobado y validado en reunion."]
 ```
 
-Regla de titulo: siempre `*REUNION [Proyecto] — [DD/MM/AAAA]*`, con la palabra REUNION al inicio.
+Regla de titulo: siempre `*REUNION [Proyecto] - [DD/MM/AAAA]*`, con la palabra REUNION al inicio. Para Tingo usar `*REUNION PUENTE-TINGO - [DD/MM/AAAA]*`.
 
 Reglas del formato WA:
 - Texto plano, sin markdown de codigo, sin tablas.
 - Negrita solo con asteriscos simples (*texto*).
-- Cada punto es una linea con bullet •.
+- Cada punto es una linea con bullet `•`.
 - Tono directo, sin saludos ni firmas.
 - Maximo 20 lineas en total; si hay mas contenido, agrupar puntos similares.
-
-Mostrar el mensaje al usuario y esperar confirmacion o edicion antes de continuar.
-
-**Paso 2 — Upload a Notion REUNIONES**
-
-Con el contenido aprobado, crear entrada en la base REUNIONES del proyecto usando:
-- OBJETIVOS: titulo/objetivo de la reunion
-- Date: fecha de la reunion (ISO)
-- OBSERVACIONES: lista de observaciones detalladas
-- ACUERDOS: lista de acuerdos y pendientes
-
-Si el usuario edito el mensaje WA antes de confirmar, usar la version editada como fuente de verdad para el upload.
+- Separar `Observaciones` de `Acuerdos / Pendientes`.
+- Si no hay validacion general, omitir el cierre con check.
 
 ### Matrices y contenido editable
 

@@ -106,6 +106,7 @@ Verificar conexion con `mcp__notion-easy__get_me`. Si falla con "NOTION_TOKEN is
 - Cuando existan perfiles locales de cuenta, cargar el perfil minimo necesario antes de escribir:
   - `notion-josefabrizioid` para Fabrizio / GEN+ / Tingo.
   - `notion-coordinador-aecode` para coordinador AECODE.
+- Para el protocolo de seleccion de cuenta, seguir `references/notion-account-profiles.md`.
 
 ### Versiones API utiles
 

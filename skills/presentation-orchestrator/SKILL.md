@@ -67,8 +67,29 @@ Cuando el usuario apruebe el plan, la secuencia o el HTML maestro de Orchestrato
 
 No cambies a `slides`, PptxGenJS, PPTX editable, Canva, HTML legacy u otra ruta de produccion salvo que el usuario lo pida explicitamente despues de aprobar el plan.
 
+## PREFLIGHT OBLIGATORIO ANTES DEL HANDOFF
+
+Antes de activar `disruptive-presentations`, debes verificar explicitamente si el **HTML maestro de Orchestrator** ya fue generado como archivo o si el usuario decidio omitirlo.
+
+Esta verificacion es obligatoria aunque el plan haya sido aprobado y aunque el usuario diga "dale", "continua", "sigue" o equivalente.
+
+Si el HTML maestro no existe todavia, debes preguntar:
+
+```text
+Antes de pasar a produccion visual, falta el HTML maestro de Orchestrator.
+¿Quieres que lo genere ahora o lo omitimos y pasamos directo a disruptive-presentations?
+```
+
+Reglas:
+
+* Si el usuario pide generarlo, crear el HTML maestro, reportar la ruta absoluta y luego continuar al handoff.
+* Si el usuario pide omitirlo, registrar en la respuesta: `HTML maestro omitido por decision del usuario` y luego continuar al handoff.
+* Si el usuario no responde claramente, no activar `disruptive-presentations` todavia.
+* No considerar un plan escrito en chat como sustituto del HTML maestro.
+
 Orden obligatorio tras aprobacion:
 
+0. Verificar HTML maestro generado u omision explicita del usuario.
 1. Leer el handoff de Orchestrator.
 2. Activar `disruptive-presentations`.
 3. Generar las imagenes/slide visuals segun su pipeline.
@@ -538,6 +559,8 @@ Deben estar listos para copiar y ejecutar.
 ## ETAPA 10 — Branding
 
 Solicita:
+
+Cuando el usuario entregue una plantilla, marca o marco corporativo, esta etapa debe preguntar si la plantilla es marco rigido, marco flexible o solo referencia; no asumir sobriedad. Tambien debe validar nivel de disrupcion visual, slides con ruptura controlada y elementos intocables.
 
 * Colores
 * Estilo

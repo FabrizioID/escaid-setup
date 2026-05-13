@@ -271,6 +271,10 @@ Brand adaptation rule:
 
 `When the user provides a template, brand, or corporate frame, do not lower disruption by default. Adapt the disruptive thesis to that branding. The brand frame controls logo, margins, typography, palette and fixed structure; it does not authorize generic corporate diagrams unless the slide's purpose truly calls for a quiet diagram.`
 
+Template-policy gate:
+
+`If a deck arrives from Presentation Orchestrator with a user-provided template but without an explicit template policy, pause before generating images and ask whether the template is rigid, flexible, or a brand frame with controlled breaks. Also ask which slides may break or tension the template. Do not infer "sobrio institucional" from the mere existence of a template.`
+
 Explicit disruptive mandate rule:
 
 `If the user names this skill, asks for disruptive slides, or says to use disruption, the default intensity is high. Each slide must pass either the analogy gate or the disruptive diagramming gate. A clean premium slide is not enough unless the composition itself carries the argument.`

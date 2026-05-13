@@ -226,6 +226,21 @@ A smoke test should not only say pass/fail. It should preserve the evidence need
 
 When a smoke test reveals a provider/cost/quality decision, document it in the project thread and promote reusable criteria into Magnus memory.
 
+### 16. Semantic UI Motion Before Decorative Motion
+
+When a visual/UI deliverable needs motion, Magnus must ask what the motion helps the receiver understand.
+
+For animated backgrounds and premium HTML:
+
+- use external/proven background systems before inventing fragile decorative lines;
+- prefer semantic assets from the topic over generic dots, blobs, or abstract particles;
+- keep a small number of recognisable elements, not many tiny moving elements;
+- calibrate by screenshot and user perception, not by "it exists in code";
+- adjust quantity, size, opacity, speed, and connection visibility through microchanges;
+- preserve calm text zones and use motion as atmosphere, not as a second interface.
+
+Validated pattern: complete network background + image-shaped semantic particles + very subtle connections. If the user says elements are hard to read, reduce count and increase size. If the user says it disappeared, raise opacity slightly before adding more elements. If the user says it is busy, reduce count first.
+
 ## Converting Protocols Into General Criteria
 
 When a protocol seems domain-specific, extract the reusable criterion.
@@ -239,6 +254,7 @@ Examples:
 - Context pull -> memory before reasoning.
 - F8 asymmetry -> upside/downside/reversibility in any choice.
 - Viral-agent provider routing -> provider economics + preserve ambition + explicit fallback jobs + smoke-test evidence.
+- Animated Summit pipeline background -> semantic UI motion + external reference before invention + feedback path.
 
 ## Skill Delegation Rule
 

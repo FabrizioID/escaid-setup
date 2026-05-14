@@ -250,6 +250,90 @@ Reglas del formato WA:
 - Separar `Observaciones` de `Acuerdos / Pendientes`.
 - Si no hay validacion general, omitir el cierre con check.
 
+### Reporte de actividades generales
+
+Trigger ejemplo: `dame la lista de actividades generales`, `reporte de actividades generales`, `actividades generales para WSP`, `status general de actividades`.
+
+Este activador usa la Notion de Fabrizio/GEN+ y la pagina:
+
+- `T.TRABAJO (8 hr: 09:00 - 17:00)`: `https://www.notion.so/T-TRABAJO-8-hr-09-00-17-00-241d8cc4cfc180e7bce2f01e6a14c7f4`
+- Page ID: `241d8cc4-cfc1-80e7-bce2-f01e6a14c7f4`
+
+Fuente operativa validada:
+
+- Base inline `ACTIVIDADES`.
+- Database ID: `2dcd8cc4-cfc1-806c-bda6-f9c4862a9cfd`.
+- Data source ID: `2dcd8cc4-cfc1-8121-a268-000b4f55c021`.
+- Vista de referencia: `Tabla Filtrada`.
+- View ID: `2dcd8cc4-cfc1-819e-87ac-000ce5033d79`.
+- Configuracion validada de la vista:
+  - `quick_filters`: propiedad `Checkbox` igual a `false`.
+  - Agrupacion visual por `Empresa`.
+  - Subtareas visibles con `parents_and_subitems`.
+
+Regla de arranque obligatoria:
+
+- Para este activador, arrancar siempre con Notion MCP. No usar scripts locales, `urllib`, requests directos a la API, tokens locales ni otros medios como primera ruta.
+- Primero validar con MCP la pagina `T.TRABAJO`, la base `ACTIVIDADES` y la vista `Tabla Filtrada`.
+- Si el MCP no tiene una herramienta directa para consultar una vista, usar MCP para leer la configuracion de la vista y luego usar MCP para consultar el `data_source_id` replicando el filtro `Checkbox = false`.
+- Solo usar API directa o lectura de credenciales locales si el usuario lo autoriza explicitamente o si no existe ninguna herramienta MCP disponible en la sesion. Si ocurre, decirlo de forma clara antes de continuar.
+
+Reglas de consulta:
+
+1. Usar Notion MCP para ubicar/validar pagina, base, data source y vista. Si el MCP no expone query de vista, leer la configuracion de la vista via MCP y replicar su filtro contra el `data_source_id` via MCP.
+2. No consultar toda la base como reporte final si el usuario pide `actividades generales`; el alcance por defecto es la vista `Tabla Filtrada`.
+3. Incluir filas padre/proyectos visibles y subitems visibles. Los padres funcionan como proyectos; los subitems son actividades.
+4. Agrupar salida por empresa y luego por proyecto.
+5. Usar `Status >= 100` como completada; `Status < 100` o vacio como pendiente. El filtro de vista deja `Checkbox = false`, por lo que pueden existir actividades completadas en status 100 aun visibles si el checkbox no fue marcado.
+6. Mostrar el porcentaje de `Status` en cada actividad cuando exista.
+7. No omitir proyectos visibles aunque no tengan pendientes.
+8. Si se generan archivos TXT, tambien responder textual en el chat cuando el usuario pida formato para WhatsApp.
+
+Formato WhatsApp validado:
+
+```text
+*REPORTE DE ACTIVIDADES*
+*Fecha:* DD/MM/AAAA
+
+🟣 *AECODE*
+*Proyectos activos:* N
+
+*Puntos clave:*
+- [Aporte/valor logrado por actividades completadas y pendientes relevantes.]
+- [Desarrollo de herramientas, control de procesos, gestion academica, comercial u operativa segun corresponda.]
+
+*Nombre del proyecto*
+*Completadas:*
+- [Actividad] - XX%
+*Pendientes:*
+- [Actividad] - XX%
+
+🔵 *GEN+*
+*Proyectos activos:* N
+
+*Puntos clave:*
+- [Aporte/valor logrado en proyectos, gestion tecnica, BIM, entregables, coordinaciones o modelos.]
+
+*Nombre del proyecto*
+...
+
+🟢 *ThesIA*
+*Proyectos activos:* N
+
+*Puntos clave:*
+- [Aporte/valor del seguimiento academico o documental.]
+```
+
+Lineamientos de redaccion para `Puntos clave`:
+
+- No titular como `Resumen de aporte`; usar siempre `Puntos clave`.
+- Redactar en viñetas breves, enfocadas en valor, avance y desbloqueo operativo.
+- Para AECODE/marketing, mencionar `desarrollo de herramientas` cuando aplique.
+- Para automatizacion n8n, no decir `cierre operativo` si el programa esta arrancando; describirlo como arranque, control de procesos y avance de sesiones/talleres.
+- Para GEN+, enfocar en gestion tecnica, trazabilidad de entregables, avance BIM/modelos, coordinaciones y desbloqueo de pendientes.
+- No incluir una viñeta generica tipo `Falta alinear pendientes al planning` salvo que el usuario lo pida explicitamente.
+- Usar bolitas por empresa: AECODE morado, GEN+ azul, ThesIA verde.
+
 ### Matrices y contenido editable
 
 Cuando la informacion tendra vida operativa, evaluacion, filtros, orden, estados o ownership, no usar una tabla Markdown/HTML como salida principal. Preferir:

@@ -36,28 +36,70 @@ No es opcional. No avances sin haberlo aplicado primero.
 
 ---
 
+# MODO DE OPERACIÓN — BLOQUES vs PROPUESTA COMPLETA
+
+## Modo Bloques (default)
+
+Cuando el usuario llega con un tema poco definido, audiencia desconocida o sin contexto suficiente para diseñar la narrativa, correr el proceso por etapas: una a la vez, validación explícita antes de avanzar.
+
+Señales de Modo Bloques:
+- El tema o audiencia no están claros
+- El usuario no sabe qué quiere que sienta o haga la audiencia
+- El objetivo de la presentación es vago o abierto
+- El usuario llega con "quiero hacer una presentación sobre X" sin más contexto
+
+## Modo Propuesta Completa (brief completo detectado)
+
+Cuando el usuario entrega un brief que cubre al menos estas seis dimensiones, activar Modo Propuesta Completa y generar el output de todas las etapas narrativas en un solo bloque:
+
+1. Tema y contexto de la presentación
+2. Audiencia (perfil, nivel de conocimiento, expectativas)
+3. Objetivo concreto (qué debe entender, decidir o hacer la audiencia)
+4. Sensación final deseada
+5. Formato o tipo de sesión (clase, pitch, ponencia, workshop)
+6. Restricciones (tiempo, plantilla, número de slides, ocasión)
+
+**Umbral práctico:** brief con estructura narrativa y más de ~150 palabras que responde quién, qué, para qué y qué debe pasar al terminar.
+
+En Modo Propuesta Completa:
+- Magnus Thinker corre F1→F13 internamente como siempre
+- Las etapas 1–6 (contexto, audiencia, objetivo, sensación, experiencia, dinámicas) se presentan condensadas como confirmaciones, no como preguntas separadas
+- Las etapas 7–9 (arco narrativo, secuencia de slides, prompts) se desarrollan completas en una sola respuesta
+- Al final, una sola pregunta de cierre: **"¿Hay alguna etapa o slide que quieras ajustar antes de continuar a producción?"**
+
+**Lo que NO cambia en Modo Propuesta Completa:**
+- Nunca se activa `disruptive-presentations` sin aprobación explícita del usuario
+- Los prompts por slide se generan completos pero no se ejecutan hasta que el usuario diga "dale"
+
+**HTML maestro — skip explícito en Modo Propuesta Completa:**
+Al final del bloque de propuesta completa, preguntar siempre:
+
+```text
+Plan listo. ¿Quieres que genere el HTML maestro del plan (visual, con story spine, arco y prompts) o lo omitimos y pasamos directo a disruptive-presentations?
+```
+
+Si el usuario dice "omitir", "skip", "sin html", "directo", "dale" o equivalente → registrar `HTML maestro omitido por decisión del usuario` y activar handoff a `disruptive-presentations` cuando el usuario confirme producción. No generar el HTML.
+
+El PREFLIGHT OBLIGATORIO del handoff maneja este mismo flujo — en Modo Propuesta Completa queda resuelto en este punto, no se vuelve a preguntar.
+
+Regla de honestidad: si el brief tiene lagunas que afectan decisiones narrativas críticas (qué debe sentir la audiencia, si hay plantilla, número de slides), señalarlas al final como "Decisiones pendientes antes de producción".
+
 # REGLA DE VALIDACION OBLIGATORIA
 
 Presentation Orchestrator es una skill de co-diseno guiado, no de produccion directa.
 
-No puedes generar secuencia final de slides, prompts por slide, HTML de plan, handoff a `disruptive-presentations`, PPTX, deck visual o entregable final sin validacion explicita del usuario en las etapas previas.
+No puedes activar `disruptive-presentations`, generar PPTX, deck visual o ejecutar producción visual sin aprobacion explicita del usuario — independientemente del modo.
 
-Aunque el prompt venga completo, aunque exista contexto previo y aunque parezca suficiente para avanzar, debes validar por etapas: contexto, audiencia, objetivo, sensacion final, experiencia, dinamicas, arco narrativo y secuencia de slides.
+Si el usuario pide "corre Orchestrator" sin brief completo, eso significa iniciar el flujo de validacion por bloques, no saltar al output final.
 
-Solo despues de esas validaciones puedes generar prompts, HTML o handoff.
+## EJECUCION GUIADA ESTRICTA (aplica solo en Modo Bloques)
 
-Si el usuario pide "corre Orchestrator", eso significa iniciar el flujo de validacion, no saltar al output final.
-
-## EJECUCION GUIADA ESTRICTA
-
-Cuando el usuario pida correr, activar, iniciar o usar Presentation Orchestrator, debes ejecutar la secuencia guiada real:
+Cuando el usuario pida correr Orchestrator en Modo Bloques:
 
 1. Presentar solo la etapa activa.
 2. Formular la pregunta de validacion de esa etapa.
 3. Detenerte y esperar respuesta del usuario.
 4. No avanzar a la siguiente etapa hasta recibir validacion explicita o correccion.
-
-No sustituyas el flujo por una sintesis general, una propuesta preliminar completa, una estructura tentativa de slides o una validacion agrupada. Aunque ya tengas suficiente contexto para inferir varias etapas, solo debes mostrar la etapa actual.
 
 Si el usuario corrige una etapa, actualiza esa etapa y vuelve a pedir validacion. Si el usuario valida, avanza solo a la etapa siguiente.
 

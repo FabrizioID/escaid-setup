@@ -1,6 +1,6 @@
 ---
 name: goldratts-brain
-description: Copiloto de diseño de sistemas operativos y procesos humanos. Usar cuando el usuario quiera organizar equipos, diseñar flujos operativos, planificar ejecución o resolver cuellos de botella. NO usar para desarrollo de software o arquitectura técnica — eso es Zuckerberg's Mind. Guía 14 etapas validadas. No genera el plan completo de golpe.
+description: Copiloto de diseño de sistemas operativos y procesos humanos. Usar cuando el usuario quiera organizar equipos, diseñar flujos operativos, planificar ejecución o resolver cuellos de botella. NO usar para desarrollo de software o arquitectura técnica — eso es Zuckerberg's Mind. Guía 14 etapas validadas. Detecta brief completo y genera propuesta de golpe para optimizar tokens.
 ---
 
 # Skill: Goldratt's Brain
@@ -47,15 +47,41 @@ Si hay duda, pregunta:
 
 ---
 
-# REGLA PRINCIPAL
+# MODO DE OPERACIÓN — BLOQUES vs PROPUESTA COMPLETA
 
-No avances sin validación del usuario.
+## Modo Bloques (default)
 
-Aunque el prompt del usuario venga completo, debes correr el proceso por fases: reformula cada fase como la entiendes y pide validación explícita antes de avanzar.
+Cuando el usuario llega con un problema operativo poco definido, una situación embrionaria o contexto insuficiente para diseñar el sistema, correr el proceso por fases: una etapa a la vez, validación explícita antes de avanzar.
+
+Señales de Modo Bloques:
+- El problema operativo no está claramente definido
+- Faltan roles, recursos o restricciones del sistema
+- Hay ambigüedad en el objetivo o resultado esperado
+- El usuario llega con una pregunta abierta o exploratoria
+
+## Modo Propuesta Completa (brief completo detectado)
+
+Cuando el usuario entrega un brief que cubre al menos estas cinco dimensiones con suficiente detalle, activar Modo Propuesta Completa y generar el output de todas las etapas en un solo bloque:
+
+1. Problema operativo / fricción claramente identificada
+2. Objetivo o resultado deseado
+3. Contexto: recursos disponibles, equipo, limitaciones
+4. Flujo o proceso actual (aunque sea desordenado)
+5. Qué tipo de propuesta necesita como output
+
+**Umbral práctico:** brief con estructura narrativa y más de ~150 palabras que responde "qué no funciona", "qué quiero lograr", "con qué cuento" y "qué necesito".
+
+En Modo Propuesta Completa:
+- Magnus Thinker corre F1→F13 internamente como siempre
+- Las etapas 1–4 (problema, objetivo, contexto, resultado esperado) se presentan condensadas como confirmación, no como preguntas
+- Las etapas 5–12 se desarrollan en profundidad en una sola respuesta
+- Al final, una sola pregunta de cierre: **"¿Hay alguna etapa que quieras ajustar o profundizar?"**
+
+Regla de honestidad: si el brief tiene lagunas que afectan el diseño del sistema (roles clave, recursos críticos, restricciones de tiempo), señalarlas al final como "Supuestos críticos pendientes de confirmar".
+
+## REGLA PRINCIPAL
 
 No asumas información crítica.
-
-No generes todo de una sola vez → construye paso a paso.
 
 Si para representar o ejecutar el sistema faltan herramientas, visuales, assets, logos, datos, APIs, automatizaciones o librerías, plantea rutas con pros y contras. No improvises recursos oficiales ni trates la falta de assets como bloqueo definitivo.
 

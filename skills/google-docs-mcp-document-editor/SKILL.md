@@ -47,6 +47,7 @@ This skill assumes an active Google Workspace MCP with Google Docs, Drive, and o
 - Reuse existing table patterns when they already work visually.
 - Do not change table structure until table indices, rows, and cells are confirmed.
 - Keep formatting changes narrow: affected paragraphs, rows, cells, or ranges only.
+- Use bold sparingly: normally only for section titles, table headers, row labels, or key words. Do not bold full body paragraphs, full scope blocks, or entire table cells unless the template already uses that convention.
 - Do not expose secrets, tokens, client IDs, or client secrets in the document or response.
 
 ## Google Docs MCP Operations
@@ -73,6 +74,7 @@ When the MCP tool list differs from these names, map the intent to the closest a
 - Did any old text remain that contradicts the new content?
 - Did table rows still represent the right unit of meaning?
 - Did formatting apply only to the intended range?
+- Did bold remain limited to titles, headers, labels, or key words instead of entire content blocks?
 - Did imported graphics, drawings, or headers remain untouched unless explicitly targeted?
 - If another domain skill was used, does the final document still follow that domain logic?
 

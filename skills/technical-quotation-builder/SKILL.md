@@ -65,6 +65,8 @@ For formal quotations, use this default order unless the template says otherwise
 
 Preserve existing branding and table order if the document already has a validated commercial format.
 
+Always update the quotation date to the current issue date or the date explicitly requested by the user. Do not leave a previous proposal date in the document.
+
 ### 3. Build The Economic Table
 
 For each row, define:
@@ -137,6 +139,7 @@ Before handing off to document editing or final response:
 - Do bullets stay inside their proper scope?
 - Does the opening paragraph match the final table?
 - Does the payment section match the economic table?
+- Is the quotation date updated to the current issue date or user-requested date?
 - Are exclusions and assumptions consistent with the proposed scope?
 
 ## References

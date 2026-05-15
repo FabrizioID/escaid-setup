@@ -1,50 +1,84 @@
 ---
 name: google-workspace-credentials
-description: Check, explain, and prepare Google Workspace MCP authentication and configuration without exposing secrets. Use when Codex needs Google Docs, Google Drive, or Google Sheets MCP access but the MCP is missing, unauthenticated, disconnected, or requires client ID, client secret, OAuth token, service account, environment variables, or project-level setup.
+description: Locate, verify, explain, and prepare the Google Workspace MCP for Google Docs, Sheets, and Drive without exposing secrets. Use when any agent, including Claude Code or Codex, needs Google Docs/Sheets/Drive access but cannot find the MCP, has a different repo layout, sees stale paths, is unauthenticated, or needs client ID, client secret, OAuth token, service account, environment variables, or project setup.
 ---
 
 # Google Workspace Credentials
 
-Use this skill when Google Workspace MCP access is required but not clearly available.
+Use this skill when Google Workspace MCP access is required but not clearly available. This is a portable troubleshooting protocol for agents that do not share the same local repo layout.
 
 This skill is a setup and verification guide. It must not store or print secrets in chat, skill files, source code, or committed configuration.
 
-## What To Check
+## Non-Negotiable Rules
 
-1. List active MCP servers and identify whether a Google Workspace or Google Docs MCP is connected.
-2. Search `~/.codex/config.toml` for configured MCP servers before assuming the connector is unavailable.
-3. Check whether the local setup repo contains `mcps/google-workspace-mcp`.
-4. Check whether the MCP is built or installable.
-5. Check whether expected environment variables, profile names, or token paths are configured.
-6. If the configured route is unclear or blocked, ask the user before trying unrelated plugins, browser flows, or custom alternate access methods.
-7. If credentials are missing, explain the missing piece without asking the user to paste secrets into chat.
+- Do not assume the repo is in `Proyecto/escaid-setup`. Search for it.
+- Do not declare the MCP unavailable until you have checked active tools, client config, and local `escaid-setup` copies.
+- Do not ask the user to paste secrets. Point to local secret files or environment variables instead.
+- Do not silently switch to browser-only, public web, plugin install, or ad hoc API access when a configured local MCP likely exists.
 
-## Expected MCP
+## MCP Names To Recognize
 
 Common names may include:
 
+- `google_docs_cloud`
 - `google-workspace`
 - `google-docs`
 - `google-workspace-mcp`
 - `scd-mcp-docs`
+- `SCD MCP Docs`
 
-The setup may point to a local Node server such as:
+The server usually runs either from a local Node build:
 
 `mcps/google-workspace-mcp/dist/index.js`
 
-or to an npm package such as:
+or from the npm package:
 
 `scd-mcp-docs`
 
-In this workspace family, the canonical local setup source is:
+## Canonical Source
 
 - repo: `https://github.com/FabrizioID/escaid-setup`
-- common local path: `Proyecto/escaid-setup`
-- common MCP path: `Proyecto/escaid-setup/mcps/google-workspace-mcp/dist/index.js`
-- common configured server name: `google_docs_cloud`
-- common profile/token storage: `~/.config/scd-mcp-docs/<profile>/token.json`
+- setup repo folder name: `escaid-setup`
+- MCP folder inside repo: `mcps/google-workspace-mcp`
+- local entrypoint inside repo: `mcps/google-workspace-mcp/dist/index.js`
+- auth command from MCP folder: `node .\dist\index.js auth` on Windows, or `node ./dist/index.js auth` on macOS/Linux
+- npm fallback command: `npx -y scd-mcp-docs`
+- token path used by the MCP source: `~/.config/scd-mcp-docs/token.json`
+- legacy docs may mention `~/.config/google-docs-mcp/token.json`; treat that as a legacy clue, not the primary path
 
-If active tools do not expose the MCP but `~/.codex/config.toml` lists it, inspect the local repo and profile setup before declaring the MCP unavailable.
+Common local repo paths in this workspace family:
+
+- Windows Codex: `%USERPROFILE%\Desktop\GEN+ TEMP\Machine Learning\Proyecto\escaid-setup`
+- Windows alternate clone: `%USERPROFILE%\Desktop\GEN+ TEMP\Machine Learning\escaid-setup`
+- Generic: any folder named `escaid-setup` containing `mcps/google-workspace-mcp`
+
+Never hard-code one of these paths as the only valid route.
+
+## Config Files To Inspect
+
+Check every config location that exists for the active client:
+
+- Codex: `~/.codex/config.toml`
+- Claude Code/project: `.mcp.json`, `.claude/settings.json`, or repo-provided `settings.json`
+- Claude Desktop: the local Claude desktop config for the OS, when available
+- Project setup template: `escaid-setup/settings.json`
+
+Look for MCP entries whose command/args contain `google`, `workspace`, `docs`, `sheets`, `drive`, `scd-mcp-docs`, or `mcps/google-workspace-mcp/dist/index.js`.
+
+## Portable Discovery Protocol
+
+1. List active MCP tools/servers exposed in the current session.
+2. Inspect the client config files listed above.
+3. Search local disk or current workspace for `escaid-setup` and for `mcps/google-workspace-mcp/package.json`.
+4. Verify the MCP folder has `package.json` and either `dist/index.js` or build scripts.
+5. Verify token/credential state without printing secrets:
+   - `~/.config/scd-mcp-docs/token.json`
+   - legacy clue: `~/.config/google-docs-mcp/token.json`
+   - `mcps/google-workspace-mcp/credentials.json`
+   - environment variables such as `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`
+6. If `dist/index.js` is missing but source exists, say the MCP needs install/build in `mcps/google-workspace-mcp`.
+7. If token is missing, instruct the user to run the auth command locally; do not request secret values in chat.
+8. If the MCP exists in config but tools are not exposed, tell the user to restart the MCP client/session after fixing config or auth.
 
 ## Credential Inputs
 
@@ -58,22 +92,35 @@ Supported auth patterns may include:
 
 Never include actual secret values in skill files or final responses.
 
-## Discovery Order
+## Claude-Specific Notes
 
-Use this exact order before falling back:
+Claude may not have Codex's `~/.codex/config.toml`. In that case, do not stop. Use the repo's `settings.json` as the template and replace `SETUP_DIR` with the absolute path to the discovered `escaid-setup` folder.
 
-1. Search active tools for Google Docs, Google Drive, or Google Workspace capabilities.
-2. Inspect `~/.codex/config.toml` for MCP server names and command paths.
-3. Inspect `Proyecto/escaid-setup` or another local checkout of `FabrizioID/escaid-setup`.
-4. Read the relevant local skill pill if present:
-   - `skills/google-docs-quotation-editor`
-   - `skills/google-docs-mcp-document-editor`
-   - `skills/google-workspace-credentials`
-5. Inspect MCP docs/source enough to learn its expected env vars, profile names, token paths, and credential resolution.
-6. Try the canonical MCP route or its documented local invocation.
-7. If that fails because of session exposure, auth, missing env, or stale token, ask the user whether they can lift the restriction or point to the right profile.
+Expected Claude-style stdio entry:
 
-Do not silently switch to a plugin install, browser-only workflow, public web access, or ad hoc API method when a configured local MCP likely exists. The user may be able to unblock the intended route faster.
+```json
+{
+  "google-workspace": {
+    "type": "stdio",
+    "command": "node",
+    "args": ["ABSOLUTE_PATH_TO_ESCAID_SETUP/mcps/google-workspace-mcp/dist/index.js"],
+    "env": {}
+  }
+}
+```
+
+If Claude says it "cannot find" the MCP, verify these concrete things before concluding failure:
+
+- The config file being edited is the one Claude is actually loading.
+- `ABSOLUTE_PATH_TO_ESCAID_SETUP` was replaced and no `SETUP_DIR` placeholder remains.
+- The path with spaces is passed as one args item, not split manually.
+- `dist/index.js` exists.
+- The OAuth token exists or the auth flow has been run.
+- Claude was restarted after config changes.
+
+## Reference
+
+For an example config and token notes, read `references/expected-config.md` only when needed.
 
 ## Safe Response Pattern
 

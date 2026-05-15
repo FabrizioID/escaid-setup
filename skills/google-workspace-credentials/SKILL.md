@@ -104,9 +104,78 @@ Supported auth patterns may include:
 
 Never include actual secret values in skill files or final responses.
 
-## Claude-Specific Notes
+## Claude Code VSCode — Arquitectura Real de Config (CRÍTICO)
 
-Claude may not have Codex's `~/.codex/config.toml`. In that case, do not stop. Use the repo's `settings.json` as the template and replace `SETUP_DIR` with the absolute path to the discovered `escaid-setup` folder.
+Claude Code VSCode extension NO usa solo `~/.claude/settings.json`. La cadena real es:
+
+```
+VSCode extension → claude.exe (CLI binary) → ~/.claude.json (fuente autoritativa de MCPs)
+```
+
+`~/.claude.json` tiene MCP configs **por proyecto** (project-scope). Estos **sobreescriben** cualquier entrada en `settings.json` con el mismo nombre.
+
+### Pasos de diagnóstico obligatorios cuando google-workspace no aparece
+
+**Paso 1 — Verificar el log de VSCode:**
+```
+%APPDATA%\Code\logs\<timestamp>\window1\exthost\Anthropic.claude-code\Claude VSCode.log
+```
+Buscar: `MCP server.*Starting`. Si `google-workspace` **no aparece en ninguna línea**, el problema es de config (no de ejecución).
+
+**Paso 2 — Buscar en `~/.claude.json` la entrada del proyecto:**
+```powershell
+$c = Get-Content "$env:USERPROFILE\.claude.json" -Raw
+# Buscar AMBAS variantes de case:
+$c.IndexOf('"C:/Users/USUARIO/Desktop/GEN+ TEMP/Machine Learning"')
+$c.IndexOf('"c:/Users/USUARIO/Desktop/GEN+ TEMP/Machine Learning"')
+```
+⚠️ **Windows crea entradas duplicadas** — una con `C:` mayúscula (desde el CLI) y otra con `c:` minúscula (desde el VSCode extension). El VSCode usa la **minúscula**. Siempre verificar y editar **ambas**.
+
+**Paso 3 — Verificar que el args path no tenga espacios:**
+El path del MCP en `args` NO debe contener espacios. Usar el npm global install:
+```
+C:\Users\USUARIO\AppData\Roaming\npm\node_modules\scd-mcp-docs\dist\index.js
+```
+No usar rutas como `Desktop\GEN+ TEMP\Machine Learning\...` — el espacio rompe el spawn.
+
+### Config correcta en `~/.claude.json` (aplicar a AMBAS entradas C: y c:)
+
+```json
+"google-workspace": {
+  "type": "stdio",
+  "command": "node",
+  "args": [
+    "C:\\Users\\USUARIO\\AppData\\Roaming\\npm\\node_modules\\scd-mcp-docs\\dist\\index.js"
+  ],
+  "env": {
+    "GOOGLE_MCP_PROFILE": "fabrizio",
+    "GOOGLE_CLIENT_ID": "OBTENER_DE_ARCHIVO_LOCAL",
+    "GOOGLE_CLIENT_SECRET": "OBTENER_DE_ARCHIVO_LOCAL"
+  }
+}
+```
+
+### npm global install (si scd-mcp-docs no está instalado globalmente)
+
+```powershell
+cd "C:\Users\USUARIO\Desktop\GEN+ TEMP\Machine Learning\escaid-setup\mcps\google-workspace-mcp"
+npm install -g .
+```
+Verificar: `node "C:\Users\USUARIO\AppData\Roaming\npm\node_modules\scd-mcp-docs\dist\index.js"` debe iniciar sin error.
+
+### Orden de fix cuando google-workspace no conecta
+
+1. Buscar en `~/.claude.json` AMBAS entradas (C: y c:) para el directorio de trabajo
+2. En cada entrada, poner el path npm global (sin espacios) en args
+3. Agregar GOOGLE_MCP_PROFILE, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET al env
+4. Reiniciar Claude Code VSCode
+5. Verificar en el nuevo log que aparezca `MCP server "google-workspace": Starting connection`
+
+---
+
+## Claude-Specific Notes (settings.json — secundario)
+
+`~/.claude/settings.json` también puede tener la entrada, pero tiene **menor prioridad** que `~/.claude.json` project-scope. Mantener ambos sincronizados.
 
 Expected Claude-style stdio entry:
 
@@ -115,25 +184,26 @@ Expected Claude-style stdio entry:
   "google-workspace": {
     "type": "stdio",
     "command": "node",
-    "args": ["ABSOLUTE_PATH_TO_ESCAID_SETUP/mcps/google-workspace-mcp/dist/index.js"],
+    "args": ["C:\\Users\\USUARIO\\AppData\\Roaming\\npm\\node_modules\\scd-mcp-docs\\dist\\index.js"],
     "env": {
-      "GOOGLE_MCP_PROFILE": "PROFILE_NAME_IF_TOKEN_IS_PROFILED"
+      "GOOGLE_MCP_PROFILE": "PROFILE_NAME_IF_TOKEN_IS_PROFILED",
+      "GOOGLE_CLIENT_ID": "OBTENER_DE_ARCHIVO_LOCAL",
+      "GOOGLE_CLIENT_SECRET": "OBTENER_DE_ARCHIVO_LOCAL"
     }
   }
 }
 ```
 
-Use an empty `env` only when the token is at `~/.config/scd-mcp-docs/token.json`. If the token is at `~/.config/scd-mcp-docs/fabrizio/token.json`, use `"GOOGLE_MCP_PROFILE": "fabrizio"`.
+NO usar paths con espacios en args (como rutas dentro de `GEN+ TEMP\Machine Learning`). Usar siempre el path del npm global install.
 
-If Claude says it "cannot find" the MCP, verify these concrete things before concluding failure:
+Si Claude dice que "no encuentra" el MCP, verificar en orden:
 
-- The config file being edited is the one Claude is actually loading.
-- `ABSOLUTE_PATH_TO_ESCAID_SETUP` was replaced and no `SETUP_DIR` placeholder remains.
-- The path with spaces is passed as one args item, not split manually.
-- `dist/index.js` exists.
-- The OAuth token exists or the auth flow has been run.
-- If the token is in a profile folder, the MCP env includes the matching `GOOGLE_MCP_PROFILE`.
-- Claude was restarted after config changes.
+1. Log de VSCode — ¿aparece `MCP server "google-workspace": Starting`? Si no, el problema es `~/.claude.json`.
+2. `~/.claude.json` — ¿existe la entrada bajo la key del proyecto con `c:` minúscula?
+3. ¿El path en args tiene espacios? Si sí, usar npm global install.
+4. ¿dist/index.js existe en el path configurado?
+5. ¿El token OAuth existe en `~/.config/scd-mcp-docs/fabrizio/token.json`?
+6. Reiniciar Claude Code VSCode después de cualquier cambio en `~/.claude.json`.
 
 ## Reference
 

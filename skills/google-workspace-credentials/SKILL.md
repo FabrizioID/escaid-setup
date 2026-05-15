@@ -44,6 +44,7 @@ or from the npm package:
 - auth command from MCP folder: `node .\dist\index.js auth` on Windows, or `node ./dist/index.js auth` on macOS/Linux
 - npm fallback command: `npx -y scd-mcp-docs`
 - token path used by the MCP source: `~/.config/scd-mcp-docs/token.json`
+- profile token path: `~/.config/scd-mcp-docs/<profile>/token.json`, which requires `GOOGLE_MCP_PROFILE=<profile>` in the MCP env
 - legacy docs may mention `~/.config/google-docs-mcp/token.json`; treat that as a legacy clue, not the primary path
 
 Common local repo paths in this workspace family:
@@ -73,12 +74,23 @@ Look for MCP entries whose command/args contain `google`, `workspace`, `docs`, `
 4. Verify the MCP folder has `package.json` and either `dist/index.js` or build scripts.
 5. Verify token/credential state without printing secrets:
    - `~/.config/scd-mcp-docs/token.json`
+   - `~/.config/scd-mcp-docs/<profile>/token.json`
    - legacy clue: `~/.config/google-docs-mcp/token.json`
    - `mcps/google-workspace-mcp/credentials.json`
    - environment variables such as `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`
-6. If `dist/index.js` is missing but source exists, say the MCP needs install/build in `mcps/google-workspace-mcp`.
-7. If token is missing, instruct the user to run the auth command locally; do not request secret values in chat.
-8. If the MCP exists in config but tools are not exposed, tell the user to restart the MCP client/session after fixing config or auth.
+6. If the token is under `~/.config/scd-mcp-docs/<profile>/token.json`, the MCP config must include `GOOGLE_MCP_PROFILE=<profile>` in `env`. Without this, the server looks for the unprofiled token and can fail to start, leaving no MCP tools exposed.
+7. If `dist/index.js` is missing but source exists, say the MCP needs install/build in `mcps/google-workspace-mcp`.
+8. If token is missing, instruct the user to run the auth command locally; do not request secret values in chat.
+9. If the MCP exists in config but tools are not exposed, tell the user to restart the MCP client/session after fixing config or auth.
+
+## Profile Token Rule
+
+The MCP source checks `GOOGLE_MCP_PROFILE` to choose a token folder.
+
+- No profile env: reads `~/.config/scd-mcp-docs/token.json`
+- With `GOOGLE_MCP_PROFILE=fabrizio`: reads `~/.config/scd-mcp-docs/fabrizio/token.json`
+
+If an agent finds a token inside a named profile folder, it must add the matching env var to the MCP config. This is a common cause of "MCP configured but tools not active" in Claude.
 
 ## Credential Inputs
 
@@ -104,10 +116,14 @@ Expected Claude-style stdio entry:
     "type": "stdio",
     "command": "node",
     "args": ["ABSOLUTE_PATH_TO_ESCAID_SETUP/mcps/google-workspace-mcp/dist/index.js"],
-    "env": {}
+    "env": {
+      "GOOGLE_MCP_PROFILE": "PROFILE_NAME_IF_TOKEN_IS_PROFILED"
+    }
   }
 }
 ```
+
+Use an empty `env` only when the token is at `~/.config/scd-mcp-docs/token.json`. If the token is at `~/.config/scd-mcp-docs/fabrizio/token.json`, use `"GOOGLE_MCP_PROFILE": "fabrizio"`.
 
 If Claude says it "cannot find" the MCP, verify these concrete things before concluding failure:
 
@@ -116,6 +132,7 @@ If Claude says it "cannot find" the MCP, verify these concrete things before con
 - The path with spaces is passed as one args item, not split manually.
 - `dist/index.js` exists.
 - The OAuth token exists or the auth flow has been run.
+- If the token is in a profile folder, the MCP env includes the matching `GOOGLE_MCP_PROFILE`.
 - Claude was restarted after config changes.
 
 ## Reference

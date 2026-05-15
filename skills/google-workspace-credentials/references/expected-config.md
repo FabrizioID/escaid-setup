@@ -15,9 +15,21 @@ Use this shape in `.mcp.json`, `.claude/settings.json`, or the client-specific M
       "args": [
         "ABSOLUTE_PATH_TO_ESCAID_SETUP/mcps/google-workspace-mcp/dist/index.js"
       ],
-      "env": {}
+      "env": {
+        "GOOGLE_MCP_PROFILE": "PROFILE_NAME_IF_TOKEN_IS_PROFILED"
+      }
     }
   }
+}
+```
+
+Use `{}` for `env` only when the token is stored at `~/.config/scd-mcp-docs/token.json`.
+
+If the token is stored at `~/.config/scd-mcp-docs/fabrizio/token.json`, the config must use:
+
+```json
+"env": {
+  "GOOGLE_MCP_PROFILE": "fabrizio"
 }
 ```
 
@@ -68,6 +80,14 @@ The current MCP source stores OAuth refresh tokens at:
 ~/.config/scd-mcp-docs/token.json
 ```
 
+When `GOOGLE_MCP_PROFILE` is set, the token path becomes:
+
+```text
+~/.config/scd-mcp-docs/<profile>/token.json
+```
+
+Example: `GOOGLE_MCP_PROFILE=fabrizio` makes the MCP read `~/.config/scd-mcp-docs/fabrizio/token.json`.
+
 Legacy docs may mention:
 
 ```text
@@ -83,6 +103,7 @@ Treat that as a clue from older setup docs. The source code and npm docs use `sc
 - The path points to an existing `dist/index.js`.
 - `credentials.json` exists in `mcps/google-workspace-mcp` or env credentials are configured.
 - `~/.config/scd-mcp-docs/token.json` exists after auth.
+- If the token is inside a profile folder, `GOOGLE_MCP_PROFILE` matches that folder name.
 - The MCP client was restarted after config/auth changes.
 
 ## Remote MCP

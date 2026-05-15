@@ -1,6 +1,6 @@
 ---
 name: thesis-research-editor
-description: Skill principal para tesis: juicio metodologico, investigacion academica, redaccion, APA 7 y edicion directa de documentos Word (.docx). Usalo cuando necesites revisar coherencia problema-objetivos-hipotesis-metodo-resultados-conclusiones, buscar fuentes, sintetizar literatura, redactar secciones, responder observaciones de jurado, corregir APA o insertar/modificar contenido en un .docx. Coordina con docx-mcp-document-editor para intervencion Word y con apa-7-thesis-format para QA formal; academic-research-editor queda solo como checklist auxiliar o legado.
+description: Skill principal para tesis: juicio metodologico, investigacion academica, redaccion, APA 7 y edicion directa de documentos Word (.docx). Usalo cuando necesites revisar coherencia problema-objetivos-hipotesis-metodo-resultados-conclusiones, buscar fuentes, sintetizar literatura, redactar secciones, responder observaciones de jurado, corregir APA o insertar/modificar contenido en un .docx. Coordina con docx-mcp-document-editor (editor base Word .docx) para intervención directa en el archivo y con apa-7-thesis-format para QA formal; academic-research-editor queda solo como checklist auxiliar o legado.
 tools:
   - WebSearch
   - WebFetch

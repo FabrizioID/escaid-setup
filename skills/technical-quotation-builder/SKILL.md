@@ -7,6 +7,18 @@ description: Build and refine technical quotations and commercial proposals with
 
 Use this skill to design the quotation logic before document editing.
 
+## Mecánica de uso
+
+```
+[1] technical-quotation-builder   → construye la lógica comercial (esta skill)
+[2] google-docs-quotation-editor  → coherencia de dominio para Google Docs (si aplica)
+[3] google-workspace-editor       → edita el Google Doc via MCP
+    ── o ──
+    docx-mcp-document-editor      → edita el Word .docx via MCP
+```
+
+No edita documentos directamente. Una vez clara la lógica, delegar a la skill de edición correspondiente.
+
 This skill defines what the proposal should say, how it should be structured, and how the economic table should communicate value. If a live Google Doc or Docx must be edited, use `google-workspace-editor` (Google Docs) or `docx-mcp-document-editor` (Word .docx) after the quotation logic is clear.
 
 ## Core Principle

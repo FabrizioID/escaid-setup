@@ -1,155 +1,173 @@
 ---
 name: n8n-workflow-builder
-description: Copiloto de construcción y gestión de workflows en n8n. Conecta a la instancia real vía API, lista flujos existentes, los lee, crea nuevos y los valida antes de deploy. Leer pill local de credenciales al activar. Usar cuando el usuario quiera crear, revisar, modificar o entender workflows en su instancia de n8n.
+description: Copiloto de construcción y gestión de workflows en n8n. Conecta a la instancia real vía MCP (modo gestión completa con 17 tools) o REST API directa. Usar cuando el usuario quiera crear, revisar, modificar, validar o entender workflows en su instancia de n8n (aecode.app.n8n.cloud).
 ---
 
 # Skill: n8n Workflow Builder
 
-Actúa como arquitecto de automatizaciones en n8n. Tu objetivo es conectar a la instancia real del usuario, entender los flujos existentes y construir nuevos workflows de forma estructurada, validada y lista para deploy.
+Actúa como arquitecto de automatizaciones en n8n. Conecta a la instancia real del usuario, entiende los flujos existentes y construye nuevos workflows de forma estructurada, validada y lista para deploy.
 
 ---
 
-# ACTIVACIÓN — PASO 0 OBLIGATORIO: Leer credenciales
+## PASO 0 OBLIGATORIO: Verificar acceso MCP
 
-**Antes de cualquier acción**, leer el pill de credenciales:
+Al activar, verificar inmediatamente si las tools de gestión están disponibles:
 
 ```
-C:\Users\USUARIO\.codex\skills\n8n-workflow-builder\pills\n8n-credentials.md
+ToolSearch: "n8n_health_check n8n_list_workflows"
 ```
 
-Extraer:
-- `N8N_BASE_URL` → URL base de la instancia
-- `N8N_API_KEY` → key para header `X-N8N-API-KEY`
+**Si aparecen** → MCP en modo gestión completa. Usar Ruta A.
+**Si no aparecen** → MCP en modo documentación. Leer `references/n8n-mcp-setup.md` y activar Ruta B mientras se resuelve.
 
-Si el pill no tiene las credenciales completadas (todavía dice `PONER_URL_AQUI`), pedir al usuario que las complete antes de continuar.
+Credenciales de la instancia: `references/n8n-mcp-setup.md`
 
 ---
 
-# CONEXIÓN — DOS RUTAS
+## RUTAS DE CONEXIÓN
 
-## Ruta A: MCP n8n (si está configurado con API URL)
+### Ruta A: MCP n8n — Modo Gestión Completa (17 tools)
 
-Los tools `mcp__n8n__*` permiten listar y gestionar workflows si el MCP tiene `N8N_API_URL` configurado en `settings.json`. Verificar con el tool de health check si está disponible.
+Disponible cuando el wrapper `.cmd` está configurado correctamente.
 
-Herramientas disponibles cuando el MCP está conectado:
-- `n8n_health_check` — verificar conexión
-- `n8n_list_workflows` — listar todos los workflows
-- `n8n_get_workflow` — leer un workflow por ID
-- `n8n_create_workflow` — crear workflow nuevo
-- `n8n_update_partial_workflow` — actualizar nodos específicos
-- `n8n_validate_workflow` — validar antes de activar
-- `n8n_test_workflow` — probar ejecución
+**Tools de gestión:**
+- `mcp__n8n__n8n_health_check` — verificar conexión
+- `mcp__n8n__n8n_list_workflows` — listar todos los workflows
+- `mcp__n8n__n8n_get_workflow` — leer workflow por ID (modes: full/details/active/structure/minimal)
+- `mcp__n8n__n8n_create_workflow` — crear workflow nuevo
+- `mcp__n8n__n8n_update_partial_workflow` — actualizar nodos específicos (diff-based)
+- `mcp__n8n__n8n_update_full_workflow` — reemplazar workflow completo
+- `mcp__n8n__n8n_delete_workflow` — eliminar workflow
+- `mcp__n8n__n8n_validate_workflow` — validar workflow por ID
+- `mcp__n8n__n8n_autofix_workflow` — corregir errores comunes automáticamente
+- `mcp__n8n__n8n_test_workflow` — probar ejecución (webhook/form/chat/execute)
+- `mcp__n8n__n8n_executions` — gestión de ejecuciones (get/list/delete)
+- `mcp__n8n__n8n_workflow_versions` — historial de versiones y rollback
+- `mcp__n8n__n8n_deploy_template` — deployar template directo a la instancia
+- `mcp__n8n__n8n_manage_datatable` — gestión de data tables y filas
+- `mcp__n8n__n8n_manage_credentials` — gestión de credenciales
+- `mcp__n8n__n8n_generate_workflow` — generar workflow desde descripción en lenguaje natural
+- `mcp__n8n__n8n_audit_instance` — auditoría de la instancia
 
-## Ruta B: REST API directa via Bash/PowerShell (fallback siempre disponible)
+**Tools de documentación (siempre disponibles):**
+- `mcp__n8n__search_nodes` — buscar nodos por keyword
+- `mcp__n8n__get_node` — info detallada de un nodo (detail: minimal/standard/full)
+- `mcp__n8n__validate_node` — validar configuración de nodo
+- `mcp__n8n__validate_workflow` — validar estructura de workflow JSON
+- `mcp__n8n__get_template` — obtener template por ID
+- `mcp__n8n__search_templates` — buscar templates
+- `mcp__n8n__tools_documentation` — documentación de las tools
 
-Usar las credenciales del pill para llamadas HTTP directas. Esta ruta funciona siempre, independiente del estado del MCP.
+### Ruta B: REST API directa (fallback siempre disponible)
 
 ```powershell
+$key = "VER_references/n8n-mcp-setup.md"
+$base = "https://aecode.app.n8n.cloud"
+$h = @{ "X-N8N-API-KEY" = $key }
+
 # Listar workflows
-$headers = @{ "X-N8N-API-KEY" = "API_KEY_DEL_PILL" }
-Invoke-RestMethod -Uri "BASE_URL/api/v1/workflows" -Headers $headers
+Invoke-RestMethod "$base/api/v1/workflows" -Headers $h
 
-# Obtener workflow por ID
-Invoke-RestMethod -Uri "BASE_URL/api/v1/workflows/ID" -Headers $headers
+# Leer workflow
+Invoke-RestMethod "$base/api/v1/workflows/ID" -Headers $h
 
-# Activar workflow
-Invoke-RestMethod -Uri "BASE_URL/api/v1/workflows/ID/activate" -Method POST -Headers $headers
+# Activar
+Invoke-RestMethod "$base/api/v1/workflows/ID/activate" -Method POST -Headers $h
 ```
 
-**Regla:** intentar Ruta A primero. Si falla o no están disponibles los tools, usar Ruta B sin interrumpir al usuario.
+**Regla:** intentar Ruta A siempre. Usar Ruta B solo si MCP no tiene tools de gestión.
 
 ---
 
-# FLUJO DE TRABAJO
+## FLUJOS DE TRABAJO
 
-## Modo Exploración (leer flujos existentes)
+### Modo Exploración
 
-1. Listar todos los workflows activos e inactivos
-2. Identificar los relevantes al objetivo (por nombre, nodos usados, tags)
-3. Leer los workflows relevantes en detalle
-4. Extraer: nodos clave, conexiones, credenciales usadas, webhooks configurados, lógica del Code Node si existe
-5. Presentar resumen estructurado al usuario antes de proponer modificaciones
+1. `n8n_list_workflows` — ver todos los workflows
+2. Identificar relevantes por nombre, nodos, tags
+3. `n8n_get_workflow` con mode='full' para leer en detalle
+4. Extraer: nodos clave, conexiones, credenciales, webhooks, Code Nodes
+5. Presentar resumen antes de proponer cambios
 
-## Modo Construcción (crear flujo nuevo)
+### Modo Construcción
 
-1. Entender el objetivo del workflow
-2. Buscar referencias con `search_nodes` + `get_node` para cada nodo necesario
-3. Buscar templates similares con `search_templates`
-4. Diseñar la estructura JSON del workflow
-5. Validar con `validate_workflow` antes de crear
-6. Crear en la instancia con `n8n_create_workflow` o Ruta B
-7. Confirmar al usuario: nombre, ID, URL directa al workflow
+1. Entender el objetivo
+2. `search_nodes` + `get_node(detail='standard')` para cada nodo
+3. `search_templates` para encontrar referencias similares
+4. Diseñar el JSON del workflow
+5. `validate_workflow` antes de crear
+6. `n8n_create_workflow` para deployar
+7. Confirmar al usuario: nombre, ID, URL directa
 
-## Modo Modificación (editar flujo existente)
+### Modo Modificación
 
-1. Leer el workflow actual completo
-2. Identificar qué cambiar sin romper lo existente
-3. Proponer el cambio al usuario antes de ejecutar
-4. Usar `n8n_update_partial_workflow` cuando sea posible (menos riesgo que reemplazar todo)
-5. Validar post-modificación
-6. Reportar resultado
+1. `n8n_get_workflow` — leer estado actual
+2. Proponer cambio al usuario antes de ejecutar
+3. `n8n_update_partial_workflow` (preferir sobre full replace)
+4. Validar post-modificación
+5. Reportar resultado
 
 ---
 
-# CONVENCIONES DE NODOS
+## CONVENCIONES DE NODOS
 
-## Evolution API (WhatsApp)
-No existe nodo nativo. Siempre usar `n8n-nodes-base.httpRequest` con:
+### Evolution API (WhatsApp)
+No hay nodo nativo — usar `n8n-nodes-base.httpRequest`:
 - URL: `{{$env.EVOLUTION_BASE_URL}}/endpoint`
-- Headers: `{ "apikey": "{{$env.EVOLUTION_API_KEY}}" }`
-- Leer referencia: `references/evolution-api.md`
+- Header: `apikey: {{$env.EVOLUTION_API_KEY}}`
+- Ver detalles: `references/evolution-api.md`
 
-## Google Sheets
-Nodo nativo: `n8n-nodes-base.googleSheets`
-- Requiere credencial OAuth2 configurada en la instancia
-- Para append usar operation `append`
-- Para leer usar operation `read` con range A:Z
+### Google Sheets
+Nodo: `n8n-nodes-base.googleSheets`
+- Requiere credencial OAuth2 en la instancia
+- append/read con range A:Z
 
-## Google Drive
-Nodo nativo: `n8n-nodes-base.googleDrive`
-- Para upload usar operation `upload`
-- El archivo puede venir como base64 o buffer desde el Code Node anterior
+### Code Node (JavaScript)
+Siempre llamar `tools_documentation({topic: "javascript_code_node_guide"})` antes de escribir código.
 
-## Code Node (JavaScript)
-Usar para: lógica de sesión, parsing de URLs, extracción de campos, transformaciones complejas.
-Siempre llamar `tools_documentation({topic: "javascript_code_node_guide"})` antes de escribir código en un Code Node.
-
-## Webhook Trigger
-Nodo: `n8n-nodes-base.webhook`
-- Path único por workflow — evitar colisiones
-- Para Evolution API: path sugerido `/evolution/whatsapp`
-- Response mode: `lastNode` para responder al webhook con el resultado
+### Webhook Trigger
+- Path único por workflow
+- Para Evolution API: path `/evolution/whatsapp`
+- Response mode: `lastNode`
 
 ---
 
-# GESTIÓN DE CREDENCIALES EN n8n
+## CREDENCIALES EN WORKFLOWS
 
-Las credenciales (Google OAuth, Evolution API key, etc.) viven en la instancia de n8n, no en el workflow JSON.
+Las credenciales viven en la instancia de n8n, no en el JSON del workflow.
 
-Al crear un workflow que use credenciales:
-- Referenciar por nombre: `"credentials": { "googleSheetsOAuth2Api": { "id": "ID_CRED", "name": "Google Sheets" } }`
-- Si el ID no se conoce, indicar al usuario que lo complete manualmente en la UI de n8n
-- Nunca escribir credenciales en texto plano dentro del workflow JSON
+```json
+"credentials": {
+  "googleSheetsOAuth2Api": { "id": "ID_CRED", "name": "Google Sheets" }
+}
+```
+
+Si el ID no se conoce → indicar al usuario que lo complete en la UI. Nunca escribir secrets en el JSON.
 
 ---
 
-# VALIDACIÓN ANTES DE DEPLOY
+## VALIDACIÓN ANTES DE DEPLOY
 
-Siempre correr `validate_workflow` antes de crear o actualizar. Revisar:
+Siempre correr `validate_workflow` antes de crear o actualizar:
 - Nodos sin conexión de entrada/salida
 - Expresiones `{{}}` con referencias inválidas
 - Code Nodes con errores de sintaxis
 - Webhooks con paths duplicados
 
-Si hay errores → corregir antes de crear. Si hay warnings → reportar al usuario y esperar decisión.
+Errores → corregir antes. Warnings → reportar y esperar decisión del usuario.
 
 ---
 
-# REGLAS
+## REGLAS
 
-- Leer pill de credenciales siempre en Paso 0
-- Nunca asumir que un workflow no existe sin haber listado primero
-- Nunca sobreescribir un workflow existente sin mostrarlo al usuario primero
+- Verificar disponibilidad de tools de gestión en Paso 0
+- Nunca asumir que un workflow no existe sin listar primero
+- Nunca sobreescribir sin mostrar el estado actual al usuario
 - Siempre validar antes de deploy
-- Si un nodo no existe en la instancia, buscar alternativa o community node equivalente
-- Reportar siempre: nombre del workflow, ID, estado (activo/inactivo), URL directa
+- Usar `n8n_update_partial_workflow` sobre full replace cuando sea posible
+- Reportar siempre: nombre, ID, estado (activo/inactivo), URL directa al workflow
+
+## Referencias
+
+- `references/n8n-mcp-setup.md` → credenciales, setup del wrapper, diagnóstico
+- `references/evolution-api.md` → patrones para WhatsApp via Evolution API

@@ -1,141 +1,128 @@
 {
-    "permissions":  {
-                        "defaultMode":  "bypassPermissions",
-                        "additionalDirectories":  [
-
-                                                  ],
-                        "allow":  [
-                                      "PowerShell",
-                                      "Bash"
-                                  ]
-                    },
-    "enabledPlugins":  {
-                           "co-researcher@co-researcher-marketplace":  true,
-                           "claude-router@0xrdan-plugins":  true
-                       },
-    "extraKnownMarketplaces":  {
-                                   "co-researcher-marketplace":  {
-                                                                     "source":  {
-                                                                                    "source":  "github",
-                                                                                    "repo":  "poemswe/co-researcher"
-                                                                                }
-                                                                 },
-                                   "0xrdan-plugins":  {
-                                                          "source":  {
-                                                                         "source":  "github",
-                                                                         "repo":  "0xrdan/claude-plugins"
-                                                                     }
-                                                      }
-                               },
-    "mcpServers":  {
-                       "word-document-server":  {
-                                                    "type":  "stdio",
-                                                    "command":  "python3",
-                                                    "args":  [
-                                                                 "SETUP_DIR\\mcps\\word-document\\word_mcp_server.py"
-                                                             ],
-                                                    "env":  {
-
-                                                            }
-                                                },
-                       "google-workspace":  {
-                                                "type":  "stdio",
-                                                "command":  "node",
-                                                "args":  [
-                                                             "SETUP_DIR\\mcps\\google-workspace-mcp\\dist\\index.js"
-                                                         ],
-                                                "env":  {
-
-                                                        }
-                                            },
-                       "docx-editor-local":  {
-                                                 "type":  "stdio",
-                                                 "command":  "node",
-                                                 "args":  [
-                                                              "SETUP_DIR\\mcps\\docx-editor-local\\server.js"
-                                                          ],
-                                                 "env":  {
-
-                                                         }
-                                             },
-                       "playwright":  {
-                                          "type":  "stdio",
-                                          "command":  "npx",
-                                          "args":  [
-                                                       "@playwright/mcp@latest"
-                                                   ],
-                                          "env":  {
-
-                                                  }
-                                      },
-                       "docx-drive":  {
-                                          "type":  "stdio",
-                                          "command":  "npx",
-                                          "args":  [
-                                                       "-y",
-                                                       "@modelcontextprotocol/server-gdrive"
-                                                   ],
-                                          "env":  {
-                                                      "GDRIVE_CREDENTIALS_PATH":  "DOCX_DRIVE_CREDENTIALS_PATH_PLACEHOLDER",
-                                                      "GDRIVE_OAUTH_PATH":  "DOCX_DRIVE_OAUTH_PATH_PLACEHOLDER"
-                                                  }
-                                      },
-                       "canva":  {
-                                     "type":  "http",
-                                     "url":  "https://mcp.canva.com/mcp"
-                                 },
-                       "miro":  {
-                                    "type":  "http",
-                                    "url":  "https://mcp.miro.com/"
-                                },
-                       "n8n":  {
-                                   "type":  "stdio",
-                                   "command":  "npx",
-                                   "args":  [
-                                                "-y",
-                                                "n8n-mcp"
-                                            ],
-                                   "env":  {
-                                               "N8N_BASE_URL":  "https://aecode.app.n8n.cloud",
-                                               "N8N_API_KEY":  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Nzk2OGQxNi1jODVjLTRkM2MtOTkwNS1kNGU3YWIwZjVmOGEiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzc2MjAxMjA1fQ.dEI2Cxbnv1iR5h_jGSogkON0b07nTDbwEwXqxOpwYG8"
-                                           }
-                               },
-                       "excel":  {
-                                     "type":  "stdio",
-                                     "command":  "npx",
-                                     "args":  [
-                                                  "-y",
-                                                  "@negokaz/excel-mcp-server"
-                                              ],
-                                     "env":  {
-
-                                             }
-                                 },
-                       "notion-easy":  {
-                                           "type":  "stdio",
-                                           "command":  "easy-notion-mcp",
-                                           "args":  [
-
-                                                    ],
-                                           "env":  {
-                                                       "NOTION_TOKEN":  "NOTION_TOKEN_PLACEHOLDER"
-                                                   }
-                                       }
-                   },
-    "effortLevel":  "medium",
-    "voiceEnabled":  true,
-    "skipDangerousModePermissionPrompt":  true,
-    "hooks":  {
-                  "UserPromptSubmit":  [
-                                           {
-                                               "matcher":  "",
-                                               "hooks":  [
-                                                             {
-                                                                 "type":  "command",
-                                                                 "command":  "powershell -NoProfile -File \"SETUP_DIR\\scripts\\context-monitor.ps1\""
-                                                             }
-                                                         ]
-                                           }
-                                       ]
-              }
+  "permissions": {
+    "defaultMode": "bypassPermissions",
+    "additionalDirectories": [],
+    "allow": [
+      "PowerShell",
+      "Bash"
+    ]
+  },
+  "enabledPlugins": {
+    "co-researcher@co-researcher-marketplace": true,
+    "claude-router@0xrdan-plugins": true
+  },
+  "extraKnownMarketplaces": {
+    "co-researcher-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "poemswe/co-researcher"
+      }
+    },
+    "0xrdan-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "0xrdan/claude-plugins"
+      }
+    }
+  },
+  "mcpServers": {
+    "word-document-server": {
+      "type": "stdio",
+      "command": "python3",
+      "args": [
+        "SETUP_DIR\\mcps\\word-document\\word_mcp_server.py"
+      ],
+      "env": {}
+    },
+    "google-workspace": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "SETUP_DIR\\mcps\\google-workspace-mcp\\dist\\index.js"
+      ],
+      "env": {}
+    },
+    "docx-editor-local": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "SETUP_DIR\\mcps\\docx-editor-local\\server.js"
+      ],
+      "env": {}
+    },
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest"
+      ],
+      "env": {}
+    },
+    "docx-drive": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-gdrive"
+      ],
+      "env": {
+        "GDRIVE_CREDENTIALS_PATH": "DOCX_DRIVE_CREDENTIALS_PATH_PLACEHOLDER",
+        "GDRIVE_OAUTH_PATH": "DOCX_DRIVE_OAUTH_PATH_PLACEHOLDER"
+      }
+    },
+    "canva": {
+      "type": "http",
+      "url": "https://mcp.canva.com/mcp"
+    },
+    "miro": {
+      "type": "http",
+      "url": "https://mcp.miro.com/"
+    },
+    "n8n": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "n8n-mcp"
+      ],
+      "env": {
+        "N8N_API_URL": "https://aecode.app.n8n.cloud/api/v1",
+        "N8N_BASE_URL": "https://aecode.app.n8n.cloud",
+        "N8N_API_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4Nzk2OGQxNi1jODVjLTRkM2MtOTkwNS1kNGU3YWIwZjVmOGEiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzc4NzgwODU4fQ.DwMaQTt41tRFHPhl0nk-i_YhQhR46WZEIAJMNiEHXHw"
+      }
+    },
+    "excel": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@negokaz/excel-mcp-server"
+      ],
+      "env": {}
+    },
+    "notion-easy": {
+      "type": "stdio",
+      "command": "easy-notion-mcp",
+      "args": [],
+      "env": {
+        "NOTION_TOKEN": "NOTION_TOKEN_PLACEHOLDER"
+      }
+    }
+  },
+  "effortLevel": "medium",
+  "voiceEnabled": true,
+  "skipDangerousModePermissionPrompt": true,
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -NoProfile -File \"SETUP_DIR\\scripts\\context-monitor.ps1\""
+          }
+        ]
+      }
+    ]
+  }
 }

@@ -19,7 +19,24 @@ Produce self-contained HTML artifacts with premium visual design. Every output m
 
 ## Modos de Entrada
 
-La skill opera en dos modos. Claude detecta cuál aplica automáticamente según el input del usuario.
+La skill opera en tres modos. Detecta cuál aplica automáticamente según el input del usuario y el contexto de la skill que la llama.
+
+---
+
+### MODO 0 — UI Quick Pass
+
+**Cuándo activar:** otra skill ya definió contenido, estructura y branding, y solo necesita que el HTML final se vea profesional sin abrir un proceso largo de diseño. Usar especialmente cuando `presentation-orchestrator`, `goldratts-brain`, `zuckerbergs-mind` o cualquier skill de planificación ya validó el contenido y pide generar un plan, dashboard, player o artefacto HTML.
+
+**Protocolo:**
+
+1. No reiniciar el análisis estratégico ni pedir nueva validación de contenido.
+2. Respetar la estructura recibida y elevar solo la UI: jerarquía, ritmo visual, responsive, estados, motion y claridad.
+3. Usar fondo con vida visual solo en la dosis necesaria: canvas/SVG/dot-grid/glow sutil, no espectáculo gratuito.
+4. Mantener el HTML autocontenido, compartible y listo para abrir.
+5. Si el artefacto requiere modo normal/light, implementar toggle fijo con `localStorage`.
+6. Documentar al final únicamente las decisiones UI relevantes y la ruta del archivo.
+
+**Regla clave:** en Quick Pass, la UI sirve al contenido ya aprobado. No cambia narrativa, orden, alcance ni promesas.
 
 ---
 

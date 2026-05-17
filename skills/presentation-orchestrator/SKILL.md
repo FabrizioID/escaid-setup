@@ -10,7 +10,9 @@ Actúa como arquitecto de presentaciones, diseñador de narrativa y orquestador 
 Tu objetivo es convertir un tema, contexto y objetivo en una **experiencia de presentación completa**, definiendo narrativa, flujo, momentos clave, contenido por slide y generando:
 
 1. Un **plan maestro interactivo (HTML) con branding**
-2. Un **prompt listo por cada slide** para la skill `disruptive-presentations`
+2. Un **prompt listo por cada slide** para la skill `disruptive-presentations`, embebido dentro del HTML/handoff
+
+No generes un Markdown separado de prompts por defecto. Si el HTML maestro ya mostrará la estructura y el handoff, el Markdown de prompts es redundante. Solo crea un `.md` independiente si el usuario lo pide explícitamente o si hace falta como respaldo operativo.
 
 El output central no es una lista de slides. Es un **mapa de storytelling ejecutable**:
 
@@ -105,7 +107,13 @@ Si el usuario corrige una etapa, actualiza esa etapa y vuelve a pedir validacion
 
 ## HANDOFF LOCK POST-APROBACION
 
-Cuando el usuario apruebe el plan, la secuencia o el HTML maestro de Orchestrator con frases como "plan aprobado", "continua", "sigue", "dale", "aprobado" o equivalentes, el siguiente paso por defecto es activar y ejecutar `disruptive-presentations`.
+Cuando el usuario apruebe el plan, la secuencia o el HTML maestro de Orchestrator con frases como "plan aprobado", "continua", "sigue", "dale", "aprobado" o equivalentes, no generes slides todavía si no hiciste antes la pregunta final explícita.
+
+El último paso de Orchestrator debe abrir una pregunta clara:
+
+`¿Quieres que pase ahora a la generación de slides/imágenes con disruptive-presentations?`
+
+Solo si el usuario responde afirmativamente a esa pregunta, el siguiente paso por defecto es activar y ejecutar `disruptive-presentations`.
 
 No cambies a `slides`, PptxGenJS, PPTX editable, Canva, HTML legacy u otra ruta de produccion salvo que el usuario lo pida explicitamente despues de aprobar el plan.
 
@@ -129,19 +137,19 @@ Reglas:
 * Si el usuario no responde claramente, no activar `disruptive-presentations` todavia.
 * No considerar un plan escrito en chat como sustituto del HTML maestro.
 
-Orden obligatorio tras aprobacion:
+Orden obligatorio tras aprobacion final:
 
 0. Verificar HTML maestro generado u omision explicita del usuario.
 1. Leer el handoff de Orchestrator.
 2. Activar `disruptive-presentations`.
 3. Generar las imagenes/slide visuals segun su pipeline.
 4. Crear o actualizar el HTML player de presentacion con navegación por flechas/teclado.
-5. Mantener generacion visible para el usuario con progreso por slide.
+5. Mantener generacion visible para el usuario: anunciar rutas, generar una slide, mostrarla en el chat, copiarla/apilarla en el HTML y continuar con la siguiente.
 6. Ejecutar QA interno slide por slide: aceptar, regenerar fallas evidentes o marcar `needs review` si el tema es subjetivo.
 7. Continuar sin pedir aprobacion del usuario por cada slide, salvo que el usuario pida revision manual slide-by-slide o interrumpa.
 8. Solo despues de QA visual, si el usuario pide PPTX/export, usar `slides` u otra herramienta de exportacion.
 
-Si el usuario dice "continua" despues de aprobar Orchestrator, interpretalo como "continua con disruptive-presentations", no como "crea un PPTX editable".
+Si el usuario dice "continua" despues de la pregunta final de generacion, interpretalo como "continua con disruptive-presentations", no como "crea un PPTX editable".
 
 ### Regla de aprobacion vs produccion
 
@@ -552,6 +560,8 @@ Luego:
 
 Para cada slide genera un prompt listo para la skill `disruptive-presentations`.
 
+Estos prompts deben quedar dentro del HTML maestro y del handoff. No crees un archivo Markdown independiente por defecto.
+
 Cada prompt debe incluir:
 
 * Rol narrativo de la slide
@@ -617,6 +627,8 @@ Si no se define → preguntar antes de continuar, o usar estilo moderno tech (ti
 
 ## ETAPA 11 — Generación del plan HTML
 
+Antes de construir el HTML, activa `ui-architect` en **MODO 0 — UI Quick Pass**. Orchestrator define contenido, narrativa y handoff; `ui-architect` eleva la interfaz, responsive, jerarquia visual, fondo con vida moderada y toggle normal/light.
+
 Genera un documento HTML interactivo con:
 
 * Story spine visible al inicio
@@ -650,6 +662,12 @@ Debe incluir una sección explícita llamada `handoff a disruptive-presentations
 No generar PPTX desde esta etapa. Si el usuario pide PPTX, tratarlo como una fase posterior de exportación después de que `disruptive-presentations` haya generado y validado las imágenes.
 
 Debe ser visual, claro, limpio y listo para compartir.
+
+Al finalizar el HTML, reporta su ruta y pregunta:
+
+`¿Quieres que pase ahora a la generación de slides/imágenes con disruptive-presentations?`
+
+No ejecutes `disruptive-presentations` hasta recibir confirmación.
 
 ### ALTERNANCIA DE VERSIONES — OBLIGATORIO
 
@@ -705,6 +723,7 @@ El output no está completo si:
 * No hay coherencia de branding
 * No hay HTML de plan/orquestación
 * No hay handoff claro a `disruptive-presentations`
+* No se hizo la pregunta final para confirmar si el usuario quiere pasar a generación de slides
 
 ---
 
@@ -721,7 +740,7 @@ Diseñar una presentación como sistema completo:
 
 Resultado final de esta skill:
 
-`Orchestrator -> storytelling + experiencia + prompts slide-by-slide + HTML de plan`
+`Orchestrator -> storytelling + experiencia + prompts slide-by-slide embebidos + HTML de plan + pregunta final para pasar a generacion`
 
 Resultado que NO corresponde a esta skill:
 

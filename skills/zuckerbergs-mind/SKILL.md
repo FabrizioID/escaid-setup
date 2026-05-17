@@ -416,6 +416,12 @@ Si el usuario está en Modo Propuesta Completa y ya confirmó el plan, esta preg
 
 Solo si la etapa 13 fue relevante y el usuario confirmó que quiere el HTML:
 
+Antes de generar cualquier HTML/UI, activa `ui-architect` en **MODO 0 — UI Quick Pass** si la estructura ya fue definida por Zuckerberg's Mind.
+
+Zuckerberg's Mind define producto, arquitectura, flujo, datos, stack, riesgos y plan técnico. `ui-architect` debe encargarse de la capa UI: jerarquía visual, responsive, fondo con vida moderada, microinteracciones y claridad de lectura.
+
+No construyas un HTML visual directamente desde Zuckerberg's Mind si `ui-architect` está disponible.
+
 Genera un HTML moderno con:
 
 - Diseño tipo Apple

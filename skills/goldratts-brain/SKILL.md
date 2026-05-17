@@ -402,6 +402,12 @@ Si aplica, solicita:
 
 ## ETAPA 14 — Generación visual *(solo si la etapa 13 fue relevante)*
 
+Antes de generar cualquier HTML, activa `ui-architect` en **MODO 0 — UI Quick Pass**.
+
+Goldratt define el sistema operativo, roles, restricciones, métricas y secuencia. `ui-architect` debe encargarse de la capa UI: jerarquía visual, responsive, fondo con vida moderada, microinteracciones y claridad de lectura.
+
+No construyas un HTML visual directamente desde Goldratt si `ui-architect` está disponible.
+
 Genera un HTML moderno con:
 
 * Flujo operativo visual

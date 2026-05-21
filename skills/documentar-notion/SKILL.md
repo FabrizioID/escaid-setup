@@ -337,38 +337,65 @@ Formato WhatsApp validado:
 *REPORTE DE ACTIVIDADES*
 *Fecha:* DD/MM/AAAA
 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🟣 *AECODE*
-*Proyectos activos:* N
+*Proyectos visibles:* N
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-*Puntos clave:*
+*Puntos clave generales:*
 - [Aporte/valor logrado por actividades completadas y pendientes relevantes.]
 - [Desarrollo de herramientas, control de procesos, gestion academica, comercial u operativa segun corresponda.]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+*DESGLOSE POR PROYECTO*
 
 *Nombre del proyecto*
 *Completadas:*
 - [Actividad] - XX%
+
 *Pendientes:*
 - [Actividad] - XX%
 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🔵 *GEN+*
-*Proyectos activos:* N
+*Proyectos visibles:* N
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-*Puntos clave:*
+*Puntos clave generales:*
 - [Aporte/valor logrado en proyectos, gestion tecnica, BIM, entregables, coordinaciones o modelos.]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+*DESGLOSE POR PROYECTO*
 
 *Nombre del proyecto*
 ...
 
-🟢 *ThesIA*
-*Proyectos activos:* N
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚪ *ThesIA*
+*Proyectos visibles:* N
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-*Puntos clave:*
+*Puntos clave generales:*
 - [Aporte/valor del seguimiento academico o documental.]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+*DESGLOSE POR PROYECTO*
+
+*Nombre del proyecto*
+...
 ```
 
-Lineamientos de redaccion para `Puntos clave`:
+Reglas visuales del formato:
 
-- No titular como `Resumen de aporte`; usar siempre `Puntos clave`.
+- Separar cada empresa con doble linea: una linea larga antes del encabezado de empresa y otra despues de `*Proyectos visibles:* N`.
+- Antes de `*DESGLOSE POR PROYECTO*`, usar una sola linea larga. No poner segunda linea debajo del titulo de desglose.
+- Dentro de cada empresa, siempre mostrar primero `*Puntos clave generales:*` y despues el desglose por proyecto.
+- El separador estandar es `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`.
+- Usar `*Proyectos visibles:* N`, no `*Proyectos activos:* N`, porque el reporte depende de la vista filtrada.
+
+Lineamientos de redaccion para `Puntos clave generales`:
+
+- No titular como `Resumen de aporte`; usar siempre `Puntos clave generales`.
 - Redactar en viñetas breves, enfocadas en valor, avance y desbloqueo operativo.
 - Para AECODE/marketing, mencionar `desarrollo de herramientas` cuando aplique.
 - Para automatizacion n8n, no decir `cierre operativo` si el programa esta arrancando; describirlo como arranque, control de procesos y avance de sesiones/talleres.

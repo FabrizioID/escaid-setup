@@ -308,28 +308,34 @@ Fuente operativa validada:
 - Data source ID: `2dcd8cc4-cfc1-8121-a268-000b4f55c021`.
 - Vista de referencia: `Tabla Filtrada`.
 - View ID: `2dcd8cc4-cfc1-819e-87ac-000ce5033d79`.
-- Configuracion validada de la vista:
+- Configuracion historica validada de la vista:
   - `quick_filters`: propiedad `Checkbox` igual a `false`.
   - Agrupacion visual por `Empresa`.
   - Subtareas visibles con `parents_and_subitems`.
+- La fuente de verdad es la configuracion viva de la vista `Tabla Filtrada`. Si el usuario agrega, quita o cambia filtros en esa vista, el reporte debe leer y respetar esos filtros actuales.
 
 Regla de arranque obligatoria:
 
 - Para este activador, arrancar siempre con Notion MCP. No usar scripts locales, `urllib`, requests directos a la API, tokens locales ni otros medios como primera ruta.
 - Primero validar con MCP la pagina `T.TRABAJO`, la base `ACTIVIDADES` y la vista `Tabla Filtrada`.
-- Si el MCP no tiene una herramienta directa para consultar una vista, usar MCP para leer la configuracion de la vista y luego usar MCP para consultar el `data_source_id` replicando el filtro `Checkbox = false`.
+- Primero intentar consultar directamente la vista `Tabla Filtrada` o leer su configuracion actual. No asumir filtros estaticos.
+- Si el MCP no tiene una herramienta directa para consultar una vista, usar MCP para leer la configuracion viva de la vista y luego usar MCP para consultar el `data_source_id` replicando esos filtros actuales.
+- Usar el filtro historico `Checkbox = false` solo como fallback si no se puede leer la configuracion de la vista viva. Si se usa este fallback, decirlo explicitamente en la respuesta.
 - Solo usar API directa o lectura de credenciales locales si el usuario lo autoriza explicitamente o si no existe ninguna herramienta MCP disponible en la sesion. Si ocurre, decirlo de forma clara antes de continuar.
 
 Reglas de consulta:
 
-1. Usar Notion MCP para ubicar/validar pagina, base, data source y vista. Si el MCP no expone query de vista, leer la configuracion de la vista via MCP y replicar su filtro contra el `data_source_id` via MCP.
+1. Usar Notion MCP para ubicar/validar pagina, base, data source y vista.
 2. No consultar toda la base como reporte final si el usuario pide `actividades generales`; el alcance por defecto es la vista `Tabla Filtrada`.
-3. Incluir filas padre/proyectos visibles y subitems visibles. Los padres funcionan como proyectos; los subitems son actividades.
-4. Agrupar salida por empresa y luego por proyecto.
-5. Usar `Status >= 100` como completada; `Status < 100` o vacio como pendiente. El filtro de vista deja `Checkbox = false`, por lo que pueden existir actividades completadas en status 100 aun visibles si el checkbox no fue marcado.
-6. Mostrar el porcentaje de `Status` en cada actividad cuando exista.
-7. No omitir proyectos visibles aunque no tengan pendientes.
-8. Si se generan archivos TXT, tambien responder textual en el chat cuando el usuario pida formato para WhatsApp.
+3. Leer primero la configuracion viva de `Tabla Filtrada` y replicar exactamente sus filtros actuales. Si el usuario agrego filtros manualmente en Notion, esos filtros mandan.
+4. Si el MCP expone una herramienta de consulta de vista, preferir esa ruta. Si solo expone query de data source, construir el query a partir de los filtros actuales de la vista.
+5. No usar `Checkbox = false` como filtro estatico salvo fallback declarado. Ese filtro solo es la configuracion historica conocida.
+6. Incluir filas padre/proyectos visibles y subitems visibles. Los padres funcionan como proyectos; los subitems son actividades.
+7. Agrupar salida por empresa y luego por proyecto.
+8. Usar `Status >= 100` como completada; `Status < 100` o vacio como pendiente. Pueden existir actividades completadas en status 100 aun visibles si la vista las incluye.
+9. Mostrar el porcentaje de `Status` en cada actividad cuando exista.
+10. No omitir proyectos visibles aunque no tengan pendientes.
+11. Si se generan archivos TXT, tambien responder textual en el chat cuando el usuario pida formato para WhatsApp.
 
 Formato WhatsApp validado:
 

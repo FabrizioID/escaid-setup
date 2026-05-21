@@ -123,14 +123,38 @@ Trigger ejemplo: `activa skill documentar notion: crear proyecto`
 Flujo:
 1. Determinar cuenta con el arranque rapido.
 2. Pedir nombre del proyecto si no esta claro.
-3. Pedir base raiz/data source destino si no se puede inferir.
-4. Pedir o identificar plantilla a replicar.
-5. Validar permisos, destino y plantilla.
-6. Leer la plantilla.
-7. Crear pagina/proyecto en la base raiz.
-8. Replicar estructura posible o aplicar template nativo si existe.
-9. Insertar informacion util del contexto del agente.
-10. Reportar creado, insertado, omitido y limitaciones.
+3. Determinar la BD donde vivira el proyecto formal. Si no se puede inferir con seguridad, preguntar antes de crear o mover: `En que BD creo el proyecto como tal?`
+   - Para proyectos GEN+ de ingenieria/expediente, la BD formal normalmente es `PROYECTOS`.
+   - No crear el proyecto formal dentro de la lista general `ACTIVIDADES` salvo que el usuario lo pida explicitamente.
+4. Determinar si ademas necesita seguimiento en la lista general `ACTIVIDADES`.
+   - Las actividades generales si van en la lista operativa `ACTIVIDADES` conocida (`T.TRABAJO` / base general), como filas o subitems.
+   - Si la BD formal del proyecto no es `ACTIVIDADES`, crear o mantener un padre operativo en `ACTIVIDADES` para agrupar tareas, reuniones realizadas y pendientes visibles en reportes generales.
+   - No mover la pagina formal de `PROYECTOS` hacia `ACTIVIDADES`; usar un padre operativo separado si Notion no permite relacionar directamente entre bases.
+5. Pedir base raiz/data source destino si no se puede inferir.
+6. Preguntar explicitamente si el proyecto usara plantilla, salvo que el usuario ya lo haya indicado con claridad.
+   - Pregunta sugerida: `Quieres usar una plantilla para este proyecto?`
+   - Si el usuario dice que si y no especifica cual, para GEN+ ingenieria sugerir `PUENTE TINGO` como plantilla de referencia disponible.
+   - Si el usuario dice que no, crear solo la estructura minima necesaria segun el proyecto y no replicar bases/vistas de plantilla.
+7. Pedir o identificar plantilla a replicar si aplica.
+8. Validar permisos, destino y plantilla.
+9. Leer la plantilla solo si se confirmo su uso.
+10. Crear pagina/proyecto en la base raiz.
+11. Replicar estructura posible o aplicar template nativo si existe.
+12. Insertar informacion util del contexto del agente.
+13. Reportar creado, insertado, omitido y limitaciones.
+
+#### BD formal del proyecto vs actividades generales
+
+Regla operativa GEN+:
+
+- La pagina/proyecto formal debe vivir en la BD que corresponda al sistema de proyectos, normalmente `PROYECTOS` para proyectos GEN+ de ingenieria.
+- La lista general `ACTIVIDADES` no reemplaza a `PROYECTOS`; sirve para seguimiento diario, reportes, subitems, actividades completadas y pendientes.
+- Si un proyecto formal vive en `PROYECTOS`, crear o conservar un registro padre operativo en `ACTIVIDADES` con el mismo nombre o nombre normalizado. Ese padre puede contener una observacion con el link al proyecto formal.
+- Las actividades tecnicas, coordinaciones realizadas, reuniones registradas como hecho operativo y tareas pendientes deben vincularse al padre operativo de `ACTIVIDADES`.
+- Las actividades comerciales relacionadas, como cotizacion/alcance comercial, deben ir bajo el padre operativo comercial correspondiente (`Comercial`) y no dentro del proyecto tecnico, salvo instruccion contraria.
+- Antes de mover una pagina entre BDs, verificar si se perderan relaciones internas como `Parent item`/`Sub-item`; si ocurre, crear el padre operativo correcto y re-vincular las actividades.
+- Si hay ambiguedad entre varias BDs posibles, preguntar. No asumir que una plantilla visual define la BD destino.
+- La seleccion de plantilla es una decision separada de la BD destino: primero confirmar donde vive el proyecto formal, luego confirmar si se usa plantilla.
 
 #### Crear proyecto desde plantilla existente
 
@@ -155,11 +179,11 @@ Para proyectos GEN+ tipo expediente/ingenieria, usar como referencia visual y es
 Patron observado:
 
 - Contenido superior: `DESCRIPCIÓN`, `ACCESOS`, `INFORMACIÓN`, toggles operativos y divisor.
-- Bases visibles al final como inline reales:
-  - `ACTIVIDADES`
-  - `REUNIONES`
-  - `DOCUMENTOS`
-  - `CONTACTOS CLIENTE`
+- Bases visibles al final como inline reales, ajustadas al proyecto:
+  - `ACTIVIDADES` debe existir por defecto para seguimiento operativo.
+  - `REUNIONES` debe existir cuando haya coordinaciones, acuerdos o seguimiento con terceros.
+  - `DOCUMENTOS` es opcional; crearla solo si el usuario entrega enlaces/documentos o pide control documental propio del proyecto.
+  - `CONTACTOS CLIENTE` es opcional; crearla solo si hay contactos externos concretos que gestionar o el usuario la pide.
 - `ACTIVIDADES`:
   - Propiedades: `Name`, `Entregable`, `Encargado`, `Fecha Límite`, `Observación`, `% Avance`, `Status`.
   - Vistas: `Vista Filtrada` board, `Status` table, `Original` board.
@@ -174,7 +198,7 @@ Patron observado:
   - Propiedades: `Nombre`, `Institución`, `Tipo`, `Cargo`, `Email`, `Teléfono`.
   - Vista `Default view` table.
 
-Importante: `PUENTE TINGO` es plantilla de estructura, no fuente de contenido. No copiar sus entregables, responsables, ubicacion ni categorias si no corresponden al proyecto nuevo.
+Importante: `PUENTE TINGO` es plantilla de estructura, no fuente de contenido ni lista obligatoria de bases. No copiar sus entregables, responsables, ubicacion, categorias ni bases opcionales si no corresponden al proyecto nuevo. Para proyectos GEN+ ligeros o en etapa comercial/alcance, evitar crear `DOCUMENTOS` y `CONTACTOS CLIENTE` vacias.
 
 ### Actualizar proyecto
 

@@ -240,6 +240,17 @@ Crear entrada en la base REUNIONES del proyecto usando:
 - OBSERVACIONES: lista de observaciones detalladas
 - ACUERDOS: lista de acuerdos y pendientes
 
+**Paso 1b - Registrar tambien como actividad general**
+
+Toda reunion realizada tambien cuenta como actividad operativa. Si el proyecto tiene seguimiento en la lista general `ACTIVIDADES`, crear o actualizar una fila/subitem ahi, vinculada al padre operativo del proyecto:
+- Actividad: `G | Reunion ...`
+- Empresa: empresa/proyecto correspondiente.
+- Date: fecha real de la reunion.
+- Status: `100` cuando la reunion ya ocurrio.
+- Observacion: resumen breve de objetivo, acuerdos y pendientes.
+
+No basta con crear la fila en la base inline `REUNIONES` del proyecto. La reunion debe aparecer tambien en la lista general de actividades para que entre en reportes y seguimiento diario. Si la vista general filtra `Checkbox = false`, dejar `Checkbox` sin marcar y usar `Status = 100` para indicar que esta realizada, salvo que el usuario indique otro criterio.
+
 **Paso 2 - Mensaje WhatsApp para copiar y pegar**
 
 Despues de documentar, entregar al usuario un mensaje de grupo de WhatsApp con este molde:

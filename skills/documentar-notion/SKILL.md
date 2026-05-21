@@ -151,6 +151,8 @@ Regla operativa GEN+:
 - La lista general `ACTIVIDADES` no reemplaza a `PROYECTOS`; sirve para seguimiento diario, reportes, subitems, actividades completadas y pendientes.
 - Si un proyecto formal vive en `PROYECTOS`, crear o conservar un registro padre operativo en `ACTIVIDADES` con el mismo nombre o nombre normalizado. Ese padre puede contener una observacion con el link al proyecto formal.
 - Las actividades tecnicas, coordinaciones realizadas, reuniones registradas como hecho operativo y tareas pendientes deben vincularse al padre operativo de `ACTIVIDADES`.
+- El estado/avance de una actividad debe mantenerse sincronizado entre la actividad del proyecto y la lista general `ACTIVIDADES`. Si se actualiza `Status`, `% Avance`, fecha, responsable o completado en la base inline del proyecto, buscar su equivalente en la lista general y actualizarlo tambien. Si el cambio nace en la lista general, buscar su equivalente dentro del proyecto y actualizarlo tambien.
+- Cuando no exista equivalente claro entre proyecto y lista general, crear la fila faltante o dejar una observacion con el vinculo cruzado. Si hay dos posibles equivalentes, preguntar antes de modificar.
 - Las actividades comerciales relacionadas, como cotizacion/alcance comercial, deben ir bajo el padre operativo comercial correspondiente (`Comercial`) y no dentro del proyecto tecnico, salvo instruccion contraria.
 - Antes de mover una pagina entre BDs, verificar si se perderan relaciones internas como `Parent item`/`Sub-item`; si ocurre, crear el padre operativo correcto y re-vincular las actividades.
 - Si hay ambiguedad entre varias BDs posibles, preguntar. No asumir que una plantilla visual define la BD destino.
@@ -209,11 +211,16 @@ Flujo:
 2. Pedir proyecto/pagina destino solo si no se puede inferir.
 3. Buscar coincidencias; si hay ambiguedad real, pedir seleccion.
 4. Leer estructura y contenido existente.
-5. Comparar con informacion nueva disponible en el agente.
-6. Clasificar cambios: nuevo, duplicado, campo vacio, extension, conflicto, reemplazo, destructivo.
-7. Ejecutar solo cambios seguros.
-8. Pedir confirmacion para reemplazos, eliminaciones o cambios estructurales.
-9. Reportar resultado.
+5. Leer tambien el padre operativo y subitems equivalentes en la lista general `ACTIVIDADES`, cuando existan.
+6. Comparar con informacion nueva disponible en el agente.
+7. Clasificar cambios: nuevo, duplicado, campo vacio, extension, conflicto, reemplazo, destructivo.
+8. Si se actualiza estado/avance de una actividad, sincronizar ambos lados:
+   - Proyecto inline `ACTIVIDADES` -> lista general `ACTIVIDADES`.
+   - Lista general `ACTIVIDADES` -> proyecto inline `ACTIVIDADES`.
+   - Mapear por nombre normalizado, entregable, fecha y observacion/link cuando no haya relation directa.
+9. Ejecutar solo cambios seguros.
+10. Pedir confirmacion para reemplazos, eliminaciones o cambios estructurales.
+11. Reportar resultado, indicando que entidades quedaron sincronizadas y si alguna quedo pendiente por ambiguedad.
 
 ### Anadir contenido directo
 

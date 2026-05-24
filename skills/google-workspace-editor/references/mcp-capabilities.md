@@ -32,6 +32,7 @@ This skill relies on a Google Workspace MCP wired to Google Docs, Drive, and opt
 - list folder contents
 - move, copy, rename, or delete files
 - download files
+- export Google Workspace files when supported by the MCP/Drive API
 
 ## Practical Implications
 
@@ -39,6 +40,8 @@ This skill relies on a Google Workspace MCP wired to Google Docs, Drive, and opt
 - Use Drive operations to locate or duplicate documents before editing when appropriate.
 - Prefer reading as structured JSON for precise range/table work.
 - Prefer markdown round-trip only for sections where formatting conversion is acceptable.
+- When working on Sheets used by n8n, inspect schema/header rows before writing values or formatting.
+- When the MCP lacks a needed operation, read `google-workspace-cli-fallback.md` before inventing custom scripts.
 
 ## Known Limitations
 

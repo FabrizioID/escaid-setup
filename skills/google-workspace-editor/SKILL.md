@@ -83,6 +83,47 @@ Arranque veloz: confirmar URL/ID, verificar que las tools Google esten expuestas
 
 ---
 
+## Modos potenciados
+
+### Drive Project Folder Mode
+
+Para organizar proyectos en Drive, crear o validar estructura antes de mover archivos:
+
+```text
+01_brief
+02_inputs
+03_outputs
+04_assets
+05_exports
+99_archive
+```
+
+Primero mapear carpeta y archivos. Despues proponer moves/copies. Confirmar antes de operaciones masivas o cambios de permisos.
+
+### Template Factory Mode
+
+Para documentos recurrentes:
+
+1. ubicar template;
+2. copiarlo;
+3. reemplazar placeholders o insertar contenido;
+4. preservar branding;
+5. exportar/compartir solo si se pide.
+
+### Sheet Schema Guard Mode
+
+Cuando un Google Sheet alimenta n8n, Apps Script o dashboards:
+
+- leer encabezados y tabs antes de editar;
+- mantener nombres de columnas estables;
+- hacer backup/export antes de cambiar schema;
+- documentar columnas nuevas, removidas o renombradas;
+- avisar si un cambio puede romper automatizaciones.
+
+### CLI fallback
+
+Si el MCP no cubre una operacion, leer `references/google-workspace-cli-fallback.md`. No instalar ni autenticar `gws` salvo que aporte una ruta real y el usuario lo apruebe. El MCP local sigue siendo la ruta principal.
+
 ## Reglas de edición
 
 - Preservar el template existente antes de mejorar el contenido.

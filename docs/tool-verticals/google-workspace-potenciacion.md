@@ -179,6 +179,8 @@ No instalar todo el CLI ni todas sus skills de golpe. Secuencia recomendada:
 5. si aporta velocidad real, crear un submodo `Google Workspace CLI fallback`;
 6. mantener el MCP local como ruta principal.
 
+Accion aplicada: se agrego `skills/google-workspace-editor/references/google-workspace-cli-fallback.md` y se reforzo `google-workspace-editor` con modos `Drive Project Folder`, `Template Factory`, `Sheet Schema Guard` y `CLI fallback`. No se creo una nueva skill porque la capacidad encaja mejor como potenciacion de la skill existente.
+
 ### Oportunidades Reales
 
 | Oportunidad | Por que importa |

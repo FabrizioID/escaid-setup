@@ -23,6 +23,39 @@ Clarification:
 
 Do not generate PPTX as the default output. PPTX, Canva export, or editable deck conversion is a later export phase after image generation and QA.
 
+### Vertical Contract
+
+This skill is the production layer, not the narrative architect and not the editable-PPTX exporter.
+
+Inputs expected from `presentation-orchestrator`:
+
+- slide id;
+- narrative role;
+- slide thesis;
+- message to install;
+- presenter phrase;
+- audience shift;
+- exact visible text;
+- suggested visual mode;
+- native evidence/assets required;
+- brand constraints;
+- internal notes that must not be rendered.
+
+If the input arrives without that structure, build the missing teaching payload before generating. If the missing item is factual evidence, logo, chart, table, screenshot, thesis figure, or brand asset, stop and ask or mark it as pending instead of hallucinating it.
+
+Output contract:
+
+- versioned image folder per production pass;
+- `manifest.md` or `manifest.json` with slide id, prompt summary, accepted PNG path, QA status and evidence assets used;
+- HTML presentation player as the primary review/presentation artifact;
+- optional PPTX only after QA or explicit user request through `slides`.
+
+External deck frameworks:
+
+- `reveal.js` and `Marp` are acceptable only when the user asks for Markdown/HTML technical decks or text-first export workflows.
+- They are not the default route for ESC-AI disruptive full-image slides.
+- If used, document that most Markdown-to-PPTX routes may produce less editable PowerPoint output than a native `slides`/PptxGenJS build.
+
 ### Sequential Production + Internal QA
 
 When generating a deck after an approved Orchestrator plan, do not ask the user to approve every slide one by one unless they explicitly request that level of review.

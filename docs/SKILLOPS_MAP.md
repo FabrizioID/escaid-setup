@@ -22,8 +22,8 @@ Estas reglas mandan cuando dos skills parecen servir para lo mismo. El objetivo 
 | UI HTML premium ESC-AI | `ui-architect` | `visual-html-craft` legacy | Para artefactos HTML visuales/interactivos del ecosistema ESC-AI, usar siempre `ui-architect`. `visual-html-craft` solo redirige. |
 | Frontend app/repo | `frontend-skill` | `ui-architect` si se requiere acabado visual premium | Usar `frontend-skill` cuando hay app real, framework, repo frontend, rutas, componentes o estado de producto. No usarlo para documentacion ni HTML visual aislado de ESC-AI. |
 | Documentacion HTML | `documentador-experto` | `doc-desarrollos`, `doc-general` | Usar para documentar sistemas, procesos, conceptos o desarrollos. No reemplaza `ui-architect` cuando el pedido es construir una UI/producto. |
-| Presentacion narrativa | `presentation-orchestrator` | `disruptive-presentations`, `slides` | Primero narrativa y estructura. Despues de aprobacion, la produccion visual por defecto es `disruptive-presentations`. |
-| Slide full image | `disruptive-presentations` | `presentation-orchestrator` upstream, `slides` downstream | Genera slides como imagen final + HTML player. No crea PPTX editable salvo que luego se pida export. |
+| Presentacion narrativa | `presentation-orchestrator` | `disruptive-presentations`, `slides` | Primero narrativa, estructura y handoff completo. Despues de aprobacion, la produccion visual por defecto es `disruptive-presentations`. |
+| Slide full image | `disruptive-presentations` | `presentation-orchestrator` upstream, `imagegen` como motor, `slides` downstream | Genera slides como imagen final + HTML player + manifest. No crea PPTX editable salvo que luego se pida export. |
 | PowerPoint editable | `slides` | `disruptive-presentations` si ya hay imagenes finales | Usar cuando el entregable pedido sea `.pptx` editable, recreacion PPTX o validacion de layout PowerPoint. |
 | Excel directo | `excel-user` | `excel-table-builder` si la salida va a Word/APA | Para crear, leer, editar, formatear o analizar `.xlsx`, manda `excel-user`. |
 | Tabla Excel a Word/APA | `excel-table-builder` | `excel-user`, `docx-mcp-document-editor`, `apa-7-thesis-format` | No edita workbooks como ruta principal. Convierte datos de Excel/Sheets en tablas defendibles para Word/tesis. |
@@ -115,8 +115,8 @@ Vertical n8n: baseline de potenciacion completo en `docs/tool-verticals/n8n-pote
 
 | Nombre operativo | Skill ID | Rol | Capa | Estado | Arranque rapido | Pill/MCP | Prueba segura |
 |---|---|---|---|---|---|---|---|
-| Presentation Orchestrator | `presentation-orchestrator` | Narrativa y estructura de decks | Dominio | Gris | Definir objetivo, audiencia, slides y prompts | No requiere MCP | Plan de slides |
-| Slides disruptivas | `disruptive-presentations` | Generar slides full image de alto impacto | Dominio + imagen | Amarillo | Una slide a la vez, usar herramienta imagen directa | `image_gen` o API fallback | Generar slide/prompt |
+| Presentation Orchestrator | `presentation-orchestrator` | Narrativa, estructura y handoff de decks | Dominio | Verde/Amarillo | Definir objetivo, audiencia, slides y handoff minimo por slide | No requiere MCP | Plan + handoff |
+| Slides disruptivas | `disruptive-presentations` | Generar slides full image de alto impacto | Dominio + imagen | Verde/Amarillo | Una slide a la vez, usar herramienta imagen directa, guardar manifest | `image_gen` o API fallback | Generar slide/prompt/player |
 | PowerPoint editable | `slides` | Crear/editar PPTX con PptxGenJS | Dominio extra | Verde/Amarillo | Usar helpers, renderizar, validar | LibreOffice/Node | Render slide |
 | Flyers visuales | `flyer-generator` | Piezas visuales y flyers | Dominio + imagen | Amarillo | Clasificar modo, generar/evaluar | `image_gen` | Imagen final |
 | Generador de imagenes | `imagegen` | Generar/editar bitmap | Tool base extra | Verde | Llamar herramienta de imagen | `image_gen` | Imagen generada |
@@ -124,6 +124,8 @@ Vertical n8n: baseline de potenciacion completo en `docs/tool-verticals/n8n-pote
 | Emails HTML marketing | `email-html-marketing` | HTML email y Apps Script marketing | Dominio + Google | Amarillo | Crear HTML seguro, preview, opcional Drive/Apps Script | Playwright/Google | Preview HTML |
 | Guiones virales | `video-script-generator` | Guiones virales cortos | Dominio | Gris | Validar brief, luego generar variantes | No requiere MCP | Scripts |
 | Manual desde video | `video-manual` | Manual visual desde video + transcript | Dominio + Playwright | Amarillo | Leer transcripcion, capturar frames, generar HTML | Playwright | Captura frame |
+
+Vertical presentaciones: baseline de potenciacion en `docs/tool-verticals/presentaciones-potenciacion.md`. Ruta default: `presentation-orchestrator` -> `disruptive-presentations` -> HTML player + manifest -> `slides` solo si se pide PPTX editable. Marp/reveal.js son opcionales para decks Markdown/HTML text-first, no ruta principal ESC-AI.
 
 ## Desarrollo, Operacion Y Sistemas
 

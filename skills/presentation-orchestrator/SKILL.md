@@ -26,6 +26,39 @@ El output central no es una lista de slides. Es un **mapa de storytelling ejecut
 
 ---
 
+# CONTRATO DEL VERTICAL DE PRESENTACIONES
+
+Esta skill es la capa de narrativa y decision. No es la capa de produccion visual ni la capa de export editable.
+
+Ruta canonica:
+
+1. `presentation-orchestrator` -> define historia, arco, secuencia, branding, tension, decision y handoff.
+2. `disruptive-presentations` -> produce slides como imagen final, ejecuta QA visual interno y arma el HTML player.
+3. `slides` -> solo entra si el usuario pide PPTX editable, recreacion PowerPoint o export posterior a QA visual.
+4. `imagegen` -> herramienta auxiliar de bitmap usada por `disruptive-presentations`; no reemplaza el criterio narrativo.
+
+No usar `slides`, Marp, reveal.js, Canva, HTML layout o PPTX como ruta principal despues de Orchestrator salvo que el usuario lo pida explicitamente. Marp/reveal.js pueden servir para decks tecnicos text-first, prototipos web o export Markdown, pero no reemplazan el flujo ESC-AI full-image.
+
+## Paquete minimo de handoff
+
+Cada slide aprobada por Orchestrator debe quedar lista para produccion con estos campos:
+
+- `slide_id`
+- `rol narrativo`
+- `tesis de la slide`
+- `mensaje a instalar`
+- `frase del presentador`
+- `cambio esperado en la audiencia`
+- `texto visible exacto`
+- `modo visual sugerido`: `analogy scene`, `artifact schematic` o `hybrid`
+- `activos/evidencia nativa requerida`: logos, graficos, tablas, screenshots o figuras reales
+- `restricciones de marca`
+- `notas internas que NO deben verse en la slide`
+
+Si falta evidencia nativa o branding, dejarlo marcado en el handoff como decision pendiente. No inventar logos, graficos, cifras, capturas ni tablas.
+
+---
+
 # INTEGRACIÓN — MAGNUS THINKER (OBLIGATORIO)
 
 Debes activar y utilizar la skill **Magnus Thinker** como capa de pensamiento principal en todo momento.

@@ -1,0 +1,80 @@
+# Presentaciones - Potenciacion Vertical ESC-AI
+
+Fecha: 2026-05-24
+
+## Objetivo
+
+Ordenar el ecosistema de presentaciones para que cada agente elija rapido la ruta correcta sin pisar skills:
+
+- narrativa y estructura;
+- generacion visual full-image;
+- HTML player de presentacion;
+- PPTX editable/export;
+- imagenes auxiliares.
+
+## Ruta canonica ESC-AI
+
+1. `presentation-orchestrator`: define arco narrativo, audiencia, mensaje, estructura y handoff por slide.
+2. `disruptive-presentations`: convierte el handoff en slides full-image, con QA interno y HTML player.
+3. `slides`: entra solo si el usuario pide `.pptx` editable, recreacion PowerPoint o export posterior.
+4. `imagegen`: motor auxiliar de bitmap, no ruta de decision.
+
+## Separacion de responsabilidades
+
+| Necesidad | Ruta |
+| --- | --- |
+| Disenar storytelling, clase, pitch o sustentacion | `presentation-orchestrator` |
+| Producir slides visuales finales | `disruptive-presentations` |
+| Presentar/revisar deck generado como imagenes | HTML player de `disruptive-presentations` |
+| Crear o editar PPTX editable | `slides` |
+| Crear assets bitmap, fondos, ilustraciones o mockups | `imagegen` |
+| Deck tecnico text-first Markdown/HTML | Marp/reveal.js solo si el usuario lo pide |
+
+## Handoff minimo por slide
+
+Cada slide que sale de Orchestrator debe incluir:
+
+- slide id;
+- rol narrativo;
+- tesis;
+- mensaje a instalar;
+- frase del presentador;
+- cambio esperado en la audiencia;
+- texto visible exacto;
+- modo visual: `analogy scene`, `artifact schematic` o `hybrid`;
+- evidencia nativa requerida;
+- restricciones de marca;
+- notas internas que no deben verse.
+
+## Manifest de produccion
+
+Cada corrida de `disruptive-presentations` debe dejar un manifest con:
+
+- slide id;
+- resumen del prompt final;
+- path PNG aceptado;
+- QA status: `accepted`, `regenerated`, `needs review`;
+- evidencia/assets usados;
+- observaciones.
+
+Esto permite reabrir, auditar, exportar a PPTX y evitar confundir drafts antiguos con slides finales.
+
+## Criterio sobre herramientas externas
+
+PptxGenJS sigue siendo la ruta correcta para PPTX editable porque permite crear objetos PowerPoint nativos como texto, tablas, imagenes y charts programaticamente. Marp y reveal.js son utiles para decks Markdown/HTML y export rapido, pero no reemplazan el flujo full-image ni el PPTX nativo cuando la editabilidad fina importa.
+
+Fuentes revisadas:
+
+- PptxGenJS docs: `https://gitbrent.github.io/PptxGenJS/docs/introduction/`
+- PptxGenJS charts/tables/images: `https://gitbrent.github.io/PptxGenJS/docs/api-charts.html`, `https://gitbrent.github.io/PptxGenJS/docs/api-tables.html`, `https://gitbrent.github.io/PptxGenJS/docs/api-images/`
+- reveal.js docs: `https://revealjs.com/`
+- Marp docs: `https://marp.app/`
+
+## Estado
+
+Vertical listo para operar:
+
+- Orchestrator queda como capa narrativa.
+- Disruptive queda como capa de produccion visual.
+- Slides queda como capa editable/export.
+- Imagegen queda como motor auxiliar.

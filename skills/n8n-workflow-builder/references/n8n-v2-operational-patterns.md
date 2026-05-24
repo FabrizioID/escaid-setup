@@ -52,6 +52,54 @@ Reglas:
 - los sub-workflows devuelven datos normalizados;
 - evitar duplicar credenciales en JSON exportado.
 
+## Descomponer Mega-flujos
+
+Un mega-flujo no se debe dividir solo porque se ve grande. Se divide cuando aparecen responsabilidades separables y testeables.
+
+Candidatos buenos para sub-workflow:
+
+- captura/normalizacion de entrada;
+- enrichment externo por API;
+- bloque IA con prompt propio;
+- guardado en Sheets/Drive/CRM;
+- notificacion por WhatsApp/email;
+- manejo de errores reutilizable;
+- transformacion compleja en Code Node.
+
+Candidatos malos:
+
+- dos nodos que solo existen para una condicion local;
+- pasos que dependen de muchas variables temporales del padre;
+- logic blocks que aun no se entienden;
+- workflow critico sin backup ni ejecucion de prueba.
+
+Proceso recomendado:
+
+1. Documentar el flujo actual sin tocarlo.
+2. Marcar bloques con sticky notes o documentacion Markdown.
+3. Elegir un bloque de bajo riesgo.
+4. Crear sub-workflow con input/output explicito.
+5. Conectar desde el padre.
+6. Probar equivalencia con los mismos datos.
+7. Repetir.
+
+## Documentacion De Workflow
+
+Todo workflow importante debe poder explicarse en menos de una pagina:
+
+| Campo | Contenido |
+|---|---|
+| Objetivo | Para que existe |
+| Trigger | Como empieza |
+| Entrada | Campos minimos esperados |
+| Bloques | Fases principales |
+| Salidas | Que escribe/responde/notifica |
+| Credenciales | Nombres de credenciales n8n, sin secretos |
+| Riesgos | Nodos fragiles, APIs, limites, datos obligatorios |
+| Sub-workflows | Hijos llamados y contrato input/output |
+
+Si el usuario pide orden visual, priorizar sticky notes y nombres de nodos claros antes de refactor estructural.
+
 ## Human In The Loop
 
 Para aprobacion humana, preferir Wait/Form nodes cuando el flujo necesita pausar y reanudar.

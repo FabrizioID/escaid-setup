@@ -103,6 +103,48 @@ Invoke-RestMethod -Uri "BASE_URL/api/v1/workflows/ID/activate" -Method POST -Hea
 5. Validar post-modificación
 6. Reportar resultado
 
+## Modo Documentación y Modularización (ordenar mega-flujos)
+
+Usar cuando el usuario tenga un workflow grande, anidado, desordenado, sin anotaciones o difícil de mantener.
+
+Objetivo: convertir un flujo enorme en un sistema entendible: mapa operativo, bloques funcionales, notas visuales, sub-workflows y checklist de migración segura.
+
+1. Leer el workflow completo en modo full antes de proponer cambios.
+2. Inventariar nodos por responsabilidad: entrada, normalización, decisión, IA, escritura, notificación, error handling y salida.
+3. Detectar zonas candidatas a sub-workflow:
+   - bloque reutilizable;
+   - bloque con más de 5-8 nodos;
+   - bloque que mezcla dominio distinto;
+   - bloque con credenciales o API propia;
+   - bloque que puede probarse de forma aislada.
+4. Generar documentación del flujo:
+   - resumen ejecutivo;
+   - diagrama Mermaid o tabla de fases;
+   - lista de nodos críticos;
+   - datos que entran y salen por bloque;
+   - riesgos antes de tocar producción.
+5. Proponer refactor por etapas, no de golpe:
+   - etapa 1: solo documentar y agregar sticky notes;
+   - etapa 2: extraer primer sub-workflow de bajo riesgo;
+   - etapa 3: validar ejecución padre-hijo;
+   - etapa 4: repetir con el siguiente bloque.
+6. Antes de modificar, crear backup/export JSON del workflow actual.
+7. Nunca convertir un mega-flujo crítico en sub-workflows sin prueba de equivalencia.
+
+### Estándar de anotaciones n8n
+
+Cuando se pueda editar el workflow, agregar notas/sticky notes por bloque:
+
+- `ENTRADA`: qué dispara el flujo y qué datos espera.
+- `NORMALIZACION`: qué schema produce.
+- `DECISION`: reglas, IF/Switch y condiciones críticas.
+- `IA`: prompt/modelo/proveedor y formato esperado.
+- `ESCRITURA`: dónde guarda datos y con qué credencial n8n.
+- `SALIDA`: qué responde o notifica.
+- `ERRORES`: qué pasa si falla una API, credencial o dato requerido.
+
+Si el MCP/API no permite crear notas visuales de forma segura, entregar primero documentación Markdown y plan de notas para insertar manualmente.
+
 ---
 
 # CONVENCIONES DE NODOS

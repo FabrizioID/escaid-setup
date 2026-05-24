@@ -15,8 +15,8 @@ Radar de repos/skills externos que pueden potenciar ESC-AI. No instalar directo 
 
 | Prioridad | Fuente | Que aporta | Skill ESC-AI afectada | Decision | Nota |
 |---|---|---|---|---|---|
-| Alta | `803/skills-supply` | Manifiesto `agents.toml` para sincronizar skills entre Claude, Codex, OpenCode, Factory, Amp | SkillOps / sync Codex-Claude-Antigravity | Adaptar | Podria reemplazar sync manual con una fuente de verdad versionada |
-| Alta | `splinesreticulating/n8n-v2-workflow-skill` | Referencias n8n v2: nodos, expresiones, Wait nodes, sub-workflows, troubleshooting | `n8n-workflow-builder` | Absorber criterio | Nuestra skill ya conecta a instancia real; esta aporta biblioteca v2 y patrones |
+| Alta | `803/skills-supply` | Manifiesto `agents.toml` para sincronizar skills entre Claude, Codex, OpenCode, Factory, Amp | SkillOps / sync Codex-Claude-Antigravity | Adaptar | Auditada: no instalar directo; adaptar manifest/dry-run propio. Ver `docs/skill-audits/2026-05-24-skills-supply.md` |
+| Alta | `splinesreticulating/n8n-v2-workflow-skill` | Referencias n8n v2: nodos, expresiones, Wait nodes, sub-workflows, troubleshooting | `n8n-workflow-builder` | Absorber criterio | Auditada: no instalar directo; criterios absorbidos en `n8n-workflow-builder/references`. Ver `docs/skill-audits/2026-05-24-n8n-v2-workflow-skill.md` |
 | Alta | `glebis/claude-skills` - Skill Studio | Entrevista JTBD para disenar skills/agentes/automatizaciones y exportar `design.md`/mapa | `skill-creator`, `zuckerbergs-mind`, `n8n-workflow-builder` | Adaptar | Encaja con tu necesidad de velocidad + brief estructurado antes de construir |
 | Media/Alta | `Agents365-ai/drawio-skill` | Genera diagramas draw.io exportables a PNG/SVG/PDF | `miro-maps-and-flows`, `documentador-experto` | Adaptar | Puede complementar Miro cuando Miro MCP falle o se requiera diagrama editable |
 | Media/Alta | `awesome-skills/code-review-skill` | Code review progresivo por lenguaje/framework, severidad y seguridad | `github-repo-ops`, desarrollo software | Adaptar | Crear una skill propia de review o absorber checklist; no instalar completo sin auditar |

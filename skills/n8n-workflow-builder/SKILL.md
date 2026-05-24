@@ -190,6 +190,15 @@ Para modularizar: el workflow padre llama al hijo con `n8n-nodes-base.executeWor
 - Las operaciones son atómicas por defecto (`continueOnError: false`); si una falla, todas se revierten
 - Siempre hacer `n8n_get_workflow` con `mode: 'full'` antes de patchear para obtener el texto exacto del campo
 
+## Patrones v2 absorbidos
+
+Cuando el trabajo implique Wait nodes, sub-workflows, import/export JSON, MCP parcial o workflows como codigo, leer:
+
+- `references/n8n-v2-operational-patterns.md`
+- `references/n8n-v2-troubleshooting.md`
+
+Estos archivos son referencia interna absorbida desde auditoria externa. No reemplazan el arranque oficial de esta skill: pill local, MCP primero, REST fallback y validacion antes de deploy.
+
 ## Llamar a Gemini desde un Code Node
 
 Para razonamiento/extracción NLP dentro de un Code Node:

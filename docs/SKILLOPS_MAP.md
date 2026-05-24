@@ -103,6 +103,8 @@ Estado actual probado: `mcp__notion__` responde como bot en `Fabrizio's Workspac
 
 Estado actual probado: n8n health OK, workflows listan. Pendiente: `n8n_manage_credentials list` falla con `GET method not allowed`; actualizar MCP o usar UI/API fallback.
 
+Vertical n8n: baseline de potenciacion completo en `docs/tool-verticals/n8n-potenciacion.md`. Capacidades absorbidas: Sticky Notes, sub-workflows, sub-workflow conversion, workflow history, tags, REST API y CLI beta. Regla: no buscar otra skill n8n paralela salvo que aporte algo no cubierto por `n8n-workflow-builder`; primero probar con un workflow real y documentar/refactorizar por etapas.
+
 ## Presentaciones, Imagen Y Marketing
 
 | Nombre operativo | Skill ID | Rol | Capa | Estado | Arranque rapido | Pill/MCP | Prueba segura |

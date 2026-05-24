@@ -6,6 +6,8 @@ Use this reference for email strategy, campaign structure, and automated sequenc
 
 Move leads or customers toward one action through sequenced communication.
 
+For final HTML, Gmail/client QA, Apps Script or Sheet-driven sending, hand off to `email-html-marketing`.
+
 ## Minimum Inputs
 
 - Offer
@@ -15,6 +17,7 @@ Move leads or customers toward one action through sequenced communication.
 - Desired action
 - List source
 - Timing constraints
+- Source of truth for status: Sheet, CRM, Notion, n8n staticData or email platform
 
 ## Sequence Logic
 
@@ -28,6 +31,7 @@ Move leads or customers toward one action through sequenced communication.
   retention,
   upsell.
 - Define one action goal for the sequence.
+- Define entry/exit criteria so people do not receive irrelevant emails after they convert, reply or unsubscribe.
 - Give each email a distinct job:
   context,
   proof,
@@ -47,6 +51,7 @@ Specify:
 - message angle
 - CTA
 - success metric
+- exit/update action: tag, status, owner, next sequence or stop condition
 
 ## Common Sequence Patterns
 
@@ -64,3 +69,4 @@ Specify:
 - Match urgency to a real deadline.
 - Sequence copy should escalate intentionally, not randomly.
 - Tie email timing to the sales cycle and channel context.
+- Do not automate sends until fields, consent, status logic and suppression rules are clear.

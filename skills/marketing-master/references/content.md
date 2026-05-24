@@ -6,6 +6,8 @@ Use this reference for content planning, content grids, deliverable mapping, and
 
 Turn strategy into publishable assets that move users through the funnel.
 
+For full calendars or campaign systems, connect this with [growth-operating-system.md](growth-operating-system.md).
+
 ## Minimum Inputs
 
 - Business goal
@@ -15,6 +17,7 @@ Turn strategy into publishable assets that move users through the funnel.
 - Primary channel
 - Time horizon
 - Output format needed
+- Available production route: internal copy only, `flyer-generator`, `video-script-generator`, `disruptive-presentations`, `email-html-marketing`, or `ui-architect`
 
 ## Planning Logic
 
@@ -34,6 +37,7 @@ Turn strategy into publishable assets that move users through the funnel.
   static post for reminders and reinforcement,
   landing copy for conversion,
   email for sequential action.
+- Separate demand creation content from demand capture content. A viral hook, a comparison post and a conversion offer do different jobs.
 - Keep one dominant CTA per piece.
 - Make the next movement explicit:
   save,
@@ -58,6 +62,7 @@ For each content slot define:
 - CTA
 - strategic reason
 - expected next movement
+- production owner/skill
 
 ## Common Content Roles
 
@@ -106,3 +111,4 @@ For each content slot define:
 - Avoid mixing multiple CTAs in one asset.
 - Every piece should support a funnel movement.
 - Use publication cadence that the team can actually sustain.
+- For final visual production, hand off the approved brief to `flyer-generator`, `video-script-generator`, `disruptive-presentations` or `ui-architect` instead of overbuilding inside marketing-master.

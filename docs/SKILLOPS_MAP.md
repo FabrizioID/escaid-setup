@@ -126,7 +126,7 @@ Vertical n8n: baseline de potenciacion completo en `docs/tool-verticals/n8n-pote
 | PowerPoint editable | `slides` | Crear/editar PPTX con PptxGenJS | Dominio extra | Verde/Amarillo | Usar helpers, renderizar, validar | LibreOffice/Node | Render slide |
 | Flyers visuales | `flyer-generator` | Piezas visuales estaticas: flyers, posts, anuncios, covers y creatividades comerciales | Dominio + imagen | Verde/Amarillo | Clasificar modo, elegir patron comercial, generar/evaluar | `image_gen` | Imagen final + prompt |
 | Generador de imagenes | `imagegen` | Generar/editar bitmap | Tool base extra | Verde | Llamar herramienta de imagen | `image_gen` | Imagen generada |
-| Marketing Master | `marketing-master` | Funnel, contenido, Meta Ads, email, SEO | Dominio marketing | Gris | Elegir subdominio y referencia | n8n/Notion opcional | Plan/copy |
+| Marketing Master | `marketing-master` | Funnel, crecimiento, contenido, Meta Ads, email, SEO y lifecycle | Dominio marketing | Verde/Amarillo | Leer growth system, elegir subdominio, investigar alternativas si aplica | n8n/Notion/Google opcional | Plan/copy/handoff |
 | Emails HTML marketing | `email-html-marketing` | HTML email y Apps Script marketing | Dominio + Google | Amarillo | Crear HTML seguro, preview, opcional Drive/Apps Script | Playwright/Google | Preview HTML |
 | Guiones virales | `video-script-generator` | Guiones virales cortos | Dominio | Gris | Validar brief, luego generar variantes | No requiere MCP | Scripts |
 | Manual desde video | `video-manual` | Manual visual desde video + transcript | Dominio + Playwright | Amarillo | Leer transcripcion, capturar frames, generar HTML | Playwright | Captura frame |
@@ -138,6 +138,8 @@ Capa de arquitectura visual/diagramacion: ver `skills/disruptive-presentations/r
 Capa de artificios comerciales disruptivos: ver `skills/disruptive-presentations/references/commercial-disruptive-patterns.md`. Sirve para prompts de slides comerciales/ejecutivas: before-after, tension gap, bottleneck, wedge, flywheel, proof wall, cost of inaction, decision gate, signal vs noise, etc. No genera otro formato.
 
 Vertical flyers/piezas comerciales: baseline de potenciacion en `docs/tool-verticals/flyers-potenciacion.md`. Ruta default: `flyer-generator` -> patron comercial -> prompt final -> imagen con herramienta directa -> QA. No usar para decks/slides, emails, landings o UI.
+
+Vertical marketing: baseline de potenciacion en `docs/tool-verticals/marketing-potenciacion.md`. `marketing-master` es cerebro de crecimiento: funnel, demand creation/capture, lifecycle, data capture, research externo y handoff. No produce visuales finales ni automatizaciones; deriva a `flyer-generator`, `video-script-generator`, `email-html-marketing`, `n8n-workflow-builder`, `documentar-notion` o Google Workspace segun salida.
 
 ## Desarrollo, Operacion Y Sistemas
 

@@ -1,119 +1,109 @@
 ---
 name: strategic-project
-description: Crear, alimentar y mantener proyectos de inteligencia estratégica persistentes que acumulan señales de la realidad en el tiempo. Usar cuando el usuario quiera init proyecto, añadir señal, actualizar variables, revisar estado, listar proyectos, o conectar proyectos entre sí.
+description: Crear, alimentar y mantener proyectos de inteligencia estrategica persistentes dentro de second-brain. Usar cuando el usuario quiera init proyecto, anadir senal, actualizar variables, revisar estado, listar proyectos, conectar proyectos o preparar memoria para Magnus.
 ---
 
 # Strategic Project
 
-Gestiona proyectos de inteligencia estratégica persistentes. Cada proyecto acumula señales de la realidad, mantiene variables rastreadas, y puede conectarse con otros proyectos para análisis macro.
+Gestiona proyectos de inteligencia estrategica persistentes. Cada proyecto acumula senales de la realidad, mantiene variables rastreadas y puede conectarse con otros proyectos para analisis macro.
 
-## Directorio raíz
+## Raiz Canonica
 
-El directorio base de todos los proyectos es `inteligencia/` dentro del workspace activo del usuario. Si no existe, créalo antes de continuar.
+La raiz oficial de escritura es:
 
-Para el esquema completo de archivos y campos, lee [references/project-schema.md](references/project-schema.md).
+`second-brain/inteligencia/`
 
-## Modos de operación
+`inteligencia/` en la raiz del workspace queda como legacy/fallback de lectura o migracion. No crear proyectos, senales, threads ni analysis nuevos ahi.
 
-Detecta el modo por lo que dice el usuario:
+Para el esquema completo de archivos y campos, lee `references/project-schema.md`.
 
-### 1. INIT — Crear proyecto nuevo
+## Modos
 
-**Triggers:** `init proyecto <nombre>`, `crea proyecto <nombre>`, `nuevo proyecto <nombre>`
+### 1. INIT - Crear proyecto nuevo
 
-**Pasos:**
-1. Verificar que `inteligencia/` existe, crear si no.
-2. Crear la carpeta `inteligencia/<slug>/` (slug: kebab-case del nombre).
-3. Crear `PROJECT.md` con el schema completo — preguntar al usuario: propósito en una oración, dominio, y al menos 2 variables iniciales a rastrear.
-4. Crear subcarpetas vacías: `signals/`, `memory/`, `analysis/`, `threads/`.
-5. Crear archivos vacíos en `memory/`: `facts.md`, `variables.md`, `tensions.md`, `decisions.md`.
-6. Crear `threads/_index.md` con la cabecera vacía del índice (tabla con columnas: Slug, Fecha, Tags temáticos, Tags patrón, Tags señal, Resumen corto).
-7. Añadir o actualizar `inteligencia/_registry.md` con la entrada del nuevo proyecto.
-8. Confirmar al usuario con un resumen del proyecto creado.
+Triggers: `init proyecto <nombre>`, `crea proyecto <nombre>`, `nuevo proyecto <nombre>`.
 
-**Regla:** No crear el proyecto sin tener al menos propósito y 1 variable. Si el usuario no los provee, preguntar antes de escribir.
+Pasos:
 
----
+1. Verificar que `second-brain/inteligencia/` existe; crear si no.
+2. Crear `second-brain/inteligencia/<slug>/`.
+3. Crear `PROJECT.md` con proposito, dominio y variables iniciales.
+4. Crear subcarpetas: `signals/`, `memory/`, `analysis/`, `threads/`.
+5. Crear `memory/facts.md`, `memory/variables.md`, `memory/tensions.md`, `memory/decisions.md`, `memory/criteria.md`.
+6. Crear `threads/_index.md` con columnas: Slug, Fecha, Tipo, Tags tematicos, Tags patron, Tags senal, Resumen corto.
+7. Actualizar `second-brain/inteligencia/_registry.md`.
+8. Confirmar al usuario con resumen.
 
-### 2. SEÑAL — Añadir nueva información de la realidad
+Regla: no crear proyecto sin proposito y al menos una variable. Si falta, preguntar antes de escribir.
 
-**Triggers:** `añade señal a <proyecto>`, `tengo nueva info sobre <proyecto>`, `actualiza <proyecto> con esto`
+### 2. SENAL - Anadir informacion de la realidad
 
-**Pasos:**
-1. Leer `inteligencia/<proyecto>/PROJECT.md` para conocer las variables rastreadas.
-2. Crear o abrir `inteligencia/<proyecto>/signals/<fecha-ISO>.md`.
-3. Escribir la señal con el formato definido en project-schema.md: fecha, fuente, dato observado, interpretación (separados explícitamente).
-4. Si la señal cambia el estado de alguna variable, preguntar al usuario si desea actualizar `memory/variables.md`.
-5. Si la señal genera un nuevo hecho estable, proponer añadirlo a `memory/facts.md`.
+Triggers: `anade senal a <proyecto>`, `tengo nueva info sobre <proyecto>`, `actualiza <proyecto> con esto`.
 
-**Regla crítica:** Nunca borrar ni sobreescribir señales existentes. Siempre append. El historial es sagrado.
+Pasos:
 
-**Regla de volumen:** Si el usuario trae múltiples datos en una sesión, documentarlos todos en el mismo archivo de señal del día, separados por sección.
+1. Leer `second-brain/inteligencia/<proyecto>/PROJECT.md`.
+2. Crear o abrir `second-brain/inteligencia/<proyecto>/signals/<YYYY-MM-DD>.md`.
+3. Escribir fuente, variables afectadas, dato observado e interpretacion por separado.
+4. Si cambia una variable, proponer actualizar `memory/variables.md`.
+5. Si genera hecho estable, proponer actualizar `memory/facts.md`.
 
----
+Nunca borrar ni sobreescribir senales existentes.
 
-### 3. VARIABLES — Actualizar estado de variables
+### 3. VARIABLES - Actualizar estado
 
-**Triggers:** `actualiza variables de <proyecto>`, `revisa las variables de <proyecto>`
+Triggers: `actualiza variables de <proyecto>`, `revisa las variables de <proyecto>`.
 
-**Pasos:**
-1. Leer `memory/variables.md` + las últimas 3 entradas en `signals/`.
-2. Identificar qué variables han cambiado de estado según las señales recientes.
-3. Presentar al usuario la tabla de variables con estado actual vs propuesto.
-4. Actualizar `memory/variables.md` solo con confirmación del usuario.
+Pasos:
 
----
+1. Leer `memory/variables.md` y las ultimas 3 senales.
+2. Comparar estado actual vs propuesto.
+3. Mostrar tabla al usuario.
+4. Actualizar solo con confirmacion.
 
-### 4. ESTADO — Revisar situación del proyecto
+### 4. ESTADO - Revisar situacion
 
-**Triggers:** `estado de <proyecto>`, `dame un resumen de <proyecto>`, `qué tenemos en <proyecto>`
+Triggers: `estado de <proyecto>`, `dame resumen de <proyecto>`, `que tenemos en <proyecto>`.
 
-**Pasos:**
-1. Leer en orden: `PROJECT.md`, `memory/variables.md`, `memory/facts.md`, `memory/tensions.md`, `memory/decisions.md`.
-2. Contar señales totales en `signals/` y fecha de la más reciente.
-3. Reportar: propósito, variables activas con estado, hechos clave, tensiones activas, decisiones tomadas, última señal.
-4. No leer análisis previos a menos que el usuario lo pida.
+Pasos:
 
----
+1. Leer `PROJECT.md`, `memory/variables.md`, `facts.md`, `tensions.md`, `decisions.md`.
+2. Contar senales y fecha de la mas reciente.
+3. Reportar proposito, variables, hechos, tensiones, decisiones y ultima senal.
 
-### 5. LISTAR — Ver todos los proyectos
+### 5. LISTAR - Ver todos los proyectos
 
-**Triggers:** `lista proyectos`, `qué proyectos tengo`, `muestra el registry`
+Triggers: `lista proyectos`, `que proyectos tengo`, `muestra el registry`.
 
-**Pasos:**
-1. Leer `inteligencia/_registry.md`.
-2. Mostrar tabla: nombre, dominio, N variables, N señales, conexiones, fecha última señal.
+Leer `second-brain/inteligencia/_registry.md` y mostrar tabla: nombre, dominio, variables, senales, conexiones y ultima senal.
 
----
+### 6. CONECTAR - Vincular proyectos
 
-### 6. CONECTAR — Vincular proyectos entre sí
+Triggers: `conecta <A> con <B>`, `vincula <proyecto-a> y <proyecto-b>`.
 
-**Triggers:** `conecta <A> con <B>`, `vincula <proyecto-a> y <proyecto-b>`
+Pasos:
 
-**Pasos:**
-1. Leer `PROJECT.md` de ambos proyectos.
-2. Añadir cada proyecto a la lista `connections:` del otro.
-3. Actualizar `_registry.md` para reflejar la conexión bidireccional.
-4. Preguntar al usuario si hay variables compartidas o que se afecten entre proyectos, y documentarlo en `memory/variables.md` de ambos con la fuente `inferencia-cruzada`.
+1. Leer `PROJECT.md` de ambos.
+2. Anadir cada proyecto a `connections:` del otro.
+3. Actualizar `_registry.md`.
+4. Preguntar si hay variables compartidas o afectacion cruzada y documentarla como `inferencia-cruzada`.
 
----
+### 7. THREADS - Ver o buscar hilos
 
-### 7. THREADS — Ver o buscar hilos del proyecto
+Triggers: `threads de <proyecto>`, `hilos de <proyecto>`, `busca threads con <tag>`.
 
-**Triggers:** `threads de <proyecto>`, `hilos de <proyecto>`, `busca threads con <tag>`, `qué hilos hay sobre <tema>`
+Pasos:
 
-**Pasos:**
-1. Leer `inteligencia/<proyecto>/threads/_index.md`.
-2. Si el usuario pide un tag específico, filtrar las filas que lo contengan.
-3. Mostrar tabla filtrada con slug, fecha, tags y resumen corto.
-4. Si el usuario quiere leer un thread completo, leer `threads/<slug>.md`.
+1. Leer `second-brain/inteligencia/<proyecto>/threads/_index.md`.
+2. Filtrar por tag o tema si aplica.
+3. Mostrar slug, fecha, tags y resumen.
+4. Leer thread completo solo si el usuario lo pide.
 
----
+## Reglas
 
-## Reglas generales
-
-- Escribir en `memory/` solo hechos confirmados o explícitamente validados por el usuario.
-- Siempre separar dato observado de interpretación en las señales.
-- Nunca almacenar credenciales, tokens, ni datos sensibles.
-- Usar fechas ISO (YYYY-MM-DD) en todos los archivos.
-- El slug de un proyecto es inmutable una vez creado.
+- Escribir en `memory/` solo hechos confirmados o validados por el usuario.
+- Separar dato observado de interpretacion en senales.
+- Nunca almacenar credenciales, tokens ni secretos.
+- Usar fechas ISO `YYYY-MM-DD`.
+- El slug de un proyecto es inmutable.
+- Si una instruccion antigua menciona `inteligencia/`, normalizar a `second-brain/inteligencia/` salvo lectura legacy o migracion.

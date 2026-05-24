@@ -9,7 +9,7 @@ Gestiona los threads de memoria de proyectos estratégicos. Cada thread es un no
 
 Raiz canonica: escribir siempre en `<workspace>/second-brain/inteligencia/<proyecto>/threads/`. `<workspace>/inteligencia` es legacy/fallback de lectura o migracion; no crear hilos nuevos ahi.
 
-Los threads viven en `second-brain/inteligencia/<proyecto>/threads/`. Para el formato completo de cada archivo, leer [references/thread-schema.md](references/thread-schema.md).
+Los threads viven en `second-brain/inteligencia/<proyecto>/threads/`. Para el formato completo de cada archivo, leer [references/thread-schema.md](references/thread-schema.md). Para decidir que sube a `memory/` o a `MASTER_IDEAS.md`, leer [references/memory-lifecycle.md](references/memory-lifecycle.md).
 
 ---
 

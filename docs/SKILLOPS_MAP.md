@@ -51,12 +51,14 @@ Estas reglas mandan cuando dos skills parecen servir para lo mismo. El objetivo 
 |---|---|---|---|---|---|---|---|
 | Magnus Thinker | `magnus-thinker` | Motor de criterio, decision, disrupcion y second brain pull | Dominio estrategico | Verde/Amarillo | Leer `MASTER_IDEAS`, detectar proyecto activo, leer indices de threads relevantes | Filesystem local | Confirmar existencia de `MASTER_IDEAS.md` e indices |
 | Hilos de proyecto | `project-thread-assistant` | Crear, actualizar, cerrar e ingestar hilos de proyecto | Memoria operativa | Verde/Amarillo | Escribir siempre en `<workspace>/second-brain/inteligencia/<proyecto>/threads/` | Filesystem local | Verificar `_index.md` y formato de thread |
-| Proyectos estrategicos | `strategic-project` | Crear y mantener proyectos persistentes con variables, senales y decisiones | Memoria estructural | Amarillo | Leer `PROJECT.md`, `memory/*`, `signals/*` | Filesystem local | Verificar estructura del proyecto |
-| Analisis estrategico | `strategic-thinker` | Analisis estrategico entre variables/proyectos | Dominio estrategico | Gris | Leer proyecto(s), variables y tensiones | Filesystem local | Verificar `references/analysis-protocols.md` |
+| Proyectos estrategicos | `strategic-project` | Crear y mantener proyectos persistentes con variables, senales y decisiones | Memoria estructural | Verde/Amarillo | Leer `PROJECT.md`, `memory/*`, `signals/*` desde Second Brain | Filesystem local | Verificar estructura del proyecto |
+| Analisis estrategico | `strategic-thinker` | Analisis estrategico entre variables/proyectos | Dominio estrategico | Verde/Amarillo | Leer registry, proyecto(s), variables y tensiones desde Second Brain | Filesystem local | Verificar `references/analysis-protocols.md` |
 | Memoria de interacciones | `interaction-memory` | Guardar aprendizajes de sesiones y artefactos | Memoria general | Gris | Crear carpeta/registro de memoria si el usuario lo pide | Filesystem local | Verificar template |
 | Planificador de accion | `action-planner` | Convertir ideas en planes accionables y rutas de produccion | Dominio ejecucion | Gris | Clasificar objetivo, recursos, restricciones, rutas | No requiere MCP | N/A |
 
 Raiz canonica de escritura: `<workspace>/second-brain/inteligencia`. `<workspace>/inteligencia` queda como legacy local/fallback de lectura mientras se termine la limpieza. Ver `docs/MEMORY_ARCHITECTURE.md`.
+
+Vertical Second Brain/memoria: baseline de potenciacion en `docs/tool-verticals/second-brain-potenciacion.md`. Contrato operativo: threads documentan la sesion, `memory/` conserva aprendizajes estables, `MASTER_IDEAS.md` guarda criterios transversales, y Magnus hace context pull por indices/tags antes de razonar.
 
 ## Documentacion Y Conocimiento
 

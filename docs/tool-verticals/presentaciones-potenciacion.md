@@ -30,6 +30,27 @@ Ordenar el ecosistema de presentaciones para que cada agente elija rapido la rut
 | Crear assets bitmap, fondos, ilustraciones o mockups | `imagegen` |
 | Deck tecnico text-first Markdown/HTML | Marp/reveal.js solo si el usuario lo pide |
 
+## Capa de arquitectura visual y diagramacion
+
+Esta capa quedo absorbida como referencia operativa en:
+
+`skills/disruptive-presentations/references/visual-architecture-diagramming.md`
+
+Regla: antes de convertir un proceso, sistema, arquitectura o modelo conceptual en slide, clasificar la familia de diagrama y elegir la herramienta/gramatica correcta.
+
+| Familia | Ruta recomendada |
+| --- | --- |
+| Arquitectura software/MCP/repos/APIs | D2 o Mermaid architecture para draft; full-image para slide final |
+| Proceso operativo / automatizacion | Mermaid flowchart o D2; Miro si es workshop |
+| Secuencia agente-herramienta/API | Mermaid sequence |
+| Estados y lifecycle | Mermaid state |
+| Sistema de sistemas / mapa ESC-AI | D2, Miro o schematic custom |
+| Modelo conceptual / tesis | Schematic custom, no raw Mermaid |
+| Funnel / journey | Schematic custom o Miro |
+| Diagrama interactivo editable | React Flow |
+| Sketch humano de ideacion | Excalidraw o Miro |
+| PPTX editable | `slides`/PptxGenJS |
+
 ## Handoff minimo por slide
 
 Cada slide que sale de Orchestrator debe incluir:
@@ -69,6 +90,10 @@ Fuentes revisadas:
 - PptxGenJS charts/tables/images: `https://gitbrent.github.io/PptxGenJS/docs/api-charts.html`, `https://gitbrent.github.io/PptxGenJS/docs/api-tables.html`, `https://gitbrent.github.io/PptxGenJS/docs/api-images/`
 - reveal.js docs: `https://revealjs.com/`
 - Marp docs: `https://marp.app/`
+- Mermaid docs: `https://mermaid.js.org/`
+- D2 docs: `https://d2lang.com/`
+- Excalidraw libraries: `https://libraries.excalidraw.com/`
+- React Flow docs: `https://reactflow.dev/`
 
 ## Estado
 

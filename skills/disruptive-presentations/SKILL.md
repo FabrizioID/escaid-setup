@@ -7,6 +7,8 @@ description: "Motor de generacion de slides disruptivas de alta calidad visual. 
 
 Full legacy prompt templates and HTML shell -> [references/full-reference.md](references/full-reference.md)
 
+Visual architecture and diagramming grammar -> [references/visual-architecture-diagramming.md](references/visual-architecture-diagramming.md)
+
 ---
 
 ## DEFAULT MODE: FULL IMAGE WITH CHATGPT

@@ -40,6 +40,7 @@ escaid-setup/
 |-- skills/
 |   |-- interaction-memory/    <- skill para memoria shared + carpetas por chat
 |   |-- project-thread-assistant/ <- skill para asistente persistente con memoria por hilo
+|   |-- external-skill-auditor/ <- skill para auditar skills externas antes de instalarlas
 |   |-- marketing-master/      <- skill custom para estrategia/marketing
 |   `-- email-html-marketing/  <- skill para correos HTML, Drive assets y Apps Script/MailApp
 |-- settings.json              <- config global sanitizada (sin secrets)

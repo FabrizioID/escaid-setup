@@ -75,7 +75,7 @@ Caso de uso: diagramas tecnicos exportables cuando Miro esta sin auth o cuando e
 
 ### 5. Skill Reviewer / Auditor
 
-Antes de instalar skills externas, crear una skill propia:
+Antes de instalar skills externas, usar la skill propia:
 
 `external-skill-auditor`
 
@@ -88,6 +88,8 @@ Funciones:
 - recomendar adoptar/adaptar/ignorar
 
 Esta es probablemente la siguiente skill mas importante si vamos a comprar en el mercado.
+
+Estado: creada como compuerta oficial de auditoria antes de instalar/adaptar skills externas.
 
 ## Fuentes
 
@@ -102,4 +104,3 @@ Esta es probablemente la siguiente skill mas importante si vamos a comprar en el
 - daymade Claude Code skills: https://github.com/daymade/claude-code-skills
 - Randroids Dojo skills: https://github.com/randroids-dojo/skills
 - ClaudSkills registry: https://claudskills.com/
-

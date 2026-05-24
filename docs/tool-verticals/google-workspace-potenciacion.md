@@ -146,6 +146,50 @@ Google Workspace queda como vertical completo en baseline. No buscar otra skill 
 - sincronizador Docs/Sheets/Notion;
 - auditor de schemas Sheets usados por n8n.
 
+## Busqueda Externa De Potenciacion
+
+Busqueda realizada para detectar herramientas/repos que aporten algo mas alla del MCP local actual.
+
+| Candidato | Fuente | Aporte potencial | Decision |
+|---|---|---|---|
+| Google Workspace CLI oficial | https://github.com/googleworkspace/cli | CLI oficial `gws`, muchas skills por API y recetas para Gmail, Drive, Docs, Calendar y Sheets | Adaptar criterios / auditar skills especificas |
+| `gogcli` | https://github.com/openclaw/gogcli | CLI scriptable para Workspace amplio, salida JSON/plain, multiples cuentas, service accounts y allow/deny runtime | Adaptar para operaciones masivas/CI si el MCP queda corto |
+| `ngs/google-mcp-server` | https://github.com/ngs/google-mcp-server | MCP Go multi-account para Calendar, Drive, Gmail, Sheets, Docs y Slides, con refresh y backoff | Comparar arquitectura; no reemplazar el MCP actual |
+| `a-bonus/google-docs-mcp` | https://github.com/a-bonus/google-docs-mcp | MCP Docs/Sheets/Drive/Gmail/Calendar con despliegue remoto posible | Auditar solo como fallback/remoto, no instalar directo |
+| MCPs solo Sheets | Ej. `xing5/mcp-google-sheets` | Foco en Sheets cuando el problema sea spreadsheet automation | Ignorar por ahora; nuestro MCP ya cubre Sheets bastante bien |
+
+### Hallazgo Principal
+
+El mayor potencial externo es el **Google Workspace CLI oficial**, no porque reemplace al MCP, sino porque trae:
+
+- skills oficiales por API;
+- recetas operativas;
+- una interfaz CLI unica para Workspace;
+- posible fallback cuando MCP no expone una operacion especifica;
+- material para mejorar nuestras skills de dominio.
+
+### Criterio De Adopcion
+
+No instalar todo el CLI ni todas sus skills de golpe. Secuencia recomendada:
+
+1. auditar `googleworkspace/cli` como fuente oficial;
+2. revisar solo skills especificas: Drive, Docs, Sheets y shared;
+3. comparar contra `google-workspace-editor`;
+4. absorber recetas utiles;
+5. si aporta velocidad real, crear un submodo `Google Workspace CLI fallback`;
+6. mantener el MCP local como ruta principal.
+
+### Oportunidades Reales
+
+| Oportunidad | Por que importa |
+|---|---|
+| Drive folder auditor | Documentar estructura de carpetas, permisos, duplicados y entregables |
+| Sheet schema auditor para n8n | Evitar que cambios de columnas rompan automatizaciones |
+| Template factory | Crear Docs/Sheets desde templates con placeholders y QA heredado |
+| Export pipeline | Exportar Docs/Sheets a PDF/DOCX/XLSX y archivar en Drive |
+| Multi-account routing | Separar cuenta Fabrizio, AECODE y clientes sin confundir tokens |
+| Comments QA workflow | Revisar documentos con comentarios antes de editar contenido vivo |
+
 ## Siguiente Prueba Real
 
 Probar con un caso concreto:

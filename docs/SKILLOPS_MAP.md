@@ -60,6 +60,8 @@ Raiz canonica de escritura: `<workspace>/second-brain/inteligencia`. `<workspace
 
 Vertical Second Brain/memoria: baseline de potenciacion en `docs/tool-verticals/second-brain-potenciacion.md`. Contrato operativo: threads documentan la sesion, `memory/` conserva aprendizajes estables, `MASTER_IDEAS.md` guarda criterios transversales, y Magnus hace context pull por indices/tags antes de razonar.
 
+Vertical Magnus Thinker: baseline de potenciacion en `docs/tool-verticals/magnus-thinker-potenciacion.md`. Magnus es always-on: corre F1-F13 internamente en cada interaccion, activa pills segun el problema, y solo muestra cadena visual/Coda cuando el usuario lo pide o al cerrar una sesion profunda.
+
 ## Documentacion Y Conocimiento
 
 | Nombre operativo | Skill ID | Rol | Capa | Estado | Arranque rapido | Pill/MCP | Prueba segura |

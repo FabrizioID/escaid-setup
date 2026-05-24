@@ -4,7 +4,14 @@
 
 La Coda Magnus es el mecanismo de entrenamiento mental del sistema. Después de cada decisión tomada con Magnus Thinker, se ejecuta un debrief que mapea qué preguntas quebraron el problema, qué fases fueron más generativas, y qué patrón cognitivo produjo la solución. Con el tiempo, el usuario internaliza los movimientos mentales sin necesidad de guía externa.
 
-**Se ejecuta siempre. Es la última acción de cada sesión.**
+Internamente, Magnus puede construir una Coda ligera para aprender de la sesion. Visible para el usuario, la Coda se muestra solo cuando:
+
+- el usuario la pide;
+- el usuario pide cadena visual, modo entrenamiento o explicacion del razonamiento;
+- se cierra una sesion de razonamiento profundo;
+- el resultado tiene valor pedagogico claro para afinar el criterio del usuario.
+
+No mostrar Coda visible en tareas operativas simples si solo agregaria ruido.
 
 ---
 

@@ -125,6 +125,7 @@ Estado actual probado: n8n health OK, workflows listan. Pendiente: `n8n_manage_c
 | Goldratts Brain | `goldratts-brain` | Procesos humanos y cuellos de botella | Dominio operativo | Gris | Diagnosticar flujo humano | No requiere MCP | Mapa proceso |
 | Cotizador tecnico | `technical-quotation-builder` | Cotizaciones tecnicas/propuestas | Dominio comercial tecnico | Gris | Definir alcance, unidades, precios, soporte | Docs/Sheets opcional | Tabla/propuesta |
 | Sustentos adicionales | `sustento-adicional` | Costos de actividades adicionales | Dominio especializado | Gris | Recibir datos minimos, calcular sustento | Excel opcional | Resultado calculado |
+| GitHub repos | `github-repo-ops` | Auth, status, commit, push, pull y permisos GitHub | Apertura + operacion repo | Verde/Amarillo | `gh auth status`, activar cuenta correcta, revisar remote/status | `gh` keyring / Git Credential Manager | `git status -sb` y push controlado |
 | Permisos de proyecto | `project-permissions-setup` | Reducir prompts de permisos en proyectos | Apertura local | Gris | Crear allowlist read-only | Filesystem | `.claude/settings.json` |
 
 ## Miro, Mapas Y Flujos

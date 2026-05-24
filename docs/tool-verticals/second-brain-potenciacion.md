@@ -25,7 +25,7 @@ La ruta legacy solo se usa como fallback de lectura o migracion. Ninguna skill d
 | Skill | Rol operativo | Estado |
 | --- | --- | --- |
 | `project-thread-assistant` | Abre, documenta, cierra y consulta threads por proyecto. | Canonica en `second-brain/inteligencia/`. |
-| `interaction-memory` | Captura aprendizajes utiles de una sesion cuando hay informacion durable. | Complementaria; usar cuando el valor debe quedar persistido. |
+| `interaction-memory` | Captura aprendizajes utiles de una sesion y decide que se promueve a memoria. | Complementaria; no crea memoria estrategica paralela si existe proyecto activo. |
 | `strategic-project` | Crea y mantiene proyectos, variables, senales y memoria estable. | Normalizada a Second Brain. |
 | `strategic-thinker` | Cruza proyectos, variables y tensiones para producir analysis. | Normalizada a Second Brain. |
 | `magnus-thinker` | Ejecuta context pull y razonamiento activo sobre la memoria. | Con contrato explicito de Second Brain. |
@@ -34,11 +34,12 @@ La ruta legacy solo se usa como fallback de lectura o migracion. Ninguna skill d
 
 1. Identificar proyecto activo.
 2. Abrir o reutilizar thread en `second-brain/inteligencia/<proyecto>/threads/`.
-3. Documentar hitos relevantes durante la sesion.
-4. Cerrar thread con resumen, decisiones, preguntas abiertas, tags y enlaces.
-5. Promover solo aprendizajes estables a `memory/`.
-6. Promover ideas transversales a `MASTER_IDEAS.md` cuando afecten mas de un proyecto.
-7. Antes de razonar, Magnus lee `MASTER_IDEAS.md`, el indice del proyecto y maximo 2-4 threads relevantes.
+3. Usar `interaction-memory` para filtrar que vale la pena guardar y que seria ruido.
+4. Documentar hitos relevantes durante la sesion.
+5. Cerrar thread con resumen, decisiones, preguntas abiertas, tags y enlaces.
+6. Promover solo aprendizajes estables a `memory/`.
+7. Promover ideas transversales a `MASTER_IDEAS.md` cuando afecten mas de un proyecto.
+8. Antes de razonar, Magnus lee `MASTER_IDEAS.md`, el indice del proyecto y maximo 2-4 threads relevantes.
 
 ## Criterio de promocion
 
@@ -47,6 +48,8 @@ Un dato queda en el thread si solo explica la conversacion.
 Un dato sube a `memory/` si cambia como debe operar el proyecto, una decision, una variable o un criterio reutilizable.
 
 Un dato sube a `MASTER_IDEAS.md` si es transversal, reaplicable y no depende de un solo proyecto.
+
+`interaction-memory` opera como filtro de promocion: extrae hechos, decisiones, criterios, variables, tensiones, pendientes y artefactos; luego decide si quedan en thread, suben a `memory/` o se proponen para `MASTER_IDEAS.md`.
 
 ## Que no hacer
 

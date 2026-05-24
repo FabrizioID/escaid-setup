@@ -84,6 +84,8 @@ Raiz canonica de escritura: `<workspace>/second-brain/inteligencia`. `<workspace
 
 Nota actual: Google Workspace MCP esta configurado y `GOOGLE_MCP_PROFILE=fabrizio` fue agregado para tokens perfilados. Si las tools no aparecen, recargar Codex/Claude/Antigravity para reiniciar el MCP.
 
+Vertical Google Workspace: baseline de potenciacion completo en `docs/tool-verticals/google-workspace-potenciacion.md`. Capacidades cubiertas: Docs, Sheets, Drive, comentarios, tablas, formato, templates, carpetas, export/download y apertura MCP por perfil. Regla: no buscar otra skill Google paralela salvo que aporte versionado/documentacion automatica, auditoria de schemas Sheets usados por n8n, o sincronizacion especializada no cubierta por el MCP actual.
+
 ## Notion
 
 | Nombre operativo | Skill ID | Rol | Capa | Estado | Arranque rapido | Pill/MCP | Prueba segura |

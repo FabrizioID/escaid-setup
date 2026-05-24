@@ -75,6 +75,8 @@ Potenciacion externa Magnus: ver `docs/skill-audits/2026-05-24-magnus-external-f
 | Frontend web/app | `frontend-skill` | App/sitio/prototipo frontend | Dominio/UI extra | Extra | Revisar repo, construir UI, probar | Playwright/dev server | Screenshot |
 | Arquitecto UI | `ui-architect` | UI HTML de nivel produccion; cubre experiencias HTML visuales/interactivas | Dominio/UI | Amarillo | Usar criterios UI, construir y verificar | Playwright | Screenshot |
 
+Vertical documentacion: baseline de potenciacion en `docs/tool-verticals/documentacion-potenciacion.md`. Las skills `documentador-experto`, `doc-desarrollos` y `doc-general` son dominio/contenido; si la salida es HTML visual se activa `ui-architect`, y si se publica en Notion se activa `documentar-notion`.
+
 ## Google, Docs, Sheets, Drive, Word Y Excel
 
 | Nombre operativo | Skill ID | Rol | Capa | Estado | Arranque rapido | Pill/MCP | Prueba segura |

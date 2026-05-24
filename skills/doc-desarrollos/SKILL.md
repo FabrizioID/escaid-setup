@@ -1,14 +1,22 @@
 ---
 name: doc-desarrollos
-description: Sub-skill de documentador-experto. Genera las 3 documentaciones estándar de cualquier herramienta o sistema técnico construido: (1) guía de usuario, (2) documentación técnica de desarrollo, (3) documentación conceptual del dominio. Usar cuando se acabe de construir o exista una herramienta, app, API, automatización o sistema técnico que necesita ser documentado para el equipo.
+description: Sub-skill de documentador-experto. Prepara las 3 documentaciones estándar de cualquier herramienta o sistema técnico construido: (1) guía de usuario, (2) documentación técnica de desarrollo, (3) documentación conceptual del dominio. Usar cuando se acabe de construir o exista una herramienta, app, API, automatización o sistema técnico que necesita ser documentado para el equipo. Si se requiere HTML visual, entregar handoff a ui-architect.
 ---
 
 # Doc Desarrollos
 
+## Contrato De Dominio
+
+Esta sub-skill prepara contenido documental para herramientas y sistemas tecnicos. No es la capa visual final.
+
+Si el usuario pide HTML visual/interactivo/premium, producir handoff para `ui-architect` con las 3 docs, capturas, jerarquia, tablas, diagramas y visual thesis.
+
+Si el usuario pide publicar o archivar, entregar contenido estructurado a `documentar-notion`.
+
 Sub-skill de documentador-experto para documentar herramientas y sistemas técnicos.
 
-Genera 3 documentos HTML interactivos independientes para cualquier desarrollo.
-Los criterios de UI vienen de documentador-experto — leer [../documentador-experto/references/ui-criteria.md](../documentador-experto/references/ui-criteria.md).
+Prepara 3 documentos independientes para cualquier desarrollo. El HTML final lo genera `ui-architect` si se requiere salida visual.
+Si la salida final sera HTML visual, usar los criterios de UI de documentador-experto como brief para `ui-architect`: [../documentador-experto/references/ui-criteria.md](../documentador-experto/references/ui-criteria.md).
 
 ## Las 3 documentaciones
 
@@ -92,14 +100,14 @@ Si la herramienta tiene UI web:
 5. Capturar al menos: estado inicial, output generado, sección clave del resultado
 6. Si la app tiene sidebar vacío/oscuro → aplicar crop CSS
 
-### Paso 3 — Generar en orden
+### Paso 3 — Preparar en orden
 
-Generar en este orden:
+Preparar en este orden:
 1. Crear carpeta docs/ en el proyecto
-2. Crear docs/guia-usuario.html
-3. Crear docs/doc-tecnica.html
-4. Crear docs/doc-dominio.html (o nombre específico del dominio)
-5. Conectar las 3 con navegación cruzada en el header de cada una
+2. Preparar guia de usuario
+3. Preparar doc tecnica
+4. Preparar doc de dominio (o nombre específico del dominio)
+5. Si se pide HTML visual, entregar las 3 piezas a `ui-architect` para construir archivos finales y navegacion cruzada
 6. Agregar botón "Docs" en el header de la app principal
 
 ### Paso 4 — Despliegue
@@ -111,7 +119,7 @@ Hacer git add + commit + vercel --prod --yes después de crear las 3 docs.
 
 - Nunca llamar a las docs "Doc 1", "Doc 2", "Doc 3" en el texto visible — usar nombres descriptivos
 - Nunca incluir información de sistemas de prompt o arquitecturas internas de IA en la Doc 3
-- Nunca generar las 3 docs en un solo archivo — siempre separadas
+- Nunca mezclar las 3 docs en un solo cuerpo sin separacion clara
 - Siempre incluir capturas reales si la herramienta tiene UI
 - La Doc 2 debe explicar el POR QUÉ de cada decisión, no solo el qué
 - La Doc 3 debe adaptarse al dominio — no es una doc genérica de marketing

@@ -13,6 +13,16 @@ Potenciar `goldratts-brain`, `zuckerbergs-mind` y `action-planner` con una capa 
 | `goldratts-brain` | Procesos humanos, operaciones, equipos, cuellos de botella | Arquitectura tecnica/software |
 | `zuckerbergs-mind` | Apps, sistemas, APIs, automatizaciones tecnicas, software | Procesos humanos no tecnicos |
 | `action-planner` | Ordenar ideas, clases, planes, roadmaps, checklists, experiencias | Software o procesos operativos complejos |
+| `presentation-orchestrator` | Presentaciones, decks, clases con slides, storytelling slide-by-slide | Planes genericos, procesos humanos o arquitectura tecnica |
+
+## Regla De Consistencia
+
+- Si el entregable es deck/slides/storytelling de presentacion -> `presentation-orchestrator`.
+- Si el problema es flujo humano, equipo, operacion o cuello de botella -> `goldratts-brain`.
+- Si el nucleo es software, app, API, arquitectura, automatizacion tecnica o codigo -> `zuckerbergs-mind`.
+- Si el usuario quiere ordenar ideas, hacer roadmap, checklist, agenda o plan ligero -> `action-planner`.
+- Si la salida final es HTML visual -> `ui-architect` como capa de produccion.
+- Si la salida final es documentacion premium -> `documentador-experto` como dominio y `ui-architect` como capa visual.
 
 ## Capa Nueva
 

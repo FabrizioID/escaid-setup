@@ -23,6 +23,7 @@ Estas reglas mandan cuando dos skills parecen servir para lo mismo. El objetivo 
 | Frontend app/repo | `frontend-skill` | `ui-architect` si se requiere acabado visual premium | Usar `frontend-skill` cuando hay app real, framework, repo frontend, rutas, componentes o estado de producto. No usarlo para documentacion ni HTML visual aislado de ESC-AI. |
 | Documentacion HTML | `documentador-experto` | `doc-desarrollos`, `doc-general` | Usar para documentar sistemas, procesos, conceptos o desarrollos. No reemplaza `ui-architect` cuando el pedido es construir una UI/producto. |
 | Presentacion narrativa | `presentation-orchestrator` | `disruptive-presentations`, `slides` | Primero narrativa, estructura y handoff completo. Despues de aprobacion, la produccion visual por defecto es `disruptive-presentations`. |
+| Plan/roadmap/checklist ligero | `action-planner` | `documentador-experto`, `ui-architect`, `documentar-notion` | Usar solo cuando no sea software, proceso humano complejo, marketing integral ni deck slide-by-slide. |
 | Slide full image | `disruptive-presentations` | `presentation-orchestrator` upstream, `imagegen` como motor, `slides` downstream | Genera slides como imagen final + HTML player + manifest. No crea PPTX editable salvo que luego se pida export. |
 | PowerPoint editable | `slides` | `disruptive-presentations` si ya hay imagenes finales | Usar cuando el entregable pedido sea `.pptx` editable, recreacion PPTX o validacion de layout PowerPoint. |
 | Excel directo | `excel-user` | `excel-table-builder` si la salida va a Word/APA | Para crear, leer, editar, formatear o analizar `.xlsx`, manda `excel-user`. |
@@ -54,7 +55,7 @@ Estas reglas mandan cuando dos skills parecen servir para lo mismo. El objetivo 
 | Proyectos estrategicos | `strategic-project` | Crear y mantener proyectos persistentes con variables, senales y decisiones | Memoria estructural | Verde/Amarillo | Leer `PROJECT.md`, `memory/*`, `signals/*` desde Second Brain | Filesystem local | Verificar estructura del proyecto |
 | Analisis estrategico | `strategic-thinker` | Analisis estrategico entre variables/proyectos | Dominio estrategico | Verde/Amarillo | Leer registry, proyecto(s), variables y tensiones desde Second Brain | Filesystem local | Verificar `references/analysis-protocols.md` |
 | Memoria de interacciones | `interaction-memory` | Filtrar y persistir aprendizajes de sesiones sin ensuciar Second Brain | Memoria/promocion | Verde/Amarillo | Detectar proyecto activo, extraer durable vs ruido, coordinar con threads | Filesystem local | Verificar targets `threads/` y `memory/` |
-| Planificador de accion | `action-planner` | Convertir ideas en planes accionables y rutas de produccion | Dominio ejecucion | Gris | Clasificar objetivo, recursos, restricciones, rutas | No requiere MCP | N/A |
+| Planificador de accion | `action-planner` | Convertir ideas en planes accionables y rutas de produccion ligera | Dominio ejecucion | Verde/Amarillo | Clasificar objetivo, descartar dominios especializados, definir entregable | No requiere MCP | Plan/checklist/handoff |
 
 Raiz canonica de escritura: `<workspace>/second-brain/inteligencia`. `<workspace>/inteligencia` queda como legacy local/fallback de lectura mientras se termine la limpieza. Ver `docs/MEMORY_ARCHITECTURE.md`.
 
@@ -145,8 +146,8 @@ Vertical marketing: baseline de potenciacion en `docs/tool-verticals/marketing-p
 
 | Nombre operativo | Skill ID | Rol | Capa | Estado | Arranque rapido | Pill/MCP | Prueba segura |
 |---|---|---|---|---|---|---|---|
-| Zuckerbergs Mind | `zuckerbergs-mind` | Planificacion de software/sistemas tecnicos | Dominio estrategia tecnica | Gris | Planificar, no codificar hasta aprobado | No requiere MCP | Plan |
-| Goldratts Brain | `goldratts-brain` | Procesos humanos y cuellos de botella | Dominio operativo | Gris | Diagnosticar flujo humano | No requiere MCP | Mapa proceso |
+| Zuckerbergs Mind | `zuckerbergs-mind` | Planificacion de software/sistemas tecnicos | Dominio estrategia tecnica | Verde/Amarillo | Confirmar componente tecnico central, planificar, no codificar hasta aprobado | No requiere MCP | Plan tecnico |
+| Goldratts Brain | `goldratts-brain` | Procesos humanos y cuellos de botella | Dominio operativo | Verde/Amarillo | Confirmar flujo humano/operativo, restricciones, roles y metricas | No requiere MCP | Mapa proceso |
 | Cotizador tecnico | `technical-quotation-builder` | Cotizaciones tecnicas/propuestas | Dominio comercial tecnico | Gris | Definir alcance, unidades, precios, soporte | Docs/Sheets opcional | Tabla/propuesta |
 | Sustentos adicionales | `sustento-adicional` | Costos de actividades adicionales | Dominio especializado | Gris | Recibir datos minimos, calcular sustento | Excel opcional | Resultado calculado |
 | GitHub repos | `github-repo-ops` | Auth, status, commit, push, pull y permisos GitHub | Apertura + operacion repo | Verde/Amarillo | `gh auth status`, activar cuenta correcta, revisar remote/status | `gh` keyring / Git Credential Manager | `git status -sb` y push controlado |
@@ -154,6 +155,8 @@ Vertical marketing: baseline de potenciacion en `docs/tool-verticals/marketing-p
 | Permisos de proyecto | `project-permissions-setup` | Reducir prompts de permisos en proyectos | Apertura local | Gris | Crear allowlist read-only | Filesystem | `.claude/settings.json` |
 
 Vertical planning brains: baseline de potenciacion en `docs/tool-verticals/planning-brains-potenciacion.md`. `goldratts-brain`, `zuckerbergs-mind` y `action-planner` ahora tienen `references/external-alternatives.md` para buscar herramientas, repos, plantillas, Reddit, docs oficiales y alternativas ya hechas antes de inventar una ruta custom.
+
+Consistencia planning brains: `action-planner` queda como planificador ligero; `goldratts-brain` para operaciones humanas; `zuckerbergs-mind` para sistemas tecnicos; `presentation-orchestrator` solo para decks/slides. Si hay salida HTML visual, la capa final es `ui-architect`.
 
 ## Miro, Mapas Y Flujos
 

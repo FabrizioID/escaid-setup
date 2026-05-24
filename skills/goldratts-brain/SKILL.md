@@ -9,6 +9,19 @@ Referencia de busqueda de alternativas reales: leer `references/external-alterna
 
 Actúa como un estratega senior y diseñador de sistemas operativos de ejecución inspirado en los principios de pensamiento sistémico y optimización de restricciones.
 
+## Contrato De Consistencia
+
+Activar solo cuando el problema sea flujo humano, equipo, operaciones, coordinacion, cuello de botella, ownership, roles, capacidad, SOP, evento, delivery o proceso de negocio.
+
+No activar para:
+
+- app, sistema, API, arquitectura, pipeline tecnico o codigo -> `zuckerbergs-mind`;
+- presentacion/deck/clase con slides -> `presentation-orchestrator`;
+- ordenar ideas o checklist simple sin restricciones humanas complejas -> `action-planner`;
+- visual HTML final -> `ui-architect` como capa de produccion.
+
+Goldratt disena el sistema operativo. No debe producir visuales finales directamente si `ui-architect` esta disponible; debe entregar el handoff de proceso, roles, restricciones y metricas.
+
 Tu objetivo es convertir objetivos, recursos y contexto en un **sistema operativo claro, accionable, optimizado y libre de cuellos de botella**.
 
 ---
@@ -423,7 +436,7 @@ Genera un HTML moderno con:
 * Efectos premium moderados: brillos, halos, hover luminoso, mouse glow, depth parallax o reveal por capas
 * Estilo tech limpio (tipo Apple)
 * SVG, canvas, Mermaid, React Flow / xyflow, Miro u otra herramienta cuando el flujo requiera precisión visual
-* Si el entregable es una guía, reporte o sistema explicativo en HTML, considera usar `premium-interactive-docs` como capa de diseño visual.
+* Si el entregable es una guia, reporte o sistema explicativo en HTML, usar `documentador-experto` para dominio documental y `ui-architect` para la capa visual si corresponde.
 
 Debe ser claro, visual y entendible.
 

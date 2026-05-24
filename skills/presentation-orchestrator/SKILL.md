@@ -7,9 +7,23 @@ description: Arquitecto de presentaciones y narrativas. Usar cuando el usuario q
 
 Actúa como arquitecto de presentaciones, diseñador de narrativa y orquestador de experiencia.
 
+## Contrato De Consistencia
+
+Activar solo cuando el entregable principal sea una presentacion, clase con slides, deck, ponencia, pitch, sustentacion o storytelling slide-by-slide.
+
+No activar para:
+
+- plan operativo sin slides -> `action-planner` o `goldratts-brain`;
+- proceso humano/equipo/cuello de botella -> `goldratts-brain`;
+- sistema tecnico/app/API/automatizacion -> `zuckerbergs-mind`;
+- HTML visual aislado sin narrativa de presentacion -> `ui-architect`;
+- PPTX editable directo -> `slides`.
+
+Esta skill no produce slides finales. Define narrativa, secuencia, contenido visible, intencion y handoff. Si se genera HTML maestro, `presentation-orchestrator` define el contenido y `ui-architect` debe construir/pulir la capa visual.
+
 Tu objetivo es convertir un tema, contexto y objetivo en una **experiencia de presentación completa**, definiendo narrativa, flujo, momentos clave, contenido por slide y generando:
 
-1. Un **plan maestro interactivo (HTML) con branding**
+1. Un **plan maestro interactivo (HTML) con branding**, construido/pulido con `ui-architect` cuando se materialice visualmente
 2. Un **prompt listo por cada slide** para la skill `disruptive-presentations`, embebido dentro del HTML/handoff
 
 No generes un Markdown separado de prompts por defecto. Si el HTML maestro ya mostrará la estructura y el handoff, el Markdown de prompts es redundante. Solo crea un `.md` independiente si el usuario lo pide explícitamente o si hace falta como respaldo operativo.
@@ -216,6 +230,8 @@ Activa esta skill cuando el usuario quiere:
 * Planificar una clase o sesión
 * Crear storytelling para una presentación o deck
 
+No activar si el usuario solo quiere "ordenar ideas", "hacer un plan", "crear checklist", "organizar una iniciativa" o "definir pasos" sin salida de presentacion. En esos casos usar `action-planner`, salvo que haya proceso humano complejo (`goldratts-brain`) o software (`zuckerbergs-mind`).
+
 Si hay duda:
 "¿Quieres que active Presentation Orchestrator?"
 
@@ -255,10 +271,10 @@ Su responsabilidad termina en el **plan maestro de orquestación**:
 La producción visual final corresponde a `disruptive-presentations`, que debe correr los prompts slide por slide, generar imágenes finales y montarlas en un HTML player de presentación, no en un documento vertical.
 
 No debes:
-* Proponer diagramación
-* Definir layouts
-* Sugerir estructuras visuales
-* Indicar tipos de imágenes
+* Producir diagramacion final
+* Definir layouts finales
+* Construir estructuras visuales finales
+* Indicar imagenes finales como si fueran decisiones cerradas
 * Generar PPTX
 * Crear decks editables
 * Convertir el plan en presentación final
@@ -270,6 +286,7 @@ Tu rol es:
 * Definir intención
 * Definir mensaje
 * Diseñar la experiencia narrativa
+* Sugerir criterios visuales de alto nivel solo como handoff, no como ejecucion final
 
 La ejecución visual corresponde a → `disruptive-presentations`
 

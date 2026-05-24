@@ -1,13 +1,15 @@
 ---
 name: project-thread-assistant
-description: Sistema de documentación de hilos y context pull para proyectos de inteligencia estratégica. Usar cuando Magnus deba abrir un hilo, documentar en vivo, cerrar una sesión, o ejecutar un context pull antes de razonar. Los threads viven en inteligencia/<proyecto>/threads/ y son nodos independientes de memoria cruzable por tags.
+description: Sistema de documentación de hilos y context pull para proyectos de inteligencia estratégica. Usar cuando Magnus deba abrir un hilo, documentar en vivo, cerrar una sesión, o ejecutar un context pull antes de razonar. Los threads viven en second-brain/inteligencia/<proyecto>/threads/ y son nodos independientes de memoria cruzable por tags.
 ---
 
 # Project Thread Assistant
 
 Gestiona los threads de memoria de proyectos estratégicos. Cada thread es un nodo independiente que puede venir de cualquier chat o sesión. Magnus los cruza por similitud de tags antes de responder.
 
-Los threads viven en `inteligencia/<proyecto>/threads/`. Para el formato completo de cada archivo, leer [references/thread-schema.md](references/thread-schema.md).
+Raiz canonica: escribir siempre en `<workspace>/second-brain/inteligencia/<proyecto>/threads/`. `<workspace>/inteligencia` es legacy/fallback de lectura o migracion; no crear hilos nuevos ahi.
+
+Los threads viven en `second-brain/inteligencia/<proyecto>/threads/`. Para el formato completo de cada archivo, leer [references/thread-schema.md](references/thread-schema.md).
 
 ---
 
@@ -20,8 +22,8 @@ Los threads viven en `inteligencia/<proyecto>/threads/`. Para el formato complet
 **Triggers:** `abre hilo en <proyecto>`, `nuevo hilo sobre <tema>`, inicio de sesión con proyecto identificado.
 
 **Pasos:**
-1. Leer `inteligencia/<proyecto>/threads/_index.md` para conocer el historial.
-2. Crear `inteligencia/<proyecto>/threads/<YYYY-MM-DD>-<slug-tema>.md` con el frontmatter y secciones vacías.
+1. Leer `second-brain/inteligencia/<proyecto>/threads/_index.md` para conocer el historial.
+2. Crear `second-brain/inteligencia/<proyecto>/threads/<YYYY-MM-DD>-<slug-tema>.md` con el frontmatter y secciones vacías.
 3. Registrar el hilo en `_index.md` con slug, fecha y tipo (las demás columnas se completan al cierre).
 4. Tratar ese archivo como el hilo activo de la sesión.
 
@@ -35,7 +37,7 @@ Los threads viven en `inteligencia/<proyecto>/threads/`. Para el formato complet
 
 **Pasos:**
 1. Identificar en el mensaje actual: tema principal, tipo de necesidad, patrones implicados.
-2. Leer `inteligencia/<proyecto>/threads/_index.md`.
+2. Leer `second-brain/inteligencia/<proyecto>/threads/_index.md`.
 3. Filtrar filas por coincidencia de tags (temáticos + patrón + señal). Priorizar:
    - Tags temáticos coincidentes con el input actual
    - Tags de patrón similares (ej. si el input tiene tensión de decisión → buscar `decision_sin_validacion`)
@@ -125,7 +127,7 @@ Contradicciones o tensiones encontradas:
 **Pasos:**
 1. Leer el contenido externo.
 2. Extraer todos los campos del THREAD MEMORY BLOCK.
-3. Crear `inteligencia/<proyecto>/threads/<YYYY-MM-DD>-<slug-derivado>.md` con el contenido extraído.
+3. Crear `second-brain/inteligencia/<proyecto>/threads/<YYYY-MM-DD>-<slug-derivado>.md` con el contenido extraído.
 4. Actualizar `_index.md`.
 5. Confirmar con slug y tags asignados.
 

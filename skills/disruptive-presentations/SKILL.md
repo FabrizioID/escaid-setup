@@ -15,6 +15,8 @@ Use this mode unless the user explicitly asks for editable HTML layout, Imagen 4
 
 Current goal: generate each slide as one finished 16:9 image. Do not build HTML as the slide composition method in this phase. Do not manually place coordinates. The slide image must carry the concept through visual thesis, composition, metaphor, typography, spacing, and text integration.
 
+Routing: `presentation-orchestrator` defines narrative, sequence, and handoff prompts; `disruptive-presentations` produces the final full-image slides and HTML player; `slides` is only for editable `.pptx` authoring/export after visual QA or when the user explicitly asks for PPTX/editability.
+
 Clarification:
 * Forbidden by default: using HTML/CSS as the slide design/composition engine.
 * Required for decks: a global HTML presentation player that loads the generated PNG slides in order and lets the user present them full-screen.

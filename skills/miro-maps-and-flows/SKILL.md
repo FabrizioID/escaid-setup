@@ -14,14 +14,19 @@ Its job is to choose the right diagram language, make the structure understandab
 
 When this skill triggers:
 
-1. Read [references/diagram-families.md](references/diagram-families.md).
-2. Identify whether the user needs:
+1. Treat the call as a package:
+   - Domain: `miro-maps-and-flows`
+   - MCP opener: active `mcp__miro__` tools or Miro OAuth route
+   - Fallback: premium HTML/PDF/PNG when Miro is not authenticated
+2. Run a safe MCP check when a board operation is needed: search/list boards or read the target board. If Miro returns auth required, do not keep retrying.
+3. Read [references/diagram-families.md](references/diagram-families.md).
+4. Identify whether the user needs:
    - a direct Miro-operational artifact,
    - a premium visual explanation,
    - or both.
-3. If visual clarity, editorial hierarchy, or creative freedom matter, build the premium `HTML/PDF` version first.
-4. Then recreate the strongest possible adaptation in Miro.
-5. Be explicit about what was preserved and what Miro cannot reproduce exactly.
+5. If visual clarity, editorial hierarchy, or creative freedom matter, build the premium `HTML/PDF` version first.
+6. Then recreate the strongest possible adaptation in Miro when auth/tools are available.
+7. Be explicit about what was preserved and what Miro cannot reproduce exactly.
 
 ## Core Rule
 

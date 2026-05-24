@@ -21,6 +21,18 @@ Por defecto, la skill **no puede borrar, reemplazar, reestructurar, alterar vist
 
 Antes de proponer codigo propio, verificar si el MCP/herramienta nativa resuelve el flujo.
 
+## Paquete operativo
+
+Una llamada a `documentar-notion` debe resolver tres capas sin que el usuario tenga que pedirlas por separado:
+
+| Capa | Skill/ruta | Funcion |
+|---|---|---|
+| Dominio | `documentar-notion` | Decide que crear, actualizar, extender o documentar en Notion sin romper estructura |
+| Apertura/perfil | `notion-josefabrizioid` o `notion-coordinador-aecode` | Selecciona la cuenta correcta y valida identidad |
+| Pill local | `~/.codex/credentials/notion/<perfil>_notion.json` | Guarda el token local; nunca imprimirlo |
+
+Las plantillas y patrones de proyecto no son la capa de apertura. Viven como conocimiento de dominio/referencia y solo se leen cuando el flujo lo requiere.
+
 ## Arranque rapido obligatorio
 
 Usar este bloque al inicio de cualquier tarea Notion para evitar diagnosticos largos.

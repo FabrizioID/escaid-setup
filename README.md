@@ -7,6 +7,19 @@ Los repos de MCPs en GitHub se agrupan con la convencion `sc-mcp-*` y el topic `
 
 ---
 
+## SkillOps
+
+Antes de operar o depurar skills, leer:
+
+- `docs/SKILLOPS_STANDARD.md` - arquitectura dominio / MCP apertura / pill local.
+- `docs/SKILLOPS_MAP.md` - mapa operativo por skill, estado, rutas y pruebas seguras.
+- `docs/SKILLOPS_HEALTHCHECK.md` - checklist rapido de conectividad y fallbacks.
+- `docs/MEMORY_ARCHITECTURE.md` - raiz canonica de memoria, threads y second brain legacy.
+
+Estos documentos son la referencia portable para Codex, Claude Code, Antigravity u otros agentes que necesiten arrancar rapido sin redescubrir rutas, credenciales locales o MCPs.
+
+---
+
 ## Estructura
 
 ```text
@@ -17,6 +30,11 @@ escaid-setup/
 |   `-- docx-editor-local/     <- submodule: FabrizioID/sc-mcp-docx-local
 |-- plugins/
 |   `-- README.md              <- co-researcher + claude-router (marketplace)
+|-- docs/
+|   |-- SKILLOPS_STANDARD.md   <- arquitectura operativa de skills
+|   |-- SKILLOPS_MAP.md        <- mapa de funcionamiento por skill
+|   |-- SKILLOPS_HEALTHCHECK.md <- pruebas rapidas y estado de conectores
+|   `-- MEMORY_ARCHITECTURE.md <- memoria canonica para Magnus
 |-- skills/
 |   |-- interaction-memory/    <- skill para memoria shared + carpetas por chat
 |   |-- project-thread-assistant/ <- skill para asistente persistente con memoria por hilo
@@ -29,30 +47,30 @@ escaid-setup/
 
 ---
 
-## Second Brain (inteligencia cross-proyecto)
+## Second Brain (memoria operativa)
 
 Repo separado: [FabrizioID/second-brain](https://github.com/FabrizioID/second-brain)
 
-Contiene `MASTER_IDEAS.md` — el motor de inteligencia cross-proyecto que Magnus lee al inicio de cada sesión para detectar conexiones, oportunidades y conflictos entre proyectos activos.
+Contiene `MASTER_IDEAS.md` y `inteligencia/`: el motor de memoria cross-proyecto que Magnus lee para detectar conexiones, oportunidades y conflictos entre proyectos activos.
 
-**Path local esperado:** `C:\Users\USUARIO\inteligencia\`
+**Path local esperado:** `<workspace>\second-brain\`
 
 ### Clonar en maquina nueva
 
 ```powershell
-git clone https://github.com/FabrizioID/second-brain.git "$env:USERPROFILE\inteligencia"
+git clone https://github.com/FabrizioID/second-brain.git ".\second-brain"
 ```
 
 ### Mantener sincronizado
 
 ```powershell
 # Antes de una sesión importante (pull cambios remotos)
-git -C "$env:USERPROFILE\inteligencia" pull
+git -C ".\second-brain" pull
 
-# Después de que Magnus actualice MASTER_IDEAS al cerrar sesión
-git -C "$env:USERPROFILE\inteligencia" add MASTER_IDEAS.md
-git -C "$env:USERPROFILE\inteligencia" commit -m "chore: update MASTER_IDEAS"
-git -C "$env:USERPROFILE\inteligencia" push
+# Después de que Magnus actualice memoria o MASTER_IDEAS al cerrar sesión
+git -C ".\second-brain" add MASTER_IDEAS.md inteligencia
+git -C ".\second-brain" commit -m "chore: update second brain"
+git -C ".\second-brain" push
 ```
 
 ---

@@ -44,7 +44,7 @@ Antes de activar cualquier fase, Magnus ejecuta dos niveles de context pull.
 
 ### Nivel 0A — MASTER_IDEAS (cross-proyecto, siempre)
 
-Leer `C:\Users\USUARIO\inteligencia\MASTER_IDEAS.md` al inicio de cada sesión.
+Leer `<workspace>\second-brain\MASTER_IDEAS.md` al inicio de cada sesión.
 
 **Qué hace:**
 1. Leer todas las entradas de VARIABLES, ACTIVOS y NECESIDADES de todos los proyectos
@@ -62,7 +62,7 @@ Leer `C:\Users\USUARIO\inteligencia\MASTER_IDEAS.md` al inicio de cada sesión.
 **Cuándo aplica:** Siempre que hay un proyecto activo identificado en la sesión.
 
 **Qué hace:**
-1. Leer `inteligencia/<proyecto>/threads/_index.md`
+1. Leer `second-brain/inteligencia/<proyecto>/threads/_index.md`
 2. Identificar tags temáticos, de patrón y de señal que coincidan con el input actual
 3. Cargar los 2-4 threads más relevantes
 4. Construir internamente el CONTEXT PULL BLOCK (ver project-thread-assistant)
@@ -80,7 +80,7 @@ Magnus mantiene una lista viva de criterios que el usuario ha pasado a lo largo 
 - El usuario los pasa explícitamente: `"absorbe este criterio: <criterio>"`
 - O Magnus los detecta implícitamente cuando el usuario valida o rechaza una dirección de forma consistente
 
-**Dónde se guardan:** `inteligencia/<proyecto>/memory/criteria.md`
+**Dónde se guardan:** `second-brain/inteligencia/<proyecto>/memory/criteria.md`
 
 **Formato:**
 ```markdown
@@ -156,11 +156,11 @@ CODA MAGNUS               → tres elementos obligatorios si son fuertes:
 ## Integración con strategic-project
 
 Con proyecto activo:
-1. Ejecutar context pull sobre `inteligencia/<proyecto>/threads/_index.md`
-2. Leer `inteligencia/<proyecto>/PROJECT.md`
-3. Leer `inteligencia/<proyecto>/memory/variables.md` + `tensions.md` + `criteria.md`
+1. Ejecutar context pull sobre `second-brain/inteligencia/<proyecto>/threads/_index.md`
+2. Leer `second-brain/inteligencia/<proyecto>/PROJECT.md`
+3. Leer `second-brain/inteligencia/<proyecto>/memory/variables.md` + `tensions.md` + `criteria.md`
 4. Usar tensiones activas, señales recientes y criterios como contexto de F2 y F6
-5. Al finalizar sesión profunda, guardar Coda Magnus en `inteligencia/<proyecto>/analysis/<fecha>-magnus.md`
+5. Al finalizar sesión profunda, guardar Coda Magnus en `second-brain/inteligencia/<proyecto>/analysis/<fecha>-magnus.md`
 
 Sin proyecto activo: operar en modo libre sobre el problema planteado, sin context pull.
 
@@ -322,7 +322,7 @@ Reglas:
 **Acción:**
 1. Redactar el criterio en una oración concreta y aplicable
 2. Identificar en qué fase(s) aplicará
-3. Escribirlo en `inteligencia/<proyecto>/memory/criteria.md`
+3. Escribirlo en `second-brain/inteligencia/<proyecto>/memory/criteria.md`
 4. Confirmar al usuario: `"Criterio absorbido: <criterio> — aplicará en <fases>"`
 
 **Regla de calidad:** Un criterio debe ser lo suficientemente específico para cambiar una decisión concreta. "Pensar bien" no es un criterio. "Priorizar decisiones que preserven opcionalidad sobre las que maximizan retorno inmediato" sí lo es.

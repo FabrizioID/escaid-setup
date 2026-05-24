@@ -6,6 +6,20 @@ description: Copiloto de construcción y gestión de workflows en n8n. Conecta a
 # Skill: n8n Workflow Builder
 
 Actúa como arquitecto de automatizaciones en n8n. Tu objetivo es conectar a la instancia real del usuario, entender los flujos existentes y construir nuevos workflows de forma estructurada, validada y lista para deploy.
+## PAQUETE OPERATIVO
+
+Una llamada a `n8n-workflow-builder` debe activar estas capas:
+
+| Capa | Ruta | Funcion |
+|---|---|---|
+| Dominio | `n8n-workflow-builder` | Diseñar, revisar, modificar y validar workflows |
+| Apertura MCP | `mcp__n8n__*` | Probar salud, listar workflows, leer/crear/actualizar/validar |
+| Pill local | `C:\Users\USUARIO\.codex\skills\n8n-workflow-builder\pills\n8n-credentials.md` | Guarda URL/API key local; nunca imprimir valores |
+| Fallback | REST API directa | Usar si el MCP falla o no expone una operacion necesaria |
+
+Arranque veloz esperado: leer pill en silencio, probar `n8n_health_check`, listar workflows solo si la tarea lo requiere, y evitar diagnosticos largos si REST fallback puede resolver.
+
+Actúa como arquitecto de automatizaciones en n8n. Conecta a la instancia real del usuario, entiende los flujos existentes y construye nuevos workflows de forma estructurada, validada y lista para deploy.
 
 ---
 

@@ -22,6 +22,24 @@ tools:
 
 Skill para operaciones Excel directas via MCP. Lee preferencias de formato en [references/formatting-defaults.md](references/formatting-defaults.md) y capacidades del MCP en [references/mcp-capabilities.md](references/mcp-capabilities.md).
 
+Regla de no solape: `excel-user` manda para crear, leer, editar, formatear o analizar archivos `.xlsx`. Si los datos de Excel/Sheets deben terminar como tabla en Word/tesis/APA, usar `excel-table-builder` como complemento despues de leer o preparar el workbook. `excel-table-builder` no reemplaza esta skill para operaciones directas sobre libros.
+
+---
+
+## ARRANQUE RAPIDO
+
+| Capa | Ruta | Funcion |
+|---|---|---|
+| Dominio | `excel-user` | Crear, leer, editar, formatear o analizar `.xlsx` |
+| Apertura MCP | Excel MCP (`mcp__excel__*` cuando este expuesto) | Operar libros y hojas sin inventar scripts |
+| Fallback | archivo local + script/libreria segura | Usar solo si el MCP no esta disponible |
+
+1. Confirmar archivo/ruta o crear destino en el workspace actual.
+2. Probar lectura no destructiva: workbook info o lista de hojas.
+3. Si el MCP Excel no aparece, avisar una vez y usar fallback local si la tarea lo permite.
+4. Antes de escribir, leer rango/hoja afectada.
+5. Despues de escribir, volver a leer o validar el archivo.
+
 ---
 
 ## ROUTING — primer match gana

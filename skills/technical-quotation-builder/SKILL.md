@@ -19,7 +19,7 @@ Use this skill to design the quotation logic before document editing.
 
 No edita documentos directamente. Una vez clara la lógica, delegar a la skill de edición correspondiente.
 
-This skill defines what the proposal should say, how it should be structured, and how the economic table should communicate value. If a live Google Doc or Docx must be edited, use `google-workspace-editor` (Google Docs) or `docx-mcp-document-editor` (Word .docx) after the quotation logic is clear.
+This skill defines what the proposal should say, how it should be structured, and how the economic table should communicate value. If a live Google Doc or Word document must be edited, use `google-workspace-editor` (Google Docs) or `docx-mcp-document-editor` (local Word .docx) after the quotation logic is clear.
 
 ## Core Principle
 

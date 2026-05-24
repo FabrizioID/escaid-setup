@@ -41,6 +41,22 @@ Para guía de integración con Word MCP → [references/word-workflow.md](refere
 
 ---
 
+## ARRANQUE RAPIDO
+
+| Capa | Ruta | Funcion |
+|---|---|---|
+| Dominio | `thesis-research-editor` | Juicio metodologico, investigacion, redaccion y APA |
+| Apertura MCP | Word MCP / `docx-mcp-document-editor` | Leer, insertar, reemplazar y formatear `.docx` |
+| Complemento | `apa-7-thesis-format` | QA formal APA cuando el cambio toca estilo, tablas, figuras o bibliografia |
+
+1. Clasificar el pedido: metodologia, investigacion, redaccion, edicion Word, traduccion o APA.
+2. Si hay `.docx`, hacer lectura no destructiva: info, outline o texto antes de editar.
+3. Si solo es criterio academico, no abrir Word innecesariamente.
+4. Antes de editar, dar plan breve de seccion/cambio/evidencia/riesgo de formato.
+5. Despues de editar, verificar la zona afectada.
+
+---
+
 ## ROUTING - usa el primer match
 
 1. Si el usuario pide **validar metodologia, coherencia de tesis, observaciones del jurado o alineacion problema-objetivos-hipotesis-resultados-conclusiones** -> Modo METODOLOGIA

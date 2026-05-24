@@ -19,14 +19,27 @@ Examples:
 
 This skill assumes an active Google Workspace MCP with Google Docs, Drive, and optionally Sheets tools. If the tool is missing or unauthenticated, trigger `google-workspace-credentials` before attempting edits.
 
+## Operational Package
+
+One call to this skill should activate the full editing route:
+
+| Layer | Skill/route | Job |
+|---|---|---|
+| Domain | `google-docs-mcp-document-editor` | Preserve structure, wording logic, tables, comments, and layout-sensitive edits |
+| MCP opener | `google-workspace-credentials` | Locate/repair Google Workspace MCP, profile token, and tool exposure |
+| Local pill/profile | `~/.config/scd-mcp-docs/<profile>/token.json` or MCP env | Provides local auth state; never print secrets |
+
+If Google Workspace tools are not visible, do not start custom scripts first. Trigger the opener skill and run its quick checks.
+
 ## Quick Start
 
 1. Confirm the Google Doc URL or `documentId`.
-2. Inspect the current document before editing.
-3. Identify whether the target content is editable text, a table cell, a drawing, an image, a header/footer, or an imported object.
-4. If the task affects tables, read `references/table-editing.md`.
-5. Apply the smallest viable change.
-6. Re-read the affected section and run semantic and visual QA.
+2. Confirm Google Workspace tools are exposed. If not, activate `google-workspace-credentials`.
+3. Inspect the current document before editing.
+4. Identify whether the target content is editable text, a table cell, a drawing, an image, a header/footer, or an imported object.
+5. If the task affects tables, read `references/table-editing.md`.
+6. Apply the smallest viable change.
+7. Re-read the affected section and run semantic and visual QA.
 
 ## Editing Workflow
 

@@ -11,6 +11,18 @@ Esta es una skill transversal de edición, no de dominio. No construye lógica d
 
 **Dependencia de acceso**: requiere el Google Workspace MCP activo. Si no está disponible o no está autenticado, activar `google-workspace-credentials` antes de continuar.
 
+## Paquete operativo
+
+Una llamada a `google-workspace-editor` debe activar estas capas:
+
+| Capa | Skill/ruta | Funcion |
+|---|---|---|
+| Dominio operativo | `google-workspace-editor` | Leer/modificar Google Docs, Sheets y Drive sin romper estructura |
+| Apertura MCP | `google-workspace-credentials` | Ubicar MCP, validar perfil/token, corregir exposicion de tools |
+| Pill/perfil local | `~/.config/scd-mcp-docs/<profile>/token.json` o env `GOOGLE_MCP_PROFILE` | Auth local; nunca imprimir secretos |
+
+Arranque veloz: confirmar URL/ID, verificar que las tools Google esten expuestas, leer antes de editar y aplicar el cambio minimo viable. Si la fuente es Word `.docx` local, cambiar a `docx-mcp-document-editor`.
+
 ## Routing por tipo de documento
 
 | Tipo de archivo | Skill a usar |

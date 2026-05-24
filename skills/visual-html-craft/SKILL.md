@@ -5,6 +5,12 @@ description: Build visually stunning interactive HTML experiences — landing pa
 
 # Visual HTML Craft
 
+## Estado en ESC-AI
+
+Esta skill queda como legacy/compatibilidad. Para trabajos nuevos de HTML visual interactivo usar `ui-architect`, que absorbe esta funcion y concentra el criterio UI vigente.
+
+Si esta skill se activa por nombre antiguo, redirigir mentalmente a `ui-architect` y aplicar sus reglas actuales de verificacion visual con Playwright.
+
 Use this skill when the HTML IS the product — not a way to explain something else.
 
 Landing pages. Skill showcases. Animated reports. Visual UI prototypes.

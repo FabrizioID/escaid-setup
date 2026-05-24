@@ -7,6 +7,8 @@ description: Skill macro de documentación interactiva premium. Usar cuando se n
 
 Skill macro que provee los criterios de UI, atmósfera y principios de documentación visual para cualquier artefacto de documentación interactiva.
 
+Regla de no solape: esta skill documenta. No reemplaza `ui-architect` para construir una UI/producto HTML premium ni `frontend-skill` para implementar una app/repo frontend. Si el usuario pide "documentar", manda `documentador-experto`; si pide "construir UI", mandar a `ui-architect` o `frontend-skill` segun el caso.
+
 No genera documentación directamente. Orquesta y provee criterios a las sub-skills:
 
 - **doc-desarrollos**: documentación de herramientas y sistemas construidos (guía de usuario, doc técnica, doc conceptual/dominio)

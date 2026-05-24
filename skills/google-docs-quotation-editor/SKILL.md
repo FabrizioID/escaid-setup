@@ -5,6 +5,19 @@ description: Lógica de dominio para cotizaciones, propuestas y brochures corpor
 
 # Google Docs Quotation Editor
 
+## Paquete operativo
+
+Una llamada a esta skill debe activar:
+
+| Capa | Skill/ruta | Funcion |
+|---|---|---|
+| Dominio comercial | `google-docs-quotation-editor` | Coherencia de propuesta, cambios comerciales y plan de edicion |
+| Dominio de cotizacion | `technical-quotation-builder` cuando el alcance/precio nace desde cero | Construir logica comercial antes de tocar el documento |
+| Apertura MCP | `google-workspace-editor` + `google-workspace-credentials` | Ejecutar edicion real y abrir Google Workspace si falta |
+| Pill local | perfil/token Google Workspace local | Auth local; nunca imprimir secretos |
+
+Arranque veloz: validar que hay URL/documentId, confirmar Google Workspace activo, leer documento, planear cambio comercial, editar con la menor operacion posible.
+
 Skill de dominio para cotizaciones y propuestas en Google Docs.
 
 **No ejecuta ediciones directamente.** Usa `google-workspace-editor` para toda operación MCP sobre el documento.

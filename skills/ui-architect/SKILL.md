@@ -12,6 +12,20 @@ tools:
 
 # Visual HTML Craft
 
+## Paquete operativo
+
+`ui-architect` es la skill canonica para HTML visual interactivo en ESC-AI. Absorbe el rol antiguo de `visual-html-craft`.
+
+Regla de no solape: usar `ui-architect` cuando el entregable sea un artefacto HTML visual/premium donde el HTML es el producto. Usar `frontend-skill` solo cuando haya app/repo/frontend real con componentes, rutas, estado o framework. Usar `documentador-experto` cuando el objetivo sea documentar un sistema, proceso o concepto.
+
+| Capa | Ruta | Funcion |
+|---|---|---|
+| Dominio | `ui-architect` | Decidir layout, UI, sistema visual, interaccion y acabado premium |
+| Apertura/verificacion | Playwright MCP o navegador local | Renderizar, inspeccionar y tomar screenshots |
+| Fallback | HTML local sin servidor o dev server | Usar segun el tipo de app/artefacto |
+
+Arranque veloz: entender objetivo y audiencia, elegir modo Sketch-to-UI o Brief-to-UI, construir el artefacto usable, abrirlo y verificar screenshot antes de cerrar.
+
 ## Purpose
 Produce self-contained HTML artifacts with premium visual design. Every output must look and feel like a professional product studio shipped it — not a template.
 

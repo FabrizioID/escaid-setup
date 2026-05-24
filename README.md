@@ -15,6 +15,7 @@ Antes de operar o depurar skills, leer:
 - `docs/SKILLOPS_MAP.md` - mapa operativo por skill, estado, rutas y pruebas seguras.
 - `docs/SKILLOPS_HEALTHCHECK.md` - checklist rapido de conectividad y fallbacks.
 - `docs/MEMORY_ARCHITECTURE.md` - raiz canonica de memoria, threads y second brain legacy.
+- `docs/SKILL_MARKET_SCAN.md` - radar de skills/repos externos para potenciar ESC-AI.
 
 Estos documentos son la referencia portable para Codex, Claude Code, Antigravity u otros agentes que necesiten arrancar rapido sin redescubrir rutas, credenciales locales o MCPs.
 
@@ -34,7 +35,8 @@ escaid-setup/
 |   |-- SKILLOPS_STANDARD.md   <- arquitectura operativa de skills
 |   |-- SKILLOPS_MAP.md        <- mapa de funcionamiento por skill
 |   |-- SKILLOPS_HEALTHCHECK.md <- pruebas rapidas y estado de conectores
-|   `-- MEMORY_ARCHITECTURE.md <- memoria canonica para Magnus
+|   |-- MEMORY_ARCHITECTURE.md <- memoria canonica para Magnus
+|   `-- SKILL_MARKET_SCAN.md <- radar de mercado de skills
 |-- skills/
 |   |-- interaction-memory/    <- skill para memoria shared + carpetas por chat
 |   |-- project-thread-assistant/ <- skill para asistente persistente con memoria por hilo

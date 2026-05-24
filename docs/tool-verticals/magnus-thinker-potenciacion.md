@@ -39,6 +39,12 @@ Magnus no es una herramienta puntual. Es una capa cognitiva siempre activa:
 | `skill-routing-pill.md` | Elegir, auditar o potenciar skills sin duplicar rutas. |
 | `visual-commercial-criteria-pill.md` | Definir criterio visual/comercial antes de mandar a una skill operativa. |
 | `marketing-pill.md` | Hooks, frameworks, motores psicologicos y comunicacion. |
+| `complexity-domain-pill.md` | Clasificar problema claro/complicado/complejo/caotico/confuso antes de resolver. |
+| `decision-quality-pill.md` | Verificar calidad de decision: marco, opciones, informacion, valores, razonamiento y accion. |
+| `ooda-feedback-pill.md` | Convertir decision en ciclo de aprendizaje rapido. |
+| `premortem-redteam-pill.md` | Detectar fallas y supuestos fragiles antes de ejecutar. |
+| `systems-leverage-pill.md` | Buscar puntos de palanca profundos en sistemas/procesos. |
+| `scenario-planning-pill.md` | Preparar decisiones robustas para futuros plausibles. |
 
 Indice:
 
@@ -47,3 +53,14 @@ Indice:
 ## Decision
 
 Magnus queda como router cognitivo y criterio always-on. Las skills operativas siguen ejecutando; Magnus decide el encuadre, criterio y ruta.
+
+## Potenciacion Web
+
+Se absorbieron criterios desde frameworks externos revisados:
+
+- Cynefin para dominios de complejidad.
+- Decision Quality para calidad de decisiones.
+- OODA para feedback y aprendizaje iterativo.
+- Premortem/red-team para fallas anticipadas.
+- Donella Meadows para leverage points.
+- Shell scenario planning para futuros plausibles.

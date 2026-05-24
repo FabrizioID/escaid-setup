@@ -62,6 +62,8 @@ Vertical Second Brain/memoria: baseline de potenciacion en `docs/tool-verticals/
 
 Vertical Magnus Thinker: baseline de potenciacion en `docs/tool-verticals/magnus-thinker-potenciacion.md`. Magnus es always-on: corre F1-F13 internamente en cada interaccion, activa pills segun el problema, y solo muestra cadena visual/Coda cuando el usuario lo pide o al cerrar una sesion profunda.
 
+Potenciacion externa Magnus: ver `docs/skill-audits/2026-05-24-magnus-external-frameworks.md`. Se absorbieron Cynefin, Decision Quality, OODA, premortem/red-team, systems leverage y scenario planning como pills de criterio, no como herramientas nuevas.
+
 ## Documentacion Y Conocimiento
 
 | Nombre operativo | Skill ID | Rol | Capa | Estado | Arranque rapido | Pill/MCP | Prueba segura |

@@ -14,6 +14,12 @@ Las Skill Pills son modulos de conocimiento que Magnus activa segun el problema.
 | Skill Routing | `skill-routing-pill.md` | El usuario pide ejecutar, activar, buscar, potenciar o elegir skills | Elegir skill local/externa correcta y evitar solapes. |
 | Visual Commercial Criteria | `visual-commercial-criteria-pill.md` | Slides, flyers, piezas visuales, landing, documento visual, marketing visual | Elegir criterio visual/comercial antes de mandar a skill operativa. |
 | Marketing Pill | `marketing-pill.md` | Hooks, guiones, copy, contenido, flyers, mensajes, piezas comerciales | Motores psicologicos, frameworks y calidad de hooks. |
+| Complexity Domain | `complexity-domain-pill.md` | El problema parece simple, complicado, complejo, caotico o confuso | Elegir modo de accion correcto antes de aplicar solucion. |
+| Decision Quality | `decision-quality-pill.md` | Hay decision importante, trade-offs, incertidumbre o riesgo de intuicion floja | Verificar marco, opciones, informacion, valores, razonamiento y compromiso. |
+| OODA Feedback | `ooda-feedback-pill.md` | Entornos cambiantes, ejecucion iterativa, aprendizaje rapido o competencia | Convertir decision en ciclo observar-orientar-decidir-actuar. |
+| Premortem Red Team | `premortem-redteam-pill.md` | Proyecto, lanzamiento, plan, automatizacion o decision que puede fallar | Imaginar falla, buscar supuestos fragiles y prevenir colapso. |
+| Systems Leverage | `systems-leverage-pill.md` | Sistemas, procesos, equipos, operaciones, ecosistemas o cuellos de botella | Buscar puntos de palanca profundos, no solo sintomas. |
+| Scenario Planning | `scenario-planning-pill.md` | Incertidumbre alta, futuro no predecible, estrategia de mediano/largo plazo | Crear futuros plausibles y estrategia robusta. |
 
 ## Regla De Carga
 

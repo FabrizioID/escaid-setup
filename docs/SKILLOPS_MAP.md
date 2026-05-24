@@ -82,6 +82,8 @@ Raiz canonica de escritura: `<workspace>/second-brain/inteligencia`. `<workspace
 | Excel operativo | `excel-user` | Operaciones completas sobre `.xlsx` | Dominio + Excel | Amarillo | Ver si hay Excel MCP; si no, usar archivo local | Excel MCP o script | Abrir/leer workbook |
 | Tablas APA desde Excel | `excel-table-builder` | Convertir datos Excel/Sheets en tablas APA/Word | Dominio extra | Gris | Reducir tabla y preparar insercion | Excel/Word opcional | Tabla final |
 
+Vertical Word MCP/DOCX: baseline de potenciacion en `docs/tool-verticals/word-mcp-potenciacion.md`. La base local cubre edicion Word, tablas, estilos, comentarios extraidos, footnotes/endnotes, proteccion y PDF. Hueco externo valioso: tracked changes/redlines nativos y comparacion/auditoria estructural avanzada; no instalar MCP externo sin auditoria.
+
 Nota actual: Google Workspace MCP esta configurado y `GOOGLE_MCP_PROFILE=fabrizio` fue agregado para tokens perfilados. Si las tools no aparecen, recargar Codex/Claude/Antigravity para reiniciar el MCP.
 
 Vertical Google Workspace: baseline de potenciacion completo en `docs/tool-verticals/google-workspace-potenciacion.md`. Capacidades cubiertas: Docs, Sheets, Drive, comentarios, tablas, formato, templates, carpetas, export/download y apertura MCP por perfil. Regla: no buscar otra skill Google paralela salvo que aporte versionado/documentacion automatica, auditoria de schemas Sheets usados por n8n, o sincronizacion especializada no cubierta por el MCP actual.

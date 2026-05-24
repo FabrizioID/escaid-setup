@@ -39,6 +39,7 @@ Before editing:
 
 - identify the document type: proposal, quotation, report, contract, letter, minutes, brochure
 - identify the editable technology: Word MCP, Docx MCP/local `.docx`, converted import, or exported markdown
+- create or choose a working copy before editing any thesis, contract, proposal, or final report
 - inspect the current structure before modifying it
 - locate tables, section headings, repeated patterns, branding colors, and fragile imported elements
 - distinguish editable text from drawings, images, headers, footers, or embedded objects
@@ -104,6 +105,28 @@ Check:
 
 If the document is a quotation or proposal, also check commercial hierarchy with `technical-quotation-builder`.
 
+## Potentiated Modes
+
+### Safe Copy First Mode
+
+For important Word files, never treat the only original as the work surface. Create a copy or write to an explicit output path, then report both source and final path.
+
+### Word Structure Audit Mode
+
+For long or fragile files, inspect outline/headings, tables, comments, footnotes, images, fields, headers/footers, and protected sections before editing.
+
+### Table Surgery Mode
+
+For tables, identify the table by index and surrounding text. Confirm row meaning before changing content: header, section band, item row, note row, total row, or annex row.
+
+### Review / Comments Mode
+
+If the user wants review instead of direct edits, extract existing comments and provide proposed comments or a review list. Insert comments only when the active tool supports reliable anchoring.
+
+### Redline / Track Changes Mode
+
+If the user asks for tracked changes, redlines, legal review, or version comparison, read `references/word-redline-candidates.md`. Do not assume the active local route supports native tracked changes. If redlines are unavailable, create an edited copy plus a changelog.
+
 ## Common Failure Modes
 
 - Editing a table correctly but leaving the wrong business logic.
@@ -116,3 +139,4 @@ If the document is a quotation or proposal, also check commercial hierarchy with
 ## References
 
 - Read `references/live-doc-qa.md` when the task involves fragile formatting, tables, or repeated correction.
+- Read `references/word-redline-candidates.md` when the user asks for tracked changes, redlines, review markup, or Word version comparison.

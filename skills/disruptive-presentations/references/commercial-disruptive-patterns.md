@@ -13,6 +13,10 @@ This is not a separate output format. It is a pattern library for image-slide pr
 
 A commercial slide should not only look premium. It should make one business argument visible in under 5 seconds.
 
+Commercial does not mean flat or boring. It means the visual energy must come from evidence, contrast, hierarchy, data, real assets and crisp diagramming instead of fantasy, spectacle or metaphor-heavy scenes.
+
+Do not treat these patterns as rigid templates. Treat them as diagramming grammars that can be adapted to the deck's audience, brand, screen size and speaking context.
+
 Every slide must choose one dominant persuasive mechanism:
 
 - contrast;
@@ -30,6 +34,14 @@ Every slide must choose one dominant persuasive mechanism:
 
 | Pattern | Use when | Visual structure | Prompt move |
 | --- | --- | --- | --- |
+| Evidence Video | Demonstrating that a product/case actually works | Fullscreen or dominant video/screenshot with logo and 1-line takeaway | "Reserve the slide for a real video/capture; minimal text, evidence first." |
+| Product Evidence | Showing software/platform/dashboard/product in use | Large real UI/mockup plus 2-3 benefit callouts | "Make the product screenshot the proof, not decoration." |
+| Portfolio Collage | Proving breadth of work/capability | Dense but curated grid of real project images | "Use many real images as proof wall; avoid fake/generated assets." |
+| External Signal | Showing market movement, model launch, regulation or Big Tech trend | Official-looking announcement/capture style, often off-template | "Respect the source visual language and add a strategic implication." |
+| Three-Card Data Argument | Making a compact business case with 3 facts | Three large cards with data/image/title/subtitle | "Make each card carry one proof point." |
+| Commercial Comparison | Explaining why two things are not equivalent | Two columns or three-zone contrast with evidence and final implication | "Make the difference impossible to miss; avoid decorative rivalry." |
+| Split-Panel Modular Workflow | Explaining how a solution/process works | Left promise/product panel, right sheet/workflow cards, bottom metrics | "Show the operating process as modular cards and outputs." |
+| Agenda / Thread Separator | Resetting attention and separating narrative blocks | Large numbered list or section title, minimal content | "Use agenda as attention architecture, not filler." |
 | Before / After | Showing transformation, value proposition, improvement | Split world, left degraded/right improved | "Show a clear visual contrast between current pain and desired future state." |
 | Tension Gap | Audience feels stuck between current reality and desired future | Two poles with a visible gap/bridge | "Make the gap visible as the core obstacle." |
 | Problem Stack | Many small frictions accumulate into one big issue | Vertical stack, pressure, overload | "Show compounding friction, not isolated issues." |
@@ -61,6 +73,10 @@ Every slide must choose one dominant persuasive mechanism:
 
 Use:
 
+- Evidence Video;
+- Product Evidence;
+- Three-Card Data Argument;
+- Split-Panel Modular Workflow;
 - Before / After;
 - Trust Gap;
 - Proof Wall;
@@ -75,6 +91,7 @@ Avoid:
 - icon rows for benefits;
 - fake dashboards;
 - vague "growth" arrows without mechanism.
+- generated product screens when a real screenshot/video exists.
 
 ### Strategy / Executive
 
@@ -98,6 +115,9 @@ Avoid:
 
 Use:
 
+- Product Evidence;
+- Evidence Video;
+- Split-Panel Modular Workflow;
 - Operating System;
 - Bottleneck;
 - Timeline Compression;
@@ -110,6 +130,27 @@ Avoid:
 - generic SaaS dashboard screenshots;
 - floating UI cards that do not prove anything;
 - automation as decorative glowing lines.
+- hiding the real product behind an abstract illustration.
+
+### Commercial / Event / Pitch
+
+Use:
+
+- Agenda / Thread Separator;
+- Three-Card Data Argument;
+- External Signal;
+- Portfolio Collage;
+- Product Evidence;
+- Commercial Comparison;
+- Split-Panel Modular Workflow.
+
+Avoid:
+
+- analogies as the default persuasion device;
+- heavy metaphor scenes;
+- neon, glowing AI, circuit backgrounds or generated "AI magic";
+- repeating the same card grid for every slide;
+- slides that are visually neat but have no data, trend, insight, proof or decision.
 
 ### Education / Thesis / Training
 
@@ -127,6 +168,97 @@ Avoid:
 - textbook bullet lists;
 - decorative metaphors unrelated to the concept;
 - overloaded conceptual diagrams.
+
+## Commercial Families Added From GEN+ Presentation Learnings
+
+### Evidence Video
+
+Use when the point is proof of reality:
+
+- BIM navigation;
+- product demo;
+- agent executing;
+- dashboard updating;
+- computer vision detection;
+- platform workflow.
+
+Structure:
+
+- video/capture dominates 70-100% of slide;
+- logo and short title;
+- 1-line implication or result;
+- optional play-button overlay if the final deck supports video.
+
+Orchestrator should ask the user for the real video/capture. Disruptive should reserve space and avoid inventing the evidence.
+
+### Product Evidence Slide
+
+Use for real platforms and products.
+
+Structure:
+
+- real screenshot/laptop/mockup as protagonist;
+- title + short promise;
+- 2-3 benefit callouts;
+- minimal decoration.
+
+Best for VisionPRO, ICEBOT, AECODE, dashboards, CRM, QR-agent flows and platform demos.
+
+### Portfolio Collage
+
+Use when credibility comes from breadth.
+
+Structure:
+
+- curated collage of real project screenshots/photos/renders;
+- one small claim or title;
+- no heavy explanation.
+
+This is proof wall logic: the audience should feel "they have done real work".
+
+### External Signal Slide
+
+Use when a market signal matters more than brand continuity:
+
+- GPT/Gemini/Copilot/model launches;
+- regulation;
+- official reports;
+- Big Tech announcements;
+- market milestones.
+
+It may break the template and borrow the source's visual language. Add a GEN+ interpretation separately:
+
+```text
+What this means for AEC: [implication].
+```
+
+### Split-Panel Modular Workflow
+
+Use for commercial/technical process explanation.
+
+Structure:
+
+- left: product/case/promise;
+- right: clean sheet with 4-5 workflow cards;
+- arrows show sequence;
+- bottom: metrics/outputs.
+
+This creates an operational feel without resorting to metaphor.
+
+### Agenda / Separator
+
+Agendas are not filler in commercial/event decks. They separate attention threads and set expectations. Use big text, 3-4 points max, strong spacing and brand restraint.
+
+## Logo Guidance
+
+Real logos are allowed when they help recognition, credibility or ecosystem understanding.
+
+Rules:
+
+- preserve real colors and shapes;
+- do not recolor to match the deck unless the user asks;
+- if exact logos are not available, use named placeholders and tell the user to attach or replace them later;
+- do not invent official logos.
 
 ## Prompt Template
 

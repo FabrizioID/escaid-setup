@@ -58,20 +58,128 @@ No usar `slides`, Marp, reveal.js, Canva, HTML layout o PPTX como ruta principal
 Cada slide aprobada por Orchestrator debe quedar lista para produccion con estos campos:
 
 - `slide_id`
+- `modo comunicacional`: clase, keynote/vision, comercial, tecnico, mixto
+- `tipo de slide`: dato, tendencia, problema, explicacion, caso, demo, evidencia, arquitectura, comparativa, agenda/separador, CTA
 - `rol narrativo`
 - `tesis de la slide`
 - `mensaje a instalar`
 - `frase del presentador`
 - `cambio esperado en la audiencia`
 - `texto visible exacto`
+- `carga de valor`: dato, tendencia, insight, evidencia, caso real, comparacion, objecion resuelta, marco de decision, beneficio comercial o CTA
+- `dato/fuente requerida`: si/no, fuente sugerida o pendiente
 - `modo visual sugerido`: `analogy scene`, `artifact schematic` o `hybrid`
 - `activos/evidencia nativa requerida`: logos, graficos, tablas, screenshots o figuras reales
+- `accion requerida del usuario`: adjuntar logo, captura, video, screenshot, plantilla, dato interno o caso real
+- `porcentaje relativo`: datos, evidencia tangible, analogia, disrupcion, texto explicativo y CTA
 - `restricciones de marca`
 - `notas internas que NO deben verse en la slide`
 
 Si falta evidencia nativa o branding, dejarlo marcado en el handoff como decision pendiente. No inventar logos, graficos, cifras, capturas ni tablas.
 
 Para elegir patron de estructura, plantilla y gramatica visual antes del handoff, leer `../disruptive-presentations/references/visual-architecture-diagramming.md` cuando la presentacion tenga arquitectura, procesos, sistemas, mapa operativo, flujo, funnel, decision tree, tesis/modelo conceptual o comparacion entre variables. Esa referencia NO cambia el motor de salida: `disruptive-presentations` sigue generando la slide final con la herramienta de imagen por defecto.
+
+## Modos Comunicacionales De Presentacion
+
+Antes de proponer estructura o slides, clasificar el deck por intencion comunicacional. No hay presentaciones puras: se mezclan estilos y cambian los porcentajes.
+
+| Modo | Objetivo | Datos | Evidencia tangible | Analogia | Disrupcion | Texto | Rol de Orchestrator |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Clase / formacion | ensenar y fijar conceptos | medio-alto | ejemplos y ejercicios | alto | medio-alto | medio | secuenciar aprendizaje, explicar y crear comprension |
+| Keynote / vision | inspirar y cambiar perspectiva | medio | tendencias y senales | medio-alto | medio | bajo-medio | construir arco, tension, vision y recordacion |
+| Comercial / venta | convencer y activar decision | alto | muy alto: fuentes, videos, demos, capturas, logos, casos | muy bajo | bajo | bajo | vender realidad: problema, evidencia, valor y CTA |
+| Tecnico / implementacion | alinear ejecucion | alto | alto: arquitectura, procesos, riesgos, dependencias | bajo | bajo-medio | medio | ordenar sistema, metodo, responsabilidades y decisiones |
+| Mixto | combinar objetivos | variable | variable | variable | variable | variable | declarar pesos por bloque y por slide |
+
+Regla: ajustar la personalidad de comunicacion al publico, no al gusto visual del agente. Un gerente comercial, un estudiante, un comite tecnico y una audiencia de keynote no leen ni deciden igual.
+
+### Regla De Sustancia
+
+Orchestrator no es un ordenador de bullets. Debe investigar y construir sustancia para cada slide cuando el contexto lo requiere.
+
+La investigacion no es solo buscar numeros. Puede aportar:
+
+- datos y cifras;
+- tendencias;
+- contexto de mercado;
+- benchmarks;
+- casos de uso;
+- riesgos;
+- oportunidades;
+- objeciones del publico;
+- beneficios concretos;
+- ejemplos;
+- fuentes;
+- preguntas clave;
+- decisiones que la audiencia debe tomar;
+- activos recomendados: video, demo, captura, grafico, logos o evidencia.
+
+Cada slide debe tener al menos una carga de valor:
+
+```text
+dato | tendencia | insight | evidencia | caso real | comparacion | objecion resuelta | marco de decision | beneficio comercial | CTA
+```
+
+Si una slide no tiene carga de valor, Orchestrator debe mejorarla, fusionarla, convertirla en separador o eliminarla.
+
+### Regla Comercial
+
+En modo comercial, la slide no debe vender ilusion: debe vender realidad demostrable.
+
+Priorizar:
+
+- datos con fuente;
+- graficos reales;
+- logos reales;
+- videos;
+- screenshots;
+- demos;
+- casos propios;
+- flujo de implementacion;
+- beneficios medibles;
+- CTA claro.
+
+Evitar:
+
+- analogias grandes;
+- escenas simbolicas;
+- futurismo generico;
+- brillo/neon;
+- "IA magica";
+- diagramas bonitos sin decision.
+
+Orchestrator debe marcar fuera del prompt cualquier accion requerida del usuario, por ejemplo:
+
+```text
+Para esta slide conviene adjuntar el video real de ICEBOT.
+Para esta slide conviene adjuntar logos reales de ChatGPT, Gemini, Claude y Copilot.
+Para esta slide conviene usar una captura real de VisionPRO como evidencia.
+```
+
+Estas advertencias van al usuario o al handoff, no dentro del prompt final de imagen.
+
+### Slides De Evidencia Externa
+
+Algunas slides deben romper plantilla para mostrar una senal externa: lanzamiento de modelo, anuncio de Big Tech, tendencia, regulacion o hito de mercado. En esos casos, Orchestrator debe:
+
+- verificar la fuente;
+- sugerir usar imagen/captura oficial o visual inspirado en la marca original;
+- explicar por que importa para la audiencia;
+- agregar la lectura GEN+ o implicancia del sector.
+
+Regla: no toda slide debe verse GEN+. Algunas deben parecer evidencia externa, pero siempre deben tener interpretacion estrategica.
+
+### Assets Reales
+
+Cuando exista producto, caso o plataforma real, Orchestrator debe preferir evidencia nativa antes que imagen conceptual:
+
+- video fullscreen con logo cuando se quiera demostrar funcionamiento;
+- captura o mockup real como protagonista para producto/plataforma;
+- collage real para portafolio o amplitud de experiencia;
+- logos reales para ecosistemas/herramientas;
+- grafico/fuente real cuando el argumento sea dato.
+
+Si el asset falta, pedirlo o reservarlo como pendiente. No inventar evidencia.
 
 ---
 

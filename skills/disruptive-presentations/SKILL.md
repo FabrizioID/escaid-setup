@@ -34,14 +34,19 @@ This skill is the production layer, not the narrative architect and not the edit
 Inputs expected from `presentation-orchestrator`:
 
 - slide id;
+- communication mode: class/training, keynote/vision, commercial/sales, technical/implementation, mixed;
+- commercial/teaching slide type: data, trend, problem, explanation, case, demo, evidence, architecture, comparison, agenda/separator, CTA;
 - narrative role;
 - slide thesis;
 - message to install;
 - presenter phrase;
 - audience shift;
 - exact visible text;
+- value payload: data, trend, insight, evidence, case, comparison, objection resolved, decision frame, business benefit or CTA;
+- data/source requirement;
 - suggested visual mode;
 - native evidence/assets required;
+- required user action before production: attach logo, screenshot, video, template, chart, real UI or internal data;
 - brand constraints;
 - internal notes that must not be rendered.
 
@@ -53,6 +58,80 @@ Output contract:
 - `manifest.md` or `manifest.json` with slide id, prompt summary, accepted PNG path, QA status and evidence assets used;
 - HTML presentation player as the primary review/presentation artifact;
 - optional PPTX only after QA or explicit user request through `slides`.
+
+### Prompt-First Mode
+
+If the user asks for prompts, prompt final, "pasame el prompt", "mejorame esta slide", "yo genero la imagen", or similar, do not generate images. Produce the final image-generation prompt only.
+
+Generate images only when the user explicitly asks to generate/create/render the slide images or deck images.
+
+When producing a prompt-only answer:
+
+1. First state any user action needed outside the prompt:
+   - attach real logos;
+   - attach template/reference slide;
+   - attach screenshots/video/product capture;
+   - provide validated source/data;
+   - replace logos manually after generation if exact fidelity matters.
+2. Then provide the final prompt.
+3. The final prompt must explicitly say: `Generate one final 16:9 slide image`.
+4. Do not put instructions to the user inside the prompt unless they are part of production.
+5. If exact logos/charts/screenshots are required and not attached, instruct the model to reserve clean placeholders instead of inventing them.
+
+### Communication Mode Dosing
+
+Disruption is not constant. Dose it by communication mode:
+
+| Mode | Analogy | Disruption | Evidence | Diagramming | Best visual energy |
+| --- | --- | --- | --- | --- | --- |
+| Class / training | medium-high | medium-high | medium | medium | memorable analogies, explanatory diagrams, examples |
+| Keynote / vision | medium-high | medium | medium | medium | controlled full-scene moments, trends, visual thesis |
+| Commercial / sales | very low | low | very high | high | data, real assets, product proof, clean comparisons |
+| Technical / implementation | low | low-medium | high | very high | architecture, process, matrices, dependencies |
+| Mixed | declared per slide | declared per slide | declared per slide | declared per slide | adapt by block |
+
+Commercial mode rule:
+
+```text
+Do not sell illusion. Sell demonstrable reality.
+```
+
+For commercial decks, disruption should come from hierarchy, contrast, data, proof, real screenshots, clean charts, product evidence, and precise diagramming. Avoid strong visual metaphors unless explicitly requested or approved as a controlled exception.
+
+### Commercial Prompt Grammar
+
+For commercial prompt-only work, prefer these slide families:
+
+- `commercial data slide`: title, chart/data, source, business implication;
+- `three-card argument`: three proof cards with data/image/title/subtitle;
+- `commercial comparison`: two sides, clear contrast, final business takeaway;
+- `product evidence slide`: real product screenshot/video/mockup as protagonist;
+- `evidence video slide`: video/capture fullscreen or dominant, minimal text;
+- `portfolio collage`: real project images arranged as proof wall;
+- `agenda/separator`: large section titles to split attention and narrative;
+- `external signal`: official-looking Big Tech/regulation/trend signal plus interpretation;
+- `split-panel modular workflow`: product promise on one side, process cards on the other;
+- `architecture/process`: flow, layers, matrix or dashboard-style system map.
+
+Do not over-apply one family. A commercial deck needs rhythm: agenda, data, comparison, evidence, product, process, case and CTA should alternate.
+
+### Logos And Native Evidence
+
+Real logos are allowed and often useful in commercial slides when they add recognition, ecosystem context, integration proof or market credibility.
+
+Rules:
+
+- use real logos only if attached/provided or if exact fidelity is inserted natively later;
+- do not recolor real logos into the brand palette unless the user explicitly asks;
+- do not invent official logos;
+- if logos are not attached, reserve placeholders or use text labels;
+- charts, tables, screenshots, official announcement images and product UI should be native assets when fidelity matters.
+
+If using a generated prompt for ChatGPT/GPT Image and the user will generate manually, warn outside the prompt:
+
+```text
+Attach the real logos/screenshots if you need exact fidelity; otherwise generate with placeholders and replace later.
+```
 
 External deck frameworks:
 

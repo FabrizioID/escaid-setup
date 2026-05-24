@@ -28,6 +28,7 @@ Revision del vertical de presentaciones:
 - Se actualizo el mapa SkillOps para reflejar estado y reglas.
 - Se agrego `skills/disruptive-presentations/references/visual-architecture-diagramming.md`.
 - `presentation-orchestrator` ahora apunta a esa referencia antes del handoff cuando hay diagramacion o arquitectura visual.
+- Se agrego `skills/disruptive-presentations/references/commercial-disruptive-patterns.md` para patrones comerciales/disruptivos usados dentro del prompt de imagen.
 
 ## Decision operativa
 
@@ -46,6 +47,12 @@ Para diagramacion:
 - Excalidraw/Miro: ideacion humana y workshops.
 - React Flow: mapas interactivos o node editors.
 - PptxGenJS/slides: diagramas PowerPoint editables.
+
+Para artificios comerciales:
+
+- Usar patrones como before/after, tension gap, bottleneck, wedge, flywheel, proof wall, cost of inaction, asymmetric bet, trust gap y decision gate.
+- Cada slide comercial debe hacer un argumento visible en menos de 5 segundos.
+- Esta capa solo alimenta prompts; no introduce nuevos formatos.
 
 ## Prueba recomendada
 

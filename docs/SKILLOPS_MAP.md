@@ -129,6 +129,8 @@ Vertical presentaciones: baseline de potenciacion en `docs/tool-verticals/presen
 
 Capa de arquitectura visual/diagramacion: ver `skills/disruptive-presentations/references/visual-architecture-diagramming.md`. Es una capa de estructura/plantilla para el prompt visual, no un cambio de motor. `disruptive-presentations` sigue generando slides con la herramienta de imagen; Mermaid/D2/Excalidraw/Miro/React Flow/PptxGenJS son referencias de gramatica visual o rutas explicitas solo si el usuario pide otro artifact.
 
+Capa de artificios comerciales disruptivos: ver `skills/disruptive-presentations/references/commercial-disruptive-patterns.md`. Sirve para prompts de slides comerciales/ejecutivas: before-after, tension gap, bottleneck, wedge, flywheel, proof wall, cost of inaction, decision gate, signal vs noise, etc. No genera otro formato.
+
 ## Desarrollo, Operacion Y Sistemas
 
 | Nombre operativo | Skill ID | Rol | Capa | Estado | Arranque rapido | Pill/MCP | Prueba segura |

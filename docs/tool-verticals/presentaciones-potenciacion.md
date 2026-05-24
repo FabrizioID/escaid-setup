@@ -51,6 +51,43 @@ Regla: antes de convertir un proceso, sistema, arquitectura o modelo conceptual 
 | Sketch humano de ideacion | Estetica tipo Excalidraw/Miro si ayuda a explicar |
 | PPTX editable | `slides`/PptxGenJS solo en fase de export/editabilidad |
 
+## Capa de artificios comerciales disruptivos
+
+Esta capa quedo absorbida como referencia para prompts:
+
+`skills/disruptive-presentations/references/commercial-disruptive-patterns.md`
+
+No genera otro formato. Sirve para elegir estructuras comerciales que hagan que una slide venda, convenza o haga decidir mas rapido.
+
+Patrones base:
+
+- before/after;
+- tension gap;
+- problem stack;
+- bottleneck;
+- wedge;
+- flywheel;
+- funnel with friction;
+- ladder/maturity;
+- control tower;
+- operating system;
+- iceberg;
+- bridge;
+- lens/filter;
+- map/territory;
+- trade-off matrix;
+- proof wall;
+- domino chain;
+- signal vs noise;
+- cost of inaction;
+- asymmetric bet;
+- trust gap;
+- decision gate;
+- ecosystem hub;
+- timeline compression.
+
+Regla: cada slide comercial debe elegir un mecanismo dominante: contraste, tension, prueba, simplificacion, inevitabilidad, riesgo, oportunidad, transformacion, decision o momentum.
+
 ## Handoff minimo por slide
 
 Cada slide que sale de Orchestrator debe incluir:
@@ -94,6 +131,7 @@ Fuentes revisadas:
 - D2 docs: `https://d2lang.com/`
 - Excalidraw libraries: `https://libraries.excalidraw.com/`
 - React Flow docs: `https://reactflow.dev/`
+- Duarte visual storytelling / contrast resources: `https://www.duarte.com/resources/guides-tools/visual-story-workshop-overview/`, `https://www.duarte.com/blog/ultimate-guide-to-contrast/`
 
 ## Estado
 

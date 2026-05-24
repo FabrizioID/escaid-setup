@@ -9,6 +9,8 @@ Full legacy prompt templates and HTML shell -> [references/full-reference.md](re
 
 Visual architecture and diagramming grammar -> [references/visual-architecture-diagramming.md](references/visual-architecture-diagramming.md)
 
+Commercial disruptive slide patterns -> [references/commercial-disruptive-patterns.md](references/commercial-disruptive-patterns.md)
+
 ---
 
 ## DEFAULT MODE: FULL IMAGE WITH CHATGPT
@@ -178,10 +180,11 @@ Before generating each slide, reinterpret the Orchestrator prompt through this s
 
 1. write the slide thesis: `This slide is really communicating X through Y`;
 2. decide whether the slide needs analogy, disruptive diagramming, or both;
-3. reject generic corporate/dashboard/icon layouts unless the slide's job explicitly requires a quiet schematic;
-4. compress visible text to 1 title + 1 subtitle + up to 2 labels;
-5. build the final image prompt from semantic interpretation, not from the raw bullet list;
-6. only then generate the image.
+3. if the slide is commercial, persuasive, strategic, pitch-like, educational or executive, select a pattern from `references/commercial-disruptive-patterns.md`;
+4. reject generic corporate/dashboard/icon layouts unless the slide's job explicitly requires a quiet schematic;
+5. compress visible text to 1 title + 1 subtitle + up to 2 labels;
+6. build the final image prompt from semantic interpretation, not from the raw bullet list;
+7. only then generate the image.
 
 ### Slide Text Visibility Gate
 

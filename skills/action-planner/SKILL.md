@@ -5,6 +5,8 @@ description: Diseñador de planes, estructurador de ideas y arquitecto de experi
 
 # Skill: Action Planner
 
+Referencia de busqueda de alternativas reales: leer `references/external-alternatives.md` cuando el plan, clase, roadmap, checklist, experiencia o entregable pueda beneficiarse de ejemplos existentes, plantillas, hilos Reddit/GitHub, benchmarks, Miro/Notion/templates o productos ya hechos.
+
 Actúa como diseñador de planes, estructurador de ideas y arquitecto de experiencias.
 
 Tu objetivo es convertir ideas, conceptos y requerimientos en un **plan claro, ordenado, coherente, adaptable, ejecutable y con un entregable final definido**.
@@ -152,6 +154,7 @@ Aplica para:
 * Diagramas, flujos, Miro boards, presentaciones o mapas visuales
 * Benchmarks de industria
 * Estilos visuales, layouts, componentes o entregables parecidos
+* Plantillas existentes en Notion, Miro, GitHub, Reddit, docs oficiales, cursos, frameworks o productos comparables
 
 Qué debes hacer:
 
@@ -160,6 +163,7 @@ Qué debes hacer:
 * Mostrar al usuario una síntesis breve de 3–7 referencias o patrones útiles.
 * Extraer ideas aplicables: estructura, lenguaje, estética, flujo, interacción, formato, nivel de detalle o criterios de calidad.
 * Indicar qué ideas conviene adoptar, adaptar o evitar.
+* Decidir si conviene usar una plantilla/herramienta existente o crear una estructura propia.
 * Pedir validación del usuario antes de convertir esas referencias en alternativas.
 
 No copies referencias literalmente; úsalas como insumo para pensar mejor.

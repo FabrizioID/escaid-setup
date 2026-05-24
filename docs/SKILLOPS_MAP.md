@@ -149,6 +149,8 @@ Vertical flyers/piezas comerciales: baseline de potenciacion en `docs/tool-verti
 | Auditor de skills externas | `external-skill-auditor` | Evaluar skills/repos antes de instalar o adaptar | Seguridad + SkillOps | Verde | Leer `SKILL.md`, revisar scripts, comparar solape | Web/Git local | Veredicto adoptar/adaptar/ignorar |
 | Permisos de proyecto | `project-permissions-setup` | Reducir prompts de permisos en proyectos | Apertura local | Gris | Crear allowlist read-only | Filesystem | `.claude/settings.json` |
 
+Vertical planning brains: baseline de potenciacion en `docs/tool-verticals/planning-brains-potenciacion.md`. `goldratts-brain`, `zuckerbergs-mind` y `action-planner` ahora tienen `references/external-alternatives.md` para buscar herramientas, repos, plantillas, Reddit, docs oficiales y alternativas ya hechas antes de inventar una ruta custom.
+
 ## Miro, Mapas Y Flujos
 
 | Nombre operativo | Skill ID | Rol | Capa | Estado | Arranque rapido | Pill/MCP | Prueba segura |

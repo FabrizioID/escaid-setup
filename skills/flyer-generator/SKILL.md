@@ -1,6 +1,6 @@
 ---
 name: flyer-generator
-description: Diseñador de piezas visuales. Opera en 3 modos — ingeniería inversa de referencia, creación desde cero, y mejora de pieza existente. Genera imágenes vía GPT Image (gpt-image-2-2026-04-21 por defecto). Magnus evalúa con 4 lentes activos — hook taxonomy, Siente→Entiende→Hace, framework de marketing, checklist base — antes y después de cada generación.
+description: Diseñador de piezas visuales estaticas: flyers, posts, anuncios, covers y creatividades comerciales. Opera en 3 modos — ingeniería inversa de referencia, creación desde cero, y mejora de pieza existente. Genera imagenes con la herramienta directa de imagen por defecto; API/CLI solo como fallback o pedido explicito. Magnus evalúa con 4 lentes activos — hook taxonomy, Siente→Entiende→Hace, framework de marketing, checklist base — antes y después de cada generación.
 tools:
   - Read
   - Write
@@ -9,6 +9,22 @@ tools:
 ---
 
 # Flyer Generator
+
+## Contrato Del Vertical
+
+Esta skill diseña piezas visuales estaticas: flyers, posts, anuncios, covers de carrusel, piezas de evento y creatividades comerciales.
+
+- Output principal: imagen final de flyer/post/pieza visual.
+- Output operativo: prompt final y, cuando aplique, brief de variantes.
+- Motor default: herramienta directa de imagen disponible en el agente.
+- API/CLI: solo fallback o pedido explicito; no bloquear por `OPENAI_API_KEY` si la herramienta directa de imagen esta disponible.
+- No usar para decks/slides. Para presentaciones usar `presentation-orchestrator` + `disruptive-presentations`.
+- No usar para email HTML, landing, UI o documento. Es solo pieza visual estatica.
+
+Referencias operativas:
+
+- Patrones comerciales para flyers: `references/commercial-flyer-patterns.md`
+- Control de calidad y prompt final: `references/flyer-prompt-qa.md`
 
 Skill de diseño visual que combina criterio de marketing, percepción simulada y generación de imágenes vía GPT Image.
 
@@ -40,24 +56,23 @@ Preguntar o confirmar: "¿Para qué marca es esta pieza?"
 
 Buscar la branding pill en:
 ```
-C:\Users\USUARIO\inteligencia\branding\<nombre-marca>.md
+<workspace>\second-brain\inteligencia\branding\<nombre-marca>.md
 ```
 
 - **Si existe** → cargarla y confirmar: "Tengo el branding de [marca] guardado. ¿Lo usamos?"
 - **Si no existe** → activar protocolo BRANDING PILL (ver sección al final)
 
-### 0C — API Key
+### 0C - Motor de generacion
 
-Verificar si `OPENAI_API_KEY` está disponible en el entorno.
+Usar la herramienta directa de imagen por defecto cuando este disponible. No pedir API key ni bloquear la tarea si el agente tiene `image_gen`/herramienta equivalente activa.
 
-```bash
-echo $env:OPENAI_API_KEY
-```
+Usar API/CLI solo cuando:
 
-- **Si existe** → continuar silenciosamente
-- **Si no existe** → solicitar: "Necesito tu OPENAI_API_KEY para llamar a GPT Image. Pásala como variable de entorno `OPENAI_API_KEY` o indícame dónde está."
+- el usuario pida explicitamente API, CLI, modelo especifico o ruta con archivos locales;
+- la herramienta directa no este disponible;
+- haga falta un flujo automatizado local y el usuario acepte usar `OPENAI_API_KEY`.
 
-No continuar sin API key confirmada.
+Nunca pegar ni solicitar secretos en el chat. Si hace falta API, pedir variable de entorno o archivo local seguro.
 
 ---
 
@@ -275,6 +290,8 @@ OPCIÓN C — [nombre de arquitectura]
 
 Ejemplos de arquitecturas: columna central, split layout, hub radial, timeline vertical, mosaico asimétrico, dashboard UI, tarjetas flotantes, estructura Z, roadmap lateral, distribución diagonal.
 
+Antes de proponer, revisar `references/commercial-flyer-patterns.md` y elegir arquitecturas segun el objetivo: venta, autoridad, evento, anuncio, carrusel cover, prueba social, dolor/solucion, urgencia, convocatoria o posicionamiento.
+
 Pedir elección: "¿Qué arquitectura prefieres, o quieres que elija la que mejor sirve al mensaje?"
 
 **FASE 4 — Construir prompt y generar**
@@ -470,7 +487,7 @@ BRANDING PILL — [Nombre de la marca]
 
 Una vez completada, guardar en:
 ```
-C:\Users\USUARIO\inteligencia\branding\<nombre-marca-lowercase>.md
+<workspace>\second-brain\inteligencia\branding\<nombre-marca-lowercase>.md
 ```
 
 Confirmar: "Branding pill de [marca] guardada. Se usará en esta y futuras piezas."
@@ -490,3 +507,7 @@ Confirmar: "Branding pill de [marca] guardada. Se usará en esta y futuras pieza
 9. **Sin duplicidad** — cada zona comunica algo distinto. Si dos zonas dicen lo mismo (logo repetido, texto que repite el título, dato que ya está en otro elemento), eliminar una. El espacio de un flyer es limitado — cada elemento debe aportar o no estar.
 10. **Hook = título, siempre** — el título de la pieza nunca es descriptivo. Siempre es un hook con tipo identificado y motor psicológico claro. Si el usuario provee un título descriptivo, Magnus propone versión hook antes de construir el prompt.
 11. **Magnus usa sus lentes, no improvisa** — la evaluación funcional siempre usa: taxonomía de hooks + Siente→Entiende→Hace + framework de marketing + checklist base. No es una evaluación de impresión general.
+12. **Una pieza, una accion** — cada flyer/post debe tener un unico objetivo conductual. Si hay dos CTAs o dos promesas principales, separar en variantes.
+13. **Patron antes que decoracion** — para piezas comerciales, elegir un patron de `references/commercial-flyer-patterns.md` antes de escribir el prompt final.
+14. **Direct image first** — usar la herramienta directa de imagen si esta disponible. API/CLI es fallback o pedido explicito.
+15. **No confundir con slides** — si el usuario pide una presentacion o varias slides con narrativa secuencial, derivar a `presentation-orchestrator`/`disruptive-presentations`.

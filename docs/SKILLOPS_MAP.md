@@ -118,7 +118,7 @@ Vertical n8n: baseline de potenciacion completo en `docs/tool-verticals/n8n-pote
 | Presentation Orchestrator | `presentation-orchestrator` | Narrativa, estructura y handoff de decks | Dominio | Verde/Amarillo | Definir objetivo, audiencia, slides y handoff minimo por slide | No requiere MCP | Plan + handoff |
 | Slides disruptivas | `disruptive-presentations` | Generar slides full image de alto impacto | Dominio + imagen | Verde/Amarillo | Una slide a la vez, usar herramienta imagen directa, guardar manifest | `image_gen` o API fallback | Generar slide/prompt/player |
 | PowerPoint editable | `slides` | Crear/editar PPTX con PptxGenJS | Dominio extra | Verde/Amarillo | Usar helpers, renderizar, validar | LibreOffice/Node | Render slide |
-| Flyers visuales | `flyer-generator` | Piezas visuales y flyers | Dominio + imagen | Amarillo | Clasificar modo, generar/evaluar | `image_gen` | Imagen final |
+| Flyers visuales | `flyer-generator` | Piezas visuales estaticas: flyers, posts, anuncios, covers y creatividades comerciales | Dominio + imagen | Verde/Amarillo | Clasificar modo, elegir patron comercial, generar/evaluar | `image_gen` | Imagen final + prompt |
 | Generador de imagenes | `imagegen` | Generar/editar bitmap | Tool base extra | Verde | Llamar herramienta de imagen | `image_gen` | Imagen generada |
 | Marketing Master | `marketing-master` | Funnel, contenido, Meta Ads, email, SEO | Dominio marketing | Gris | Elegir subdominio y referencia | n8n/Notion opcional | Plan/copy |
 | Emails HTML marketing | `email-html-marketing` | HTML email y Apps Script marketing | Dominio + Google | Amarillo | Crear HTML seguro, preview, opcional Drive/Apps Script | Playwright/Google | Preview HTML |
@@ -130,6 +130,8 @@ Vertical presentaciones: baseline de potenciacion en `docs/tool-verticals/presen
 Capa de arquitectura visual/diagramacion: ver `skills/disruptive-presentations/references/visual-architecture-diagramming.md`. Es una capa de estructura/plantilla para el prompt visual, no un cambio de motor. `disruptive-presentations` sigue generando slides con la herramienta de imagen; Mermaid/D2/Excalidraw/Miro/React Flow/PptxGenJS son referencias de gramatica visual o rutas explicitas solo si el usuario pide otro artifact.
 
 Capa de artificios comerciales disruptivos: ver `skills/disruptive-presentations/references/commercial-disruptive-patterns.md`. Sirve para prompts de slides comerciales/ejecutivas: before-after, tension gap, bottleneck, wedge, flywheel, proof wall, cost of inaction, decision gate, signal vs noise, etc. No genera otro formato.
+
+Vertical flyers/piezas comerciales: baseline de potenciacion en `docs/tool-verticals/flyers-potenciacion.md`. Ruta default: `flyer-generator` -> patron comercial -> prompt final -> imagen con herramienta directa -> QA. No usar para decks/slides, emails, landings o UI.
 
 ## Desarrollo, Operacion Y Sistemas
 

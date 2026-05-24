@@ -127,7 +127,7 @@ Vertical n8n: baseline de potenciacion completo en `docs/tool-verticals/n8n-pote
 
 Vertical presentaciones: baseline de potenciacion en `docs/tool-verticals/presentaciones-potenciacion.md`. Ruta default: `presentation-orchestrator` -> `disruptive-presentations` -> HTML player + manifest -> `slides` solo si se pide PPTX editable. Marp/reveal.js son opcionales para decks Markdown/HTML text-first, no ruta principal ESC-AI.
 
-Capa de arquitectura visual/diagramacion: ver `skills/disruptive-presentations/references/visual-architecture-diagramming.md`. Usar Mermaid para drafts Markdown, D2 para arquitectura/sistemas, Excalidraw/Miro para workshops, React Flow para mapas interactivos, y PptxGenJS/`slides` para PPTX editable.
+Capa de arquitectura visual/diagramacion: ver `skills/disruptive-presentations/references/visual-architecture-diagramming.md`. Es una capa de estructura/plantilla para el prompt visual, no un cambio de motor. `disruptive-presentations` sigue generando slides con la herramienta de imagen; Mermaid/D2/Excalidraw/Miro/React Flow/PptxGenJS son referencias de gramatica visual o rutas explicitas solo si el usuario pide otro artifact.
 
 ## Desarrollo, Operacion Y Sistemas
 

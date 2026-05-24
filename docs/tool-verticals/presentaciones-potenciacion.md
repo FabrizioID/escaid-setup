@@ -36,20 +36,20 @@ Esta capa quedo absorbida como referencia operativa en:
 
 `skills/disruptive-presentations/references/visual-architecture-diagramming.md`
 
-Regla: antes de convertir un proceso, sistema, arquitectura o modelo conceptual en slide, clasificar la familia de diagrama y elegir la herramienta/gramatica correcta.
+Regla: antes de convertir un proceso, sistema, arquitectura o modelo conceptual en slide, clasificar la familia de diagrama y elegir el patron de estructura/plantilla correcto. Esta capa NO cambia el motor de salida: `disruptive-presentations` sigue generando la slide final con la herramienta de imagen. Mermaid, D2, Excalidraw/Miro, React Flow y PptxGenJS funcionan como referencias de gramatica visual salvo pedido explicito de otro artifact.
 
-| Familia | Ruta recomendada |
+| Familia | Patron estructural para la slide |
 | --- | --- |
-| Arquitectura software/MCP/repos/APIs | D2 o Mermaid architecture para draft; full-image para slide final |
-| Proceso operativo / automatizacion | Mermaid flowchart o D2; Miro si es workshop |
-| Secuencia agente-herramienta/API | Mermaid sequence |
-| Estados y lifecycle | Mermaid state |
-| Sistema de sistemas / mapa ESC-AI | D2, Miro o schematic custom |
+| Arquitectura software/MCP/repos/APIs | Gramatica tipo D2/Mermaid: grupos, capas, recursos, edges |
+| Proceso operativo / automatizacion | Gramatica tipo flowchart: pasos, gates, swimlanes, loops |
+| Secuencia agente-herramienta/API | Gramatica tipo sequence: lifelines, mensajes, retornos |
+| Estados y lifecycle | Gramatica tipo state: estados, transiciones, finales, excepciones |
+| Sistema de sistemas / mapa ESC-AI | Gramatica tipo D2/Miro: hubs, bordes, loops, capas |
 | Modelo conceptual / tesis | Schematic custom, no raw Mermaid |
-| Funnel / journey | Schematic custom o Miro |
-| Diagrama interactivo editable | React Flow |
-| Sketch humano de ideacion | Excalidraw o Miro |
-| PPTX editable | `slides`/PptxGenJS |
+| Funnel / journey | Schematic custom con progresion, tension y conversion |
+| Diagrama interactivo editable | React Flow solo si el entregable es una app; para slide, node-map estatico |
+| Sketch humano de ideacion | Estetica tipo Excalidraw/Miro si ayuda a explicar |
+| PPTX editable | `slides`/PptxGenJS solo en fase de export/editabilidad |
 
 ## Handoff minimo por slide
 

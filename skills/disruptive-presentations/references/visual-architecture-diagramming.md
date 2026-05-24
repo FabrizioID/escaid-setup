@@ -2,6 +2,8 @@
 
 Use this reference when a slide, deck, HTML player or handoff needs a diagram, architecture map, system map, process flow, thesis model, funnel, decision tree, data lineage, or cross-variable visual explanation.
 
+This reference does not change the production engine. In ESC-AI presentations, `disruptive-presentations` still generates the final slide with the image tool by default. Mermaid, D2, Excalidraw, Miro, React Flow and PptxGenJS are used here as structural references: they help choose the layout grammar, diagram family, reading path and template logic. Do not switch to those tools as output generators unless the user explicitly asks for editable code, workshop board, interactive app, or PPTX export.
+
 ## Principle
 
 A diagram is not decoration. It must encode a decision:
@@ -19,25 +21,25 @@ Before choosing a visual style, classify the diagram family.
 
 ## Diagram Families
 
-| Family | Use when | Best route |
+| Family | Use when | Structural pattern for the image prompt |
 | --- | --- | --- |
-| Architecture map | Services, resources, MCPs, repos, APIs, cloud, CI/CD, data stores | D2 or Mermaid architecture; for final slide, disruptive full-image can stylize it |
-| Process flow | Steps, handoffs, approvals, automation, operating workflows | Mermaid flowchart for draft; D2 for polished structure; Miro for workshop boards |
-| Sequence | API calls, agent/tool interactions, user-system exchanges | Mermaid sequence diagram |
-| State machine | Status transitions, lead states, workflow states, lifecycle | Mermaid state diagram |
-| System-of-systems | Multiple projects, tools, humans, memory, feedback loops | D2, Miro, or custom artifact schematic |
+| Architecture map | Services, resources, MCPs, repos, APIs, cloud, CI/CD, data stores | D2/Mermaid-like grouped services, layers, resource nodes and directional edges |
+| Process flow | Steps, handoffs, approvals, automation, operating workflows | Mermaid/D2-like left-to-right flow, swimlanes, gates and feedback loops |
+| Sequence | API calls, agent/tool interactions, user-system exchanges | Mermaid-like lifelines, ordered messages and returns |
+| State machine | Status transitions, lead states, workflow states, lifecycle | Mermaid-like states, transitions, terminal states and exception paths |
+| System-of-systems | Multiple projects, tools, humans, memory, feedback loops | D2/Miro-like ecosystem map with hubs, layers, feedback loops and boundaries |
 | Conceptual model | Thesis framework, strategic model, mental model, hierarchy | Custom artifact schematic, not raw Mermaid |
 | Funnel/journey | Marketing, onboarding, sales, learning progression | Custom artifact schematic or Miro |
-| Decision tree | Branching logic, triage, qualification, routing | Mermaid for draft; custom schematic for final |
-| Interactive node map | User must drag, inspect, collapse, filter or edit nodes | React Flow |
-| Sketch / human explanation | Early ideation, workshops, messy team/process maps | Excalidraw or Miro |
-| Editable PowerPoint diagram | Final PPTX must remain editable | `slides`/PptxGenJS native shapes |
+| Decision tree | Branching logic, triage, qualification, routing | Mermaid-like branching, yes/no gates and terminal outcomes |
+| Interactive node map | User must drag, inspect, collapse, filter or edit nodes | React Flow-like node/edge grammar only if making an app; for slides, use static node-map composition |
+| Sketch / human explanation | Early ideation, workshops, messy team/process maps | Excalidraw/Miro-like informal board grammar |
+| Editable PowerPoint diagram | Final PPTX must remain editable | Use `slides`/PptxGenJS only in export phase; for image slides, imitate native shape clarity |
 
-## Tool Selection
+## Structural References, Not Default Generators
 
 ### Mermaid
 
-Use for fast, portable, Markdown-native diagrams:
+Use its grammar as reference for:
 
 - flowcharts;
 - sequence diagrams;
@@ -45,39 +47,39 @@ Use for fast, portable, Markdown-native diagrams:
 - class/entity sketches;
 - architecture-beta drafts.
 
-Strength: easy to store in Markdown and Git, fast for docs.
+Strength as reference: forces clean direction, named states, clear edges and explicit branching.
 
-Limit: visual quality can become generic in high-stakes slides. Use as structure source, then convert into a stronger full-image or PPTX-native version if presentation quality matters.
+Do not render raw Mermaid as the final slide unless the user asks for docs/Markdown output. For `disruptive-presentations`, translate Mermaid-like logic into the image prompt's composition.
 
 ### D2
 
-Use for polished declarative architecture diagrams:
+Use its grammar as reference for:
 
 - software/system architecture;
 - resource maps;
 - network/data flow;
 - diagrams that need themes, sketch mode, ELK layouts, Markdown blocks, icons or animation.
 
-Strength: better visual output and layout control than many quick diagram DSLs. Good for technical documentation and architecture maps.
+Strength as reference: good grouped nodes, container boundaries, clean architecture topology and layout logic.
 
-Limit: still a diagram language; for persuasive slides, treat D2 output as skeleton/evidence and make the final slide explain the insight.
+Do not route final slide generation to D2 unless the user asks for a `.d2` artifact. For image slides, use D2-like grouping and edge logic inside the final prompt.
 
 ### Excalidraw
 
-Use for human, sketch-like thinking:
+Use its grammar as reference for:
 
 - workshops;
 - high-level system diagrams;
 - messy architecture drafts;
 - stakeholder alignment maps.
 
-Strength: low-friction, human-looking, good library ecosystem for system design components.
+Strength as reference: good for human-readable board layouts, loose clusters, annotations and tangible components.
 
-Limit: not ideal for deterministic, versioned, programmatic diagrams unless an Excalidraw API/MCP route is available and approved.
+Do not create Excalidraw artifacts from this skill unless the user asks for a board/sketch output. For image slides, borrow the informal board grammar if it helps comprehension.
 
 ### React Flow
 
-Use when the output is an interactive application or node editor:
+Use its grammar as reference only when the visual needs to feel like a node editor:
 
 - drag/drop workflow builder;
 - MCP map explorer;
@@ -85,9 +87,9 @@ Use when the output is an interactive application or node editor:
 - automations map;
 - dependency explorer.
 
-Strength: ready node interactions, panning, zooming, selection and custom nodes.
+Strength as reference: clear nodes, handles, edges, zoomable canvas logic and inspectable systems.
 
-Limit: overkill for static slides. Use only if interaction is the product.
+Do not use React Flow for static slides. Use it only if the deliverable is an interactive app or if the user asks for a node-map UI.
 
 ### PptxGenJS / slides
 
@@ -107,7 +109,7 @@ Limit: not the default disruptive visual generation route.
 
 For high-stakes presentation slides:
 
-1. Draft structure in Mermaid, D2, Miro, Excalidraw, or plain text.
+1. Select a structural grammar inspired by Mermaid, D2, Miro, Excalidraw, React Flow, PptxGenJS or plain text.
 2. Extract the diagram thesis: what the audience must understand.
 3. Decide visual mode:
    - `artifact schematic` for operational clarity;
@@ -116,6 +118,7 @@ For high-stakes presentation slides:
 4. Keep visible text minimal: 1 title, 1 anchor phrase, up to 2 labels.
 5. Keep internal logic out of the slide image.
 6. If factual fidelity matters, preserve original evidence assets in a quiet zone or export later with `slides`.
+7. Generate the final slide with the image tool unless the user explicitly requested a different artifact type.
 
 ## Layout Heuristics
 

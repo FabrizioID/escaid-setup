@@ -57,7 +57,7 @@ Cada slide aprobada por Orchestrator debe quedar lista para produccion con estos
 
 Si falta evidencia nativa o branding, dejarlo marcado en el handoff como decision pendiente. No inventar logos, graficos, cifras, capturas ni tablas.
 
-Para elegir gramatica visual de diagramacion antes del handoff, leer `../disruptive-presentations/references/visual-architecture-diagramming.md` cuando la presentacion tenga arquitectura, procesos, sistemas, mapa operativo, flujo, funnel, decision tree, tesis/modelo conceptual o comparacion entre variables.
+Para elegir patron de estructura, plantilla y gramatica visual antes del handoff, leer `../disruptive-presentations/references/visual-architecture-diagramming.md` cuando la presentacion tenga arquitectura, procesos, sistemas, mapa operativo, flujo, funnel, decision tree, tesis/modelo conceptual o comparacion entre variables. Esa referencia NO cambia el motor de salida: `disruptive-presentations` sigue generando la slide final con la herramienta de imagen por defecto.
 
 ---
 

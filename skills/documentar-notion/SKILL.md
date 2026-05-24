@@ -15,9 +15,10 @@ Por defecto, la skill **no puede borrar, reemplazar, reestructurar, alterar vist
 
 ## Rutas de integracion
 
-1. **Notion MCP primero**: si el entorno tiene Notion MCP oficial o easy-notion-mcp disponible y autenticado, usarlo como ruta principal.
-2. **Notion API fallback**: si MCP no esta disponible o se requiere batch/control fino, usar API directa con `NOTION_API_KEY`.
-3. **Plan manual**: si no hay permisos o integracion, generar un plan Markdown/JSON para copiar a Notion.
+1. **easy-notion-mcp primero cuando este disponible**: ruta markdown-first, rapida y compacta para paginas, secciones, bases, vistas, comentarios y usuarios.
+2. **Notion MCP oficial/remoto o local**: usar cuando el entorno ya lo exponga o cuando convenga trabajar con API JSON directa.
+3. **Notion API fallback**: si MCP no esta disponible o se requiere batch/control fino, usar API directa con token local del perfil.
+4. **Plan manual**: si no hay permisos o integracion, generar un plan Markdown/JSON para copiar a Notion.
 
 Antes de proponer codigo propio, verificar si el MCP/herramienta nativa resuelve el flujo.
 
@@ -64,7 +65,9 @@ Con MCP remoto/oficial disponible:
 
 Con easy-notion-mcp:
 - Verificar conexion con `mcp__notion-easy__get_me`.
-- Usar sus herramientas para crear/leer/actualizar paginas y bases cuando esten disponibles.
+- Usar sus herramientas para crear/leer/actualizar paginas, bases, vistas, comentarios y usuarios cuando esten disponibles.
+- Preferir escritura markdown para contenido largo y `dry_run` antes de cambios destructivos si la herramienta lo permite.
+- No usar `replace_content`, `update_section`, `archive_page`, `delete_view`, `delete_database_entry` ni `move_page` sin confirmacion o preflight.
 
 Con MCP local oficial `@notionhq/notion-mcp-server`:
 - Esperar herramientas API-first con nombres tipo `search`, `retrieve-a-page`, `retrieve-a-database`, `retrieve-a-data-source`, `create-a-page`, `create-a-data-source`, `query-data-source`, `update-a-page` o equivalentes descubiertos por el cliente.
@@ -75,6 +78,7 @@ Con API fallback:
 - Buscar: `POST /v1/search`.
 - Leer pagina: `GET /v1/pages/{page_id}` y `GET /v1/blocks/{page_id}/children`.
 - Leer database/schema: `GET /v1/databases/{database_id}`.
+- API moderna: usar `Notion-Version: 2026-03-11` para `data_sources`, `views` y configuracion de vistas.
 - Crear fila/pagina: `POST /v1/pages`.
 - Crear base inline clasica: `POST /v1/databases` con `parent.page_id` e `is_inline: true` cuando aplique.
 - Actualizar: `PATCH /v1/pages/{page_id}` o append de bloques con `PATCH /v1/blocks/{block_id}/children`.
@@ -85,6 +89,37 @@ Con API fallback:
 - Para Fabrizio, la configuracion preferida es un wrapper local que lee `~/.codex/credentials/notion/josefabrizioid_notion.json` y ejecuta `@notionhq/notion-mcp-server`.
 - No escribir tokens dentro de `config.toml` ni dentro de skills.
 - Tras cambiar `config.toml`, advertir que Codex debe reiniciarse para que el MCP activo se recargue.
+
+## Modos potenciados 2026
+
+### Markdown Fast Write Mode
+
+Para documentacion larga, minutas, briefs, aprendizajes y contenido narrativo:
+
+1. usar easy-notion-mcp si esta activo;
+2. leer pagina/seccion como markdown;
+3. aplicar append o update de seccion, no reemplazo total;
+4. usar `dry_run` si el cambio puede borrar bloques;
+5. verificar lectura final.
+
+### Data Source / View Guard Mode
+
+Para bases, vistas, boards, timelines o reportes:
+
+1. distinguir `database_id` de `data_source_id`;
+2. leer schema antes de crear filas;
+3. leer vistas vivas antes de replicar filtros;
+4. crear o actualizar vistas solo con instruccion clara;
+5. no borrar linked views o fuentes viejas hasta verificar conteo y query de la nueva fuente.
+
+### Profile-Safe Mode
+
+Para evitar esperas por credenciales:
+
+1. elegir perfil por alias antes de buscar;
+2. validar identidad con MCP o `/v1/users/me`;
+3. si MCP activo responde otra cuenta, usar fallback local del perfil o pedir recarga;
+4. nunca imprimir tokens ni copiarlos a config versionada.
 
 ## Setup de easy-notion-mcp
 
@@ -537,6 +572,10 @@ Antes de escribir:
 Para limites de Notion MCP/API, contratos internos, templates, blocks, imagenes y diffs, leer:
 
 `references/notion-mcp-and-api-patterns.md`
+
+Para candidatos MCP, riesgos y rutas alternativas, leer:
+
+`references/notion-mcp-candidates.md`
 
 Para la plantilla de referencia de proyectos de ingenieria (estructura PUENTE-TINGO), leer:
 

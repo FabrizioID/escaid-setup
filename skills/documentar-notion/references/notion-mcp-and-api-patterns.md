@@ -2,7 +2,9 @@
 
 ## Regla de seleccion
 
-Usar **easy-notion-mcp** como ruta principal cuando este disponible y autenticado. Tiene 38 herramientas con capacidades superiores al MCP oficial.
+Usar **easy-notion-mcp** como ruta principal cuando este disponible y autenticado. Es markdown-first, reduce tokens y expone herramientas para paginas, bases, vistas, comentarios y usuarios.
+
+Usar MCP oficial/remoto o servidores API-first cuando el entorno ya los exponga o cuando se necesite JSON Notion crudo.
 
 Usar Notion API directa solo como fallback, para batch/control fino o cuando el MCP no cubra una operacion necesaria.
 
@@ -18,7 +20,7 @@ Si ninguna ruta esta disponible, generar un plan manual.
 - Variable requerida: `NOTION_TOKEN` (NO `NOTION_API_KEY`)
 - Herramienta de verificacion: `mcp__notion-easy__get_me`
 
-**38 herramientas disponibles:**
+**42 herramientas disponibles segun version auditada 2026:**
 
 Lectura:
 - `get_me` — verificar conexion y usuario
@@ -63,6 +65,21 @@ Vistas:
 - `update_view` — modificar vista existente
 - `delete_view` — eliminar vista
 - `update_data_source` — actualizar data source de una vista
+
+Riesgos y reglas:
+- No usar HTTP expuesto sin bearer; en static-token mode requiere `NOTION_MCP_BEARER`.
+- `file://` uploads son solo para stdio y deben limitarse al workspace local.
+- `replace_content`, `update_section`, `archive_page`, `move_page`, `delete_view` y `delete_database_entry` requieren confirmacion o `dry_run`.
+- Mantener `NOTION_TRUST_CONTENT=false` salvo workspace completamente controlado.
+
+### MCP API-first 2026: `suekou/mcp-notion-server`
+
+- Repo: `https://github.com/suekou/mcp-notion-server`
+- Token env: `NOTION_API_TOKEN`
+- Apunta a Notion API `2026-03-11`.
+- Aporta herramientas compactas para discovery, lectura de pagina, inspeccion/query de data source, creacion de items y raw API fallback.
+
+Decision: candidato alternativo, no reemplazo. Util si el MCP oficial/easy falla con `data_sources` o si se necesita respuesta estructurada compacta con API moderna.
 
 ### Notion API oficial (fallback)
 - API oficial de Notion: pages, blocks, databases/data sources, properties, file uploads.
@@ -116,6 +133,14 @@ Limitacion conocida: Los titulos de bases de datos inline no se pueden ocultar v
 Proteger por defecto. No modificar vistas, boards, timeline, calendars, grouping o sorting sin instruccion explicita.
 
 Si el usuario pide cambiar vista visual y MCP/API no lo soporta, reportar accion manual.
+
+API moderna:
+- Para vistas usar `Notion-Version: 2026-03-11`.
+- `database_id` identifica el contenedor de base.
+- `data_source_id` identifica la fuente consultable.
+- Una database creada por API provisiona al menos una data source y una vista table por defecto.
+- Listar vistas con `/v1/views?database_id=...` o `/v1/views?data_source_id=...`.
+- Crear vistas requiere `database_id` y `data_source_id`.
 
 ### Imagenes y archivos
 

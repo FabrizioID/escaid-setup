@@ -124,8 +124,22 @@ Para contratos, informes profesionales o revision por terceros, el ideal es edit
 Ruta actual:
 
 - no asumir tracked changes si la tool activa no lo soporta;
-- si el usuario pide redlines, auditar `SecurityRonin/docx-mcp` o `safe-docx` antes de instalar;
+- si el usuario pide redlines, usar `docx_redline_mcp` solo si ya fue instalado y probado;
 - mientras tanto, crear copia editada + changelog Markdown.
+
+### 7. Redline Fallback Opcional
+
+`SecurityRonin/docx-mcp` fue auditado como candidato fuerte para cubrir redlines/control de cambios real.
+
+Decision:
+
+- absorber sus criterios en la skill principal;
+- no reemplazar `word_document_server`;
+- no instalar con `curl | bash`;
+- si se habilita, registrarlo separado como `docx_redline_mcp`;
+- probar primero con DOCX descartable y abrir resultado en Word.
+
+Motivo: aporta exactamente la brecha pendiente, pero trae dependencias pesadas y una superficie amplia. Conviene usarlo como herramienta especializada, no como ruta base para todo Word.
 
 ## No Hacer
 
@@ -142,7 +156,7 @@ Word MCP queda como vertical fuerte pero no cerrado al 100%. La base actual es s
 
 Siguiente accion recomendada si se quiere potenciar mas:
 
-1. auditar `SecurityRonin/docx-mcp`;
-2. comparar contra `word_document_server`;
-3. si es seguro, absorber criterios o crear fallback `redline mode`;
-4. no reemplazar la skill principal `docx-mcp-document-editor`.
+1. habilitar `docx_redline_mcp` en entorno aislado;
+2. probar redline end-to-end con documento descartable;
+3. sincronizar config local en Codex/Claude si pasa la prueba;
+4. mantener `docx-mcp-document-editor` como dominio principal.

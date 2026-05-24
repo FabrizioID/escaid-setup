@@ -125,7 +125,15 @@ If the user wants review instead of direct edits, extract existing comments and 
 
 ### Redline / Track Changes Mode
 
-If the user asks for tracked changes, redlines, legal review, or version comparison, read `references/word-redline-candidates.md`. Do not assume the active local route supports native tracked changes. If redlines are unavailable, create an edited copy plus a changelog.
+If the user asks for tracked changes, redlines, legal review, or version comparison, read `references/word-redline-candidates.md`. Do not assume the active local route supports native tracked changes.
+
+Operational order:
+
+1. create a working copy;
+2. use an active/proven `docx_redline_mcp` route only if available;
+3. otherwise use the normal DOCX route and deliver an edited copy plus a changelog;
+4. never install a redline MCP through `curl | bash`;
+5. treat `SecurityRonin/docx-mcp` as an optional specialized fallback, not the default Word route.
 
 ## Common Failure Modes
 

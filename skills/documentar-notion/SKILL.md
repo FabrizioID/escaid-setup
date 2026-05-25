@@ -292,6 +292,71 @@ Trigger ejemplo: `sube la reunion a Notion` / `carga esto a reuniones`
 
 Usar este activador solo cuando el usuario lo pida de forma explicita o cuando el input describa inequívocamente una reunion real realizada o programada. Si solo hay cierre de actividad, seguimiento a una persona, mensaje de confirmacion, correo, WhatsApp, entrega documental o evidencia de Drive, no crear registro en `REUNIONES`; actualizar actividades/control/documentos segun corresponda.
 
+#### Preprocesamiento ICE obligatorio
+
+Antes de registrar cualquier reunion, activar primero `meeting-ice-processor`, incluso si el input del usuario no es una transcripcion literal sino notas manuales, memoria hablada, acuerdos sueltos o resumen informal.
+
+Secuencia obligatoria:
+
+1. Procesar el input con `meeting-ice-processor`.
+2. Obtener objetivo, observaciones fieles, acuerdos/pendientes, actividades trazables y puntos sueltos.
+3. Registrar en Notion usando esta skill.
+4. Generar mensaje WhatsApp curado.
+
+Regla de densidad:
+
+- Notion conserva la sustancia real: observaciones completas, decisiones, razonamiento, tensiones, puntos sueltos y estructura ICE dentro de la pagina de reunion.
+- WhatsApp es directo y mas compacto, pero no debe omitir temas necesarios; agrupar antes que borrar.
+
+Cuando se cree o actualice una pagina de reunion, insertar tambien una seccion `ICE - Estructura trazable de la reunion` con:
+- `I - Ideas e insights`
+- `C - Compromisos y cierres`
+- `E - Ejecucion pendiente`
+- `Puntos sueltos / por aclarar`
+
+Si la reunion abarca varios proyectos, productos o frentes, insertar ademas una seccion `Macrosecciones / frentes de la reunion` antes o despues del ICE. Cada frente debe conservar su propio contexto y no mezclarse en una sola lista plana.
+
+Formato recomendado:
+
+- `Frente: [nombre]`
+  - `Que se converso`
+  - `Ideas / decisiones clave`
+  - `Acuerdos / pendientes`
+  - `Responsables`
+  - `Puntos sueltos`
+  - `Riesgos / ambiguedades`
+  - `Preguntas de seguimiento`
+  - `Plan trazable del frente`
+
+Usar macrosecciones cuando aparezcan temas como AECODE Fase 2, AECODE Fase 3, GEN+, agentes, TessIA, Summit, SAMI, marketing/webinars, certificaciones, n8n, libro, partners, cliente externo o cualquier proyecto separado. Esta capa ayuda a que Notion funcione como memoria de proyecto, no solo como acta.
+
+Si existe esta capa, no concentrar todos los acuerdos, puntos sueltos, riesgos y preguntas en bloques globales. Esos bloques pueden existir como sintesis, pero la memoria primaria debe quedar separada por frente/proyecto.
+
+Regla de cantidad de frentes:
+
+- 1 frente: registrar una sola estructura de reunion, sin forzar macrosecciones.
+- 2-3 frentes: registrar cada frente como mini-acta completa. Este es el caso mas comun.
+- 4+ frentes: mantener estructura por frente, pero cuidar longitud; si hace falta, guardar por tandas y confirmar antes de continuar.
+
+Orden por defecto para Notion y WhatsApp: **frente -> secciones**. No invertirlo a **seccion -> frentes** salvo pedido explicito del usuario.
+
+Cada frente debe conservar la estructura tradicional de reunion como mini-acta. No reemplazar el ICE por prosa suelta. Orden recomendado dentro de cada frente:
+
+1. `Ficha del frente`
+2. `Resumen del frente`
+3. `Temas clave`
+4. `ICE`
+   - `I - Ideas e insights`
+   - `C - Compromisos y cierres`
+   - `E - Ejecucion pendiente`
+5. `Acuerdos / pendientes trazables`
+6. `Puntos sueltos`
+7. `Riesgos / ambiguedades`
+8. `Preguntas de seguimiento`
+9. `Plan trazable`
+
+Usar tablas cuando haya comparacion, ownership o seguimiento: temas, acuerdos, puntos sueltos, riesgos y plan. Usar bullets para resumen e insights.
+
 Este activador produce dos salidas: registro en Notion y mensaje listo para WhatsApp.
 
 **Paso 1 - Registrar en Notion REUNIONES**

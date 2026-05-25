@@ -380,10 +380,10 @@ No basta con crear la fila en la base inline `REUNIONES` del proyecto. La reunio
 
 **Paso 2 - Mensaje WhatsApp para copiar y pegar**
 
-Despues de documentar, entregar al usuario un mensaje de grupo de WhatsApp con este molde:
+Despues de documentar una reunion, si el usuario pide mensaje para WhatsApp/WSP, entregar siempre un mensaje de grupo con estructura **titulo/frente -> secciones**. Esta regla aplica aunque la reunion tenga un solo frente; no responder con resumen libre ni con listas separadas fuera del molde.
 
 ```text
-*REUNION [Nombre del proyecto] - [DD/MM/AAAA]*
+*REUNIONES ([DD/MM/AAAA]) - [Titulo o frente]*
 
 *Objetivo:*
 • [objetivo principal de la reunion]
@@ -401,7 +401,7 @@ Despues de documentar, entregar al usuario un mensaje de grupo de WhatsApp con e
 ✅ [cierre si aplica, ej: "Todo lo demas aprobado y validado en reunion."]
 ```
 
-Regla de titulo: siempre `*REUNION [Proyecto] - [DD/MM/AAAA]*`, con la palabra REUNION al inicio. Para Tingo usar `*REUNION PUENTE-TINGO - [DD/MM/AAAA]*`.
+Regla de titulo: la primera linea debe ser siempre `*REUNIONES ([DD/MM/AAAA]) - [Titulo o frente]*`. Usar fecha real de la reunion; si falta, usar `Sin fecha`. Para reuniones con 2+ frentes, repetir el bloque completo por cada frente y usar el nombre del frente en el titulo.
 
 Reglas del formato WA:
 - Texto plano, sin markdown de codigo, sin tablas.
@@ -410,6 +410,8 @@ Reglas del formato WA:
 - Tono directo, sin saludos ni firmas.
 - Maximo 20 lineas en total; si hay mas contenido, agrupar puntos similares.
 - Separar `Observaciones` de `Acuerdos / Pendientes`.
+- No usar encabezados alternativos como `Resumen`, `Punto principal`, `Criterios`, `Acuerdos` o `Pendientes por definir` fuera del molde validado.
+- No reemplazar el titulo por `FRENTE:`; el frente o tema va despues del guion en la primera linea.
 - Si no hay validacion general, omitir el cierre con check.
 
 ### Reporte de actividades generales

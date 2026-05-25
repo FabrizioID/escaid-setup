@@ -110,7 +110,7 @@ Front-count rule:
 For WhatsApp/Notion handoff, preserve the same front-first logic:
 
 ```text
-*FRENTE: [Nombre]*
+*REUNIONES ([DD/MM/AAAA]) - [Titulo o frente]*
 *Objetivo:*
 ...
 *Observaciones:*
@@ -118,6 +118,9 @@ For WhatsApp/Notion handoff, preserve the same front-first logic:
 *Acuerdos / Pendientes:*
 ...
 ```
+
+When the user asks specifically for a WhatsApp/WSP message after a meeting has been processed or documented, output the compact WhatsApp draft in this exact block structure. Do not use free-form headings such as `Resumen`, `Punto principal`, `Criterios`, `Acuerdos`, or `Pendientes por definir` outside the validated structure.
+The first line must always be `*REUNIONES ([DD/MM/AAAA]) - [Titulo o frente]*`; do not replace it with `FRENTE:`. If the date is missing, use `Sin fecha`.
 
 Do not invert the structure into one global `Observaciones` section subdivided by fronts and one global `Acuerdos` section subdivided by fronts, unless the user explicitly asks for that view. The default is **front -> sections**, not **section -> fronts**.
 

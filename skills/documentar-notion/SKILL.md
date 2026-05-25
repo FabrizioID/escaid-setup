@@ -253,6 +253,12 @@ Importante: `PUENTE TINGO` es plantilla de estructura, no fuente de contenido ni
 
 Trigger ejemplo: `activa skill documentar notion: actualizar proyecto`
 
+Regla critica:
+
+- No crear entradas en `REUNIONES` durante una actualizacion de estado, cierre de tramo, cierre documental, seguimiento por WhatsApp/correo o validacion operativa, salvo que el usuario diga explicitamente que hubo una reunion o pida "carga esto a reuniones".
+- Si la evidencia dice "seguimiento", "se converso", "se confirmo", "se envio", "se cerro" o "quedo documentado" sin describir una reunion real, registrar el hecho en `ACTIVIDADES`, `CONTROL`, `DOCUMENTOS`, observacion del proyecto o hilo de memoria, no en `REUNIONES`.
+- `REUNIONES` representa encuentros reales con objetivo, fecha, observaciones y acuerdos. No usarla como bitacora generica de cierres.
+
 Flujo:
 1. Determinar cuenta con el arranque rapido.
 2. Pedir proyecto/pagina destino solo si no se puede inferir.
@@ -283,6 +289,8 @@ Flujo:
 ### Cargar reunion
 
 Trigger ejemplo: `sube la reunion a Notion` / `carga esto a reuniones`
+
+Usar este activador solo cuando el usuario lo pida de forma explicita o cuando el input describa inequívocamente una reunion real realizada o programada. Si solo hay cierre de actividad, seguimiento a una persona, mensaje de confirmacion, correo, WhatsApp, entrega documental o evidencia de Drive, no crear registro en `REUNIONES`; actualizar actividades/control/documentos segun corresponda.
 
 Este activador produce dos salidas: registro en Notion y mensaje listo para WhatsApp.
 

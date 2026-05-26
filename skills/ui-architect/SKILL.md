@@ -193,11 +193,23 @@ Los 4 layers deben hablar el mismo idioma:
 
 Claude NO pregunta si tiene suficiente contexto para tomar decisiones. Solo pregunta si falta algo que bloquea la generación:
 
+- **Branding obligatorio:** antes de generar cualquier HTML visual, incluso un soporte/documento simple, confirmar o pedir branding mínimo: marca/proyecto, paleta, tono visual y analogía/fondo semántico esperado. Si el usuario ya dio branding, usarlo. Si no lo dio, preguntar de forma breve antes de producir.
 - ¿No hay texto para el hero? → preguntar el mensaje principal
 - ¿No hay nombre/marca? → preguntar
 - ¿La audiencia es completamente ambigua? → preguntar
 
-Todo lo demás (paleta, layout, motion, componentes) Claude lo decide solo y lo documenta al final.
+Todo lo demás (layout, motion, componentes) Claude lo decide solo y lo documenta al final.
+
+## Fondo Semántico Obligatorio
+
+Para HTML visuales, el fondo animado debe comunicar el mismo universo que el contenido. No usar textura, puntos o gradientes genéricos si el tema permite una analogía clara.
+
+- Si el contenido habla de árboles, el fondo debe sugerir árboles, hojas, ramas, crecimiento o caída según la narrativa.
+- Si habla de rutas/skills/plataforma, el fondo debe sugerir nodos, caminos, capas, conexiones, progreso o empaquetamiento.
+- Si habla de construcción/BIM, el fondo debe sugerir grillas, planos, modelos, capas, coordenadas o elementos AEC.
+- Si habla de "envoltura" o producto vendible, el fondo puede sugerir wrapper, capas externas, empaques, cinta, etiquetas o transformación de materia prima en producto.
+
+Regla: fondo, paleta, tipografía y composición deben reforzar juntos la idea central. Si el fondo no se entiende al explicar el contenido, rediseñarlo.
 
 ---
 

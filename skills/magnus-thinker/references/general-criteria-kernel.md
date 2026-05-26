@@ -256,6 +256,30 @@ Ask:
 
 Rule: a polished proposal that ignores an existing working artifact is weaker than an imperfect artifact that encodes reality. Improve by layering strategy on top of the artifact, not by replacing it prematurely.
 
+### 18. Build Modular, Test By Cases, Debug Isolated
+
+Every technical development — regardless of tool, platform, or language — must follow this sequence:
+
+**Build modular:**
+- Separate responsibilities into independent units (sub-workflows, modules, functions, services)
+- Each unit must be testable in isolation without requiring the full system to run
+- A monolith that only works as a whole cannot be debugged efficiently
+
+**Test by cases before activating:**
+- Define the minimum set of cases that cover all routing branches: happy path, edge cases, error conditions, and boundary states
+- Run tests with simulated inputs that match what the real system would send — without connecting the real external service
+- Each test case must have its own fresh state — shared state between tests produces false positives
+
+**Debug step by step:**
+- When an error occurs in production, identify the exact node/function/step that failed — not the symptom
+- Reproduce the failure locally with the exact payload/input that caused it
+- Apply the fix to the specific unit, not globally
+- Re-test the isolated unit after the fix before touching adjacent modules
+
+**The rule:** if you cannot test a unit without activating the entire production system, the architecture is too coupled. Modularize until you can.
+
+**Applies to:** n8n workflows, APIs, scripts, agents, pipelines, integrations, automation flows, AI chains, and any multi-step process with branching logic.
+
 ## Converting Protocols Into General Criteria
 
 When a protocol seems domain-specific, extract the reusable criterion.
@@ -271,6 +295,7 @@ Examples:
 - Viral-agent provider routing -> provider economics + preserve ambition + explicit fallback jobs + smoke-test evidence.
 - Animated Summit pipeline background -> semantic UI motion + external reference before invention + feedback path.
 - Summit agenda Excel review -> reverse engineer existing artifacts + receptor reality + operational constraints before narrative redesign.
+- n8n workflow testing -> build modular + test by cases + debug isolated (simular payloads sin conectar producción, sub-workflows testables, fix en unidad específica + retest aislado).
 
 ## Skill Delegation Rule
 

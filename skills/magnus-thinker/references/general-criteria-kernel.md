@@ -280,6 +280,21 @@ Every technical development — regardless of tool, platform, or language — mu
 
 **Applies to:** n8n workflows, APIs, scripts, agents, pipelines, integrations, automation flows, AI chains, and any multi-step process with branching logic.
 
+### 19. Define Once, Reference Everywhere — No Repeated Config Values
+
+If a configuration value (ID, URL, key, name, folder, number, flag) appears hardcoded in more than one node, function, or module, it must be extracted to a single source of truth and referenced from there.
+
+**The rule:** repeating a literal value across multiple places is a maintenance trap. When it changes, you have to find and update every instance — and you will miss one.
+
+**How to apply:**
+- In orchestrator-based systems (e.g., n8n with sub-workflows): define all shared config in the entry/normalizer node and propagate it as output fields. Sub-units read from the orchestrator's output, never hardcode.
+- In code: constants at the top of the file or in a config module — never inline.
+- In infrastructure: environment variables or a config file — never scattered across scripts.
+
+**Signal that this rule is being violated:** you find yourself doing a find-and-replace across multiple files/nodes to change one value.
+
+**Applies to:** n8n workflows, code functions, scripts, config files, infrastructure definitions, API integrations, and any system where shared parameters are consumed by multiple units.
+
 ## Converting Protocols Into General Criteria
 
 When a protocol seems domain-specific, extract the reusable criterion.

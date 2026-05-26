@@ -103,6 +103,30 @@ Invoke-RestMethod -Uri "BASE_URL/api/v1/workflows/ID/activate" -Method POST -Hea
 5. Validar post-modificación
 6. Reportar resultado
 
+## Modo Testing — OBLIGATORIO antes de activar en producción
+
+**Leer pill completo antes de ejecutar:** `pills/n8n-testing.md`
+
+Todo workflow debe pasar por estos niveles antes de activarse:
+
+**Nivel 1 — Lógica local (sin APIs reales):**
+- Extraer el `jsCode` del nodo de normalización/routing
+- Correr con Node.js localmente simulando los payloads de Evolution API
+- Cubrir los 12 casos mínimos definidos en el pill: comando principal, cada subcomando, fromMe, grupo incorrecto, duplicado, mayúsculas, lote activo + texto, lote activo + imagen
+- Cada caso debe tener su propio `staticData` fresh — nunca compartir estado
+
+**Nivel 2 — Ejecuciones reales en VPS (post-activación):**
+- Inspeccionar con `GET /api/v1/executions?workflowId=ID&status=error&limit=20`
+- Obtener detalle con `includeData=true` para ver el payload exacto que falló
+- Reproducir localmente antes de aplicar el fix
+
+**Checklist de testing antes de marcar como completo:**
+- [ ] Caso happy path ejecutado y verificado
+- [ ] Caso grupo incorrecto: no responde
+- [ ] Caso duplicado (mismo messageId 2 veces): solo responde una vez
+- [ ] Caso sin comando cuando lote activo: auto-captura funciona
+- [ ] Sub-workflows testeados en aislado antes de probar el orquestador completo
+
 ## Modo Documentación y Modularización (ordenar mega-flujos)
 
 Usar cuando el usuario tenga un workflow grande, anidado, desordenado, sin anotaciones o difícil de mantener.
@@ -131,19 +155,24 @@ Objetivo: convertir un flujo enorme en un sistema entendible: mapa operativo, bl
 6. Antes de modificar, crear backup/export JSON del workflow actual.
 7. Nunca convertir un mega-flujo crítico en sub-workflows sin prueba de equivalencia.
 
-### Estándar de anotaciones n8n
+### Estándar de anotaciones n8n — OBLIGATORIO
 
-Cuando se pueda editar el workflow, agregar notas/sticky notes por bloque:
+**Todo workflow creado o modificado debe tener sticky notes antes de considerarse completo.** No es opcional. Un workflow sin anotaciones no está terminado.
 
-- `ENTRADA`: qué dispara el flujo y qué datos espera.
-- `NORMALIZACION`: qué schema produce.
-- `DECISION`: reglas, IF/Switch y condiciones críticas.
-- `IA`: prompt/modelo/proveedor y formato esperado.
-- `ESCRITURA`: dónde guarda datos y con qué credencial n8n.
-- `SALIDA`: qué responde o notifica.
+Secciones requeridas por bloque funcional:
+
+- `ENTRADA`: qué dispara el flujo, qué datos espera, qué instancia/webhook usa.
+- `CONFIG CENTRAL`: (solo en orquestadores) qué campos de config salen de aquí y hacia dónde van.
+- `NORMALIZACION`: qué schema produce el nodo normalizador.
+- `DECISION`: reglas de los IF/Switch, condiciones críticas, qué pasa en cada rama.
+- `IA`: modelo usado, proveedor, formato de entrada/salida esperado.
+- `ESCRITURA`: dónde guarda datos (Sheet ID, carpeta Drive), qué credencial n8n usa.
+- `SALIDA`: qué responde o notifica, por qué canal, con qué instancia Evolution.
 - `ERRORES`: qué pasa si falla una API, credencial o dato requerido.
 
-Si el MCP/API no permite crear notas visuales de forma segura, entregar primero documentación Markdown y plan de notas para insertar manualmente.
+**Colores sugeridos:** azul=entrada, amarillo=config/normalizacion, morado=IA/decision, verde=escritura, naranja=salida.
+
+**Cómo agregar via API:** añadir nodos de tipo `n8n-nodes-base.stickyNote` con nombre único al array `nodes` y hacer PUT del workflow. Cada sticky necesita `position`, `parameters.content`, `parameters.width`, `parameters.height`, `parameters.color`.
 
 ---
 
@@ -196,8 +225,17 @@ Siempre correr `validate_workflow` antes de crear o actualizar. Revisar:
 - Expresiones `{{}}` con referencias inválidas
 - Code Nodes con errores de sintaxis
 - Webhooks con paths duplicados
+- **Sticky notes presentes** — al menos una por bloque funcional (ENTRADA, DECISION, SALIDA obligatorias)
+- **Config centralizado** — ningún valor de config (sheet ID, folder ID, instancia, API key) hardcodeado en sub-workflows si existe un orquestador
 
 Si hay errores → corregir antes de crear. Si hay warnings → reportar al usuario y esperar decisión.
+
+**Checklist completo pre-deploy:**
+- [ ] `validate_workflow` sin errores
+- [ ] Sticky notes presentes (ENTRADA, DECISION, SALIDA mínimo)
+- [ ] Config centralizado — nada hardcodeado en sub-workflows que deba venir del orquestador
+- [ ] Casos mínimos del pill `n8n-testing.md` ejecutados (Nivel 1)
+- [ ] Sub-workflows activos antes de activar el orquestador
 
 ---
 
@@ -283,6 +321,32 @@ return [{ json: { filename }, binary: { data: binaryData } }];
 ## Evolution API — limitación crítica
 
 **Solo soporta UN webhook por instancia.** Si se cambia el webhook, el flujo master deja de funcionar. Para añadir comandos nuevos a un bot existente, siempre hacerlo **dentro del mismo workflow** (nuevo bloque de nodos + conexión desde la cadena de comandos existente), NUNCA creando un webhook separado.
+
+## Config centralizado en el orquestador — NO repetir valores en sub-workflows
+
+Cuando un valor se usa en múltiples sub-workflows (IDs de Sheet, folder de Drive, instancias de API, etc.), definirlo **una sola vez** en el Code Node del orquestador y propagarlo como campo en el JSON de salida. Los sub-workflows lo leen desde `$('Trigger').item.json.<campo>`.
+
+```javascript
+// En el nodo Normalizar del orquestador — campos de config
+return [{
+  json: {
+    // ...datos del mensaje...
+    evolution_instance: 'GenPlus',
+    evolution_base: 'http://VPS:8080',
+    evolution_apikey: 'KEY',
+    spreadsheet_id: 'ID_DEL_SHEET',        // único lugar donde se define
+    drive_parent_folder: 'ID_CARPETA_RAIZ', // único lugar donde se define
+  }
+}];
+```
+
+```javascript
+// En sub-workflows — leer desde Trigger, NO hardcodear
+// Sheets documentId: ={{ $('Trigger').item.json.spreadsheet_id }}
+// Drive parents: [{{ $('Trigger').item.json.drive_parent_folder }}]
+```
+
+**Regla:** si un valor aparece hardcodeado en más de un nodo, muévelo al orquestador. Cambiar el Sheet o el folder = editar 1 nodo, no N.
 
 ## autoMapInputData en Google Sheets — cuidado con schema cacheado
 

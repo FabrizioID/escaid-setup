@@ -142,6 +142,14 @@ Vertical flyers/piezas comerciales: baseline de potenciacion en `docs/tool-verti
 
 Vertical marketing: baseline de potenciacion en `docs/tool-verticals/marketing-potenciacion.md`. `marketing-master` es cerebro de crecimiento: funnel, demand creation/capture, lifecycle, data capture, research externo y handoff. No produce visuales finales ni automatizaciones; deriva a `flyer-generator`, `video-script-generator`, `email-html-marketing`, `n8n-workflow-builder`, `documentar-notion` o Google Workspace segun salida.
 
+## QA Y Testing
+
+| Nombre operativo | Skill ID | Rol | Capa | Estado | Arranque rapido | Pill/MCP | Prueba segura |
+|---|---|---|---|---|---|---|---|
+| QA Dev Tester | `qa-dev-tester` | Casuistica agresiva para workflows n8n, landings y scripts. Detecta tipo de desarrollo, genera casos limite y los ejecuta | Dominio QA | Verde | Detectar tipo (workflow/landing/script), generar casuistica, ejecutar y reportar tabla resultado | n8n MCP + Playwright MCP + Bash/PowerShell | Validar workflow o captura landing |
+
+Regla QA: usar `qa-dev-tester` cuando el desarrollo ya esta terminado y el objetivo es evaluar robustez. No reemplaza `n8n-workflow-builder` para construir/modificar workflows ni `frontend-skill` para construir landings. Para landings usa Playwright ya instalado; para workflows usa n8n MCP ya activo.
+
 ## Desarrollo, Operacion Y Sistemas
 
 | Nombre operativo | Skill ID | Rol | Capa | Estado | Arranque rapido | Pill/MCP | Prueba segura |

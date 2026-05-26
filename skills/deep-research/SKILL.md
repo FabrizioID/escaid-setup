@@ -1,6 +1,6 @@
 ---
 name: deep-research
-description: "Use for serious investigation of any topic that needs external evidence: market research, user behavior, competitors, technical questions, academic/literature review, legal/regulatory overview, product strategy, pricing, trends, fact-checking, or source-backed recommendations. Search the web and, when useful, papers, official docs, reports, datasets, Reddit/forums, reviews, and primary sources; synthesize with citations and clear confidence levels."
+description: "Use for serious investigation of any topic that needs external evidence: market research, user behavior, competitors, technical questions, academic/literature review, legal/regulatory overview, product strategy, pricing, trends, fact-checking, source-backed recommendations, or systematic public-web scraping/source mining. Search the web and, when useful, papers, official docs, reports, datasets, Reddit/forums, reviews, and primary sources; synthesize with citations and clear confidence levels."
 ---
 
 # Deep Research
@@ -45,6 +45,33 @@ Use for important business, academic, technical, or high-stakes decisions.
 - community/user evidence if behavior matters
 - source quality grading
 - explicit confidence and contradictions
+
+### Web Scraping / Source Mining
+Use when the research question requires systematic extraction from many public web sources, not just reading a few pages.
+
+Activate this mode when the user asks to "scrapear", "raspar", "levantar una base", "buscar todos", "extraer de la web", "mapear candidatos", "armar un dataset", "revisar muchos perfiles", "barrer fuentes", or when the answer would be weak if only the first search results are used.
+
+The goal is not aggressive crawling. It is structured public-source mining:
+- define the dataset schema before collecting;
+- generate query families and source classes;
+- collect only public, relevant fields;
+- respect access boundaries, robots/ToS signals, rate limits, and privacy;
+- deduplicate entities across sources;
+- preserve URLs, dates, query strings, and confidence;
+- separate extracted facts from inferred labels.
+
+### Speaker / Expert Discovery
+Use when the user needs candidate speakers, advisors, interviewees, jurors, partners, or niche experts for an event, course, research panel, podcast, webinar, or business opportunity.
+
+This is not a casual "find 5 people" search. Treat it as a talent-intelligence task:
+- build a search map before concluding;
+- search beyond the first visible results;
+- deduplicate names across LinkedIn, YouTube, papers, company pages, event agendas, course pages, patents, GitHub, and professional associations;
+- score candidates by fit, evidence strength, location, credibility, audience value, and contactability;
+- separate confirmed evidence from weak signals;
+- never claim a person has a skill, location, or experience unless a public source supports it.
+
+Use this mode especially when the user asks for "ponentes", "speakers", "expertos", "personas", "LinkedIn", "base de datos de ponentes", "quien sabe de X", or similar.
 
 ## Source Mix
 
@@ -134,6 +161,266 @@ site:reddit.com <topic> worth it problem alternative
 <topic> why people quit churn complaints
 ```
 
+## Web Scraping / Source Mining Protocol
+
+Use this protocol when investigation needs breadth, repeated extraction, or a reusable dataset.
+
+### 1. Scrape Brief
+
+Before collecting, define:
+- decision the dataset will support;
+- entity type: person, company, project, product, paper, event, job post, course, tool, review, regulation, price, etc.;
+- geography/timeframe;
+- required fields;
+- optional enrichment fields;
+- exclusion rules;
+- source classes to inspect;
+- confidence threshold for inclusion;
+- output format: chat table, CSV/XLSX, markdown memo, JSON, Notion/Sheets, or local database.
+
+### 2. Source Map
+
+Build source classes before searching:
+- search engine result pages as discovery only;
+- official/company/institution pages;
+- public directories and associations;
+- event agendas and speaker pages;
+- PDFs, brochures, reports, proceedings;
+- academic databases and repositories;
+- YouTube/channel/video pages;
+- public social/profile snippets;
+- GitHub/repositories;
+- job boards and course pages;
+- forums/reviews/community sources.
+
+Do not treat one source class as complete. If only one class was searched, label the result "first pass".
+
+### 3. Query Expansion
+
+Generate query families by:
+- synonyms and acronyms;
+- Spanish/English/local terms;
+- tool names and product names;
+- role titles;
+- company/institution names;
+- country/city variants;
+- negative queries and contrary terms;
+- known candidate/entity names once discovered.
+
+Track the most useful queries so the research can be repeated.
+
+### 4. Extraction Method
+
+Choose the lightest valid method:
+- manual open/read for small sets;
+- search snippets only for weak discovery signals;
+- structured APIs where available;
+- sitemap/robots-aware crawl for public pages;
+- HTML parsing for repeated public pages;
+- PDF/text extraction for reports and brochures;
+- browser automation only when rendering is required and allowed.
+
+Stop or downgrade to manual review when:
+- the page requires login;
+- bot protection blocks access;
+- robots/ToS clearly disallow the target;
+- the data is personal, sensitive, or irrelevant;
+- scraping would overload the site.
+
+### 4B. Tool Routing Ladder
+
+When multiple scraping paths are possible, route from lightest to heaviest:
+
+1. **Built-in web search/open:** quick evidence, low volume, no dataset needed.
+2. **Direct public fetch / HTML parsing:** static pages, simple lists, public documents.
+3. **PDF/text extraction:** brochures, reports, proceedings, public directories.
+4. **Browser automation:** JS-rendered pages, interaction needed, screenshots/visual verification.
+5. **Structured platform actors/APIs:** repeated extraction from known platforms such as Google Maps, YouTube, LinkedIn snippets, Reddit, reviews, marketplaces, or job boards.
+6. **Custom scraper/spider:** only when repeated pages, pagination, or a reusable dataset justify it.
+7. **Paid unlocker/proxy/cloud browser:** only when the user explicitly approves cost/auth and the target is appropriate.
+
+Before using external scraping platforms, check:
+- credentials/auth state;
+- expected cost or free-tier limits;
+- target platform ToS/robots constraints;
+- output schema;
+- whether the same answer can be reached through a lower-friction source.
+
+Useful external skill patterns audited:
+- Apify-style: select a prebuilt Actor first, fetch its input schema, run, then retrieve dataset; good for platform-specific extraction and CSV/JSON outputs.
+- Bright Data-style: separate `search`, `scrape`, `data feeds`, browser/API paths, and budget checks; good when anti-bot/JS rendering is the blocker.
+- Browserbase-style: distinguish fetch/search APIs from interactive browser sessions; good for browser-required pages and reproducible session artifacts.
+- Scrapling-style: adaptive route from HTTP/static fetch to JS browser to stealth/spider; good as an implementation idea, but avoid bypass-oriented behavior unless explicitly lawful and approved.
+
+### 5. Data Hygiene
+
+For each extracted row, keep:
+- source URL;
+- source title;
+- extraction date;
+- field-level evidence;
+- source quality grade;
+- confidence;
+- notes/open validation.
+
+Normalize:
+- names with accents/no accents;
+- duplicate entities;
+- companies vs people;
+- dates;
+- countries/cities;
+- tool names and acronyms.
+
+### 6. Evidence and Privacy Boundaries
+
+Allowed:
+- public facts relevant to the research decision;
+- public professional links;
+- business contact data only when clearly public or provided by the user;
+- public posts, talks, papers, videos, projects, product pages, and official statements.
+
+Avoid:
+- bypassing logins, paywalls, anti-bot controls, or private APIs;
+- storing unnecessary personal data;
+- exposing private emails/phones from scraped pages without a clear public-business context;
+- using scraped personal data for sensitive profiling.
+
+Robots.txt is not the whole legal question, but it is a practical boundary signal. Respect it by default. Use rate limiting, small batches, and clear source logs when automated collection is used.
+
+### 7. Output
+
+For scraping/source-mining tasks, output:
+- scope and limits;
+- source classes checked;
+- result table/dataset;
+- confidence labels;
+- gaps and next-source recommendations;
+- files created, if any.
+
+If the user asked for a deployable database, create a CSV/XLSX/JSON with stable columns and a separate `sources` or `evidence_url` field.
+
+## Speaker / Expert Discovery Protocol
+
+When searching for people, do not rely only on the first 5 search results. Use a layered funnel.
+
+### 1. Define the candidate brief
+
+Capture the target:
+- topic/domain;
+- geography: local, regional, international, virtual OK or not;
+- seniority: executive, technical practitioner, academic, founder, public communicator;
+- event format: keynote, panel, demo, workshop, debate, pre-event, sponsor slot;
+- must-have skills vs nice-to-have signals;
+- exclusions: competitors, sponsors only, non-local, weak public evidence, purely academic, no LinkedIn, etc.
+
+If the user gives enough constraints, proceed. If not, ask only the minimum clarifying question.
+
+### 2. Build query families
+
+Generate multiple search families instead of one query:
+
+```text
+site:linkedin.com/in "<skill>" "<domain>" "<country>"
+site:linkedin.com/in "<tool>" "<domain>" "<country>"
+"<domain local term>" "<skill>" "<country>"
+"<acronym>" "<expanded term>" "<country>"
+"<person/topic>" "webinar"
+"<topic>" "speaker" "<country>"
+"<topic>" "curso" "<country>"
+"<topic>" "congreso" "<country>"
+"<topic>" "paper" "<country>"
+"<topic>" "YouTube" "<country>" "speaker"
+site:company.com "<topic>" "<person role>"
+site:university.edu "<topic>" "<country>"
+```
+
+Always include Spanish/English variants when relevant:
+- "inteligencia artificial", "IA", "AI";
+- "puentes", "bridges", "BrIM", "Bridge Information Modeling";
+- "gemelo digital", "digital twin";
+- "vision por computadora", "computer vision".
+
+### 3. Scraping / extraction stance
+
+Use "scraping" as systematic extraction from public pages, not as aggressive or authenticated harvesting.
+
+Allowed:
+- search engine results;
+- public LinkedIn snippets and publicly accessible profile pages;
+- public YouTube channel/video metadata and descriptions;
+- event agenda pages;
+- company pages;
+- research pages, papers, conference profiles;
+- public PDFs and brochures;
+- public GitHub/repositories.
+
+Avoid or do not do:
+- bypassing login walls or anti-bot protections;
+- scraping private LinkedIn data;
+- collecting personal data beyond professional contact fields relevant to the user's request;
+- presenting emails/phones from scraped sources unless the user provided them or they are clearly public business contact data.
+
+If only a LinkedIn snippet is visible, label it as "LinkedIn snippet signal" and do not overclaim.
+
+### 4. Candidate evidence matrix
+
+For every candidate, capture:
+
+```text
+Name:
+Primary profile URL:
+Location evidence:
+Current role/company:
+Must-have evidence:
+Nice-to-have evidence:
+Public artifacts: posts, papers, talks, courses, videos, projects
+Fit score:
+Confidence:
+Recommended format:
+Why contact / why not:
+Open validation question:
+```
+
+Fit score suggestion:
+- 30% domain fit;
+- 20% geography/logistical fit;
+- 20% credibility and proof artifacts;
+- 15% communication/event value;
+- 10% contactability;
+- 5% novelty or strategic upside.
+
+Adjust weights when the user explicitly prioritizes one criterion.
+
+### 5. Deduplication and name variants
+
+Search name variants before excluding a person:
+- accents/no accents;
+- first name vs nickname;
+- paternal/maternal surnames;
+- Spanish/English job titles;
+- company name + person;
+- email username if user provided one;
+- YouTube/channel name if no LinkedIn appears.
+
+If the user proposes a missing person, rerun the candidate search by name and explain whether the miss came from query coverage, weak indexing, spelling, or source visibility.
+
+### 6. Output discipline
+
+For speaker lists, use a table with:
+- name;
+- LinkedIn or strongest profile link;
+- evidence summary;
+- event/block fit;
+- confidence;
+- validation question before invitation.
+
+Separate candidates into:
+- Tier A: contact first;
+- Tier B: validate;
+- Tier C: only if the agenda needs coverage or a niche angle.
+
+When the search is incomplete, say "first pass" or "not exhaustive" and list the remaining sources to inspect.
+
 ## Reproducibility
 
 For Standard Research and Deep Dive work, preserve enough context that the research can be repeated or extended:
@@ -146,6 +433,16 @@ For Standard Research and Deep Dive work, preserve enough context that the resea
 - if working in a project folder, save a compact markdown memo only when the user asks or when the research becomes durable project memory
 
 Do not require a long report by default. Reproducibility can be lightweight.
+
+For scraping/source-mining tasks, also record:
+- source classes checked and not checked;
+- queries used;
+- extraction method used;
+- row count / candidate count;
+- deduplication rule;
+- fields that were inferred vs directly extracted;
+- cost/auth/tool constraints;
+- whether results are exhaustive or first-pass.
 
 ## Phase Gates For Deep Dive
 

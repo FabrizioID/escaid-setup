@@ -235,8 +235,13 @@ Patron observado:
   - `CONTACTOS CLIENTE` es opcional; crearla solo si hay contactos externos concretos que gestionar o el usuario la pide.
 - `ACTIVIDADES`:
   - Propiedades: `Name`, `Entregable`, `Encargado`, `Fecha Límite`, `Observación`, `% Avance`, `Status`.
-  - Vistas: `Vista Filtrada` board, `Status` table, `Original` board.
-  - En los proyectos BIM/observaciones, ajustar agrupaciones segun instruccion del usuario; ejemplo validado: boards por `Status`, tabla `Status` agrupada por `Entregable`.
+  - Vistas por defecto: `Vista Filtrada` board agrupado por `Entregable`, `Status` table agrupada por `Entregable`, `Original` board agrupado por `Entregable` salvo que el usuario pida conservar una vista historica.
+  - `Status`, `% Avance`, `Terminado` o `Completado` deben quedar como propiedades de control/cierre, no como agrupador principal del board cuando el objetivo del usuario sea avanzar por entregables.
+  - En los proyectos BIM/observaciones, ajustar agrupaciones segun instruccion del usuario; ejemplo validado: columnas por `Entregable`/observacion, y vista adicional por `Entregable interno` si el proyecto necesita ver frentes operativos.
+  - Al crear actividades, usar siempre una jerarquia operativa: `Entregable` macro arriba y subactividades ejecutables debajo. El entregable debe ser el resultado/requisito que se busca cerrar; en proyectos con observaciones de revisor, el entregable suele ser la observacion levantada.
+  - Si hace falta separar disciplina, paquete tecnico, frente de trabajo o entregable interno, crear/usar un campo auxiliar como `Entregable interno`, `Frente BIM`, `Especialidad` o equivalente. No usar ese campo auxiliar como sustituto del entregable macro cuando el seguimiento se mide por entregables u observaciones.
+  - `% Avance` solo debe representar avance real validado o reportado por el usuario/evidencia. No usar porcentajes para indicar planificacion, peso, prioridad o "avance de estructura". Las actividades creadas como desglose pendiente deben iniciar en `0%`.
+  - Si la actividad requiere informacion de terceros o insumo no confirmado, marcarla como bloqueada/pendiente cuando exista el campo correspondiente; no inventar avance.
 - `REUNIONES`:
   - Propiedades: `OBJETIVOS`, `Date`, `ACUERDOS`, `OBSERVACIONES`.
   - Vista `Untitled` table.

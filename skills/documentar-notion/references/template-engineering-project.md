@@ -45,13 +45,13 @@ Los titulos de seccion superiores pueden ser H3. Las bases operativas deben ser 
 | Observación | rich_text     | Descripcion, observacion o criterio de cierre        |
 | % Avance    | number        | Formato percent                                      |
 
-Vistas observadas en PUENTE-TINGO:
+Vistas base:
 
-- `Vista Filtrada`: board.
-- `Status`: table.
-- `Original`: board.
+- `Vista Filtrada`: board agrupado por `Entregable`.
+- `Status`: table agrupada por `Entregable`.
+- `Original`: board agrupado por `Entregable`, salvo que el usuario pida conservar una vista historica.
 
-Regla aplicada en proyectos BIM/observaciones: boards agrupados por `Status`; vista tabla `Status` agrupada por `Entregable`.
+Regla aplicada en proyectos BIM/observaciones: las columnas principales se agrupan por `Entregable` para avanzar por entregables/observaciones. `Status`, `% Avance` y `Completado` quedan como propiedades de control y cierre. Si hace falta leer por frente operativo, crear una vista adicional agrupada por `Entregable interno` o campo equivalente.
 
 ### REUNIONES
 
@@ -100,7 +100,7 @@ Aplicado en PUENTE-TINGO (mayo 2026), como ejemplo historico:
 
 Al crear un proyecto nuevo, el agente debe inferir o preguntar cuales son los entregables reales del proyecto antes de cargar actividades, para poder clasificarlas correctamente. No copiar entregables de PUENTE-TINGO si no corresponden.
 
-Ejemplo BIM/observaciones (Carretera Cañete):
+Ejemplo BIM/observaciones (Carretera Cañete), como `Entregable interno` o frente operativo auxiliar:
 
 - CDE / Entorno comun de datos
 - PEB / TIP / LOD-LOI

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deep Research"
+  short_description: "Multi-source research with citations"
+  default_prompt: "Use $deep-research to investigate a topic across web, papers, reports, forums, and primary sources with citations."

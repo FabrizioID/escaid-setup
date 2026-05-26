@@ -164,3 +164,6 @@ Usar siempre al describir correlaciones o insights:
 3. **Un análisis sin acción no sirve.** Siempre terminar con una decisión recomendada.
 4. **Las variables stale son una señal.** Si algo no se ha actualizado en mucho tiempo, es datos o es irrelevante — clarificarlo.
 5. **El cruce macro revela lo que el mono-análisis no puede ver.** Siempre buscar dinámicas emergentes del sistema completo.
+# Nota 2026-05-24
+
+Todos los analysis nuevos se escriben en `second-brain/inteligencia/<proyecto>/analysis/`. La raiz `inteligencia/` es legacy/fallback de lectura.

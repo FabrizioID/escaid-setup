@@ -1,6 +1,6 @@
 ---
 name: thesis-research-editor
-description: Paquete integrado de investigación académica + edición directa de documentos Word (.docx). Úsalo cuando necesites buscar fuentes, sintetizar literatura, redactar en APA 7ma edición y/o insertar o modificar contenido directamente en un archivo .docx. Combina capacidades de Co-Researcher con el MCP de Word Document Server.
+description: Skill principal para tesis: juicio metodologico, investigacion academica, redaccion, APA 7 y edicion directa de documentos Word (.docx). Usalo cuando necesites revisar coherencia problema-objetivos-hipotesis-metodo-resultados-conclusiones, buscar fuentes, sintetizar literatura, redactar secciones, responder observaciones de jurado, corregir APA o insertar/modificar contenido en un .docx. Coordina con docx-mcp-document-editor (editor base Word .docx) para intervención directa en el archivo y con apa-7-thesis-format para QA formal; academic-research-editor queda solo como checklist auxiliar o legado.
 tools:
   - WebSearch
   - WebFetch
@@ -30,6 +30,10 @@ tools:
 
 # Thesis Research Editor
 
+Skill madre para tesis: juicio metodologico + investigacion academica rigurosa + redaccion + APA 7 + edicion directa de documentos Word.
+
+Usar esta skill como ruta principal cuando el trabajo sea de tesis o articulo academico. No separar "metodologia" de "edicion completa" salvo que el usuario pida solo una revision conceptual breve. `academic-research-editor` es un checklist auxiliar/legado; esta skill absorbe su criterio metodologico y decide cuando aplicar sus checks.
+
 Paquete integrado: investigación académica rigurosa + edición directa de documentos Word.
 
 Para las reglas completas de APA 7ma edición y plantillas de citación → [references/apa7.md](references/apa7.md)
@@ -37,14 +41,48 @@ Para guía de integración con Word MCP → [references/word-workflow.md](refere
 
 ---
 
-## ROUTING — usa el primer match
+## ARRANQUE RAPIDO
 
-1. Si el usuario pide **buscar fuentes, referencias o antecedentes** → Modo INVESTIGACIÓN
-2. Si el usuario pide **redactar, reescribir o mejorar texto académico** → Modo REDACCIÓN
-3. Si el usuario pide **insertar, modificar o formatear contenido en un .docx** → Modo EDICIÓN
-4. Si el usuario pide **traducir términos técnicos** en tablas/figuras del .docx → Modo TRADUCCIÓN
-5. Si el usuario pide **verificar o corregir citas APA 7** → Modo APA-CHECK
-6. Si el usuario pide **todo junto** (buscar + redactar + insertar) → Pipeline COMPLETO (todos los modos en secuencia)
+| Capa | Ruta | Funcion |
+|---|---|---|
+| Dominio | `thesis-research-editor` | Juicio metodologico, investigacion, redaccion y APA |
+| Apertura MCP | Word MCP / `docx-mcp-document-editor` | Leer, insertar, reemplazar y formatear `.docx` |
+| Complemento | `apa-7-thesis-format` | QA formal APA cuando el cambio toca estilo, tablas, figuras o bibliografia |
+
+1. Clasificar el pedido: metodologia, investigacion, redaccion, edicion Word, traduccion o APA.
+2. Si hay `.docx`, hacer lectura no destructiva: info, outline o texto antes de editar.
+3. Si solo es criterio academico, no abrir Word innecesariamente.
+4. Antes de editar, dar plan breve de seccion/cambio/evidencia/riesgo de formato.
+5. Despues de editar, verificar la zona afectada.
+
+---
+
+## ROUTING - usa el primer match
+
+1. Si el usuario pide **validar metodologia, coherencia de tesis, observaciones del jurado o alineacion problema-objetivos-hipotesis-resultados-conclusiones** -> Modo METODOLOGIA
+2. Si el usuario pide **buscar fuentes, referencias o antecedentes** -> Modo INVESTIGACION
+3. Si el usuario pide **redactar, reescribir o mejorar texto academico** -> Modo REDACCION
+4. Si el usuario pide **insertar, modificar o formatear contenido en un .docx** -> Modo EDICION
+5. Si el usuario pide **traducir terminos tecnicos** en tablas/figuras del .docx -> Modo TRADUCCION
+6. Si el usuario pide **verificar o corregir citas APA 7** -> Modo APA-CHECK
+7. Si el usuario pide **todo junto** (validar + buscar + redactar + insertar + formatear) -> Pipeline COMPLETO (todos los modos en secuencia)
+
+---
+
+## MODO METODOLOGIA
+
+**Objetivo**: decidir si la tesis es coherente, defendible y metodologicamente consistente antes de redactar o editar el Word.
+
+### Checklist central
+- Alinear titulo, problema general, problemas especificos, objetivos, hipotesis, metodo, resultados, conclusiones y recomendaciones.
+- Verificar que cada conclusion responda a un objetivo/problema y se sostenga en resultados del documento.
+- Separar marco teorico, metodologia, resultados y discusion: no mover contenido conceptual a metodologia ni interpretar resultados antes de presentarlos.
+- En tesis con simulacion, no exigir validacion experimental si el diseno no la declara; usar validacion por literatura, datos de planta, sensibilidad, balances, indices, anexos y salidas de software.
+- Clasificar observaciones del jurado como contenido, metodo, evidencia, formato, cita, tabla/figura, anexo o no aplicable.
+- Levantar, levantar parcialmente o sostener una observacion segun coherencia con el diseno de investigacion; reportar seccion/pagina modificada.
+
+### Salida antes de editar
+Antes de tocar el .docx, producir un plan breve con: seccion exacta, cambio propuesto, evidencia necesaria, riesgo de formato y si requiere APA/Word.
 
 ---
 
@@ -210,27 +248,32 @@ Lee las reglas detalladas en → [references/apa7.md](references/apa7.md)
 
 ## PIPELINE COMPLETO
 
-Cuando el usuario pide investigar + redactar + insertar en un solo flujo:
+Cuando el usuario pide validar + investigar + redactar + insertar en un solo flujo:
 
 ```
-[1] INVESTIGACIÓN
-    → Buscar fuentes verificadas
-    → Sintetizar por tema
-    → Preparar citas en APA 7
+[1] METODOLOGIA
+    -> Revisar coherencia problema-objetivos-hipotesis-metodo-resultados-conclusiones
+    -> Definir que observaciones o cambios son metodologicamente validos
+    -> Preparar plan de intervencion por seccion
 
-[2] REDACCIÓN
-    → Redactar texto académico sin patrones IA
-    → Incorporar citas verificadas
-    → Revisar anti-patrones
+[2] INVESTIGACION
+    -> Buscar fuentes verificadas cuando hagan falta
+    -> Sintetizar por tema
+    -> Preparar citas en APA 7
 
-[3] EDICIÓN
-    → Localizar punto de inserción en el .docx
-    → Insertar texto + referencias
-    → Verificar formato de tabla/figura si aplica
+[3] REDACCION
+    -> Redactar texto academico sin patrones IA
+    -> Incorporar citas verificadas y evidencia interna
+    -> Revisar anti-patrones
 
-[4] REPORTE
-    → Confirmar qué se insertó y dónde
-    → Mostrar referencias en APA 7 al final
+[4] EDICION
+    -> Localizar punto de insercion en el .docx
+    -> Insertar texto + referencias + tablas/figuras si aplica
+    -> Verificar formato de tabla/figura con APA 7
+
+[5] REPORTE
+    -> Confirmar que se inserto y donde
+    -> Indicar decisiones metodologicas, fuentes y riesgos pendientes
 ```
 
 ---

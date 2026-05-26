@@ -12,6 +12,56 @@ tools:
 
 # Visual HTML Craft
 
+## Paquete operativo
+
+`ui-architect` es la skill canonica para HTML visual interactivo en ESC-AI. Absorbe el rol antiguo de `visual-html-craft`.
+
+Regla de no solape: usar `ui-architect` cuando el entregable sea un artefacto HTML visual/premium donde el HTML es el producto. Usar `frontend-skill` solo cuando haya app/repo/frontend real con componentes, rutas, estado o framework. Usar `documentador-experto` cuando el objetivo sea documentar un sistema, proceso o concepto.
+
+| Capa | Ruta | Funcion |
+|---|---|---|
+| Dominio | `ui-architect` | Decidir layout, UI, sistema visual, interaccion y acabado premium |
+| Apertura/verificacion | Playwright MCP o navegador local | Renderizar, inspeccionar y tomar screenshots |
+| Fallback | HTML local sin servidor o dev server | Usar segun el tipo de app/artefacto |
+
+Arranque veloz: entender objetivo y audiencia, elegir modo Sketch-to-UI o Brief-to-UI, construir el artefacto usable, abrirlo y verificar screenshot antes de cerrar.
+
+## Routing UI 2026
+
+Leer `references/ui-ecosystem-candidates.md` cuando se necesite escoger libreria, referencia visual o fuente de componentes. Leer `references/ui-validation-protocol.md` antes de cerrar cualquier UI con canvas, motion, 3D o responsive sensible.
+
+| Pedido | Ruta |
+|---|---|
+| HTML visual autocontenido, showcase, landing experimental, dashboard visual estatico | `ui-architect` |
+| App real con repo, rutas, estado, componentes, React/Vite/Next | `frontend-skill` |
+| Documentacion interactiva de sistema/proceso/desarrollo | `documentador-experto` |
+| Skill antigua `visual-html-craft` | Redirigir a `ui-architect` |
+| Skill antigua `premium-interactive-docs` | Redirigir a `documentador-experto` |
+
+## Modern Component Strategy
+
+Para artefactos HTML autocontenidos, no instalar frameworks salvo que el repo ya los use. Usar CSS/JS directo, CDN controlado y componentes propios.
+
+Para apps React/Next/Vite, preferir:
+
+1. `shadcn/ui` o Radix como base de primitives cuando el repo ya usa React/Tailwind;
+2. componentes cherry-picked de Magic UI, Aceternity o Motion Primitives solo si encajan con el producto;
+3. Vercel AI Elements, Nexus UI, Agents UI o patrones agent/chat solo para interfaces AI/agenticas;
+4. charts/layers especializados solo cuando la informacion lo exige.
+
+No convertir `ui-architect` en una dependencia de librerias externas. Las librerias son fuente de patrones, no sustituto de criterio visual.
+
+## Verification Gate
+
+Antes de cerrar:
+
+1. abrir la UI en navegador o Playwright;
+2. screenshot desktop y mobile cuando haya responsive/motion/canvas/3D;
+3. revisar consola sin errores;
+4. verificar que texto no se corta ni se superpone;
+5. si hay canvas/Three.js, comprobar pixeles no blancos/no negros y movimiento visible;
+6. si hay interaccion, probar al menos una accion principal.
+
 ## Purpose
 Produce self-contained HTML artifacts with premium visual design. Every output must look and feel like a professional product studio shipped it — not a template.
 
@@ -19,7 +69,24 @@ Produce self-contained HTML artifacts with premium visual design. Every output m
 
 ## Modos de Entrada
 
-La skill opera en dos modos. Claude detecta cuál aplica automáticamente según el input del usuario.
+La skill opera en tres modos. Detecta cuál aplica automáticamente según el input del usuario y el contexto de la skill que la llama.
+
+---
+
+### MODO 0 — UI Quick Pass
+
+**Cuándo activar:** otra skill ya definió contenido, estructura y branding, y solo necesita que el HTML final se vea profesional sin abrir un proceso largo de diseño. Usar especialmente cuando `presentation-orchestrator`, `goldratts-brain`, `zuckerbergs-mind` o cualquier skill de planificación ya validó el contenido y pide generar un plan, dashboard, player o artefacto HTML.
+
+**Protocolo:**
+
+1. No reiniciar el análisis estratégico ni pedir nueva validación de contenido.
+2. Respetar la estructura recibida y elevar solo la UI: jerarquía, ritmo visual, responsive, estados, motion y claridad.
+3. Usar fondo con vida visual solo en la dosis necesaria: canvas/SVG/dot-grid/glow sutil, no espectáculo gratuito.
+4. Mantener el HTML autocontenido, compartible y listo para abrir.
+5. Si el artefacto requiere modo normal/light, implementar toggle fijo con `localStorage`.
+6. Documentar al final únicamente las decisiones UI relevantes y la ruta del archivo.
+
+**Regla clave:** en Quick Pass, la UI sirve al contenido ya aprobado. No cambia narrativa, orden, alcance ni promesas.
 
 ---
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Meeting ICE Processor"
+  short_description: "Convierte reuniones en acuerdos trazables"
+  default_prompt: "Use $meeting-ice-processor to process this meeting transcript into macro insights, agreements, pending actions, owners, and loose points."

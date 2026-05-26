@@ -1,6 +1,6 @@
 # Live Document QA
 
-Use this checklist after editing a live Google Doc or Docx.
+Use this checklist after editing a local Word/DOCX document.
 
 ## Semantic QA
 

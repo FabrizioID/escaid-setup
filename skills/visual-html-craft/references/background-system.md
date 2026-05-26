@@ -7,6 +7,74 @@ This file documents the animated background coordination system for HTML experie
 The animated background is a design element, not decoration.
 Every section above it must coordinate with it — never cover it without intention.
 
+## Background Selection Protocol
+
+Before building an animated background manually, check whether a complete proven background system already fits the job.
+
+Valid routes:
+
+1. **Library background**: `tsParticles`, `Vanta`, canvas particles, SVG network, WebGL, or another proven system.
+2. **Generated visual layer**: a bitmap/vector-like background generated for the subject, then animated subtly with CSS/canvas.
+3. **Hybrid semantic system**: a complete network/particle background where the particles are subject-specific images/icons instead of generic dots.
+4. **Custom canvas**: only when the background needs precise semantic topology that a library cannot express.
+
+Use external/library systems when they give better motion quality, performance, and polish than hand-made CSS/SVG. Hand-coded decorative lines are a fallback, not the default.
+
+## Semantic Motion Rule
+
+The background must communicate the theme. If the page is about a pipeline, process, academic area, data flow, or operations, use elements from that world:
+
+- agenda / calendar
+- email / invitation
+- status board
+- accepted / confirmed speaker
+- marketing post
+- document / spreadsheet / model / report
+- data nodes / decisions / checks
+
+Do not use random dots, lines, or abstract flows when recognisable workflow assets would communicate the system better.
+
+## Hybrid Pattern: Network + Image Particles
+
+For premium operational documents, prefer:
+
+```text
+dark atmospheric base
++ complete particle/link system
++ image-shaped semantic particles
++ very subtle connections
++ slow motion
++ section overlays calibrated to preserve readability
+```
+
+Example starting range:
+
+```javascript
+particles: {
+  number: { value: 8-12 },
+  shape: { type: 'image', options: { image: [semantic assets] } },
+  opacity: { value: { min: 0.24, max: 0.52 } },
+  size: { value: { min: 55, max: 95 } },
+  links: { enable: true, distance: 260-320, opacity: 0.05-0.10 },
+  move: { enable: true, speed: 0.20-0.35 }
+}
+```
+
+Calibrate per screenshot. Do not blindly use these numbers.
+
+## Iteration Heuristic
+
+If the user says:
+
+- **"se ve monse / solo stickers"** -> use a complete background system, not isolated floating elements.
+- **"las lineas no tienen sentido"** -> remove decorative flows; make the topology semantic or use a proven network background.
+- **"no se entiende que son"** -> reduce element count and increase asset size.
+- **"se estorban"** -> reduce count first, then connection opacity, then movement speed.
+- **"no se ve nada"** -> raise opacity slightly; do not add many elements at once.
+- **"un poco mas"** -> make microadjustments, not a redesign.
+
+Validated Summit criterion: fewer large recognisable elements beat many small moving elements. The background should support the content, not become a second interface.
+
 ## Three Valid Section Approaches
 
 ### 1. Semi-Transparent

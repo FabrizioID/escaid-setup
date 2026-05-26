@@ -246,3 +246,6 @@ Ver formato completo en [strategic-thinker/references/analysis-protocols.md].
 | `dato externo` | Proviene de una fuente externa (artículo, reporte, estadística) |
 | `inferencia` | Deducido a partir de otras variables del mismo proyecto |
 | `inferencia-cruzada` | Inferido desde variables de otro proyecto conectado |
+# Nota 2026-05-24
+
+La raiz canonica es `second-brain/inteligencia/`. Los ejemplos antiguos que dicen `inteligencia/` deben interpretarse como `second-brain/inteligencia/`. La carpeta `<workspace>/inteligencia` queda solo como legacy/fallback de lectura o migracion.

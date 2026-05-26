@@ -1,8 +1,23 @@
 # Memory Templates
 
-Use these templates only when the project does not already have a better structure.
+Use these templates only when the project does not already have a better structure. In ESC-AI, the canonical strategic structure is Second Brain:
+
+```text
+second-brain/
+|-- MASTER_IDEAS.md
+`-- inteligencia/
+    `-- <proyecto>/
+        |-- threads/
+        |-- memory/
+        |-- signals/
+        `-- analysis/
+```
+
+If that structure exists, do not create a parallel `memory/chats/` system for strategic memory. Use the local layout below only as fallback for non-project chats or artifact organization.
 
 ## Recommended Layout
+
+Local fallback only:
 
 ```text
 memory/
@@ -83,6 +98,8 @@ If needed, prefix with date:
 ```
 
 ## Shared Memory Templates
+
+For Second Brain projects, map these templates to `second-brain/inteligencia/<proyecto>/memory/`.
 
 ### shared/decisions.md
 

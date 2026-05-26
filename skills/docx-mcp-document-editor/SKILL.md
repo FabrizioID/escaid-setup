@@ -1,13 +1,25 @@
 ---
 name: docx-mcp-document-editor
-description: Edit live Google Docs or Docx documents with MCP/tools while preserving structure, tables, formatting, branding, and text logic. Use when Codex must modify proposals, reports, contracts, letters, quotations, or any visually sensitive document where the main challenge is safe document intervention, not domain strategy.
+description: Edit local Word/DOCX documents with Word MCP or local DOCX tools while preserving structure, tables, formatting, branding, and text logic. Use when Codex must modify .docx proposals, reports, contracts, letters, quotations, theses, or any visually sensitive Word document where the main challenge is safe document intervention, not domain strategy. For live Google Docs use google-docs-mcp-document-editor or google-workspace-editor instead.
 ---
 
 # Docx MCP Document Editor
 
-Use this skill when the task is to operate on a live document without damaging its visual or semantic structure.
+Use this skill when the task is to operate on a local Word/DOCX document without damaging its visual or semantic structure.
 
 This is a document-editing skill, not a quotation strategy skill. If the task also requires building quotation logic, use `technical-quotation-builder` first, then use this skill to insert the result into the document.
+
+## Paquete operativo
+
+Una llamada a esta skill debe elegir la ruta editable correcta:
+
+| Capa | Ruta | Funcion |
+|---|---|---|
+| Dominio | `docx-mcp-document-editor` | Preservar estructura, tablas, formato, branding y logica textual |
+| Apertura MCP | Word MCP o `docx_editor_local` | Abrir, leer y editar documentos `.docx` locales |
+| Pill local | Ruta local del documento | No requiere credenciales salvo que el archivo este en un servicio externo |
+
+Arranque veloz: confirmar ruta `.docx`, probar lectura no destructiva, editar solo despues de leer la zona afectada. Si la fuente es Google Docs, cambiar a `google-docs-mcp-document-editor` o `google-workspace-editor`.
 
 ## Core Principle
 
@@ -26,12 +38,13 @@ Do not reason and edit at the same time when the document is fragile. Tool work 
 Before editing:
 
 - identify the document type: proposal, quotation, report, contract, letter, minutes, brochure
-- identify the editable technology: Google Docs MCP, Docx MCP, local `.docx`, converted import, or exported markdown
+- identify the editable technology: Word MCP, Docx MCP/local `.docx`, converted import, or exported markdown
+- create or choose a working copy before editing any thesis, contract, proposal, or final report
 - inspect the current structure before modifying it
 - locate tables, section headings, repeated patterns, branding colors, and fragile imported elements
 - distinguish editable text from drawings, images, headers, footers, or embedded objects
 
-For Google Docs, read the live document and, when possible, export or convert the affected section to a text/markdown view for review.
+For live Google Docs, stop and route to `google-docs-mcp-document-editor` or `google-workspace-editor`; this skill is only for Word/DOCX.
 
 ### 2. Pre-Edit Reasoning
 
@@ -92,6 +105,36 @@ Check:
 
 If the document is a quotation or proposal, also check commercial hierarchy with `technical-quotation-builder`.
 
+## Potentiated Modes
+
+### Safe Copy First Mode
+
+For important Word files, never treat the only original as the work surface. Create a copy or write to an explicit output path, then report both source and final path.
+
+### Word Structure Audit Mode
+
+For long or fragile files, inspect outline/headings, tables, comments, footnotes, images, fields, headers/footers, and protected sections before editing.
+
+### Table Surgery Mode
+
+For tables, identify the table by index and surrounding text. Confirm row meaning before changing content: header, section band, item row, note row, total row, or annex row.
+
+### Review / Comments Mode
+
+If the user wants review instead of direct edits, extract existing comments and provide proposed comments or a review list. Insert comments only when the active tool supports reliable anchoring.
+
+### Redline / Track Changes Mode
+
+If the user asks for tracked changes, redlines, legal review, or version comparison, read `references/word-redline-candidates.md`. Do not assume the active local route supports native tracked changes.
+
+Operational order:
+
+1. create a working copy;
+2. use an active/proven `docx_redline_mcp` route only if available;
+3. otherwise use the normal DOCX route and deliver an edited copy plus a changelog;
+4. never install a redline MCP through `curl | bash`;
+5. treat `SecurityRonin/docx-mcp` as an optional specialized fallback, not the default Word route.
+
 ## Common Failure Modes
 
 - Editing a table correctly but leaving the wrong business logic.
@@ -104,3 +147,4 @@ If the document is a quotation or proposal, also check commercial hierarchy with
 ## References
 
 - Read `references/live-doc-qa.md` when the task involves fragile formatting, tables, or repeated correction.
+- Read `references/word-redline-candidates.md` when the user asks for tracked changes, redlines, review markup, or Word version comparison.

@@ -7,6 +7,20 @@ Los repos de MCPs en GitHub se agrupan con la convencion `sc-mcp-*` y el topic `
 
 ---
 
+## SkillOps
+
+Antes de operar o depurar skills, leer:
+
+- `docs/SKILLOPS_STANDARD.md` - arquitectura dominio / MCP apertura / pill local.
+- `docs/SKILLOPS_MAP.md` - mapa operativo por skill, estado, rutas y pruebas seguras.
+- `docs/SKILLOPS_HEALTHCHECK.md` - checklist rapido de conectividad y fallbacks.
+- `docs/MEMORY_ARCHITECTURE.md` - raiz canonica de memoria, threads y second brain legacy.
+- `docs/SKILL_MARKET_SCAN.md` - radar de skills/repos externos para potenciar ESC-AI.
+
+Estos documentos son la referencia portable para Codex, Claude Code, Antigravity u otros agentes que necesiten arrancar rapido sin redescubrir rutas, credenciales locales o MCPs.
+
+---
+
 ## Estructura
 
 ```text
@@ -17,10 +31,18 @@ escaid-setup/
 |   `-- docx-editor-local/     <- submodule: FabrizioID/sc-mcp-docx-local
 |-- plugins/
 |   `-- README.md              <- co-researcher + claude-router (marketplace)
+|-- docs/
+|   |-- SKILLOPS_STANDARD.md   <- arquitectura operativa de skills
+|   |-- SKILLOPS_MAP.md        <- mapa de funcionamiento por skill
+|   |-- SKILLOPS_HEALTHCHECK.md <- pruebas rapidas y estado de conectores
+|   |-- MEMORY_ARCHITECTURE.md <- memoria canonica para Magnus
+|   `-- SKILL_MARKET_SCAN.md <- radar de mercado de skills
 |-- skills/
 |   |-- interaction-memory/    <- skill para memoria shared + carpetas por chat
 |   |-- project-thread-assistant/ <- skill para asistente persistente con memoria por hilo
-|   `-- marketing-master/      <- skill custom para estrategia/marketing
+|   |-- external-skill-auditor/ <- skill para auditar skills externas antes de instalarlas
+|   |-- marketing-master/      <- skill custom para estrategia/marketing
+|   `-- email-html-marketing/  <- skill para correos HTML, Drive assets y Apps Script/MailApp
 |-- settings.json              <- config global sanitizada (sin secrets)
 |-- .env.example               <- template de variables y rutas sensibles
 `-- setup.ps1                  <- script de instalacion automatica (Windows)
@@ -28,30 +50,30 @@ escaid-setup/
 
 ---
 
-## Second Brain (inteligencia cross-proyecto)
+## Second Brain (memoria operativa)
 
 Repo separado: [FabrizioID/second-brain](https://github.com/FabrizioID/second-brain)
 
-Contiene `MASTER_IDEAS.md` — el motor de inteligencia cross-proyecto que Magnus lee al inicio de cada sesión para detectar conexiones, oportunidades y conflictos entre proyectos activos.
+Contiene `MASTER_IDEAS.md` y `inteligencia/`: el motor de memoria cross-proyecto que Magnus lee para detectar conexiones, oportunidades y conflictos entre proyectos activos.
 
-**Path local esperado:** `C:\Users\USUARIO\inteligencia\`
+**Path local esperado:** `<workspace>\second-brain\`
 
 ### Clonar en maquina nueva
 
 ```powershell
-git clone https://github.com/FabrizioID/second-brain.git "$env:USERPROFILE\inteligencia"
+git clone https://github.com/FabrizioID/second-brain.git ".\second-brain"
 ```
 
 ### Mantener sincronizado
 
 ```powershell
 # Antes de una sesión importante (pull cambios remotos)
-git -C "$env:USERPROFILE\inteligencia" pull
+git -C ".\second-brain" pull
 
-# Después de que Magnus actualice MASTER_IDEAS al cerrar sesión
-git -C "$env:USERPROFILE\inteligencia" add MASTER_IDEAS.md
-git -C "$env:USERPROFILE\inteligencia" commit -m "chore: update MASTER_IDEAS"
-git -C "$env:USERPROFILE\inteligencia" push
+# Después de que Magnus actualice memoria o MASTER_IDEAS al cerrar sesión
+git -C ".\second-brain" add MASTER_IDEAS.md inteligencia
+git -C ".\second-brain" commit -m "chore: update second brain"
+git -C ".\second-brain" push
 ```
 
 ---
@@ -106,6 +128,7 @@ El script automatiza:
 | `interaction-memory` | Custom | Captura memoria compartida del proyecto y tambien crea carpetas por chat/hilo |
 | `project-thread-assistant` | Custom | Opera un asistente persistente con memoria por hilo, shared memory y contexto para apps conectadas |
 | `marketing-master` | Custom | Orquesta estrategia de funnels, contenido, Meta Ads, email y SEO |
+| `email-html-marketing` | Custom | Produce correos HTML seguros para Gmail/clientes, normaliza assets en Drive y genera automatizaciones Apps Script/MailApp con triggers desde Sheets |
 | `meta-ads-n8n-workflow` | Custom | Mantiene el flujo n8n que reemplaza Adveronix para Meta Ads hacia Google Sheets |
 | `google-docs-quotation-editor` | Custom | Edita cotizaciones y propuestas en Google Docs sin romper la plantilla visual, usando el MCP de Google Workspace |
 | `docx-mcp-document-editor` | Custom | Edita documentos vivos Google Docs/Docx con pre-razonamiento, preservacion de formato y QA semantico/visual |

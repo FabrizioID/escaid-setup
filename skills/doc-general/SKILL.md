@@ -1,13 +1,23 @@
 ---
 name: doc-general
-description: Sub-skill de documentador-experto. Genera documentación interactiva HTML premium para cualquier cosa que no sea un desarrollo técnico: proyectos, procesos, manuales operativos, guías de equipo, conceptos, playbooks, ideas, sistemas organizativos. La estructura se adapta según el tipo de contenido. Usar cuando el usuario quiera documentar algo que no encaja en las 3 docs de desarrollo.
+description: Sub-skill de documentador-experto. Estructura documentación para cualquier cosa que no sea un desarrollo técnico: proyectos, procesos, manuales operativos, guías de equipo, conceptos, playbooks, ideas, sistemas organizativos. La estructura se adapta según el tipo de contenido. Si se requiere HTML visual/interactivo/premium, entrega handoff a ui-architect.
 ---
 
 # Doc General
 
+## Contrato De Dominio
+
+Esta sub-skill estructura contenido documental para procesos, conceptos, manuales, playbooks, guias y sistemas organizativos. No es la capa visual final.
+
+Si el usuario pide HTML visual/interactivo/premium, preparar handoff para `ui-architect` con contenido, secciones, visual thesis, interacciones deseadas y restricciones.
+
+Si el usuario pide publicar o archivar, entregar contenido estructurado a `documentar-notion`.
+
 Sub-skill de documentador-experto para documentar cualquier contenido que no sea un desarrollo técnico.
 
-Los criterios de UI vienen de documentador-experto — leer [../documentador-experto/references/ui-criteria.md](../documentador-experto/references/ui-criteria.md).
+Si la salida final sera HTML visual, usar los criterios de UI de documentador-experto como brief para `ui-architect`: [../documentador-experto/references/ui-criteria.md](../documentador-experto/references/ui-criteria.md).
+
+Nota: si se requiere HTML visual, `ui-architect` construye el artefacto final. Esta skill entrega estructura, contenido y handoff.
 
 ## Tipos de documentación soportados
 
@@ -66,7 +76,7 @@ Antes de construir:
 1. Identificar el tipo de documento
 2. Definir la visual thesis (mood + material + energía en una frase)
 3. Definir el plan de contenido (secciones + qué va en cada una)
-4. Decidir si el output es solo HTML o si necesita exportación
+4. Decidir si el output es contenido estructurado, HTML visual via `ui-architect`, Notion via `documentar-notion`, o combinacion
 
 ### Paso 2 — Visual thesis
 

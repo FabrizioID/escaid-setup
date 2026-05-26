@@ -1,22 +1,38 @@
 ---
 name: interaction-memory
-description: Capture, summarize, and persist important knowledge from relevant work sessions into reusable project memory. Use when Codex should open a dedicated memory folder for the current chat, document a thread continuously, save generated artifacts into the chat folder, or extract durable decisions, facts, status, and follow-ups from any interaction worth keeping.
+description: Capture, summarize, and persist important knowledge from relevant work sessions into reusable project memory without polluting Second Brain. Use when Codex should extract durable decisions, facts, criteria, status, follow-ups, artifacts, or session summaries; when there is an active strategic project, route canonical threads through project-thread-assistant under second-brain/inteligencia/<proyecto>/threads/.
 ---
 
 # Interaction Memory
 
-Persist relevant work outside the chat. Support both project-wide memory and chat-specific thread folders.
+Persist relevant work outside the chat. This skill is a lightweight capture and promotion layer. It does not replace `project-thread-assistant` for canonical strategic threads.
+
+## SkillOps Contract
+
+Use this skill to decide what is worth remembering and where it belongs.
+
+Canonical priority:
+
+1. If there is an active project in Second Brain, use `project-thread-assistant` for thread files in `second-brain/inteligencia/<proyecto>/threads/`.
+2. Use `interaction-memory` to extract durable facts, decisions, criteria, status, follow-ups and artifact notes from the current session.
+3. Promote only stable reusable knowledge to `second-brain/inteligencia/<proyecto>/memory/`.
+4. Promote cross-project ideas only to `second-brain/MASTER_IDEAS.md` when they affect more than one project.
+5. If there is no active project, create a local lightweight memory folder only when the user explicitly asks to document/save/track the chat.
+
+Do not create parallel strategic memory under random `memory/chats/` folders when a Second Brain project exists.
 
 ## Core Modes
 
 Use one of these modes every time:
 
-1. Thread mode:
-   create or reuse a dedicated folder for the current chat and store chat-specific outputs there.
-2. Shared mode:
-   update the project's shared memory with knowledge that belongs to the whole project.
-3. Mixed mode:
-   save chat-local detail in the thread folder and also promote durable project-wide knowledge to shared memory.
+1. Second Brain capture mode:
+   summarize the session, then route canonical thread work to `project-thread-assistant`.
+2. Promotion mode:
+   promote durable knowledge into project memory files such as facts, decisions, criteria, variables, tensions or status.
+3. Local thread mode:
+   create or reuse a dedicated folder for the current chat only when no Second Brain project exists or the user asks for local artifact organization.
+4. Mixed mode:
+   save chat-local artifacts and also promote durable knowledge to Second Brain memory.
 
 ## Thread Workflow
 
@@ -28,14 +44,24 @@ When the user says things like:
 - open a thread for this work
 - save all generated files in this chat folder
 
-do this:
+first determine whether there is an active Second Brain project.
+
+If a project exists, prefer:
+
+```text
+second-brain/inteligencia/<proyecto>/threads/<YYYY-MM-DD>-<slug>.md
+```
+
+and route thread creation/update/closure to `project-thread-assistant`.
+
+If no project exists or the user explicitly wants a local chat folder, do this:
 
 1. Create a thread folder if it does not exist.
 2. Put all relevant chat documentation there from that point onward.
 3. Store generated documents and supporting notes in the same thread folder when appropriate.
 4. Keep the thread folder as the default destination for later documentation in that chat unless the user changes it.
 
-Prefer a structure like:
+Prefer this local fallback structure:
 
 ```text
 memory/
@@ -53,7 +79,7 @@ memory/
         `-- artifacts/
 ```
 
-For templates and naming patterns, read [references/memory-templates.md](references/memory-templates.md).
+For templates, naming patterns and the Second Brain mapping, read [references/memory-templates.md](references/memory-templates.md).
 
 ## Thread Naming
 
@@ -87,16 +113,37 @@ If the thread folder already exists before the user says "document", do not crea
 
 ## Shared Memory Rules
 
-Promote knowledge to shared memory only when it matters beyond this chat:
+Promote knowledge to shared/project memory only when it matters beyond this chat:
 
-- project-wide decisions
-- stable requirements
-- business rules
-- reusable workflows
-- technical quirks
-- important status changes
+- project-wide decisions;
+- stable requirements;
+- business rules;
+- reusable workflows;
+- technical quirks;
+- important status changes;
+- criteria Magnus should apply again;
+- variables or tensions that change future decisions.
 
 Do not pollute shared memory with chat-local noise.
+
+## Promotion Targets In Second Brain
+
+When a project exists, use these targets:
+
+| Knowledge type | Target |
+| --- | --- |
+| Session detail | `threads/<fecha>-<slug>.md` via `project-thread-assistant` |
+| Stable fact | `memory/facts.md` |
+| Decision | `memory/decisions.md` |
+| Reusable criterion | `memory/criteria.md` |
+| Active tension/risk | `memory/tensions.md` |
+| Variable to track | `memory/variables.md` |
+| Current state | `memory/status.md` |
+| External signal | `signals/<fecha>-<slug>.md` |
+| Strategic synthesis | `analysis/<fecha>-<slug>.md` |
+| Cross-project idea | `second-brain/MASTER_IDEAS.md` |
+
+If unsure whether to promote, list candidates and ask/mark as pending rather than writing noisy memory.
 
 ## Writing Rules
 
@@ -106,6 +153,9 @@ Do not pollute shared memory with chat-local noise.
 - Avoid repeated narration of the whole conversation.
 - Never store secrets, tokens, or sensitive values.
 - Keep one source of truth when possible.
+- Use dates for decisions, status and facts that can decay.
+- Prefer bullets with source/context over transcript-like prose.
+- Preserve uncertainty: label assumptions and confidence.
 
 ## Standard Actions
 
@@ -134,3 +184,4 @@ If the user asks to document the chat late:
 - If no folder exists yet, do not create one automatically unless the user explicitly asks to document, save, track, or open a thread.
 - If the user asks to document "this chat", default to thread mode.
 - If the user asks to "update project memory", default to shared mode.
+- If a Second Brain project is active, default to Second Brain capture mode and coordinate with `project-thread-assistant`.

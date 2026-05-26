@@ -279,7 +279,6 @@ Every technical development — regardless of tool, platform, or language — mu
 **The rule:** if you cannot test a unit without activating the entire production system, the architecture is too coupled. Modularize until you can.
 
 **Applies to:** n8n workflows, APIs, scripts, agents, pipelines, integrations, automation flows, AI chains, and any multi-step process with branching logic.
-
 ## Converting Protocols Into General Criteria
 
 When a protocol seems domain-specific, extract the reusable criterion.

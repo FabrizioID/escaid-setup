@@ -1,0 +1,4 @@
+interface:
+  display_name: "Email HTML Marketing"
+  short_description: "Email HTML and Apps Script senders"
+  default_prompt: "Create, convert, or close a Gmail-safe marketing email, optionally with Google Sheets Apps Script/MailApp automation, Drive-normalized images, QA, and preview."

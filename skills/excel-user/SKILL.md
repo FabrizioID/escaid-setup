@@ -1,6 +1,6 @@
 ---
 name: excel-user
-description: Operaciones completas sobre archivos Excel (.xlsx). Úsalo cuando el usuario quiera crear, leer, editar, formatear o analizar hojas de cálculo. Combina el MCP de Excel con comportamiento de formato predefinido y preferencias del usuario. Aplica también cuando el usuario pida tablas de datos, resúmenes numéricos, cuadros de dovelas, métricas de proyecto o cualquier output tabular que deba vivir en un .xlsx.
+description: Operaciones completas sobre archivos Excel (.xlsx/.xlsm). Usar cuando el usuario quiera crear, leer, editar, formatear o analizar hojas de calculo locales. Combina MCP Excel, fallback local openpyxl/pandas y preferencias de formato del usuario. Para Google Sheets usar google-workspace-editor; para tablas Word/APA complementar con excel-table-builder.
 tools:
   - Read
   - Write
@@ -20,136 +20,224 @@ tools:
 
 # Excel User
 
-Skill para operaciones Excel directas via MCP. Lee preferencias de formato en [references/formatting-defaults.md](references/formatting-defaults.md) y capacidades del MCP en [references/mcp-capabilities.md](references/mcp-capabilities.md).
+Skill para operaciones Excel directas. Lee:
 
----
+- `references/formatting-defaults.md`
+- `references/mcp-capabilities.md`
+- `references/excel-mcp-candidates.md`
+- `references/excel-operational-patterns.md`
 
-## ROUTING — primer match gana
+Regla de no solape: `excel-user` manda para crear, leer, editar, formatear o analizar archivos `.xlsx`/`.xlsm` locales. Si el origen o destino vive en Google Sheets/Drive, usar `google-workspace-editor`. Si los datos deben terminar como tabla en Word/tesis/APA, usar `excel-table-builder` despues de preparar o validar el workbook.
 
-1. Usuario pide **crear** un archivo Excel desde cero → Modo CREATE
-2. Usuario pide **leer o extraer** datos de un .xlsx existente → Modo READ
-3. Usuario pide **modificar o agregar** datos a un .xlsx → Modo EDIT
-4. Usuario pide **formatear, colorear o embellecer** una hoja → Modo FORMAT
-5. Usuario pide **analizar, sumar, promediar o cruzar** datos → Modo ANALYZE
-6. Usuario pide **todo** (crear + llenar + formatear) → Pipeline COMPLETO
+## Arranque Rapido
 
----
+| Capa | Ruta | Funcion |
+|---|---|---|
+| Dominio | `excel-user` | Crear, leer, editar, formatear o analizar `.xlsx`/`.xlsm` |
+| Apertura MCP | Excel MCP (`mcp__excel__*` o tools reales `excel_*`) | Operar libros y hojas sin inventar scripts |
+| Fallback local | `openpyxl`, `pandas`, `xlsxwriter`, LibreOffice | Usar solo si el MCP no esta disponible |
 
-## MODO CREATE
+1. Confirmar archivo/ruta o crear destino en el workspace actual.
+2. Probar lectura no destructiva: workbook info, hojas o rango pequeno.
+3. Si el MCP Excel no aparece, avisar una vez y usar fallback local si la tarea lo permite.
+4. Antes de escribir, leer rango/hoja afectada.
+5. Despues de escribir, volver a leer o validar el archivo.
 
-**Objetivo**: crear un .xlsx nuevo con estructura lista.
+Herramientas esperadas segun MCP:
 
-### Flujo
-1. Confirmar ruta de destino con el usuario (o usar directorio de trabajo actual)
-2. `create_workbook` → nuevo archivo vacío
-3. Renombrar hoja por defecto si aplica (`delete_sheet` + `add_sheet`)
-4. Llenar encabezados y datos con `write_sheet`
-5. Aplicar formato por defecto → ver [references/formatting-defaults.md](references/formatting-defaults.md)
-6. Confirmar al usuario ruta del archivo creado
+- `@negokaz/excel-mcp-server`: `excel_describe_sheets`, `excel_read_sheet`, `excel_write_to_sheet`, `excel_create_table`, `excel_copy_sheet`, `excel_format_range`, `excel_screen_capture`.
+- wrapper/alias local antiguo: `mcp__excel__get_workbook_info`, `mcp__excel__list_sheets`, `mcp__excel__read_sheet`, `mcp__excel__write_sheet`, `mcp__excel__format_cells`, `mcp__excel__apply_formula`.
 
-### Reglas
-- Siempre aplicar formato de encabezado (negrita + fondo azul claro) por defecto
-- Nunca hardcodear totales — usar fórmulas Excel (`=SUM(...)`)
-- Si los datos vienen de la conversación (capturas, tablas), transcribirlos fielmente sin redondear
+Si hay dos nomenclaturas, usar la que este expuesta en la sesion. No cambiar de skill: ambas son la ruta Excel.
 
----
+## Routing
 
-## MODO READ
+Primer match gana:
 
-**Objetivo**: leer y presentar datos de un .xlsx existente en conversación.
+1. Crear archivo Excel desde cero -> Modo CREATE.
+2. Leer o extraer datos de un `.xlsx`/`.xlsm` existente -> Modo READ.
+3. Modificar o agregar datos -> Modo EDIT.
+4. Formatear, colorear o embellecer -> Modo FORMAT.
+5. Analizar, sumar, promediar, cruzar o limpiar datos -> Modo ANALYZE.
+6. Crear + llenar + formatear -> Pipeline COMPLETO.
+7. Convertir Excel/Sheets a tabla Word/APA -> usar tambien `excel-table-builder`.
 
-### Flujo
-1. `get_workbook_info` → listar hojas disponibles
-2. `list_sheets` → confirmar hoja objetivo
-3. `read_sheet` → leer rango de datos
-4. Presentar en tabla markdown en la conversación
-5. Señalar si hay fórmulas, filas vacías o inconsistencias
+## Modo CREATE
 
----
+Objetivo: crear un `.xlsx` nuevo con estructura lista.
 
-## MODO EDIT
+Flujo:
 
-**Objetivo**: modificar datos en un .xlsx existente sin romper estructura.
+1. Confirmar ruta de destino o usar directorio de trabajo actual.
+2. Crear workbook.
+3. Crear/renombrar hojas necesarias.
+4. Llenar encabezados y datos con escritura por rango.
+5. Insertar formulas auditables.
+6. Aplicar formato por defecto.
+7. Validar lectura final.
 
-### Flujo
-1. `get_workbook_info` → verificar hoja objetivo
-2. `read_sheet` → leer estado actual antes de editar
-3. Aplicar cambios con `write_sheet` (rango exacto)
-4. Verificar resultado con `read_sheet` posterior
-5. Reportar qué celdas fueron modificadas
+Reglas:
 
-### Regla de seguridad
-- Si la ruta no existe → no inventar. Preguntar al usuario.
-- Si el archivo está abierto en Excel → avisarlo antes de escribir (puede corromper)
-- Preservar fórmulas existentes — no reemplazar con valores hardcodeados
+- Siempre aplicar formato de encabezado.
+- Nunca hardcodear totales si pueden ser formulas.
+- Si los datos vienen de capturas/tablas, transcribir fielmente sin redondear.
+- Si el workbook sera reutilizable, crear `CONFIG` para parametros y `CHECKS` para controles.
 
----
+## Modo READ
 
-## MODO FORMAT
+Objetivo: leer y presentar datos de un workbook existente.
 
-**Objetivo**: aplicar formato visual a una hoja.
+Flujo:
 
-### Flujo
-1. `read_sheet` → identificar estructura (encabezados, filas de datos, filas de total)
-2. Aplicar formato según [references/formatting-defaults.md](references/formatting-defaults.md):
-   - Encabezados: negrita + fondo
-   - Filas de total: negrita + borde superior
-   - Números: separador de miles, decimales según tipo
-3. `format_cells` por rangos (encabezados primero, luego datos, luego totales)
-4. Confirmar al usuario qué rangos fueron formateados
+1. Listar hojas y dimensiones.
+2. Leer rango objetivo con paginacion si el archivo es grande.
+3. Si se necesita, leer formulas con `showFormula` o alternativa.
+4. Presentar resumen o tabla markdown solo si el tamano lo permite.
+5. Senalar formulas, filas vacias, valores raros, encabezados duplicados o inconsistencias.
 
----
+## Modo EDIT
 
-## MODO ANALYZE
+Objetivo: modificar datos sin romper estructura.
 
-**Objetivo**: calcular métricas y presentar resúmenes.
+Flujo:
 
-### Protocolo
-1. Leer datos completos con `read_sheet`
-2. Calcular en Python/Bash si la hoja es grande (>500 filas)
-3. Para cálculos simples (suma, promedio, conteo): insertar fórmulas Excel directamente con `apply_formula`
-4. Presentar resultado primero en conversación, luego ofrecer insertarlo en la hoja
+1. Verificar que el archivo existe.
+2. Crear copia si es archivo sensible o `.xlsm`.
+3. Leer estado actual antes de editar.
+4. Escribir en rango exacto.
+5. Releer/validar el resultado.
+6. Reportar rangos modificados.
 
-### Tipos de análisis soportados
+Reglas:
+
+- Si el archivo esta abierto en Excel, advertir porque puede bloquear o corromper escritura.
+- Preservar formulas existentes; no reemplazar por valores sin permiso.
+- Para `.xlsm`, no recrear desde cero salvo aceptacion explicita de perder macros.
+
+## Modo FORMAT
+
+Objetivo: aplicar formato visual profesional.
+
+Flujo:
+
+1. Leer estructura: encabezados, filas de datos, totales.
+2. Aplicar formato segun `formatting-defaults.md`.
+3. Crear tabla Excel si el MCP lo permite.
+4. Ajustar numero/formato por unidad.
+5. Validar visualmente con screenshot si esta disponible.
+
+## Modo ANALYZE
+
+Objetivo: calcular metricas y presentar resumen.
+
+Protocolo:
+
+1. Leer datos completos o muestra paginada.
+2. Para mas de 500 filas, analizar con pandas/fallback local si conviene.
+3. Para calculos simples, insertar formulas Excel.
+4. Para cruces o migraciones, crear hojas `RAW`, `CLEAN`, `RESUMEN`, `CHECKS` cuando aporte trazabilidad.
+5. Presentar resultado y dejarlo en workbook si el usuario lo pidio.
+
+Tipos de analisis:
+
 | Tipo | Herramienta preferida |
 |---|---|
-| Suma total / subtotales | `apply_formula` con `=SUM(...)` |
-| Promedio ponderado | `apply_formula` con `=SUMPRODUCT(...)` |
-| Tabla resumen | `write_sheet` en hoja nueva |
-| Comparación entre columnas | `read_sheet` + cálculo Python |
-| Totales por categoría | `apply_formula` con `=SUMIF(...)` |
+| Suma/subtotal | Formula `=SUM(...)` |
+| Promedio ponderado | `=SUMPRODUCT(...)` |
+| Tabla resumen | Hoja `RESUMEN` |
+| Comparacion columnas | lectura + pandas o formulas |
+| Totales por categoria | `=SUMIF(...)` / `=SUMIFS(...)` |
+| Duplicados/nulos | hoja `CHECKS` o pandas |
 
----
-
-## PIPELINE COMPLETO
-
-Cuando el usuario pide crear + llenar + formatear en un solo paso:
+## Pipeline Completo
 
 ```
-[1] CREATE
-    → Crear workbook en ruta objetivo
-    → Crear hojas necesarias
+[1] CREATE/OPEN
+    -> Crear o abrir workbook
+    -> Listar hojas y dimensiones
 
 [2] FILL
-    → Transcribir datos fielmente desde conversación
-    → Insertar fórmulas para totales y subtotales
+    -> Escribir rangos completos
+    -> Insertar formulas, no totales hardcodeados
 
 [3] FORMAT
-    → Aplicar formato por defecto (ver formatting-defaults.md)
-    → Ajustar anchos de columna si el MCP lo permite
+    -> Encabezados, numeros, bordes, tablas
+    -> Congelar filas o capturar visual si disponible
 
-[4] CONFIRM
-    → Reportar: ruta, hojas creadas, filas escritas, fórmulas insertadas
-    → Mencionar si algo requiere ajuste manual en Excel
+[4] QA
+    -> Releer rangos
+    -> Validar conteos, totales, formulas y duplicados
+
+[5] CONFIRM
+    -> Reportar ruta, hojas, rangos, formulas y limitaciones
 ```
 
----
+## Modos Potenciados
 
-## REGLAS GLOBALES
+### Workbook Intake Mode
 
-1. **Nunca inventar datos**. Si el dato no fue dado → celda vacía o preguntar.
-2. **Fórmulas sobre valores hardcodeados**. Los totales deben ser auditables.
-3. **Confirmar ruta** antes de crear o sobreescribir un archivo.
-4. **Idioma de encabezados**: español salvo que el usuario indique otro.
-5. **Reportar limitaciones** del MCP honestamente — si algo no se puede (ej: gráficas) decirlo y ofrecer alternativa (Python script).
-6. **Unidades**: incluir unidades en encabezados (kg, ton, m², etc.) cuando los datos las tienen.
+Para cualquier archivo existente:
+
+1. confirmar ruta absoluta;
+2. listar hojas y dimensiones;
+3. detectar hojas ocultas, formulas, estilos y tablas si la herramienta lo permite;
+4. leer solo el rango necesario con paginacion;
+5. usar captura visual en Windows si la herramienta la expone.
+
+### Bulk Write Mode
+
+Para crear reportes o migrar datos:
+
+- escribir rangos completos, no celda por celda;
+- mantener datos, formulas y formato en pasos separados;
+- crear hoja `RESUMEN` y hojas de detalle solo si aportan navegabilidad;
+- nombrar tablas/rangos cuando el MCP lo permita.
+
+### Formula Guard Mode
+
+Para calculos:
+
+- preferir formulas Excel sobre valores pegados;
+- validar referencias cruzadas entre hojas;
+- no sobrescribir formulas existentes sin leerlas antes;
+- si el archivo es decision-critical, crear hoja `CHECKS`.
+
+### Data QA Mode
+
+Activar si hay limpieza, migracion, cruce o analisis:
+
+- perfilar columnas: tipo, vacios, duplicados, min/max;
+- detectar encabezados duplicados o celdas combinadas problematicas;
+- preservar ceros iniciales en codigos, RUC/DNI, telefonos e IDs;
+- separar datos crudos de datos transformados: `RAW`, `CLEAN`, `RESUMEN`.
+
+### Excel To Word / APA Mode
+
+Si el destino final es Word, tesis o APA:
+
+1. usar `excel-user` para preparar/validar datos;
+2. usar `excel-table-builder` para reducir, combinar o paginar la tabla;
+3. usar `docx-mcp-document-editor` y `apa-7-thesis-format` para insertar en Word.
+
+### Local Fallback Mode
+
+Si no hay MCP activo:
+
+- `openpyxl`: estructura, estilos, formulas, merged cells, xlsx/xlsm con cuidado;
+- `pandas`: analisis tabular, limpieza, agrupaciones, CSV/XLSX;
+- `xlsxwriter`: crear reportes nuevos con formato, no editar existentes;
+- LibreOffice headless: conversion o validacion visual solo si hace falta.
+
+No usar fallback para sobreescribir un archivo sensible sin crear copia previa.
+
+## Reglas Globales
+
+1. Nunca inventar datos. Si el dato no fue dado, dejar celda vacia o preguntar.
+2. Formulas sobre valores hardcodeados.
+3. Confirmar ruta antes de crear o sobreescribir un archivo.
+4. Encabezados en espanol salvo que el usuario indique otro idioma.
+5. Reportar limitaciones del MCP honestamente.
+6. Incluir unidades en encabezados cuando los datos las tienen.
+7. No solapar Google Sheets: si vive en Drive/Sheets, usar `google-workspace-editor`.
+8. No romper macros: para `.xlsm`, preservar y crear copia antes de editar.
+9. No confiar solo en escritura exitosa: reabrir, releer o validar antes de cerrar.

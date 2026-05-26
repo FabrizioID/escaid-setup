@@ -1,80 +1,93 @@
 ---
 name: google-docs-quotation-editor
-description: Edit corporate quotations, proposals, and brochures in Google Docs while preserving the original template and visual structure. Use when Codex should update commercial proposals with the Google Workspace MCP, make surgical text changes, insert or refine module tables, merge cells, color table sections, preserve imported layouts, or avoid breaking visually sensitive documents.
+description: Lógica de dominio para cotizaciones, propuestas y brochures corporativos en Google Docs. Construye la coherencia comercial, estructura el documento y delega la edición real a google-workspace-editor. Usar cuando el task es actualizar una propuesta comercial en Google Docs — cambios de texto, tablas de precios, branding — sin construir la lógica de cotización desde cero (para eso usar technical-quotation-builder primero).
 ---
 
 # Google Docs Quotation Editor
 
-Use this skill for commercial documents in Google Docs that must be updated carefully without breaking the original visual template.
+## Paquete operativo
 
-This skill assumes the repo has access to the custom Google Workspace MCP in `mcps/google-workspace-mcp`, including extended table operations.
+Una llamada a esta skill debe activar:
 
-## Quick Start
+| Capa | Skill/ruta | Funcion |
+|---|---|---|
+| Dominio comercial | `google-docs-quotation-editor` | Coherencia de propuesta, cambios comerciales y plan de edicion |
+| Dominio de cotizacion | `technical-quotation-builder` cuando el alcance/precio nace desde cero | Construir logica comercial antes de tocar el documento |
+| Apertura MCP | `google-workspace-editor` + `google-workspace-credentials` | Ejecutar edicion real y abrir Google Workspace si falta |
+| Pill local | perfil/token Google Workspace local | Auth local; nunca imprimir secretos |
 
-When this skill triggers:
+Arranque veloz: validar que hay URL/documentId, confirmar Google Workspace activo, leer documento, planear cambio comercial, editar con la menor operacion posible.
 
-1. Confirm the Google Doc URL or `documentId`.
-2. Read [references/editing-rules.md](references/editing-rules.md).
-3. Read [references/mcp-capabilities.md](references/mcp-capabilities.md).
-4. If the task involves tables, read [references/table-patterns.md](references/table-patterns.md).
-5. Inspect the current document structure before editing.
+Skill de dominio para cotizaciones y propuestas en Google Docs.
 
-## Use This Skill For
+**No ejecuta ediciones directamente.** Usa `google-workspace-editor` para toda operación MCP sobre el documento.
 
-- Corporate quotations in Google Docs
-- Commercial proposals and brochures with fixed visual identity
-- Surgical content replacement inside an imported or converted document
-- Detailed table editing where structure must remain stable
-- Module tables with merged title rows and color styling
-- Updating visible proposal copy without reauthoring the whole document
+## Cadena de uso
 
-## Core Rules
+```
+[lógica de negocio]         technical-quotation-builder   (si la cotización se construye desde cero)
+[dominio cotización]    →   esta skill                    (coherencia comercial + plan de edición)
+[edición MCP]          →   google-workspace-editor        (operaciones reales sobre el doc)
+```
 
-- Preserve the template before optimizing the wording.
-- Prefer surgical changes over broad replacements.
-- Inspect the live document structure before editing tables.
-- Treat imported or converted documents as fragile.
-- Do not assume a banner, drawing, or embedded header is plain text.
-- If the user says the document must “look like the original proposal,” keep the layout and change content only.
-- If a table already works as a visual pattern, reuse that pattern instead of inventing a new one.
+## Cuándo usar esta skill
 
-## Editing Workflow
+- Actualizar una propuesta comercial existente en Google Docs
+- Cambiar precios, alcance, cliente, fechas en un template de cotización
+- Insertar o refinar tablas de precios con branding del template
+- Hacer cambios quirúrgicos sin romper el layout visual
 
-Use this order unless the user asks for one narrow change only:
+## Pre-Edit: Escaneo de Coherencia Comercial
 
-1. Identify the target area:
-   header,
-   body copy,
-   module table,
-   pricing table,
-   final contact block,
-   or embedded graphic.
-2. Read the relevant surrounding section before editing.
-3. If the task affects tables, inspect table start indices and row logic first.
-4. Apply the smallest viable change.
-5. Re-read the affected section after the edit.
-6. Call out any visual limitation when the object is a drawing or embedded image rather than editable text.
+Antes de editar, escanear el documento y reportar preguntas si algún item es ambiguo:
 
-## Table Rules
+- nombre del proyecto, cliente, código de cotización y fecha de emisión
+- si existe un piloto para este nuevo proyecto
+- si aplica algún descuento, precio de paquete o caso de validación previo
+- si el encabezado de la tabla económica representa precio total, tarifa unitaria o criterio de valorización
+- consistencia entre la primera tabla económica y tablas posteriores de pago/valorización
+- consistencia de unidades (TON, m2, m², GLB, mensual/diario/recurso)
+- tarifas repetidas o contradictorias
+- nombres heredados de proyectos, edificios, fases, bloques o términos del cliente anterior
+- alcance que cobra el mismo trabajo dos veces
+- términos, supuestos, exclusiones y vigencia que ya no aplican
 
-- Reuse validated table structures when available.
-- For module tables, keep the 4-column logic when that is the approved pattern.
-- Use merged rows for module labels only when the existing table style requires it.
-- Use cell background color intentionally and sparingly.
-- Confirm whether text lives in a table cell, a paragraph, or a drawing before editing.
+Si el escaneo encuentra lógica comercial sin confirmar, preguntar antes de escribir.
 
-## Routing
+## Reglas de dominio
 
-Use the first route that matches:
+- Preservar el template antes de optimizar el texto.
+- Preferir cambios quirúrgicos sobre reemplazos amplios.
+- No tratar contenido heredado del template como alcance confirmado.
+- Preguntar antes de mantener supuestos comerciales no confirmados (pilotos, descuentos, nombres de cliente, tarifas, condiciones de pago).
+- Antes de elegir colores, usar la primera tabla existente del documento como referencia visual.
+- Si el usuario dice "mismo precio" o "alcance similar", verificar si los pilotos, descuentos y etiquetas heredadas aplican al nuevo proyecto.
+- Actualizar siempre la fecha de emisión a la fecha actual o la solicitada por el usuario.
 
-1. If the user asks for a careful wording update, read [references/editing-rules.md](references/editing-rules.md).
-2. If the user asks what the Docs MCP can do, read [references/mcp-capabilities.md](references/mcp-capabilities.md).
-3. If the user asks to edit or rebuild module tables, read [references/table-patterns.md](references/table-patterns.md).
-4. If the user asks to change a banner, header strip, or logo block, first verify whether it is a drawing or embedded image.
+## Workflow
 
-## Output Discipline
+1. Escaneo de coherencia comercial → preguntar sobre ambigüedades.
+2. Identificar área objetivo: encabezado, cuerpo, alcance, tabla de precios, tabla comparativa, bloque de contacto.
+3. Leer la sección circundante antes de editar.
+4. Confirmar supuestos comerciales no claros antes de escribir.
+5. Pasar el plan de edición a `google-workspace-editor` para aplicar.
+6. Releer la sección afectada después del edit.
 
-- Always distinguish editable document text from drawings or images.
-- Explain when a limitation comes from the object type rather than from the content.
-- When touching tables, identify exactly which table pattern is being reused.
-- When the document is visually fragile, prefer “safe and correct” over “fully automated.”
+## Reglas de tabla
+
+- Reusar estructuras de tabla validadas del mismo documento.
+- Reusar la paleta de colores de una tabla existente del documento.
+- Confirmar si el texto vive en celda de tabla, párrafo o dibujo antes de editar.
+- Identificar si el problema de color viene de: fill de celda, highlight de texto, shading de párrafo, o renderizado tardío de Docs.
+
+## Output
+
+- Distinguir siempre texto editable de dibujos o imágenes.
+- Explicar cuando una limitación viene del tipo de objeto, no del contenido.
+- Identificar qué patrón de tabla existente se está reutilizando.
+
+## Referencias
+
+- `references/editing-rules.md` → reglas de edición para documentos frágiles
+- `references/mcp-capabilities.md` → capacidades del Google Workspace MCP
+- `references/table-patterns.md` → patrones de tabla para cotizaciones

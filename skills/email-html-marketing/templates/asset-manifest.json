@@ -1,0 +1,18 @@
+{
+  "campaignId": "",
+  "assets": [
+    {
+      "id": "hero_01",
+      "role": "hero",
+      "origin": "uploaded|generated|drive|web|html_extracted",
+      "driveFileId": "",
+      "src": "https://lh3.googleusercontent.com/d/FILE_ID=w1200",
+      "fallbackSrc": "https://drive.google.com/uc?export=view&id=FILE_ID",
+      "alt": "",
+      "width": 1200,
+      "height": 628,
+      "mime": "image/jpeg",
+      "status": "ready|pending_upload|invalid|reference_only"
+    }
+  ]
+}

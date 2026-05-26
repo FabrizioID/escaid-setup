@@ -7,7 +7,19 @@ description: Build and refine technical quotations and commercial proposals with
 
 Use this skill to design the quotation logic before document editing.
 
-This skill defines what the proposal should say, how it should be structured, and how the economic table should communicate value. If a live Google Doc or Docx must be edited, use `docx-mcp-document-editor` after the quotation logic is clear.
+## Mecánica de uso
+
+```
+[1] technical-quotation-builder   → construye la lógica comercial (esta skill)
+[2] google-docs-quotation-editor  → coherencia de dominio para Google Docs (si aplica)
+[3] google-workspace-editor       → edita el Google Doc via MCP
+    ── o ──
+    docx-mcp-document-editor      → edita el Word .docx via MCP
+```
+
+No edita documentos directamente. Una vez clara la lógica, delegar a la skill de edición correspondiente.
+
+This skill defines what the proposal should say, how it should be structured, and how the economic table should communicate value. If a live Google Doc or Word document must be edited, use `google-workspace-editor` (Google Docs) or `docx-mcp-document-editor` (local Word .docx) after the quotation logic is clear.
 
 ## Core Principle
 
@@ -64,6 +76,8 @@ For formal quotations, use this default order unless the template says otherwise
 10. experience or supporting references
 
 Preserve existing branding and table order if the document already has a validated commercial format.
+
+Always update the quotation date to the current issue date or the date explicitly requested by the user. Do not leave a previous proposal date in the document.
 
 ### 3. Build The Economic Table
 
@@ -137,6 +151,7 @@ Before handing off to document editing or final response:
 - Do bullets stay inside their proper scope?
 - Does the opening paragraph match the final table?
 - Does the payment section match the economic table?
+- Is the quotation date updated to the current issue date or user-requested date?
 - Are exclusions and assumptions consistent with the proposed scope?
 
 ## References

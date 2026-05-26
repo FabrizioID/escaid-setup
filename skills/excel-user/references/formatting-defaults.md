@@ -1,10 +1,8 @@
 # Excel Formatting Defaults
 
-Preferencias de formato del usuario para archivos Excel generados por la skill excel-user.
+Preferencias de formato del usuario para archivos Excel generados por `excel-user`.
 
----
-
-## Paleta de colores
+## Paleta De Colores
 
 | Elemento | Color | Hex |
 |---|---|---|
@@ -12,70 +10,63 @@ Preferencias de formato del usuario para archivos Excel generados por la skill e
 | Encabezado texto | Negro | `#000000` |
 | Fila de total fondo | Gris claro | `#D9D9D9` |
 | Fila de total texto | Negro negrita | `#000000` |
-| Filas alternas (opcional) | Blanco / Gris muy claro | `#FFFFFF` / `#F2F2F2` |
+| Filas alternas opcionales | Blanco / gris muy claro | `#FFFFFF` / `#F2F2F2` |
 | Borde de tabla | Gris medio | `#808080` |
 
----
+## Tipografia
 
-## Tipografía
+- Fuente por defecto: Calibri 11 pt.
+- Encabezados: Calibri 11 pt, negrita.
+- Totales: Calibri 11 pt, negrita.
+- Datos: Calibri 11 pt, regular.
 
-- **Fuente por defecto**: Calibri 11pt
-- **Encabezados**: Calibri 11pt, **negrita**
-- **Totales**: Calibri 11pt, **negrita**
-- **Datos**: Calibri 11pt, regular
-
----
-
-## Formato de números
+## Formato De Numeros
 
 | Tipo de dato | Formato Excel |
 |---|---|
-| Kilogramos (kg) | `#,##0.00` (ej: 7,933.74) |
-| Toneladas (ton) | `#,##0.000` (ej: 7.934) |
-| Metros / m² / m³ | `#,##0.00` |
+| Kilogramos (kg) | `#,##0.00` |
+| Toneladas (ton) | `#,##0.000` |
+| Metros / m2 / m3 | `#,##0.00` |
 | Porcentaje | `0.00%` |
-| Pesos / moneda | `$#,##0.00` |
-| Enteros (conteo) | `#,##0` |
+| Moneda | `$#,##0.00` |
+| Enteros / conteo | `#,##0` |
 | Decimales generales | `#,##0.00` |
+| Fecha | `dd/mm/yyyy` |
+| Codigo / ID | `@` |
 
----
+## Estructura Estandar
 
-## Estructura de tabla estándar
-
+```text
+Fila 1: encabezados - negrita, fondo azul claro, borde
+Filas 2..N: datos - regular, bordes livianos
+Fila N+1: total - negrita, fondo gris claro, borde superior
 ```
-Fila 1:   [ENCABEZADOS] — negrita, fondo azul claro, borde
-Filas 2–N: [DATOS] — regular, bordes laterales
-Fila N+1: [TOTAL] — negrita, fondo gris claro, borde superior doble
-```
 
----
-
-## Anchos de columna recomendados
+## Anchos De Columna Recomendados
 
 | Tipo de columna | Ancho aprox. |
 |---|---|
-| Texto corto (código, ID) | 12 |
-| Texto mediano (nombre, descripción) | 25 |
-| Número (kg, ton, cantidad) | 15 |
+| Codigo / ID | 12 |
+| Texto mediano | 25 |
+| Texto largo | 35 |
+| Numero | 15 |
 | Fecha | 14 |
 | Porcentaje | 10 |
 
----
+## Convenciones De Hojas
 
-## Hojas múltiples — convención de nombres
+- Hoja principal ejecutiva: `RESUMEN`.
+- Datos crudos: `RAW`.
+- Datos limpios: `CLEAN`.
+- Validaciones: `CHECKS`.
+- Parametros: `CONFIG`.
+- Hojas de detalle: nombre corto del item, por ejemplo `DOVELA 07`.
 
-Cuando un workbook tiene varias hojas:
-- Hoja principal: `RESUMEN` (en mayúsculas)
-- Hojas de detalle: nombre del ítem (ej: `DOVELA 07`, `DOVELA 08`)
-- Hoja de parámetros: `CONFIG`
+## Comportamiento Por Defecto
 
----
-
-## Comportamiento por defecto
-
-- **Idioma de encabezados**: español
-- **Separador decimal**: punto (`.`) — estándar internacional
-- **Separador de miles**: coma (`,`)
-- **Fecha**: DD/MM/YYYY
-- **Primera fila siempre fija** (freeze top row) si el MCP lo permite
-- **Columna A** reservada para identificador/nombre cuando es tabla de entidades
+- Encabezados en espanol.
+- Separador decimal: punto.
+- Separador de miles: coma.
+- Congelar primera fila si el MCP lo permite.
+- Columna A reservada para identificador/nombre cuando es tabla de entidades.
+- No usar colores decorativos si el workbook se convertira a Word/APA.

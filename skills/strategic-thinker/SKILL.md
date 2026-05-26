@@ -1,91 +1,91 @@
 ---
 name: strategic-thinker
-description: Motor de análisis estratégico. Cruza variables dentro de un proyecto o entre proyectos conectados para producir insights, detectar tensiones y recomendar decisiones disruptivas. Usar cuando el usuario quiera analizar un proyecto, cruzar proyectos, buscar la disrupción, o tomar una decisión estratégica basada en la inteligencia acumulada.
+description: Motor de analisis estrategico sobre second-brain. Cruza variables dentro de un proyecto o entre proyectos conectados para producir insights, detectar tensiones y recomendar decisiones disruptivas basadas en memoria acumulada.
 ---
 
 # Strategic Thinker
 
-Motor de análisis estratégico que opera sobre proyectos gestionados por la skill `strategic-project`. Lee memoria acumulada, cruza variables, identifica tensiones y sinergias, y produce recomendaciones accionables.
+Motor de analisis estrategico que opera sobre proyectos gestionados por `strategic-project`. Lee memoria acumulada, cruza variables, identifica tensiones y sinergias, y produce recomendaciones accionables.
 
-Para los protocolos de análisis detallados y el formato de output, lee [references/analysis-protocols.md](references/analysis-protocols.md).
+Para protocolos detallados y formato de output, lee `references/analysis-protocols.md`.
 
 ## Prerequisito
 
-Esta skill opera sobre proyectos existentes en `inteligencia/`. Si el usuario no tiene proyectos aún, invocar `strategic-project` primero.
+Esta skill opera sobre proyectos existentes en:
 
-Siempre empezar por leer `inteligencia/_registry.md` para entender el ecosistema completo antes de cargar proyectos individuales.
+`second-brain/inteligencia/`
 
-## Modos de operación
+Siempre empezar por leer:
 
-### 1. MONO — Análisis de un solo proyecto
+`second-brain/inteligencia/_registry.md`
 
-**Triggers:** `analiza <proyecto>`, `qué está pasando en <proyecto>`, `dame un análisis de <proyecto>`
+`inteligencia/` en la raiz del workspace es legacy/fallback de lectura. No escribir analysis nuevos ahi.
 
-**Secuencia de carga:**
-1. `inteligencia/_registry.md`
-2. `inteligencia/<proyecto>/PROJECT.md`
-3. `inteligencia/<proyecto>/memory/variables.md`
-4. `inteligencia/<proyecto>/memory/facts.md`
-5. `inteligencia/<proyecto>/memory/tensions.md`
-6. `inteligencia/<proyecto>/memory/decisions.md`
-7. Últimas 5 entradas en `signals/` (ordenadas por fecha, más reciente primero)
-8. Último `analysis/` session si existe
+## Modos
 
-**Ejecutar protocolo:** ANÁLISIS INTERNO (ver analysis-protocols.md)
+### 1. MONO - Analisis de un solo proyecto
 
-**Output:** Escribir session en `inteligencia/<proyecto>/analysis/<fecha>-session.md`
+Triggers: `analiza <proyecto>`, `que esta pasando en <proyecto>`, `dame un analisis de <proyecto>`.
 
----
+Secuencia de carga:
 
-### 2. MACRO — Cruce entre múltiples proyectos
+1. `second-brain/inteligencia/_registry.md`
+2. `second-brain/inteligencia/<proyecto>/PROJECT.md`
+3. `second-brain/inteligencia/<proyecto>/memory/variables.md`
+4. `second-brain/inteligencia/<proyecto>/memory/facts.md`
+5. `second-brain/inteligencia/<proyecto>/memory/tensions.md`
+6. `second-brain/inteligencia/<proyecto>/memory/decisions.md`
+7. Ultimas 5 entradas en `signals/`
+8. Ultimo `analysis/` si existe
 
-**Triggers:** `cruza <A> con <B>`, `análisis macro`, `crúzalo todo`, `dame el panorama completo`
+Ejecutar protocolo: ANALISIS INTERNO.
 
-**Secuencia de carga:**
-1. `inteligencia/_registry.md` — identificar todos los proyectos a cruzar
-2. Para cada proyecto: PROJECT.md + memory/variables.md + memory/tensions.md
-3. Señales recientes (últimas 3 por proyecto)
+Output: `second-brain/inteligencia/<proyecto>/analysis/<YYYY-MM-DD>-session.md`.
 
-**Ejecutar protocolo:** CRUCE MACRO (ver analysis-protocols.md)
+### 2. MACRO - Cruce entre proyectos
 
-**Output:** Escribir session en el proyecto principal (o crear `inteligencia/_macro/analysis/<fecha>-session.md` si el cruce es de toda la red)
+Triggers: `cruza <A> con <B>`, `analisis macro`, `cruzalo todo`, `panorama completo`.
 
----
+Secuencia de carga:
 
-### 3. DECISIÓN — Recomendación accionable
+1. `second-brain/inteligencia/_registry.md`
+2. Para cada proyecto: `PROJECT.md`, `memory/variables.md`, `memory/tensions.md`
+3. Ultimas 3 senales por proyecto
 
-**Triggers:** `qué hago sobre X`, `ayúdame a decidir sobre X`, `necesito decidir si X`
+Ejecutar protocolo: CRUCE MACRO.
 
-**Pasos:**
-1. Identificar qué proyecto(s) son relevantes para la decisión.
-2. Ejecutar carga completa de esos proyectos.
-3. Aplicar protocolo DECISIÓN (ver analysis-protocols.md).
-4. Output: recomendación con acción, timing, justificación y riesgo principal.
-5. Proponer añadir la decisión a `memory/decisions.md` del proyecto si el usuario confirma.
+Output: proyecto principal o `second-brain/inteligencia/_macro/analysis/<YYYY-MM-DD>-session.md`.
 
----
+### 3. DECISION - Recomendacion accionable
 
-### 4. DISRUPCIÓN — Buscar el movimiento no obvio
+Triggers: `que hago sobre X`, `ayudame a decidir`, `necesito decidir si X`.
 
-**Triggers:** `busca la disrupción en <proyecto o tema>`, `cuál sería el movimiento disruptivo`, `qué no estamos viendo`
+Pasos:
 
-**Pasos:**
-1. Cargar proyecto(s) relevante(s).
-2. Mapear tensiones activas y variables con tendencia incierta.
-3. Aplicar razonamiento de primeros principios: descomponer los supuestos sobre los que opera el sistema.
-4. Buscar analogías en otros dominios (cruzar con otros proyectos si los hay).
-5. Generar 2-3 movimientos no obvios con su lógica disruptiva.
-6. No filtrar por "factibilidad obvia" — el objetivo es expandir el espacio de posibilidades.
+1. Identificar proyectos relevantes.
+2. Ejecutar carga completa.
+3. Aplicar protocolo DECISION.
+4. Entregar recomendacion con accion, timing, fundamento y riesgo.
+5. Proponer guardar en `memory/decisions.md` si el usuario confirma.
 
-**Output:** Incluir una sección `## Movimientos disruptivos` en el analysis session.
+### 4. DISRUPCION - Movimiento no obvio
 
----
+Triggers: `busca la disrupcion`, `movimiento disruptivo`, `que no estamos viendo`.
 
-## Reglas del motor
+Pasos:
 
-- Nunca fabricar datos. Si una variable no tiene señales recientes, declararlo explícitamente como "sin actualización reciente".
-- Separar siempre: lo que dicen los datos vs lo que infiere el análisis.
-- Priorizar tensiones sobre hechos estables — las tensiones son donde está la energía estratégica.
-- Cuando dos variables de proyectos distintos se correlacionan, documentar la correlación con su fuente antes de usarla en el análisis.
-- Cada session de análisis es un documento histórico. No sobreescribir análisis previos.
-- El output siempre termina con una acción concreta, no con una observación.
+1. Cargar proyectos relevantes.
+2. Mapear tensiones y variables inciertas.
+3. Descomponer supuestos.
+4. Buscar analogias entre proyectos y dominios.
+5. Generar 2-3 movimientos no obvios.
+6. No filtrar por factibilidad obvia demasiado pronto.
+
+## Reglas
+
+- Nunca fabricar datos.
+- Separar datos de inferencias.
+- Priorizar tensiones sobre hechos estables.
+- Documentar correlaciones con fuente antes de usarlas.
+- Cada analysis session es historica: no sobreescribir.
+- Terminar siempre con una accion concreta.

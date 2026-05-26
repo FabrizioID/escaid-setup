@@ -6,6 +6,8 @@ Use this reference for funnel architecture, user movement, and stage-by-stage st
 
 Design a coherent path from attention to conversion, retention, and reactivation.
 
+For full systems, pair this with [growth-operating-system.md](growth-operating-system.md).
+
 ## Minimum Inputs
 
 - Business model
@@ -18,6 +20,7 @@ Design a coherent path from attention to conversion, retention, and reactivation
 - Conversion path: landing, instant form, message, webinar, call, checkout, or store
 - Data capture: email, WhatsApp, CRM, or none
 - Category maturity: well-known market or market that first needs education
+- Lifecycle criteria: what makes someone captured, qualified, sales-ready, customer, activated or dormant
 
 ## Funnel Mapping
 
@@ -30,6 +33,14 @@ Define these stages as needed:
 - Loyalty: onboarding, activation, upsell, repeat purchase.
 - Advocacy: referral, proof social, public participation, community effect.
 - Reactivation: bring back dormant users, leads, or customers.
+
+Also classify the funnel's dominant job:
+
+- Demand creation: the user did not know they needed this.
+- Demand capture: the user is already searching/comparing.
+- Demand conversion: the user needs proof, urgency or risk reduction.
+- Demand retention: the user must activate, repeat or expand.
+- Demand reactivation: the user needs a relevant reason to return.
 
 ## For Each Stage
 
@@ -53,6 +64,7 @@ Specify:
 - CTA
 - success metric
 - where the user goes next
+- owner or automation responsible for the next movement
 
 ## Common Outputs
 
@@ -77,3 +89,5 @@ Specify:
 - Distinguish strategy from assets:
   first define the funnel mechanics,
   then list possible assets.
+- Define qualification rules before scaling lead volume.
+- If the funnel has repeated handoffs, ask for n8n only after defining trigger, fields, owner and failure handling.

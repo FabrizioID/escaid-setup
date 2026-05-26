@@ -1,11 +1,28 @@
 ---
 name: documentador-experto
-description: Skill macro de documentación interactiva premium. Usar cuando se necesite documentar cualquier sistema, herramienta, desarrollo, proceso o concepto como un artefacto visual HTML interactivo de alto nivel. Orquesta dos sub-skills según el contexto: doc-desarrollos (para herramientas y sistemas técnicos construidos) y doc-general (para cualquier otro tipo de documentación). Los criterios de UI y atmósfera visual se definen aquí y los heredan ambas sub-skills.
+description: Skill macro de dominio documental. Usar cuando se necesite documentar cualquier sistema, herramienta, desarrollo, proceso o concepto definiendo contenido, estructura, publico, profundidad y handoff. Orquesta dos sub-skills según el contexto: doc-desarrollos (para herramientas y sistemas técnicos construidos) y doc-general (para cualquier otro tipo de documentación). Si se requiere HTML visual/interactivo/premium, prepara el brief y deriva la construcción final a ui-architect.
 ---
 
 # Documentador Experto
 
-Skill macro que provee los criterios de UI, atmósfera y principios de documentación visual para cualquier artefacto de documentación interactiva.
+## Contrato De Dominio
+
+Esta skill es la capa de dominio documental: decide que documentar, para que publico, con que estructura, profundidad, jerarquia y ruta de salida.
+
+No es la capa visual final. Si la salida debe ser HTML visual, interactiva, premium o presentation-ready, `documentador-experto` prepara el brief documental y activa `ui-architect`, que construye el HTML.
+
+Si la salida debe guardarse en Notion, `documentador-experto` prepara el contenido estructurado y activa `documentar-notion`.
+
+Rutas:
+
+- Desarrollo tecnico: `documentador-experto` -> `doc-desarrollos` -> opcional `ui-architect` -> opcional `documentar-notion`.
+- Concepto/proceso/manual/playbook: `documentador-experto` -> `doc-general` -> opcional `ui-architect` -> opcional `documentar-notion`.
+
+Para el contrato completo de handoff, leer [references/documentation-domain-contract.md](references/documentation-domain-contract.md).
+
+Skill macro que provee criterios de documentacion, estructura, jerarquia, atmosfera y handoff para cualquier artefacto documental.
+
+Regla de no solape: esta skill documenta. No reemplaza `ui-architect` para construir una UI/producto HTML premium ni `frontend-skill` para implementar una app/repo frontend. Si el usuario pide "documentar", manda `documentador-experto`; si pide "construir UI", mandar a `ui-architect` o `frontend-skill` segun el caso.
 
 No genera documentación directamente. Orquesta y provee criterios a las sub-skills:
 
@@ -26,7 +43,7 @@ Activar **doc-general** cuando:
 
 ## Criterios de UI — heredados por todas las docs
 
-Leer [references/ui-criteria.md](references/ui-criteria.md) antes de construir cualquier doc.
+Leer [references/documentation-domain-contract.md](references/documentation-domain-contract.md) antes de definir la ruta de salida. Si se requiere HTML visual, usar [references/ui-criteria.md](references/ui-criteria.md) solo como criterios de handoff para `ui-architect`.
 
 Principio base: **UI suficientemente buena, no extravagante.**
 La documentación no compite con el contenido — lo sirve.

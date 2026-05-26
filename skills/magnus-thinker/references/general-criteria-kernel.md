@@ -226,6 +226,60 @@ A smoke test should not only say pass/fail. It should preserve the evidence need
 
 When a smoke test reveals a provider/cost/quality decision, document it in the project thread and promote reusable criteria into Magnus memory.
 
+### 16. Semantic UI Motion Before Decorative Motion
+
+When a visual/UI deliverable needs motion, Magnus must ask what the motion helps the receiver understand.
+
+For animated backgrounds and premium HTML:
+
+- use external/proven background systems before inventing fragile decorative lines;
+- prefer semantic assets from the topic over generic dots, blobs, or abstract particles;
+- keep a small number of recognisable elements, not many tiny moving elements;
+- calibrate by screenshot and user perception, not by "it exists in code";
+- adjust quantity, size, opacity, speed, and connection visibility through microchanges;
+- preserve calm text zones and use motion as atmosphere, not as a second interface.
+
+Validated pattern: complete network background + image-shaped semantic particles + very subtle connections. If the user says elements are hard to read, reduce count and increase size. If the user says it disappeared, raise opacity slightly before adding more elements. If the user says it is busy, reduce count first.
+
+### 17. Reverse Engineer Existing Artifacts Before Replacing Them
+
+When the user provides an existing artifact, spreadsheet, agenda, deck, process map, proposal, workflow, or draft, Magnus must first reverse engineer why it is shaped that way before proposing a cleaner alternative.
+
+Ask:
+
+- What constraints does this artifact already encode?
+- Which people, sponsors, institutional moments, owners, timings, statuses, or production realities appear in it?
+- What decisions are implied by row order, grouping, labels, formulas, responsible owners, and notes?
+- Which parts are rough because they are unfinished, and which parts are rough because they reflect real constraints?
+- What does this artifact solve better than my abstract proposal?
+- What should be preserved as the operational spine before adding a stronger narrative layer?
+
+Rule: a polished proposal that ignores an existing working artifact is weaker than an imperfect artifact that encodes reality. Improve by layering strategy on top of the artifact, not by replacing it prematurely.
+
+### 18. Build Modular, Test By Cases, Debug Isolated
+
+Every technical development — regardless of tool, platform, or language — must follow this sequence:
+
+**Build modular:**
+- Separate responsibilities into independent units (sub-workflows, modules, functions, services)
+- Each unit must be testable in isolation without requiring the full system to run
+- A monolith that only works as a whole cannot be debugged efficiently
+
+**Test by cases before activating:**
+- Define the minimum set of cases that cover all routing branches: happy path, edge cases, error conditions, and boundary states
+- Run tests with simulated inputs that match what the real system would send — without connecting the real external service
+- Each test case must have its own fresh state — shared state between tests produces false positives
+
+**Debug step by step:**
+- When an error occurs in production, identify the exact node/function/step that failed — not the symptom
+- Reproduce the failure locally with the exact payload/input that caused it
+- Apply the fix to the specific unit, not globally
+- Re-test the isolated unit after the fix before touching adjacent modules
+
+**The rule:** if you cannot test a unit without activating the entire production system, the architecture is too coupled. Modularize until you can.
+
+**Applies to:** n8n workflows, APIs, scripts, agents, pipelines, integrations, automation flows, AI chains, and any multi-step process with branching logic.
+
 ## Converting Protocols Into General Criteria
 
 When a protocol seems domain-specific, extract the reusable criterion.
@@ -239,6 +293,9 @@ Examples:
 - Context pull -> memory before reasoning.
 - F8 asymmetry -> upside/downside/reversibility in any choice.
 - Viral-agent provider routing -> provider economics + preserve ambition + explicit fallback jobs + smoke-test evidence.
+- Animated Summit pipeline background -> semantic UI motion + external reference before invention + feedback path.
+- Summit agenda Excel review -> reverse engineer existing artifacts + receptor reality + operational constraints before narrative redesign.
+- n8n workflow testing -> build modular + test by cases + debug isolated (simular payloads sin conectar producción, sub-workflows testables, fix en unidad específica + retest aislado).
 
 ## Skill Delegation Rule
 

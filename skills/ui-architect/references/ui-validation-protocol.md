@@ -26,6 +26,17 @@ Checklist antes de entregar una UI.
 - ScrollTrigger debe funcionar hacia abajo y hacia arriba.
 - Respeta `prefers-reduced-motion` si el producto es operacional o serio.
 
+## Rescue Pass / Rediseño
+
+Cuando se mejora una UI existente cuyo contenido ya está aprobado:
+
+- Confirmar que la narrativa, tesis y orden central no cambiaron.
+- Verificar que el nuevo fondo comunica una analogía específica, no solo estética.
+- Revisar si la paleta responde al tema o cae en púrpura/glow genérico.
+- Comparar hero, primera sección y cierre contra el HTML anterior: deben verse más claros y con más intención.
+- Si se usan objetos semánticos en canvas/SVG, deben entenderse en screenshot sin leer labels diminutos.
+- Si la crítica del usuario fue "fofo", "no smooth" o "horrible", no cerrar con un cambio cosmético; revisar dirección de arte completa.
+
 ## Responsive
 
 Probar al menos:

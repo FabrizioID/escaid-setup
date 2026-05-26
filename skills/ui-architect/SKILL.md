@@ -24,11 +24,11 @@ Regla de no solape: usar `ui-architect` cuando el entregable sea un artefacto HT
 | Apertura/verificacion | Playwright MCP o navegador local | Renderizar, inspeccionar y tomar screenshots |
 | Fallback | HTML local sin servidor o dev server | Usar segun el tipo de app/artefacto |
 
-Arranque veloz: entender objetivo y audiencia, elegir modo Sketch-to-UI o Brief-to-UI, construir el artefacto usable, abrirlo y verificar screenshot antes de cerrar.
+Arranque veloz: entender objetivo y audiencia, elegir modo Sketch-to-UI, Brief-to-UI o Rescue Pass, construir el artefacto usable, abrirlo y verificar screenshot antes de cerrar.
 
 ## Routing UI 2026
 
-Leer `references/ui-ecosystem-candidates.md` cuando se necesite escoger libreria, referencia visual o fuente de componentes. Leer `references/ui-validation-protocol.md` antes de cerrar cualquier UI con canvas, motion, 3D o responsive sensible.
+Leer `references/ui-ecosystem-candidates.md` cuando se necesite escoger libreria, referencia visual o fuente de componentes. Leer `references/web-ui-research-2026.md` cuando el usuario pida buscar criterios/librerias/herramientas, mejorar una skill de UI, elevar una interfaz que se siente generica, o diseñar una UI importante con referencias externas. Leer `references/ui-validation-protocol.md` antes de cerrar cualquier UI con canvas, motion, 3D o responsive sensible.
 
 | Pedido | Ruta |
 |---|---|
@@ -51,6 +51,47 @@ Para apps React/Next/Vite, preferir:
 
 No convertir `ui-architect` en una dependencia de librerias externas. Las librerias son fuente de patrones, no sustituto de criterio visual.
 
+## External Reference Pass
+
+Cuando el resultado dependa de calidad visual actual, no diseñar desde memoria solamente. Hacer un pase corto de referencias:
+
+1. identificar la categoria de UI: landing, app operativa, dashboard, documentacion visual, AI UI, portfolio o experiencia;
+2. revisar 3-5 referencias reales o librerias/patrones actuales;
+3. extraer decisiones, no copiar: estructura, densidad, paleta, motion, estados, accesibilidad y responsive;
+4. elegir una direccion de arte propia y codificar;
+5. validar por screenshot.
+
+Regla: una libreria no reemplaza direccion de arte. Si el resultado se ve como demo de componente, rehacer composicion.
+
+## Creative Medium Decision
+
+Antes de construir una UI visual/premium, decidir el medio dominante. No asumir que HTML/CSS/canvas propio es el medio correcto.
+
+Opciones validas:
+
+1. **Imagen generada o asset real primero** — para heroes, fondos conceptuales, producto, analogias materiales, atmosferas y escenas que deben sentirse diseñadas.
+2. **Imagen por capas + motion ligero** — para parallax, glints, particulas, mascaras, profundidad y movimiento sin redibujar la escena con HTML.
+3. **Libreria/fondo animado probado** — Vanta, tsParticles, shader, Lottie, Rive, Spline, Three.js scene o equivalente, customizado por marca y semantica.
+4. **Framer-style composition** — layouts radiales, espirales, stacks, grids, waves, hover/scroll effects, component interactions y page effects cuando aportan narrativa.
+5. **HTML/CSS editorial** — texto, layout, secciones, overlays, estados y responsive. HTML compone; no debe fingir ser imagen.
+
+Regla clave: si una escena visual requiere materialidad, profundidad o metafora concreta, generar/usar asset visual antes de codificar. Si el HTML empieza a parecer "bloques intentando diseñar", detener y cambiar de medio.
+
+### Creative Route Matrix
+
+| Necesidad visual | Ruta preferida |
+|---|---|
+| Analogia material o conceptual | ImageGen / asset hero |
+| Fondo vivo abstracto pero moderno | Vanta / shader / WebGL probado |
+| Particulas con semantica | tsParticles con shapes, images, icons, logos o figuras del dominio |
+| Microinteraccion ilustrada | Rive o Lottie |
+| 3D tangible o hero interactivo | Spline o Three.js |
+| Layout radial/orbital/espiral | Imagen generada, Framer Layout Composer como referencia, SVG/Three.js si necesita interaccion |
+| Dashboard o app operativa | componentes propios, shadcn/Radix si React, motion minimo |
+| Documento estrategico visual | asset hero + editorial sections |
+
+La skill puede y debe aportar creatividad: no limitarse a ejecutar literal. Proponer una analogia visual superior cuando el contenido lo permita.
+
 ## Verification Gate
 
 Antes de cerrar:
@@ -69,7 +110,7 @@ Produce self-contained HTML artifacts with premium visual design. Every output m
 
 ## Modos de Entrada
 
-La skill opera en tres modos. Detecta cuál aplica automáticamente según el input del usuario y el contexto de la skill que la llama.
+La skill opera en cuatro modos. Detecta cuál aplica automáticamente según el input del usuario y el contexto de la skill que la llama.
 
 ---
 
@@ -131,6 +172,25 @@ La skill opera en tres modos. Detecta cuál aplica automáticamente según el in
 3. **Tomar todas las decisiones de diseño** sin preguntar — layout, paleta, tipografía, motion, preset. Solo preguntar si falta información crítica (ej: no hay texto para el hero).
 
 4. **Generar directamente** con el bloque de decisiones documentado al final.
+
+---
+
+### MODO 3 — Rescue Pass / Rediseño de HTML Existente
+
+**Cuándo activar:** el usuario entrega un HTML, screenshot o archivo existente y dice que el contenido está bien pero la UI, fondo, analogía visual, suavidad, jerarquía o acabado se sienten flojos.
+
+**Protocolo:**
+
+1. **Preservar contenido aprobado.** No reescribir narrativa, tesis, orden ni conclusiones salvo errores evidentes o petición explícita.
+2. **Auditar la UI actual antes de editar:** fondo/analogía, paleta, tipografía, jerarquía, densidad, cards, ritmo de secciones, motion, responsive y consola.
+3. **Detectar la idea nuclear visual:** convertir el tema en una analogía operacional de alto nivel, no en palabras literales flotando.
+4. **Elegir el medio correcto:** imagen generada, asset existente, libreria animada, Framer/Spline/Rive/Lottie, Three.js o HTML editorial. No forzar HTML si la pieza pide imagen.
+5. **Rehacer primero el sistema visual base:** asset/hero, tokens, layout, fondo vivo, secciones y estados. Luego ajustar detalles.
+6. **Eliminar decoración blanda:** gradientes morados genéricos, dots, blobs, redes abstractas, orbes, stickers flotantes, cards repetidas y glows sin función.
+7. **Usar motion con una razón:** entrada del hero, profundidad de scroll, microinteracciones y fondo lento que ayude a entender el tema.
+8. **Validar con screenshot:** desktop y mobile antes de cerrar. Si algo se ve amateur, iterar.
+
+**Regla clave:** en Rescue Pass, la meta no es "embellecer" el HTML. La meta es que la interfaz tenga dirección de arte, legibilidad y una analogía visual que sostenga el contenido.
 
 ---
 
@@ -207,9 +267,45 @@ Para HTML visuales, el fondo animado debe comunicar el mismo universo que el con
 - Si el contenido habla de árboles, el fondo debe sugerir árboles, hojas, ramas, crecimiento o caída según la narrativa.
 - Si habla de rutas/skills/plataforma, el fondo debe sugerir nodos, caminos, capas, conexiones, progreso o empaquetamiento.
 - Si habla de construcción/BIM, el fondo debe sugerir grillas, planos, modelos, capas, coordenadas o elementos AEC.
-- Si habla de "envoltura" o producto vendible, el fondo puede sugerir wrapper, capas externas, empaques, cinta, etiquetas o transformación de materia prima en producto.
+- Si habla de "envoltura" o producto vendible, el fondo no debe quedarse en cápsulas literales. Debe sugerir transformación de materia prima en producto: unidades modulares que entran a una línea de ensamblaje, capas que envuelven un núcleo, etiquetas comerciales que aparecen al final, o rutas que se recombinan en empaques vendibles.
 
 Regla: fondo, paleta, tipografía y composición deben reforzar juntos la idea central. Si el fondo no se entiende al explicar el contenido, rediseñarlo.
+
+### Escalera de Analogía Visual
+
+Antes de diseñar el fondo, elegir el nivel correcto. Subir en la escalera si el nivel actual se siente obvio, literal o decorativo.
+
+| Nivel | Tipo | Señal de alerta | Ejemplo para F3/producto |
+|---|---|---|---|
+| 0 | Decoración genérica | Podría servir para cualquier tema | blobs morados, dots, redes abstractas |
+| 1 | Literal débil | Repite palabras del texto sin explicar el sistema | cápsulas flotando, labels "Skill", "Ruta" |
+| 2 | Dominio directo | Usa objetos reales del contenido con orden | skill units, evidencias, diplomas, rutas |
+| 3 | Sistema operacional | Muestra cómo se transforma el valor | unidades -> ensamblaje -> empaque -> oferta |
+| 4 | Metáfora propietaria | Crea una imagen memorable y propia | fábrica silenciosa de productos educativos modulares |
+
+Objetivo normal: nivel 3. Nivel 4 solo si el brief pide una pieza más memorable o disruptiva.
+
+### Prueba de Fondo Semántico
+
+Un fondo pasa si cumple todo:
+
+- Se puede explicar en una frase sin usar "bonito", "tech", "premium" o "futurista".
+- No depende de leer labels diminutos para entenderse.
+- Tiene 2-4 tipos de elementos como máximo.
+- La actividad visual se concentra en bordes o planos secundarios, dejando zonas calmas para texto.
+- El movimiento muestra proceso, flujo, agrupación, tensión o transformación; no solo flotación.
+- Funciona en captura estática. Si en screenshot no comunica nada, la animación no lo salva.
+
+### Paleta y Mood
+
+No usar púrpura oscuro como default automático para HTML premium. Elegir paleta desde el contenido:
+
+- Producto/decisión/operación: grafito, tinta, verde-teal sobrio, blanco cálido, acento ámbar o cian.
+- Educación modular/producto: fondo editorial oscuro o claro con capas, etiquetas, grid y acentos controlados.
+- IA/tech: usar cian, azul o verde solo si hay una razón semántica; evitar "neón por neón".
+- Presentación ejecutiva: alto contraste, menos glow, más espacio, tipografía fuerte y ritmo editorial.
+
+Si el usuario critica "fondo fofo", "no smooth", "horrible" o similar, asumir que el problema es de dirección de arte completa, no solo de colores.
 
 ---
 

@@ -21,6 +21,32 @@ Before building, write three things:
 
 Each section gets one job, one dominant visual idea, and one primary takeaway or action.
 
+## Reference Pass
+
+When the user asks to improve design quality, avoid generic AI-looking UI, choose libraries, or rescue an existing weak interface, gather current references before converging. Use official docs and real product examples when possible.
+
+Good reference families:
+
+- UX flow references: Mobbin, Page Flows, real competitor/product screens.
+- Visual direction references: Godly, Awwwards, Landingfolio, Refero, product studio portfolios.
+- Component/pattern references for React/Tailwind: shadcn/ui, Radix/Base UI, Magic UI, Aceternity, React Bits, Animate UI, 21st.dev.
+- Creative motion/tool references: Framer, Framer Academy effects, Framer Layout Composer, Vanta, tsParticles, Rive, Lottie, Spline, Three.js scenes.
+- AI UI references: Vercel AI Elements, assistant-ui, CopilotKit, agent/chat products.
+- Quality constraints: WCAG 2.2, Apple HIG, web.dev Core Web Vitals, Motion/MDN reduced-motion guidance.
+
+Extract patterns, not skins: hierarchy, density, spacing, semantic tokens, motion behavior, state design, responsive choices, accessibility and performance constraints. If the design still looks like a component demo after applying a library, the composition failed.
+
+## Medium Before Markup
+
+For visually led work, choose the dominant medium before coding:
+
+- Use generated or sourced images when the scene needs materiality, metaphor, product presence, people, places, environments, packaging, objects, or visual storytelling.
+- Use Vanta, tsParticles, shaders, Rive, Lottie, Spline, or Three.js when a proven animated background or interactive object communicates better than handmade div/canvas shapes.
+- Use HTML/CSS for layout, typography, overlays, responsive behavior, product states, and composition. Do not use HTML as a substitute for an image when the result should feel tactile or cinematic.
+- Use Framer-style patterns as inspiration for radial/spiral layouts, scroll effects, page transitions, interaction states, and canvas-like composition.
+
+If the UI starts to look like blocks trying to become an illustration, stop and switch to an asset/image/libreria route.
+
 ## Beautiful Defaults
 
 - Start with composition, not components.

@@ -120,9 +120,55 @@ Do not force every angle into every answer. Use enough angles to avoid a narrow 
 
 Visibility rule:
 - The lens map is internal by default.
-- Do not show the selected lenses, discarded lenses, or full research scaffolding unless the user asks to see the research process.
+- Do not show discarded lenses or full research scaffolding unless the user asks to see the research process.
 - In the final answer, show only the relevant findings, recommendation, confidence/unknowns, and important sources.
 - If a lens materially changes the decision, mention the implication, not the behind-the-scenes lens name.
+- If the user explicitly asks for "angulos", "lentes", "todos los angulos", "desde varios angulos", "como investigaste", or says a prior answer did not show the angles, include a compact **Angulos cubiertos** section before or after the synthesis.
+- For strategic/product research where the user repeatedly asks to "investigar todos los angulos", include a compact angle summary by default unless the requested output is intentionally short.
+
+Compact angle summary format:
+
+```text
+Angulo:
+Que busque:
+Hallazgo:
+Fuente/senal:
+Impacto en la decision:
+```
+
+Keep this summary selective: show the angles that materially shaped the recommendation, not every possible lens. Avoid exposing raw scratchpad, long query logs, or discarded dead ends unless explicitly requested.
+
+## Source-To-Claim Mapping
+
+When research will feed a strategic recommendation, HTML report, deck, proposal, table, product decision, legal/regulatory note, certification logic, pricing model, or any artifact meant to persuade others, do not leave sources only in a final bibliography.
+
+For every material claim or decision criterion, keep a nearby source mapping:
+
+```text
+Claim / criterion:
+Evidence source:
+Source quality:
+Implication:
+Confidence:
+```
+
+Output rule:
+- If the user asks for chat synthesis, cite the source next to the finding or in the same bullet/paragraph.
+- If the user asks for an HTML/report/deck, each evidence-sensitive section must include inline source cards, source links, footnotes, or a compact "Sustento" block directly under the claim.
+- A final "Fuentes" section is optional support, not a substitute for claim-level attribution.
+- If a section uses inferred strategy from multiple sources, say "Inferencia desde..." and list the strongest 1-3 sources nearby.
+- If no source directly supports a claim, label it as inference/assumption and propose how to validate it.
+
+Triggers for mandatory claim-level sources:
+- certification, credentials, legal/regulatory, procurement, SUNEDU/OSCE/CIP/ISO/vendor claims;
+- market size, pricing, willingness to pay, labor demand, ROI, economic arguments;
+- psychology/user behavior claims;
+- competitor benchmarks;
+- technical feasibility or platform/vendor capability claims;
+- any recommendation that changes what the user will build, sell, promise, or publish.
+
+Failure mode to avoid:
+- Researching multiple angles correctly, then producing a polished artifact where the audience cannot tell which claim came from which source. In those cases, revise the artifact so the source is visibly attached to the argument.
 
 ## Search Protocol
 
@@ -142,7 +188,9 @@ Visibility rule:
 6. Open and inspect sources, not just snippets.
 7. Track source quality and dates.
 8. Cross-check important claims with at least two independent sources when possible.
-9. Synthesize into options, tradeoffs, recommendation, and validation.
+9. Build a claim-to-source map for every material recommendation, especially if the output will be shown to a team/client.
+10. If the user asked for angles/lenses or the work is a broad strategic investigation, prepare a compact angle summary with source/signal and impact.
+11. Synthesize into options, tradeoffs, recommendation, validation, and visible source placement plan.
 
 Useful query patterns:
 

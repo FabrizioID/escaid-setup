@@ -378,6 +378,27 @@ Use instead:
 
 Rule: every control must earn its place. If the next fields are always available, the gate is friction, not clarity.
 
+### 24. Psychological Closure Before Optional Extras
+
+In client or sponsor forms, the visual order should reduce completion anxiety.
+
+When a workflow has:
+
+- one primary set of required or high-priority information;
+- a secondary optional asset or later material;
+- a field that may delay completion because the user needs another team member or file;
+
+then the UI should let the user complete and submit the primary information before presenting the optional extra.
+
+Use:
+
+- a primary CTA immediately after the main block;
+- a separator before the optional block;
+- a visually distinct container for the optional item;
+- copy that frames the extra as a separate contribution, not as a blocker.
+
+Rule: the user should feel "I can already send this" before seeing the optional request. Optional assets must not psychologically contaminate the main completion path.
+
 ## Converting Protocols Into General Criteria
 
 When a protocol seems domain-specific, extract the reusable criterion.
@@ -397,6 +418,7 @@ Examples:
 - Sponsor onboarding macro section -> information hierarchy before nesting + receptor reality + reduce completion friction.
 - Sponsor onboarding client UI -> client-facing language over backstage language + receptor reality + trust.
 - Sponsor onboarding speaker tab -> remove controls without real consequence + direct completion path + reduce friction.
+- Sponsor onboarding sponsor video -> psychological closure before optional extras + clear section separation + reduce completion anxiety.
 - n8n workflow testing -> build modular + test by cases + debug isolated (simular payloads sin conectar producción, sub-workflows testables, fix en unidad específica + retest aislado).
 
 ## Skill Delegation Rule

@@ -394,10 +394,10 @@ Use:
 
 - a primary CTA immediately after the main block;
 - a separator before the optional block;
-- a visually distinct container for the optional item;
+- a visually distinct sibling container for the optional item when it belongs to another mental moment;
 - copy that frames the extra as a separate contribution, not as a blocker.
 
-Rule: the user should feel "I can already send this" before seeing the optional request. Optional assets must not psychologically contaminate the main completion path.
+Rule: the user should feel "I can already send this" before seeing the optional request. Optional assets must not psychologically contaminate the main completion path. If nesting makes the extra look like part of the required form, move it to a sibling card/section.
 
 ## Converting Protocols Into General Criteria
 

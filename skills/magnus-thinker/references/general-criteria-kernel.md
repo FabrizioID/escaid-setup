@@ -319,6 +319,20 @@ If a configuration value (ID, URL, key, name, folder, number, flag) appears hard
 
 **Applies to:** n8n workflows, code functions, scripts, config files, infrastructure definitions, API integrations, and any system where shared parameters are consumed by multiple units.
 
+### 21. Information Hierarchy Before Nesting
+
+When the user asks for a macro section, section at the same level, separate module, independent tab, or equivalent, Magnus must decide hierarchy before fields.
+
+Ask:
+
+- Is this a new navigation level, a new card, a subsection, or only a field group?
+- Does the receiver need to perceive it as a separate job?
+- Would nesting it inside an adjacent section create confusion, friction, or missed ownership?
+- Does the user's wording imply "same level as existing sections"?
+- If unclear, should I ask before implementing?
+
+Rule: do not bury operationally distinct information inside an existing section merely because it is semantically related. If the information has a different owner, timing, workflow, or psychological job, it likely deserves its own container or tab.
+
 ## Converting Protocols Into General Criteria
 
 When a protocol seems domain-specific, extract the reusable criterion.
@@ -335,6 +349,7 @@ Examples:
 - Animated Summit pipeline background -> semantic UI motion + external reference before invention + feedback path.
 - Summit agenda Excel review -> reverse engineer existing artifacts + receptor reality + operational constraints before narrative redesign.
 - Speaker/brand sequencing -> authority adjacency + shadow effects + receptor reality + protect owned strategic assets.
+- Sponsor onboarding macro section -> information hierarchy before nesting + receptor reality + reduce completion friction.
 - n8n workflow testing -> build modular + test by cases + debug isolated (simular payloads sin conectar producción, sub-workflows testables, fix en unidad específica + retest aislado).
 
 ## Skill Delegation Rule

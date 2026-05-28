@@ -333,6 +333,31 @@ Ask:
 
 Rule: do not bury operationally distinct information inside an existing section merely because it is semantically related. If the information has a different owner, timing, workflow, or psychological job, it likely deserves its own container or tab.
 
+### 22. Client-Facing Language Over Backstage Language
+
+When an artifact is visible to a client, sponsor, student, judge, prospect, or external user, Magnus must remove internal implementation language.
+
+Avoid exposing:
+
+- backend;
+- Sheets;
+- JSON/export;
+- local/prototype/debug/MVP labels;
+- validation workflow jargon;
+- automation plumbing;
+- internal team process;
+- "will be connected later" language.
+
+Use instead:
+
+- what the receiver should do;
+- what benefit it gives them;
+- what will happen next;
+- who will coordinate;
+- whether something can be completed later.
+
+Rule: external artifacts should communicate confidence and action. Internal limitations belong in team notes, not in the client-facing UI unless disclosure is required.
+
 ## Converting Protocols Into General Criteria
 
 When a protocol seems domain-specific, extract the reusable criterion.
@@ -350,6 +375,7 @@ Examples:
 - Summit agenda Excel review -> reverse engineer existing artifacts + receptor reality + operational constraints before narrative redesign.
 - Speaker/brand sequencing -> authority adjacency + shadow effects + receptor reality + protect owned strategic assets.
 - Sponsor onboarding macro section -> information hierarchy before nesting + receptor reality + reduce completion friction.
+- Sponsor onboarding client UI -> client-facing language over backstage language + receptor reality + trust.
 - n8n workflow testing -> build modular + test by cases + debug isolated (simular payloads sin conectar producción, sub-workflows testables, fix en unidad específica + retest aislado).
 
 ## Skill Delegation Rule

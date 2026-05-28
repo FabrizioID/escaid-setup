@@ -358,6 +358,26 @@ Use instead:
 
 Rule: external artifacts should communicate confidence and action. Internal limitations belong in team notes, not in the client-facing UI unless disclosure is required.
 
+### 23. Remove Controls Without Real Consequence
+
+In client-facing forms and workflows, a question, toggle, select, or intermediate step should exist only if it changes what happens next.
+
+Remove or collapse controls that:
+
+- do not enable or disable fields;
+- do not route to a different process;
+- do not protect the user from irrelevant work;
+- do not change ownership, timing, validation, or priority;
+- only repeat a condition already known by context.
+
+Use instead:
+
+- direct fields when the block is always applicable;
+- a clear optional section when completion can happen later;
+- conditional logic only when the user experience actually changes.
+
+Rule: every control must earn its place. If the next fields are always available, the gate is friction, not clarity.
+
 ## Converting Protocols Into General Criteria
 
 When a protocol seems domain-specific, extract the reusable criterion.
@@ -376,6 +396,7 @@ Examples:
 - Speaker/brand sequencing -> authority adjacency + shadow effects + receptor reality + protect owned strategic assets.
 - Sponsor onboarding macro section -> information hierarchy before nesting + receptor reality + reduce completion friction.
 - Sponsor onboarding client UI -> client-facing language over backstage language + receptor reality + trust.
+- Sponsor onboarding speaker tab -> remove controls without real consequence + direct completion path + reduce friction.
 - n8n workflow testing -> build modular + test by cases + debug isolated (simular payloads sin conectar producción, sub-workflows testables, fix en unidad específica + retest aislado).
 
 ## Skill Delegation Rule

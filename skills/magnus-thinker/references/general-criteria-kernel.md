@@ -239,9 +239,33 @@ For animated backgrounds and premium HTML:
 - adjust quantity, size, opacity, speed, and connection visibility through microchanges;
 - preserve calm text zones and use motion as atmosphere, not as a second interface.
 
+### 17. Authority Adjacency And Shadow Effects
+
+When a decision places people, brands, sponsors, products, institutions, speakers, offers, logos, or messages near each other, Magnus must evaluate symbolic weight and perception order.
+
+Adjacency is not neutral. A stronger authority can:
+
+- make the next actor look smaller;
+- turn the previous actor into a preamble;
+- force an unfair comparison;
+- absorb the mental territory of a local/product asset;
+- dilute the user's strategic message;
+- make a curated story feel like a vendor lineup.
+
+Ask:
+
+- Who carries more status, trust, scale, or institutional authority?
+- Does placing them together create useful transfer of credibility or harmful shadow?
+- Does one actor need distance to be perceived on its own terms?
+- Should a pause, panel, thematic bridge, format change, or different day separate them?
+- Is the weaker/local/owned asset protected, or is it being used as filler before a stronger brand?
+- Does the order create hierarchy intentionally, or accidentally?
+
+Rule: when an owned strategic asset must shine, do not place it immediately before or after a much stronger external authority unless the comparison is intentional and favorable. Use sequencing, buffers, and framing to protect protagonism.
+
 Validated pattern: complete network background + image-shaped semantic particles + very subtle connections. If the user says elements are hard to read, reduce count and increase size. If the user says it disappeared, raise opacity slightly before adding more elements. If the user says it is busy, reduce count first.
 
-### 17. Reverse Engineer Existing Artifacts Before Replacing Them
+### 18. Reverse Engineer Existing Artifacts Before Replacing Them
 
 When the user provides an existing artifact, spreadsheet, agenda, deck, process map, proposal, workflow, or draft, Magnus must first reverse engineer why it is shaped that way before proposing a cleaner alternative.
 
@@ -256,7 +280,7 @@ Ask:
 
 Rule: a polished proposal that ignores an existing working artifact is weaker than an imperfect artifact that encodes reality. Improve by layering strategy on top of the artifact, not by replacing it prematurely.
 
-### 18. Build Modular, Test By Cases, Debug Isolated
+### 19. Build Modular, Test By Cases, Debug Isolated
 
 Every technical development — regardless of tool, platform, or language — must follow this sequence:
 
@@ -280,7 +304,7 @@ Every technical development — regardless of tool, platform, or language — mu
 
 **Applies to:** n8n workflows, APIs, scripts, agents, pipelines, integrations, automation flows, AI chains, and any multi-step process with branching logic.
 
-### 19. Define Once, Reference Everywhere — No Repeated Config Values
+### 20. Define Once, Reference Everywhere — No Repeated Config Values
 
 If a configuration value (ID, URL, key, name, folder, number, flag) appears hardcoded in more than one node, function, or module, it must be extracted to a single source of truth and referenced from there.
 
@@ -294,6 +318,125 @@ If a configuration value (ID, URL, key, name, folder, number, flag) appears hard
 **Signal that this rule is being violated:** you find yourself doing a find-and-replace across multiple files/nodes to change one value.
 
 **Applies to:** n8n workflows, code functions, scripts, config files, infrastructure definitions, API integrations, and any system where shared parameters are consumed by multiple units.
+
+### 21. Information Hierarchy Before Nesting
+
+When the user asks for a macro section, section at the same level, separate module, independent tab, or equivalent, Magnus must decide hierarchy before fields.
+
+Ask:
+
+- Is this a new navigation level, a new card, a subsection, or only a field group?
+- Does the receiver need to perceive it as a separate job?
+- Would nesting it inside an adjacent section create confusion, friction, or missed ownership?
+- Does the user's wording imply "same level as existing sections"?
+- If unclear, should I ask before implementing?
+
+Rule: do not bury operationally distinct information inside an existing section merely because it is semantically related. If the information has a different owner, timing, workflow, or psychological job, it likely deserves its own container or tab.
+
+### 22. Client-Facing Language Over Backstage Language
+
+When an artifact is visible to a client, sponsor, student, judge, prospect, or external user, Magnus must remove internal implementation language.
+
+Avoid exposing:
+
+- backend;
+- Sheets;
+- JSON/export;
+- local/prototype/debug/MVP labels;
+- validation workflow jargon;
+- automation plumbing;
+- internal team process;
+- "will be connected later" language.
+
+Use instead:
+
+- what the receiver should do;
+- what benefit it gives them;
+- what will happen next;
+- who will coordinate;
+- whether something can be completed later.
+
+Rule: external artifacts should communicate confidence and action. Internal limitations belong in team notes, not in the client-facing UI unless disclosure is required.
+
+### 23. Remove Controls Without Real Consequence
+
+In client-facing forms and workflows, a question, toggle, select, or intermediate step should exist only if it changes what happens next.
+
+Remove or collapse controls that:
+
+- do not enable or disable fields;
+- do not route to a different process;
+- do not protect the user from irrelevant work;
+- do not change ownership, timing, validation, or priority;
+- only repeat a condition already known by context.
+
+Use instead:
+
+- direct fields when the block is always applicable;
+- a clear optional section when completion can happen later;
+- conditional logic only when the user experience actually changes.
+
+Rule: every control must earn its place. If the next fields are always available, the gate is friction, not clarity.
+
+### 24. Psychological Closure Before Optional Extras
+
+In client or sponsor forms, the visual order should reduce completion anxiety.
+
+When a workflow has:
+
+- one primary set of required or high-priority information;
+- a secondary optional asset or later material;
+- a field that may delay completion because the user needs another team member or file;
+
+then the UI should let the user complete and submit the primary information before presenting the optional extra.
+
+Use:
+
+- a primary CTA immediately after the main block;
+- a separator before the optional block;
+- a visually distinct sibling container for the optional item when it belongs to another mental moment;
+- copy that frames the extra as a separate contribution, not as a blocker.
+
+Rule: the user should feel "I can already send this" before seeing the optional request. Optional assets must not psychologically contaminate the main completion path. If nesting makes the extra look like part of the required form, move it to a sibling card/section.
+
+### 25. Actionable Data Belongs In Separate Fields
+
+When form data will later be used to contact someone, copy into a sheet, segment a list, automate a message, validate identity, or report status, do not collapse multiple atomic values into one input.
+
+Avoid one-field placeholders such as:
+
+- "name, role, email and WhatsApp";
+- "contact details";
+- "representative data";
+- "company / person / phone".
+
+Prefer separate fields for:
+
+- name;
+- email;
+- WhatsApp or phone;
+- role/title only when it changes coordination;
+- company only when not already known from the form context.
+
+Rule: one field should produce one clean operational value. If someone will need to parse it manually later, split it now.
+
+### 26. Client Operational Flow Alignment Before Development Scope
+
+When the project is the development of an agent, guide, automation, bot, workflow, or any tool the client will use operationally, every feature, command, output, message, and behavior must be anchored to the client's actual operational flow — the exact sequence of steps the client wants the system to replicate or accelerate.
+
+Ask:
+
+- What is the client's current or desired operational flow, step by step, with real artifacts, real handoffs, and real owners?
+- Which step does this feature/command/output replace, accelerate, validate, or document?
+- Is the requested addition aligned with that flow, or does it come from internal "good ideas" that have not been validated against the flow?
+- When an idea surfaces in a meeting, does it map to a concrete step the client wants to replicate?
+- Could implementing this without flow alignment grow the scope, dilute the deliverable, or break the user's mental model?
+
+Rule: meetings with the client are not optional in this type of project. They are the calibration loop that protects the project from scope creep. Ideas that do not map to a step in the client's operational flow are filtered out, postponed to a later phase, or surfaced as a separate proposal — they do not enter the active build silently.
+
+Validated pattern from `AGENTE INMOBILIARIO GEN+` (2026-05): closure at 95% was reached because every command (`!new prop`, `!new lote`, `!genbot premium`) maps to a real step the asesor already performs in WhatsApp. The visual output (One Page) was anchored to a template image the client shared, not invented internally. The remaining pendings are concrete operational adjustments, not feature debates.
+
+Applies to: agent/guide development, conversational bots, n8n workflows, RPA, internal tools, custom CRM integrations, AI assistants for specific teams, and any project where the client expects the system to mirror an existing or desired operational process.
 
 ## Converting Protocols Into General Criteria
 
@@ -310,6 +453,12 @@ Examples:
 - Viral-agent provider routing -> provider economics + preserve ambition + explicit fallback jobs + smoke-test evidence.
 - Animated Summit pipeline background -> semantic UI motion + external reference before invention + feedback path.
 - Summit agenda Excel review -> reverse engineer existing artifacts + receptor reality + operational constraints before narrative redesign.
+- Speaker/brand sequencing -> authority adjacency + shadow effects + receptor reality + protect owned strategic assets.
+- Sponsor onboarding macro section -> information hierarchy before nesting + receptor reality + reduce completion friction.
+- Sponsor onboarding client UI -> client-facing language over backstage language + receptor reality + trust.
+- Sponsor onboarding speaker tab -> remove controls without real consequence + direct completion path + reduce friction.
+- Sponsor onboarding sponsor video -> psychological closure before optional extras + clear section separation + reduce completion anxiety.
+- Sponsor onboarding contact fields -> actionable data in separate fields + avoid manual parsing later.
 - n8n workflow testing -> build modular + test by cases + debug isolated (simular payloads sin conectar producción, sub-workflows testables, fix en unidad específica + retest aislado).
 
 ## Skill Delegation Rule

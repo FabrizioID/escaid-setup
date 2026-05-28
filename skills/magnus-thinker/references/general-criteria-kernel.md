@@ -399,6 +399,27 @@ Use:
 
 Rule: the user should feel "I can already send this" before seeing the optional request. Optional assets must not psychologically contaminate the main completion path. If nesting makes the extra look like part of the required form, move it to a sibling card/section.
 
+### 25. Actionable Data Belongs In Separate Fields
+
+When form data will later be used to contact someone, copy into a sheet, segment a list, automate a message, validate identity, or report status, do not collapse multiple atomic values into one input.
+
+Avoid one-field placeholders such as:
+
+- "name, role, email and WhatsApp";
+- "contact details";
+- "representative data";
+- "company / person / phone".
+
+Prefer separate fields for:
+
+- name;
+- email;
+- WhatsApp or phone;
+- role/title only when it changes coordination;
+- company only when not already known from the form context.
+
+Rule: one field should produce one clean operational value. If someone will need to parse it manually later, split it now.
+
 ## Converting Protocols Into General Criteria
 
 When a protocol seems domain-specific, extract the reusable criterion.
@@ -419,6 +440,7 @@ Examples:
 - Sponsor onboarding client UI -> client-facing language over backstage language + receptor reality + trust.
 - Sponsor onboarding speaker tab -> remove controls without real consequence + direct completion path + reduce friction.
 - Sponsor onboarding sponsor video -> psychological closure before optional extras + clear section separation + reduce completion anxiety.
+- Sponsor onboarding contact fields -> actionable data in separate fields + avoid manual parsing later.
 - n8n workflow testing -> build modular + test by cases + debug isolated (simular payloads sin conectar producción, sub-workflows testables, fix en unidad específica + retest aislado).
 
 ## Skill Delegation Rule

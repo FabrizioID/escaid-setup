@@ -45,6 +45,15 @@ Los titulos de seccion superiores pueden ser H3. Las bases operativas deben ser 
 | Observación | rich_text     | Descripcion, observacion o criterio de cierre        |
 | % Avance    | number        | Formato percent                                      |
 
+Colores recomendados para `Status`:
+
+- `POR HACER`: gray
+- `EN PROCESO`: yellow
+- `COMPLETADO`: green
+- `PENDIENTE`: red
+
+Regla visual: los colores ayudan a leer la base, pero no son la fuente de verdad del cierre. El cierre se determina por `Status`, `% Avance`, `Terminado`/`Completado` y evidencia en `Observacion`.
+
 Vistas base:
 
 - `Vista Filtrada`: board agrupado por `Entregable`.
@@ -52,6 +61,8 @@ Vistas base:
 - `Original`: board agrupado por `Entregable`, salvo que el usuario pida conservar una vista historica.
 
 Regla aplicada en proyectos BIM/observaciones: las columnas principales se agrupan por `Entregable` para avanzar por entregables/observaciones. `Status`, `% Avance` y `Completado` quedan como propiedades de control y cierre. Si hace falta leer por frente operativo, crear una vista adicional agrupada por `Entregable interno` o campo equivalente.
+
+Regla de colores para `Entregable` y `Entregable interno`: usar colores estables y semanticos por familia de trabajo cuando la API/herramienta permita definirlos. No copiar colores heredados de otra plantilla si confunden la lectura. Para BIM/observaciones, `Entregable` representa la observacion/requisito del revisor y puede usar colores neutrales o rotativos; `Entregable interno` debe priorizar lectura operativa por frentes, por ejemplo `Modelo federado` blue, `Interferencias / compatibilizacion` red, `Fichas C1/C2` purple, `PEB / LOD-LOI / TIP` yellow, `CDE / Gestion documental` gray, `Metrados BIM trazables` green, `Simulacion 4D / video` orange.
 
 ### REUNIONES
 

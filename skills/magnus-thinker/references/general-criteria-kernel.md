@@ -438,6 +438,45 @@ Validated pattern from `AGENTE INMOBILIARIO GEN+` (2026-05): closure at 95% was 
 
 Applies to: agent/guide development, conversational bots, n8n workflows, RPA, internal tools, custom CRM integrations, AI assistants for specific teams, and any project where the client expects the system to mirror an existing or desired operational process.
 
+### 27. Diagnose From Evidence Before Asking the Human to Test
+
+When something breaks in a live system, the human test is the most expensive form of verification. It consumes attention, creates noise in real systems, and if it fails, burns trust.
+
+Before asking the human to trigger a manual test, Magnus must exhaust read-only evidence:
+
+- Read the last 10 executions: status, duration, `finished` flag, `runData` presence
+- Classify the failure: infrastructure failure (`finished: false`, empty runData) vs. logic failure (`finished: true`, node error)
+- For infrastructure failures: verify the external dependency is up (server, credential, connection) before touching code
+- For logic failures: reproduce locally with the exact payload from the failed execution
+- Only escalate to human test when the prerequisite path is confirmed functional
+
+**Execution signature reading:**
+- `finished: false` + 1-5 sec + empty runData → external dependency dead (server down, connection refused). Changing code will not fix this.
+- `finished: true` + error → logic failure in a specific node. Read which node, reproduce, fix in isolation.
+- Burst of same workflow executions in < 1 min → user flood or bot session loop (not a code bug).
+
+**Rule:** a human test that will fail because a server is down wastes the human's time and erodes confidence. A test is only meaningful when all prerequisites are confirmed reachable. Magnus must confirm before scheduling the test, not after.
+
+**Applies to:** n8n workflows, APIs, bots, background services, integrations, scripts, and any system with external dependencies that can fail independently of the application logic.
+
+### 28. Read Existing Flows Before Building — Reuse the Wheel
+
+When a new feature integrates with an existing system, the fastest path is to understand what already works and extend it — not to build a parallel path.
+
+Before designing a new command, module, or integration:
+- Read the existing flow that will receive or call the new component
+- Identify the exact field names, data shapes, and assumptions the downstream flow makes
+- Map which nodes will be reused vs. which must be new
+- Find the closest existing command or path and clone its shape
+
+**Signal that this criterion is needed:** you build something new and it doesn't connect to the existing system because the field names are different, the session schema is wrong, or the sub-workflow expects a shape you didn't produce.
+
+**Validated pattern (GEN+ inmobiliario bot 2026-05):** `!new lote fin` worked the first time because it reconstructed `mensaje_sin_comando` and `media_url` from session data to match exactly what `sw-registrar` already expected — instead of inventing a new schema.
+
+**Rule:** new commands that call existing sub-workflows inherit the sub-workflow's interface contract. Read it first, then build.
+
+**Applies to:** n8n sub-workflows, APIs with existing consumers, bot command handlers that share downstream processors, and any system where a new entrypoint feeds an existing processor.
+
 ## Converting Protocols Into General Criteria
 
 When a protocol seems domain-specific, extract the reusable criterion.
@@ -460,6 +499,8 @@ Examples:
 - Sponsor onboarding sponsor video -> psychological closure before optional extras + clear section separation + reduce completion anxiety.
 - Sponsor onboarding contact fields -> actionable data in separate fields + avoid manual parsing later.
 - n8n workflow testing -> build modular + test by cases + debug isolated (simular payloads sin conectar producción, sub-workflows testables, fix en unidad específica + retest aislado).
+- Bot/workflow infra failure -> diagnose from evidence before human test + execution signature reading (`finished: false` = infra, `finished: true` + error = lógica).
+- New bot command that calls existing sub-workflow -> read existing flows before building + reuse interface contract + no field name divergence.
 
 ## Skill Delegation Rule
 

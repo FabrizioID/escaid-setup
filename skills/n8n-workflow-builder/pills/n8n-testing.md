@@ -6,47 +6,101 @@ local-only: false
 
 # n8n Workflow Testing & Debugging
 
-## Principio base
-
-Todo workflow se testea **antes de activar en producción**, simulando los payloads reales sin conectar el servicio externo (WhatsApp, Slack, etc.).
+Hay dos momentos distintos: **algo se rompió** y **quiero probar antes de subir**. El protocolo es diferente en cada caso.
 
 ---
 
-## Nivel 1 — Simular lógica local (Node.js)
+## MODO A — Algo se rompió en producción
 
-Cuando el workflow tiene un nodo `Code` central de routing (como `Normalizar + Detectar Comando`), extraer su `jsCode` y correrlo localmente con payloads simulados.
+### Paso 1 — Leer la firma de las últimas ejecuciones (READ-ONLY, sin tocar nada)
 
 ```bash
-node test_normalizar.js
+GET https://VPS/api/v1/executions?workflowId=ID&limit=10&includeData=false
 ```
 
-**Reglas del script de test:**
-- Cada caso crea su **propio objeto `sd` (staticData) fresh** — nunca compartir estado entre tests
-- Mockear `$getWorkflowStaticData` con un objeto plano
-- Cubrir siempre estos casos mínimos:
+> Si el MCP devuelve 0 resultados para ese workflowId → el MCP apunta a la instancia equivocada. Usar REST API directa contra el VPS correcto.
 
-| Caso | Qué verifica |
+### Paso 2 — Clasificar el tipo de falla
+
+| Firma | Diagnóstico | Qué hacer |
+|---|---|---|
+| `finished: false` + 1-5 seg + runData vacío | **Falla de infra** — el workflow murió antes de correr cualquier nodo | NO tocar código. Verificar dependencias externas |
+| `finished: true` + `status: error` | **Falla de lógica** — un nodo específico falló | Leer qué nodo con `includeData=true` |
+| Burst 10+ ejecuciones en < 1 min | **Loop o flood** — sesión abierta sin cerrar, o mensajes duplicados | Revisar staticData de sesiones |
+| 0 ejecuciones | **Instancia equivocada** | Cambiar a REST API directa |
+
+**Regla clave:** `finished: false` con runData vacío = causa SIEMPRE externa al código (servidor caído, connection refused, sub-workflow inactivo). Cambiar código no lo arregla.
+
+### Paso 3 — Para falla de infra: verificar dependencias antes de tocar nada
+
+- ¿El servidor externo responde? → `curl http://host:puerto`
+- ¿La credencial sigue válida? → probar endpoint simple con la misma key
+- ¿El sub-workflow llamado está activo? → listar workflows, verificar `active: true`
+- ¿El proceso background sigue vivo? → `cat /tmp/pid.pid` en terminal del contenedor
+
+Solo cuando la dependencia está confirmada funcionando → pasar al siguiente paso.
+
+### Paso 4 — Para falla de lógica: reproducir localmente
+
+```bash
+# Obtener el payload exacto que falló
+GET https://VPS/api/v1/executions/ID?includeData=true
+```
+
+Extraer del nodo `Normalizar + Detectar Comando` el JSON de salida → ese es el input real que llegó al nodo fallido. Reproducirlo localmente antes de tocar el código en producción.
+
+### Paso 5 — Fix + verificación
+
+1. Aplicar el fix en el nodo específico (no globalmente)
+2. Re-descargar el workflow fresco antes de hacer PUT (evitar sobrescribir fixes anteriores)
+3. Hacer PUT
+4. Leer el nodo después del PUT para confirmar que el cambio quedó
+5. Disparar una ejecución real mínima y verificar que `finished: true` y `status: success`
+
+### Paso 6 — Solo entonces: pedir test manual al humano
+
+El test manual es la forma más costosa de verificación. Solo se pide cuando:
+- La dependencia externa está confirmada activa
+- El fix está aplicado y verificado en el nodo
+- Se hizo al menos una ejecución automática que pasó
+
+**No pedir al humano que pruebe algo que a priori va a fallar.**
+
+---
+
+## MODO B — Antes de hacer deploy (workflow nuevo o cambio de lógica)
+
+### Nivel 1 — Simular el nodo de routing localmente (sin APIs reales)
+
+Extraer el `jsCode` del nodo `Normalizar + Detectar Comando` y correrlo con payloads simulados:
+
+```bash
+node test-normalizar.js <ruta-al-codigo.js>
+```
+
+El runner auto-detecta: TARGET_GROUPS, prefijos de comando, subcomandos, tipos de sesión, timeout. Genera casos solos. Si se agrega un comando nuevo al código, aparece automáticamente en los casos.
+
+**Casos mínimos a cubrir:**
+
+| Comportamiento | Qué verifica |
 |---|---|
-| Comando principal (`!genbot [prop]`) | Routing correcto al sub-workflow |
-| Comando premium / catálogo / lote / fin | Cada branch del Switch |
-| `fromMe: true` | El dueño del número puede usar el bot |
-| Mensaje sin comando | Debe filtrarse (no llegar al router) |
+| Comando principal + grupo correcto | Routing al sub-workflow |
+| Cada subcomando en el código | Cada branch del router |
+| `fromMe: true` | El owner puede usar el bot |
 | Grupo incorrecto | `is_target_group: false` → ignorado |
 | Duplicado (mismo messageId × 2) | Dedup funciona |
-| Comando vacío (`!genbot` solo) | Edge case — definir comportamiento |
-| Mayúsculas (`!GENBOT`) | Case insensitive |
-| Chat individual (no grupo) | `is_group: false` → ignorado |
-| Con lote activo: texto sin comando | Auto-captura a cola |
-| Con lote activo: imagen sin comando | Pasa a Vision (no a cola) |
-| Con lote activo: `!genbot [prop]` | Va a cola, no a registrar |
+| Comando en mayúsculas | Case insensitive |
+| Chat individual | `is_group: false` → ignorado |
+| Sesión activa + audio/video | `es_xxx_acumulado: false` — NO acumula |
+| Sesión activa + texto/imagen/location | `es_xxx_acumulado: true` — SÍ acumula |
+| Timeout de sesión expirado | No acumula, `prop_active: false` |
 
-**Estructura del payload Evolution (MESSAGES_UPSERT):**
+**Payload de prueba (Evolution MESSAGES_UPSERT):**
 ```javascript
-function buildPayload({ text, mediaType, fromMe, groupJid, participant, messageId, caption }) {
+function buildPayload({ text, mediaType, fromMe, groupJid, participant, messageId }) {
   const message = {};
   if (mediaType === 'text') message.conversation = text;
-  else if (mediaType === 'image') message.imageMessage = { caption, mimetype: 'image/jpeg', url: '...' };
-  else if (mediaType === 'document') message.documentMessage = { caption, fileName: 'doc.pdf', ... };
+  else if (mediaType === 'image') message.imageMessage = { caption: '', mimetype: 'image/jpeg', url: '...' };
   return {
     data: {
       key: { remoteJid: groupJid, fromMe, id: messageId, participant },
@@ -58,38 +112,36 @@ function buildPayload({ text, mediaType, fromMe, groupJid, participant, messageI
 }
 ```
 
+### Nivel 2 — Sub-workflows: testear aislados antes del orquestador
+
+Cada sub-workflow (`sw-registrar`, `sw-premium`, `sw-lote`) se testea con datos reales enviados directo al trigger — sin pasar por el orquestador. Esto permite confirmar que el sub-workflow funciona correctamente antes de activar el flujo completo.
+
+**Checklist pre-deploy:**
+- [ ] `validate_workflow` sin errores
+- [ ] Nivel 1 (local): todos los casos del runner pasan
+- [ ] Sub-workflows activos antes de activar el orquestador
+- [ ] Caso de grupo incorrecto: no responde
+- [ ] Caso de duplicado: responde solo una vez
+- [ ] Al menos una ejecución real completa verificada con `finished: true`
+
 ---
 
-## Nivel 2 — Inspeccionar ejecuciones reales en VPS
+## Compatibilidad al agregar comandos nuevos
 
-Para bugs en nodos que requieren APIs reales (Drive, Sheets, Gemini, Evolution):
+Cuando el comando nuevo termina llamando a un sub-workflow existente (`sw-registrar`, `sw-premium`, etc.):
 
-```powershell
-# Buscar ejecuciones con error
-GET /api/v1/executions?workflowId=ID&status=error&limit=20
+1. Leer el sub-workflow destino y listar todos los campos que lee de `$('Trigger').item.json`
+2. Confirmar que el nuevo comando propaga esos campos con los mismos nombres
+3. Si el comando cierra una sesión acumulada → reconstruir los campos desde `sessionData` antes de llamar al sub-workflow
 
-# Inspeccionar una ejecución con detalle completo
-GET /api/v1/executions/ID?includeData=true
-```
-
-Del resultado, extraer:
-```powershell
-$rd = $r.data.resultData
-$rd.lastNodeExecuted          # último nodo ejecutado
-foreach ($nodeName in $rd.runData.PSObject.Properties.Name) {
-    $runs = $rd.runData.$nodeName
-    foreach ($run in $runs) {
-        if ($run.error) { Write-Output "ERROR in [$nodeName]: $($run.error.message)" }
-    }
-}
-```
+**No asumir compatibilidad. Verificar campo por campo.**
 
 ---
 
 ## Bugs conocidos y sus fixes
 
 ### `Cannot derive from empty media key` (Evolution API)
-**Causa:** WhatsApp bundlea `senderKeyDistributionMessage` junto al `imageMessage` en el primer mensaje de un nuevo remitente. El payload completo confunde a Evolution.
+**Causa:** WhatsApp bundlea `senderKeyDistributionMessage` junto al `imageMessage` en el primer mensaje de un nuevo remitente.
 
 **Fix en `Descargar Media de Evolution` → jsonBody:**
 ```javascript
@@ -106,12 +158,10 @@ foreach ($nodeName in $rd.runData.PSObject.Properties.Name) {
 ```
 
 ### PUT rechazado: `settings must NOT have additional properties`
-**Causa:** n8n rechaza campos extras en `settings` al hacer PUT.
-
 **Fix:** Limpiar `settings` a solo campos permitidos:
-```powershell
-$cleanSettings = @{ executionOrder = $wf.settings.executionOrder }
-# Solo agregar si existen: saveManualExecutions, callerPolicy, errorWorkflow, timezone
+```javascript
+const cleanSettings = { executionOrder: wf.settings.executionOrder };
+// Agregar solo si existen: saveManualExecutions, callerPolicy, errorWorkflow, timezone
 ```
 
 ### PUT rechazado: `active is read-only`
@@ -119,25 +169,12 @@ $cleanSettings = @{ executionOrder = $wf.settings.executionOrder }
 
 ---
 
-## Flujo de debug paso a paso
-
-1. **Error en producción** → inspeccionar con `includeData=true`
-2. **Identificar nodo fallido** → leer su `jsCode` o `jsonBody`
-3. **Reproducir localmente** → construir payload que replique el error
-4. **Fix** → aplicar en el nodo específico
-5. **Re-descargar workflow fresco** antes de hacer PUT (evitar sobrescribir fixes anteriores)
-6. **Verificar** → leer el nodo del workflow después del PUT para confirmar el cambio
-
----
-
-## Arquitectura modular recomendada (sub-workflows)
-
-Para workflows grandes (+50 nodos), modularizar en sub-workflows facilita el debug:
+## Arquitectura modular recomendada
 
 ```
 Main Orchestrator (15 nodos)
-  ├── Normalizar + Detectar Comando (staticData: dedup + batchSessions)
-  ├── Switch de routing (un output por comando)
+  ├── Normalizar + Detectar Comando  (staticData: dedup + sessions)
+  ├── Router Comandos (Switch)
   └── executeWorkflow → sub-workflows independientes:
        ├── sw-registrar  (registro individual)
        ├── sw-premium    (one page premium)
@@ -145,10 +182,6 @@ Main Orchestrator (15 nodos)
        └── sw-lote       (batch processing)
 ```
 
-**Ventajas para debug:**
-- Cada sub-workflow se puede testear aislado
-- Los errores están contenidos — un fallo en registrar no afecta catalogo
-- El main orchestrator tiene solo lógica de routing (fácil de leer y corregir)
-- Sub-workflows usan `$('Trigger').item.json` — sin referencias cruzadas
+**Ventajas para debug:** errores contenidos por sub-workflow, cada uno testeable en aislado, orquestador solo hace routing.
 
-**Regla:** Toda referencia a `$('Normalizar + Detectar Comando').item.json` dentro de un sub-workflow debe adaptarse a `$('Trigger').item.json` al construirlo.
+**Regla:** referencias a `$('Normalizar + Detectar Comando').item.json` dentro de sub-workflows → cambiar a `$('Trigger').item.json`.

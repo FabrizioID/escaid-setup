@@ -2,6 +2,42 @@
 
 Notas compactas para resolver fallos frecuentes sin abrir una segunda skill.
 
+## Servidores de Proceso Externos — Persistencia en Contenedor Alpine
+
+Cuando el workflow llama a un servidor local (`localhost:PUERTO`) instalado dentro del contenedor n8n (Puppeteer, scripts Node, servicios custom):
+
+- El contenedor n8n VPS usa **Alpine Linux** — usar `sh`, no `bash`
+- Procesos lanzados con `node -e "..." &` desde la terminal de EasyPanel **mueren cuando la sesión se cierra**
+- Para hacerlos persistentes: usar un proceso manager (`pm2`, `supervisord`) o script de inicio en el contenedor
+- PID guardado en `/tmp/archivo.pid` no garantiza que el proceso siga vivo tras reinicio del contenedor
+- Si el servidor externo cae → `finished: false` en las ejecuciones, no un error de nodo
+
+Síntoma: workflow con 5+ errores consecutivos `finished: false` en ventana de 4 segundos justo después de haber reiniciado la terminal.
+
+Fix inmediato: abrir terminal EasyPanel (modo **Sh**, no Bash), relanzar el servidor, confirmar que `cat /tmp/pid` devuelve un número y `echo "SERVER_OK"`.
+
+## runOnceForAllItems vs runOnceForEachItem — disponibilidad de $helpers
+
+En versiones antiguas de n8n VPS:
+
+| Modo | `$helpers.getBinaryDataBuffer` | `$helpers.httpRequest` |
+|---|---|---|
+| `runOnceForAllItems` | ❌ no disponible | ❌ no disponible |
+| `runOnceForEachItem` | ✅ disponible | ✅ disponible |
+
+Si el Code Node necesita leer binarios o hacer HTTP con helpers, debe usar `runOnceForEachItem`. El modo `runOnceForAllItems` solo tiene acceso a `$items()`, `$node`, y globals básicos.
+
+## Compatibilidad hacia atrás en sub-workflows
+
+Cuando se agrega un comando nuevo que termina llamando a un sub-workflow existente (`sw-registrar`, `sw-premium`, etc.), verificar qué campos espera ese sub-workflow en `$('Trigger').item.json`.
+
+Si los campos tienen nombres distintos o faltan, el sub-workflow falla silenciosamente (sin error visible en el orquestador).
+
+Checklist al agregar comando nuevo:
+- [ ] Listar todos los campos que usa el sub-workflow destino
+- [ ] Confirmar que el nuevo comando los propaga con los mismos nombres
+- [ ] Si el comando cierra una sesión acumulada, reconstruir los campos desde `sessionData` antes de llamar al sub-workflow
+
 ## MCP Parcial O No Disponible
 
 Ruta de decision:

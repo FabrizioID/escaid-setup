@@ -20,6 +20,41 @@ Antes de cualquier acción, identificar el tipo de desarrollo:
 
 ## Modo Workflow (n8n)
 
+### Paso 0 — Precondiciones antes de generar casos (OBLIGATORIO)
+
+Antes de generar o ejecutar cualquier caso de prueba:
+
+**1. Verificar qué instancia usa el MCP**
+El MCP n8n puede estar apuntando a `aecode.app.n8n.cloud` mientras el workflow a testear vive en el VPS. Confirmar con una ejecución reciente:
+```bash
+GET https://VPS/api/v1/executions?workflowId=ID&limit=3&includeData=false
+```
+Si devuelve 0 resultados → el MCP apunta a la instancia equivocada. Usar REST API directa.
+
+**2. Leer la firma de ejecuciones recientes**
+```bash
+GET https://VPS/api/v1/executions?workflowId=ID&limit=10&includeData=false
+```
+
+| Firma | Lo que indica | Qué hacer antes de testear |
+|---|---|---|
+| `finished: false` + 1-5 seg + runData vacío | Infra caída (servidor externo, connection refused) | Verificar dependencias externas. Tests van a fallar por infra, no por lógica |
+| `finished: true` + error | Fallo de lógica en nodo específico | Identificar el nodo fallido antes de generar casos |
+| Todo success | Workflow funcionando | Proceder con casuística normal |
+
+> Si la firma muestra `finished: false` → NO ejecutar casos de prueba todavía. Primero confirmar que la infraestructura externa responde (`curl http://host:puerto`, credenciales válidas, sub-workflows activos). Los tests son válidos solo cuando la infra está confirmada.
+
+**3. Verificar que el workflow está activo**
+Un workflow inactivo devuelve error inmediato. Confirmar `active: true` antes de testear.
+
+**4. Para bots con `staticData` (sesiones): aislar estado entre casos**
+Si el workflow usa `$getWorkflowStaticData('global')` para sesiones (`propSessions`, `loteSessions`), los casos de prueba pueden contaminarse entre sí.
+- Cada caso de sesión debe comenzar con estado limpio
+- Documentar en el reporte si un caso falló por estado residual de otro caso
+- Preferir ejecutar casos de sesión en orden: open → acumular → close
+
+---
+
 ### Casuística a generar siempre
 
 **Casos felices (happy path):**
@@ -45,12 +80,34 @@ Antes de cualquier acción, identificar el tipo de desarrollo:
 - Array con 1000+ elementos
 - Datos con caracteres especiales, tildes, emojis
 
+### Casos específicos para bots WhatsApp (Evolution API + sesiones)
+
+Si el workflow es un bot de WhatsApp con routing de comandos:
+
+| Caso | Qué verifica |
+|---|---|
+| Comando correcto + grupo objetivo | Routing al sub-workflow correcto |
+| Mismo messageId enviado 2 veces | Dedup funciona — responde solo una vez |
+| Grupo incorrecto | `is_target_group: false` → ignorado sin respuesta |
+| Sesión abierta + audio/video | No acumula (`es_xxx_acumulado: false`) |
+| Sesión abierta + texto/imagen | Sí acumula (`es_xxx_acumulado: true`) |
+| Comando `fin` sin sesión activa | No falla, ignora o responde apropiado |
+| Sesión expirada (>5 min sin actividad) | No acumula, `prop_active: false` |
+
+Para estos casos, usar el QA runner local antes de testear en VPS:
+```bash
+node test-normalizar.js <ruta-al-jsCode-del-nodo.js>
+```
+El runner auto-detecta comandos, grupos objetivo y tipos de sesión escaneando el código. Genera los casos solos.
+
 ### Ejecución
 
-1. Usar `mcp__n8n__n8n_validate_workflow` primero — reportar cualquier error estructural
-2. Usar `mcp__n8n__n8n_test_workflow` con cada caso generado
-3. Revisar `mcp__n8n__n8n_executions` para ver resultados reales
-4. Si hay error en un nodo, reportar: qué nodo falló, qué input lo provocó, qué devolvió
+1. Completar Paso 0 (precondiciones) antes de cualquier test
+2. Usar `mcp__n8n__n8n_validate_workflow` — reportar errores estructurales
+3. Para Code nodes de routing: correr QA runner local primero (rápido, sin tocar producción)
+4. Usar `mcp__n8n__n8n_test_workflow` con cada caso generado
+5. Revisar ejecuciones con `GET /api/v1/executions/ID?includeData=true` para ver qué datos fluyeron
+6. Si hay error en un nodo, reportar: qué nodo falló, qué input lo provocó, qué devolvió
 
 ---
 

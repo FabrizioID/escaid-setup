@@ -21,6 +21,7 @@ Estas reglas mandan cuando dos skills parecen servir para lo mismo. El objetivo 
 |---|---|---|---|
 | UI HTML premium ESC-AI | `ui-architect` | `visual-html-craft` legacy | Para artefactos HTML visuales/interactivos del ecosistema ESC-AI, usar siempre `ui-architect`. `visual-html-craft` solo redirige. |
 | Frontend app/repo | `frontend-skill` | `ui-architect` si se requiere acabado visual premium | Usar `frontend-skill` cuando hay app real, framework, repo frontend, rutas, componentes o estado de producto. No usarlo para documentacion ni HTML visual aislado de ESC-AI. |
+| Responsive (mobile/tablet/desktop) | `responsive-design` | `frontend-skill`, `ui-architect` upstream | Capa transversal de criterios. Activar cuando el problema sea "no se ve bien en celular", auditar/rescatar layout responsive, resolver bugs iOS Safari, scale-preserving para artefactos exportables, o validar touch targets/breakpoints. Se monta encima de cualquier skill UI/frontend. |
 | Documentacion HTML | `documentador-experto` | `doc-desarrollos`, `doc-general` | Usar para documentar sistemas, procesos, conceptos o desarrollos. No reemplaza `ui-architect` cuando el pedido es construir una UI/producto. |
 | Presentacion narrativa | `presentation-orchestrator` | `disruptive-presentations`, `slides` | Primero narrativa, estructura y handoff completo. Despues de aprobacion, la produccion visual por defecto es `disruptive-presentations`. |
 | Plan/roadmap/checklist ligero | `action-planner` | `documentador-experto`, `ui-architect`, `documentar-notion` | Usar solo cuando no sea software, proceso humano complejo, marketing integral ni deck slide-by-slide. |
@@ -75,6 +76,7 @@ Potenciacion externa Magnus: ver `docs/skill-audits/2026-05-24-magnus-external-f
 | Documentador legacy | `premium-interactive-docs` | Legacy reemplazada por Documentador experto | Deprecated | Gris | Evitar en trabajos nuevos; usar solo si un documento viejo la invoca | No aplica | N/A |
 | Frontend web/app | `frontend-skill` | App/sitio/prototipo frontend | Dominio/UI extra | Extra | Revisar repo, construir UI, probar | Playwright/dev server | Screenshot |
 | Arquitecto UI | `ui-architect` | UI HTML de nivel produccion; cubre experiencias HTML visuales/interactivas | Dominio/UI | Amarillo | Usar criterios UI, construir y verificar | Playwright | Screenshot |
+| Responsive Design | `responsive-design` | Criterios transversales y recetas concretas para mobile/tablet/desktop. Cubre container queries, fluid typography, touch targets, safe areas iOS, scale-preserving para artefactos exportables, render-to-image en iOS Safari (foreignObject + img + double-render warmup) | Dominio/UI transversal | Verde | Auditar viewport, breakpoints, container queries, touch UX y export-to-image en mobile | Playwright para QA en viewports | Screenshot multi-viewport |
 
 Vertical documentacion: baseline de potenciacion en `docs/tool-verticals/documentacion-potenciacion.md`. Las skills `documentador-experto`, `doc-desarrollos` y `doc-general` son dominio/contenido; si la salida es HTML visual se activa `ui-architect`, y si se publica en Notion se activa `documentar-notion`.
 

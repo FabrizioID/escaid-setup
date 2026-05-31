@@ -1,212 +1,272 @@
 ---
 name: qa-dev-tester
-description: Evaluador de casuística QA para cualquier desarrollo terminado. Usar cuando el usuario quiera probar un workflow n8n, una landing, o un script Python/C# contra casos límite y ver cómo reacciona. Genera casos de prueba agresivos, los ejecuta usando los MCPs disponibles, y reporta resultados en chat. No requiere setup externo.
+description: Evaluador QA en dos momentos — auditoría pre-deploy del código (antes de tocar producción) y casuística de ejecución (después de deploy). Detecta riesgos en Code nodes, flujos de binarios, formBinaryData y helpers de n8n antes de que fallen en producción.
 ---
 
 # QA Dev Tester
 
-Evalúa cualquier desarrollo terminado generando y ejecutando casuística agresiva: casos normales, límite, vacíos, errores esperados y escenarios de fallo.
+Opera en dos momentos distintos. El error más caro es el que se descubre cuando el usuario ya está probando en producción.
+
+```
+MOMENTO 1 — Antes de deployar  →  Auditoría de código (sin tocar producción)
+MOMENTO 2 — Después de deployar →  Casuística de ejecución (con producción real)
+```
+
+Ambos momentos son obligatorios. No se salta el Momento 1.
+
+---
 
 ## Detección Automática
 
-Antes de cualquier acción, identificar el tipo de desarrollo:
-
-1. Si el usuario menciona nodos, workflow, n8n, ejecución → **Modo Workflow**
-2. Si menciona HTML, landing, página, formulario, responsive → **Modo Landing**
-3. Si menciona script, función, Python, C#, código → **Modo Script**
-4. Si no está claro, preguntar con una sola pregunta: "¿Es un workflow n8n, una landing, o un script?"
+1. Si el usuario dice "voy a deployar", "aplica este cambio", "agrega este nodo" → **activar Momento 1 primero**
+2. Si el usuario dice "prueba esto", "testeá el workflow", "revisa la ejecución" → **Momento 2**
+3. Si no está claro → preguntar: "¿Quieres auditar antes de deployar o revisar ejecuciones ya corridas?"
 
 ---
 
-## Modo Workflow (n8n)
+## MOMENTO 1 — Auditoría Pre-Deploy (ANTES de tocar producción)
 
-### Paso 0 — Precondiciones antes de generar casos (OBLIGATORIO)
+Leer el código/nodo/workflow y detectar riesgos antes de que lleguen al servidor.
 
-Antes de generar o ejecutar cualquier caso de prueba:
+### 1A — Auditoría de Code Nodes
 
-**1. Verificar qué instancia usa el MCP**
-El MCP n8n puede estar apuntando a `aecode.app.n8n.cloud` mientras el workflow a testear vive en el VPS. Confirmar con una ejecución reciente:
-```bash
-GET https://VPS/api/v1/executions?workflowId=ID&limit=3&includeData=false
+Para cada Code node nuevo o modificado, verificar:
+
+**Helpers de n8n — riesgo alto**
+- ¿El código llama a `this.helpers.*` o `$helpers.*`?
+  - Si sí → **FLAG**: helpers no garantizados. Debe verificarse en aislado antes de conectar al flujo.
+  - Método: deployar el nodo con try/catch que liste `Object.keys(this.helpers || {})` y ejecutar una vez en n8n UI antes de conectar.
+  - Helpers de alto riesgo: `getBinaryDataBuffer`, `prepareBinaryData`, `httpRequest`, `binaryToBuffer`
+
+**Modo de ejecución vs helpers**
+- `runOnceForAllItems` + `this.helpers.*` → **ERROR**: helpers no disponibles en este modo
+- `runOnceForEachItem` + `this.helpers.*` → OK, pero verificar igual
+
+**Binarios creados en Code node**
+- ¿El código usa `prepareBinaryData` y el resultado va a un httpRequest `formBinaryData`?
+  - Si sí → **FLAG**: el binario resultante será `filesystem-v2` y el httpRequest NO podrá leerlo
+  - Fix obligatorio: usar base64 inline en su lugar
+
+**Retorno del nodo**
+- ¿El `return` siempre devuelve un array? ¿Cubre el caso de error con try/catch visible?
+- ¿El nodo puede retornar `undefined` o `null` en algún path? → falla silenciosa
+
+---
+
+### 1B — Auditoría de httpRequest con formBinaryData
+
+Para cada httpRequest que use `formBinaryData`, verificar campo por campo:
+
+| Check | Señal de riesgo |
+|---|---|
+| `value` vacío `""` en algún parámetro | **BUG**: n8n defaultea a `data` — todos los campos con value vacío mandan el mismo binario |
+| Binario viene de Code node con `prepareBinaryData` | **BUG**: filesystem-v2 scope — el httpRequest no lo puede leer |
+| Binario viene de descarga (httpRequest/Drive) y no pasó por conversión | **RIESGO**: filesystem-v2 — verificar si el httpRequest destino puede leerlo |
+| `image[]` con múltiples entradas hacia OpenAI `/edits` | Verificar que image[0] es el canvas base, no una foto real |
+
+---
+
+### 1C — Auditoría de Flujo de Binarios
+
+Trazar el camino de cada binario desde su origen hasta su consumidor final:
+
 ```
-Si devuelve 0 resultados → el MCP apunta a la instancia equivocada. Usar REST API directa.
-
-**2. Leer la firma de ejecuciones recientes**
-```bash
-GET https://VPS/api/v1/executions?workflowId=ID&limit=10&includeData=false
+Origen → Nodo intermedio → Consumidor final
 ```
 
-| Firma | Lo que indica | Qué hacer antes de testear |
+Para cada binario en el flujo, responder:
+1. ¿Dónde se crea? (httpRequest download, Drive, Code node, etc.)
+2. ¿En qué formato queda? (base64 inline / filesystem-v2)
+3. ¿Quién lo consume? (otro Code node / httpRequest formBinaryData)
+4. ¿Es compatible el formato origen con lo que espera el consumidor?
+
+**Tabla de compatibilidad:**
+
+| Origen del binario | Consumidor | Compatible |
 |---|---|---|
-| `finished: false` + 1-5 seg + runData vacío | Infra caída (servidor externo, connection refused) | Verificar dependencias externas. Tests van a fallar por infra, no por lógica |
-| `finished: true` + error | Fallo de lógica en nodo específico | Identificar el nodo fallido antes de generar casos |
-| Todo success | Workflow funcionando | Proceder con casuística normal |
-
-> Si la firma muestra `finished: false` → NO ejecutar casos de prueba todavía. Primero confirmar que la infraestructura externa responde (`curl http://host:puerto`, credenciales válidas, sub-workflows activos). Los tests son válidos solo cuando la infra está confirmada.
-
-**3. Verificar que el workflow está activo**
-Un workflow inactivo devuelve error inmediato. Confirmar `active: true` antes de testear.
-
-**4. Para bots con `staticData` (sesiones): aislar estado entre casos**
-Si el workflow usa `$getWorkflowStaticData('global')` para sesiones (`propSessions`, `loteSessions`), los casos de prueba pueden contaminarse entre sí.
-- Cada caso de sesión debe comenzar con estado limpio
-- Documentar en el reporte si un caso falló por estado residual de otro caso
-- Preferir ejecutar casos de sesión en orden: open → acumular → close
+| httpRequest download | httpRequest formBinaryData | ⚠️ Depende de versión — verificar con diagnóstico |
+| Google Drive node download | httpRequest formBinaryData | ⚠️ Mismo riesgo — filesystem-v2 |
+| Code node `prepareBinaryData` | httpRequest formBinaryData | ❌ NO — filesystem-v2 scope incompatible |
+| Code node base64 inline `{ data: b64, mimeType }` | httpRequest formBinaryData | ✅ Siempre funciona |
+| Cualquier binario | Code node `runOnceForAllItems` | ✅ Solo lectura, no necesita helpers |
+| Cualquier binario | Code node `runOnceForEachItem` + `this.helpers` | ✅ Con verificación previa |
 
 ---
 
-### Casuística a generar siempre
+### 1D — Auditoría de Conexiones y Rutas
 
-**Casos felices (happy path):**
-- Input completo y válido con datos reales o mock
-- Flujo ejecutado de inicio a fin sin interrupciones
+- ¿Todos los outputs del Switch/IF tienen nodo conectado? (outputs sin conectar = datos que desaparecen silenciosamente)
+- ¿Los nodos de error tienen manejo explícito o simplemente no conectan?
+- ¿El flujo puede terminar sin responder al usuario en algún path?
+
+---
+
+### Reporte del Momento 1
+
+```
+## Auditoría Pre-Deploy
+
+### Riesgos Críticos (bloquean deploy)
+- [ ] Code node "X": usa this.helpers.getBinaryDataBuffer sin verificar disponibilidad
+- [ ] httpRequest "Y": formBinaryData value="" en 3 parámetros → todos mandan mismo binario
+
+### Riesgos Medios (pueden fallar en casos edge)
+- [ ] ...
+
+### OK
+- [ ] ...
+
+Veredicto: BLOQUEAR deploy hasta resolver críticos / OK para deploy
+```
+
+**Regla:** Si hay un riesgo crítico → no deployar hasta resolverlo. Proponer el fix primero.
+
+---
+
+## MOMENTO 2 — Casuística de Ejecución (DESPUÉS de deploy)
+
+### Paso 0 — Precondiciones obligatorias
+
+**1. Verificar instancia del MCP**
+```
+GET https://VPS/api/v1/executions?workflowId=ID&limit=3
+```
+Si devuelve 0 → MCP apunta a instancia incorrecta. Usar REST API directa.
+
+**2. Leer firma de ejecuciones recientes**
+
+| Firma | Diagnóstico | Acción |
+|---|---|---|
+| `finished: false` + <5 seg + runData vacío | Falla de infra | Verificar dependencias externas antes de generar casos |
+| `finished: true` + `status: error` | Falla de lógica | Identificar nodo fallido con `includeData=true` |
+| Todo success | Workflow OK | Proceder con casuística |
+
+**3. Workflow activo**: confirmar `active: true`
+
+**4. Sesiones contaminadas**: si el workflow usa `staticData`, aislar estado entre casos
+
+---
+
+### Simulación de recorrido de usuario
+
+Para workflows de bot (WhatsApp u otros), antes de generar casos abstractos, **simular el recorrido completo que haría un usuario real**:
+
+1. Identificar los 2-3 flujos principales que un usuario real usaría
+2. Ejecutarlos en orden, como si fuera el usuario
+3. En cada paso: verificar que el output del nodo anterior es compatible con el input esperado del siguiente
+4. Documentar en qué punto del recorrido falla si algo va mal
+
+**Para sw-premium, recorrido real:**
+```
+Usuario manda "!genbot premium" en grupo →
+  ¿Llegó al trigger? ¿status correcto?
+  → ¿Se encontró la propiedad en Sheets?
+  → ¿Tiene foto? ¿Cloudinary o Drive?
+  → ¿Las fotos se descargaron? ¿En qué formato quedaron los binarios?
+  → ¿Merge Binarios tiene canvas + fotos?
+  → ¿GPT Edits recibió los binarios? ¿En formato legible?
+  → ¿Se subió a Drive y se envió por WhatsApp?
+```
+
+Cada flecha es un checkpoint que se puede verificar con `includeData=true`.
+
+---
+
+### Casuística para workflows n8n
+
+**Happy path:**
+- Input completo válido de inicio a fin
+- Verificar cada nodo intermedio, no solo el resultado final
 
 **Casos límite:**
 - Input vacío `{}`
-- Input con campos null o undefined
-- Input con strings vacíos `""`
-- Números negativos, cero, valores extremos (0, -1, 999999)
-- Fechas inválidas o fuera de rango
+- Campos null/undefined
+- Sin foto → ¿genera diseño desde texto o falla?
+- Con foto Cloudinary → path A funciona
+- Con foto Drive → path B funciona
+- Sin foto en ningún lado → path C (sin foto) funciona
+
+**Casos de binarios (cuando el flujo tiene imágenes):**
+- Verificar en el output de cada nodo: `dataPrefix` de los binarios
+  - Base64 real: empieza con `iVBOR`, `/9j/`, `R0lGOD`, etc.
+  - Filesystem-v2: empieza con `filesystem-v2://` → **RIESGO** si va a httpRequest formBinaryData
+- Después del nodo de conversión: confirmar que `dataPrefix` ya no es `filesystem-v2`
 
 **Casos de error externo:**
-- API no responde (timeout simulado)
-- API responde con error 4xx o 5xx
-- Credencial expirada o inválida
-- Webhook recibe payload malformado
+- OpenAI no responde / responde 4xx
+- Drive folder vacío
+- Sheets sin propiedad encontrada
 
-**Casos de datos:**
-- Lista vacía donde se espera array con datos
-- Array con un solo elemento
-- Array con 1000+ elementos
-- Datos con caracteres especiales, tildes, emojis
-
-### Casos específicos para bots WhatsApp (Evolution API + sesiones)
-
-Si el workflow es un bot de WhatsApp con routing de comandos:
-
-| Caso | Qué verifica |
-|---|---|
-| Comando correcto + grupo objetivo | Routing al sub-workflow correcto |
-| Mismo messageId enviado 2 veces | Dedup funciona — responde solo una vez |
-| Grupo incorrecto | `is_target_group: false` → ignorado sin respuesta |
-| Sesión abierta + audio/video | No acumula (`es_xxx_acumulado: false`) |
-| Sesión abierta + texto/imagen | Sí acumula (`es_xxx_acumulado: true`) |
-| Comando `fin` sin sesión activa | No falla, ignora o responde apropiado |
-| Sesión expirada (>5 min sin actividad) | No acumula, `prop_active: false` |
-
-Para estos casos, usar el QA runner local antes de testear en VPS:
-```bash
-node test-normalizar.js <ruta-al-jsCode-del-nodo.js>
-```
-El runner auto-detecta comandos, grupos objetivo y tipos de sesión escaneando el código. Genera los casos solos.
+---
 
 ### Ejecución
 
-1. Completar Paso 0 (precondiciones) antes de cualquier test
-2. Usar `mcp__n8n__n8n_validate_workflow` — reportar errores estructurales
-3. Para Code nodes de routing: correr QA runner local primero (rápido, sin tocar producción)
-4. Usar `mcp__n8n__n8n_test_workflow` con cada caso generado
-5. Revisar ejecuciones con `GET /api/v1/executions/ID?includeData=true` para ver qué datos fluyeron
-6. Si hay error en un nodo, reportar: qué nodo falló, qué input lo provocó, qué devolvió
+1. Completar Paso 0 (precondiciones)
+2. `validate_workflow` — errores estructurales
+3. Simular recorrido de usuario real primero
+4. Luego casos límite y de error
+5. Para cada ejecución con error: obtener con `includeData=true` y reportar nodo fallido + input exacto
 
 ---
 
 ## Modo Landing (HTML/Frontend)
 
-### Casuística a generar siempre
-
-**Navegación y carga:**
-- Cargar la URL y verificar que la página responde (sin errores de consola JS)
-- Verificar que todos los elementos críticos están visibles (hero, CTA, formulario)
-- Verificar que no hay imágenes rotas
+**Navegación:**
+- Cargar URL, verificar carga sin errores de consola JS
+- Todos los elementos críticos visibles (hero, CTA, formulario)
+- No hay imágenes rotas
 
 **Interacción:**
-- Hacer clic en cada botón CTA y verificar que redirige o abre lo correcto
-- Si hay formulario: enviar con todos los campos vacíos
-- Si hay formulario: enviar con datos inválidos (email sin @, teléfono con letras)
-- Si hay formulario: enviar con datos válidos completos
+- Cada botón CTA: clic y verificar destino
+- Formulario vacío → validación correcta
+- Formulario con datos inválidos → validación correcta
+- Formulario con datos válidos → submit funciona
 
 **Responsive:**
-- Viewport mobile 375px — verificar que no hay overflow horizontal
-- Viewport tablet 768px — verificar que el layout cambia correctamente
-- Viewport desktop 1280px — verificar diseño completo
+- Mobile 375px — sin overflow horizontal
+- Tablet 768px — layout correcto
+- Desktop 1280px — diseño completo
 
-**Rendimiento visual:**
-- Screenshot completo para detectar elementos rotos visualmente
-
-### Ejecución
-
-1. Usar `mcp__playwright__browser_navigate` con la URL
-2. Usar `mcp__playwright__browser_snapshot` para auditar el DOM
-3. Usar `mcp__playwright__browser_resize` para cambiar viewports
-4. Usar `mcp__playwright__browser_fill_form` + `mcp__playwright__browser_click` para interacciones
-5. Usar `mcp__playwright__browser_take_screenshot` al final de cada viewport
-6. Reportar errores de consola con `mcp__playwright__browser_console_messages`
+**Ejecución**: Playwright MCP — navigate → snapshot → resize → fill/click → screenshot → console_messages
 
 ---
 
 ## Modo Script (Python / C#)
 
-### Casuística a generar siempre
+**Inputs normales:** caso típico, datos mínimos válidos
 
-**Inputs normales:**
-- Caso típico de uso con datos reales
-- Caso con datos mínimos válidos
+**Inputs límite:** `""`, `[]`, `{}`, `None`, `0`, `-1`, overflow
 
-**Inputs límite:**
-- String vacío `""`
-- Lista vacía `[]`
-- Diccionario vacío `{}`
-- None / null
-- Número 0 y número negativo
-- Valor máximo esperado + 1 (overflow intencional)
+**Errores esperados:** archivo no existe, ruta inválida, API falla, permisos
 
-**Errores esperados:**
-- Archivo que no existe
-- Ruta inválida
-- Conexión a DB o API que falla
-- Permisos insuficientes (simulado)
+**Datos malformados:** JSON inválido, encoding inesperado, fecha incorrecta
 
-**Datos malformados:**
-- JSON inválido como string
-- Encoding inesperado (ñ, 中文, emojis)
-- Fecha en formato incorrecto
-
-### Ejecución
-
-1. Leer el script completo
-2. Identificar: entradas del script, dependencias externas, puntos de fallo posibles
-3. Generar casos de prueba como llamadas al script o como inputs directos
-4. Ejecutar con `Bash` o `PowerShell` según el lenguaje
-5. Capturar stdout, stderr y código de salida
-6. Para cada caso: reportar si pasó, falló, o lanzó excepción no manejada
+**Ejecución**: leer script → identificar entradas/dependencias/puntos de fallo → ejecutar con Bash/PowerShell → capturar stdout/stderr/exit code
 
 ---
 
 ## Reporte Final
 
-Siempre al terminar, mostrar tabla resumen:
-
 ```
-| Caso                        | Resultado | Observación                        |
-|-----------------------------|-----------|------------------------------------|
-| Happy path                  | ✅ OK     |                                    |
-| Input vacío                 | ❌ FALLA  | Nodo X lanza error no manejado     |
-| API timeout                 | ⚠️ WARN   | Reintenta pero no tiene fallback   |
-| Formulario con email inválido | ✅ OK   | Muestra validación correcta        |
+| Caso                            | Resultado | Observación                              |
+|---------------------------------|-----------|------------------------------------------|
+| Happy path completo             | ✅ OK     | Flyer generado y enviado                 |
+| Foto Drive → binario formato    | ❌ FALLA  | filesystem-v2 llega a GPT Edits          |
+| Sin foto → diseño texto         | ✅ OK     |                                          |
+| formBinaryData value vacío      | ❌ FALLA  | Detectado en Auditoría Pre-Deploy        |
 ```
 
-Terminar siempre con:
-- **Casos críticos a corregir** (los que fallan en producción real)
-- **Casos que podrían mejorar** (no rompen pero no son robustos)
-- **Lo que sí funciona bien** (confirmar qué es sólido)
+Terminar con:
+- **Críticos a corregir** — fallan en producción real
+- **Mejoras posibles** — no rompen pero no son robustos
+- **Sólido** — confirmado funcionando
 
 ---
 
-## Reglas de Operación
+## Reglas
 
-- No modificar el desarrollo evaluado. Solo leer, ejecutar y reportar.
-- Si un caso no se puede ejecutar automáticamente, describirlo como "manual requerido" con instrucciones claras.
-- Si el desarrollo necesita credenciales reales para ejecutarse, preguntar antes de intentar.
-- Reportar siempre en chat, no crear documentos a menos que el usuario lo pida.
-- Ser directo: decir exactamente qué falla y por qué, sin suavizar.
+- **Momento 1 es obligatorio antes de deployar.** No hay excepción.
+- No modificar el desarrollo evaluado en Momento 2. Solo leer, ejecutar y reportar.
+- Si un caso no se puede automatizar → "manual requerido" con instrucciones exactas.
+- Ser directo: qué falla, por qué, sin suavizar.
+- El testeo termina cuando hay al menos una ejecución real completa con `finished: true` verificada.

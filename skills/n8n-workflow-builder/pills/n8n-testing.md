@@ -74,6 +74,30 @@ El test manual es la forma más costosa de verificación. Solo se pide cuando:
 
 ---
 
+## Recorrido de usuario — protocolo de checkpoints
+
+**Cuándo usar:** siempre que un workflow procese una acción de usuario de inicio a fin (bot, form, webhook). Correr ANTES de cualquier casuística abstracta.
+
+**Cómo:** trazar el flujo nodo a nodo como cadena de checkpoints. En cada flecha verificar que el output del nodo anterior es el input correcto del siguiente.
+
+```
+Trigger → Nodo A → Decisión → Nodo B → API → Respuesta
+   ↓          ↓        ↓          ↓       ↓        ↓
+¿llegó?  ¿keys OK?  ¿branch  ¿datos   ¿200?   ¿recibió
+                    correcto? válidos?         el usuario?
+```
+
+**Señales de ruptura de cadena** (detectar con `includeData=true`):
+- Keys distintos entre nodo A y nodo B
+- Binario filesystem-v2 llegando a httpRequest formBinaryData
+- Branch incorrecto en IF/Switch
+- Array vacío donde se esperan items
+- Nodo termina pero el siguiente no se ejecuta
+
+**Regla:** anotar exactamente en qué flecha se rompe la cadena. Ese es el nodo a reparar — no el nodo donde aparece el error en el log.
+
+---
+
 ## MODO B — Antes de hacer deploy (workflow nuevo o cambio de lógica)
 
 ### Nivel 1 — Simular el nodo de routing localmente (sin APIs reales)

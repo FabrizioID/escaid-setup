@@ -147,28 +147,76 @@ Si devuelve 0 → MCP apunta a instancia incorrecta. Usar REST API directa.
 
 ---
 
-### Simulación de recorrido de usuario
+### Simulación de recorrido de usuario (User Journey)
 
-Para workflows de bot (WhatsApp u otros), antes de generar casos abstractos, **simular el recorrido completo que haría un usuario real**:
+**Protocolo genérico — aplicar antes de cualquier casuística abstracta.**
 
-1. Identificar los 2-3 flujos principales que un usuario real usaría
-2. Ejecutarlos en orden, como si fuera el usuario
-3. En cada paso: verificar que el output del nodo anterior es compatible con el input esperado del siguiente
-4. Documentar en qué punto del recorrido falla si algo va mal
+El recorrido de usuario es la prueba más valiosa porque simula exactamente lo que hará una persona real en producción, en el orden en que lo haría.
 
-**Para sw-premium, recorrido real:**
+#### Paso 1 — Mapear los recorridos principales
+
+Para el workflow a testear, identificar los 2-4 flujos que un usuario real usaría con más frecuencia:
+
 ```
-Usuario manda "!genbot premium" en grupo →
-  ¿Llegó al trigger? ¿status correcto?
-  → ¿Se encontró la propiedad en Sheets?
-  → ¿Tiene foto? ¿Cloudinary o Drive?
-  → ¿Las fotos se descargaron? ¿En qué formato quedaron los binarios?
-  → ¿Merge Binarios tiene canvas + fotos?
-  → ¿GPT Edits recibió los binarios? ¿En formato legible?
-  → ¿Se subió a Drive y se envió por WhatsApp?
+Recorrido A: [nombre] — [trigger] → [resultado esperado]
+Recorrido B: [nombre] — [trigger] → [resultado esperado]
+Recorrido C: [nombre] — [trigger con variante] → [resultado esperado distinto]
 ```
 
-Cada flecha es un checkpoint que se puede verificar con `includeData=true`.
+Ejemplo para bot WhatsApp con sw-premium:
+```
+A — Usuario con foto en Drive:   !genbot premium → flyer con fotos reales
+B — Usuario sin foto:            !genbot premium → flyer generado desde texto
+C — Propiedad no encontrada:     !genbot premium → mensaje de error amigable
+```
+
+#### Paso 2 — Trazar checkpoints por recorrido
+
+Para cada recorrido, mapear el camino nodo a nodo como una cadena de checkpoints:
+
+```
+[Trigger] → [Nodo 1] → [Decisión] → [Nodo 2] → ... → [Respuesta al usuario]
+     ↓            ↓          ↓            ↓                    ↓
+  ¿llegó?    ¿output OK?  ¿branch     ¿datos            ¿recibió el
+             ¿formato?    correcto?   correctos?         resultado?
+```
+
+Cada checkpoint responde: **¿el output de este nodo es el input correcto para el siguiente?**
+
+Señales de ruptura de cadena:
+- Output tiene keys distintos a los que espera el nodo siguiente
+- Binario en formato incompatible (filesystem-v2 → httpRequest)
+- Branch equivocado en IF/Switch
+- Array vacío donde se esperan items
+- Nodo termina pero el siguiente no se ejecuta
+
+#### Paso 3 — Ejecutar en orden real
+
+1. Disparar el trigger exactamente como lo haría el usuario (mismo payload, mismo canal)
+2. Verificar cada checkpoint con `GET /executions/ID?includeData=true`
+3. Anotar en qué checkpoint se rompe la cadena — ese es el nodo a reparar
+4. NO pasar al siguiente recorrido hasta que el actual complete de inicio a fin
+
+#### Paso 4 — Recorridos de error intencional
+
+Después de que los recorridos happy path funcionan, probar los caminos de error que el usuario podría triggear:
+- ¿Qué pasa si el usuario manda el comando en un grupo incorrecto?
+- ¿Qué pasa si el usuario manda el comando dos veces seguidas?
+- ¿Qué pasa si el dato que necesita el workflow no existe en Sheets/Drive?
+- ¿El usuario recibe un mensaje de error útil o silencio?
+
+#### Recorridos de referencia para este proyecto
+
+**Bot WhatsApp (clientefull02 + sub-workflows):**
+```
+!new prop → acumula mensajes/fotos → !new prop fin → sw-registrar → confirmación
+!genbot premium → sw-premium → flyer → Drive → WhatsApp
+!genbot catalogo → sw-catalogo → PDF → WhatsApp
+Mensaje en grupo incorrecto → silencio (sin respuesta)
+Mismo mensaje x2 → una sola respuesta
+```
+
+**Para cada nuevo workflow:** documentar sus 3-4 recorridos aquí antes de ejecutar casos abstractos.
 
 ---
 

@@ -122,6 +122,9 @@ Visibility rule:
 - The lens map is internal by default.
 - Do not show discarded lenses or full research scaffolding unless the user asks to see the research process.
 - In the final answer, show only the relevant findings, recommendation, confidence/unknowns, and important sources.
+- Default to an executive synthesis: show the few findings that change the decision, not the full research trail.
+- Keep query logs, source inventory, angle maps, extraction tables, and detailed notes internal unless the user asks for "mas detalle", "fuentes completas", "como investigaste", "dataset", "tabla", "todos los angulos", or equivalent.
+- When research is used only to strengthen Magnus' reasoning, output the decision impact and strongest evidence, not a report.
 - If a lens materially changes the decision, mention the implication, not the behind-the-scenes lens name.
 - If the user explicitly asks for "angulos", "lentes", "todos los angulos", "desde varios angulos", "como investigaste", or says a prior answer did not show the angles, include a compact **Angulos cubiertos** section before or after the synthesis.
 - For strategic/product research where the user repeatedly asks to "investigar todos los angulos", include a compact angle summary by default unless the requested output is intentionally short.
@@ -158,6 +161,8 @@ Output rule:
 - A final "Fuentes" section is optional support, not a substitute for claim-level attribution.
 - If a section uses inferred strategy from multiple sources, say "Inferencia desde..." and list the strongest 1-3 sources nearby.
 - If no source directly supports a claim, label it as inference/assumption and propose how to validate it.
+- In normal chat, prefer 3-7 high-signal findings over exhaustive coverage.
+- Only produce long reports, full bibliographies, scraping tables, methodology logs, or angle-by-angle walkthroughs when the user asks for that level of detail or when the artifact requires it.
 
 Triggers for mandatory claim-level sources:
 - certification, credentials, legal/regulatory, procurement, SUNEDU/OSCE/CIP/ISO/vendor claims;
@@ -481,6 +486,29 @@ For Standard Research and Deep Dive work, preserve enough context that the resea
 - if working in a project folder, save a compact markdown memo only when the user asks or when the research becomes durable project memory
 
 Do not require a long report by default. Reproducibility can be lightweight.
+
+## Default Compression Contract
+
+Deep Research exists to make decisions better, not to flood the user.
+
+By default, return:
+- bottom-line recommendation or answer;
+- 3-7 decision-changing findings;
+- confidence level and key unknowns;
+- strongest sources attached to the claims that matter;
+- next validation step when evidence is incomplete.
+
+Keep internal unless requested:
+- full query log;
+- exhaustive source list;
+- discarded sources;
+- full angle map;
+- scraping raw rows;
+- detailed methodology;
+- long literature notes;
+- source-by-source summaries that do not change the decision.
+
+Escalate detail only when the user asks, the deliverable is a formal report/deck/thesis section, or traceability is operationally required.
 
 For scraping/source-mining tasks, also record:
 - source classes checked and not checked;

@@ -209,6 +209,128 @@ Cada flecha es un checkpoint que se puede verificar con `includeData=true`.
 
 ---
 
+## MOMENTO 3 — Stress Testing y Concurrencia
+
+**Cuándo activar:** workflows de bots o sistemas que reciben múltiples requests simultáneos (WhatsApp, webhooks, APIs). Activar siempre antes de primera puesta en producción con carga real, o cuando el usuario reporte comportamiento extraño bajo carga.
+
+**Por qué importa:** el happy path funciona con 1 usuario. El sistema se rompe con 5 usuarios simultáneos, mensajes duplicados en ráfaga, sesiones que se solapan, o Code nodes pesados que saturan el task runner. Estos fallos son los más difíciles de reproducir y los que más daño hacen en producción.
+
+---
+
+### 3A — Casos de Concurrencia
+
+**Ráfaga simultánea**
+- Enviar N requests al mismo tiempo (N = `N8N_CONCURRENCY_PRODUCTION_LIMIT` + 2 para estresar el límite)
+- ¿El task runner acepta todos, rechaza los extras limpiamente, o crashea?
+- Señal de crash: ejecuciones quedan en estado `new` sin progresar + logs `Offer expired`
+
+**Mismo usuario, mensaje duplicado**
+- Enviar el mismo `messageId` dos veces con < 500ms entre ellos
+- ¿El dedup del staticData funciona? → solo una ejecución llega a procesar
+- Señal de falla: dos respuestas llegan al usuario o el staticData queda en estado corrupto
+
+**Dos usuarios, mismo grupo, comandos distintos**
+- Usuario A abre sesión `!new prop` + Usuario B manda `!genbot premium` al mismo tiempo
+- ¿Los sessions en staticData se aíslan correctamente por `groupJid`?
+- Señal de falla: la sesión de A contiene datos de B o viceversa
+
+**Sesión larga + timeout**
+- Abrir sesión, esperar exactamente `SESSION_TIMEOUT + 1 segundo`, intentar acumular
+- ¿La sesión expiró limpiamente? ¿El mensaje llega como nuevo comando o como acumulación huérfana?
+
+**Flujo pesado (Code node + API externa) bajo carga**
+- Lanzar 3-5 ejecuciones de sw-premium simultáneamente (cada una llama a OpenAI)
+- ¿Todas completan? ¿Alguna queda en `waiting` o `new`?
+- Si el límite de concurrencia está activo: ¿las extra esperan en cola o fallan?
+
+---
+
+### 3B — Cómo ejecutar stress test en n8n
+
+**Método A — REST API paralela** (para workflows con webhook trigger):
+```bash
+# Enviar N requests casi simultáneos
+for i in 1 2 3 4 5; do
+  curl -s -X POST "https://VPS/webhook/ID" \
+    -H "Content-Type: application/json" \
+    -d '{"test": true, "idx": '$i'}' &
+done
+wait
+```
+
+**Método B — Monitor de ejecuciones durante la ráfaga**:
+```bash
+# Monitorear estado cada 2 segundos durante 30 segundos
+GET /api/v1/executions?workflowId=ID&limit=20&includeData=false
+# Buscar: cuántas en status=new, running, error, success
+```
+
+**Señales de alerta bajo carga**:
+
+| Señal | Causa probable | Fix |
+|---|---|---|
+| Ejecuciones acumulándose en `new` | Task runner saturado | Bajar `N8N_CONCURRENCY_PRODUCTION_LIMIT` |
+| `Offer expired` en logs del contenedor | Task runner timeout | Mismo fix + revisar `N8N_RUNNERS_TASK_TIMEOUT` |
+| Respuestas duplicadas al usuario | Dedup en staticData no funciona bajo carga | Revisar lógica de dedup con messageId |
+| Sesiones mezcladas entre usuarios | staticData no aislado por jid | Revisar que la key sea `sessions[groupJid]` no `sessions` global |
+| Error 500 en webhook | n8n colapsó bajo carga | `N8N_CONCURRENCY_PRODUCTION_LIMIT` demasiado alto |
+
+---
+
+### 3C — Umbrales recomendados para este VPS
+
+Basado en incidentes producción (mayo 2026):
+
+| Variable | Valor seguro | Valor que crashea |
+|---|---|---|
+| `N8N_CONCURRENCY_PRODUCTION_LIMIT` | 5 | 10+ con Code nodes pesados |
+| `N8N_RUNNERS_TASK_TIMEOUT` | 60s | por defecto, OK |
+| Ejecuciones simultáneas de sw-premium | 2-3 | 5+ (OpenAI calls paralelas) |
+| Mensajes WhatsApp simultáneos | 5 | 10+ sin límite de concurrencia |
+
+---
+
+### 3D — Reporte de Stress Test
+
+```
+## Stress Test — [workflow] — [fecha]
+
+| Caso | Carga | Resultado | Observación |
+|---|---|---|---|
+| Ráfaga 5 mensajes simultáneos | 5 concurrent | ✅ OK | Todas completan en <8s |
+| Mensaje duplicado (mismo ID) | x2 en 200ms | ✅ OK | Dedup funciona — 1 respuesta |
+| 2 sesiones simultáneas distintos usuarios | 2 concurrent | ❌ FALLA | staticData se mezcla |
+| 3 sw-premium paralelos | 3 concurrent | ⚠️ WARN | El 3ro queda en waiting 12s |
+
+Límite seguro identificado: X ejecuciones concurrentes
+Recomendación: [acción concreta]
+```
+
+---
+
+## Relación entre qa-dev-tester y n8n-testing pill
+
+**División de responsabilidad:**
+
+| Capa | Herramienta | Qué hace |
+|---|---|---|
+| Pre-deploy (código) | `qa-dev-tester` Momento 1 | Audita el código antes de que llegue al servidor |
+| Post-deploy funcional | `qa-dev-tester` Momento 2 | Happy path + casos límite + recorrido de usuario |
+| Post-deploy carga | `qa-dev-tester` Momento 3 | Stress, concurrencia, timing, saturación |
+| Debugging en producción | `n8n-testing` Modo A | Diagnostica qué se rompió en una ejecución real |
+| Pre-deploy lógica de routing | `n8n-testing` Modo B | Runner local para nodo de normalización/routing |
+
+**Cuándo usar cada uno:**
+
+- Desarrollando algo nuevo → `qa-dev-tester` Momento 1 primero, luego Momentos 2 y 3
+- Algo se rompió en producción → `n8n-testing` Modo A (no tocar código hasta saber qué es)
+- Cambiando lógica del router/normalizer → `n8n-testing` Modo B (runner local antes de deploy)
+- Primera vez que sale a producción con usuarios reales → `qa-dev-tester` Momento 3 obligatorio
+
+**No duplicar:** el diagnóstico de nodo fallido específico (`includeData=true`, firma de ejecuciones) vive en `n8n-testing`. El QA skill lo referencia pero no lo repite. Si hay conflicto, `n8n-testing` es la fuente de verdad para debugging.
+
+---
+
 ## Modo Landing (HTML/Frontend)
 
 **Navegación:**

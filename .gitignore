@@ -6,3 +6,5 @@ node_modules/
 __pycache__/
 *.pyc
 dist/
+skills/n8n-workflow-builder/pills/n8n-credentials-genplus.md
+*.credentials*

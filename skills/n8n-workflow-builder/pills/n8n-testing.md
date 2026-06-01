@@ -6,6 +6,12 @@ local-only: false
 
 # n8n Workflow Testing & Debugging
 
+**Coordinación con qa-dev-tester:**
+- Pre-deploy (auditoría de código, binarios, helpers) → `qa-dev-tester` Momento 1
+- Casuística funcional post-deploy → `qa-dev-tester` Momento 2
+- Stress testing / concurrencia / carga → `qa-dev-tester` Momento 3
+- **Este pill cubre:** debugging de producción rota (Modo A) y runner local de routing (Modo B)
+
 Hay dos momentos distintos: **algo se rompió** y **quiero probar antes de subir**. El protocolo es diferente en cada caso.
 
 ---
@@ -68,6 +74,30 @@ El test manual es la forma más costosa de verificación. Solo se pide cuando:
 
 ---
 
+## Recorrido de usuario — protocolo de checkpoints
+
+**Cuándo usar:** siempre que un workflow procese una acción de usuario de inicio a fin (bot, form, webhook). Correr ANTES de cualquier casuística abstracta.
+
+**Cómo:** trazar el flujo nodo a nodo como cadena de checkpoints. En cada flecha verificar que el output del nodo anterior es el input correcto del siguiente.
+
+```
+Trigger → Nodo A → Decisión → Nodo B → API → Respuesta
+   ↓          ↓        ↓          ↓       ↓        ↓
+¿llegó?  ¿keys OK?  ¿branch  ¿datos   ¿200?   ¿recibió
+                    correcto? válidos?         el usuario?
+```
+
+**Señales de ruptura de cadena** (detectar con `includeData=true`):
+- Keys distintos entre nodo A y nodo B
+- Binario filesystem-v2 llegando a httpRequest formBinaryData
+- Branch incorrecto en IF/Switch
+- Array vacío donde se esperan items
+- Nodo termina pero el siguiente no se ejecuta
+
+**Regla:** anotar exactamente en qué flecha se rompe la cadena. Ese es el nodo a reparar — no el nodo donde aparece el error en el log.
+
+---
+
 ## MODO B — Antes de hacer deploy (workflow nuevo o cambio de lógica)
 
 ### Nivel 1 — Simular el nodo de routing localmente (sin APIs reales)
@@ -123,6 +153,7 @@ Cada sub-workflow (`sw-registrar`, `sw-premium`, `sw-lote`) se testea con datos 
 - [ ] Caso de grupo incorrecto: no responde
 - [ ] Caso de duplicado: responde solo una vez
 - [ ] Al menos una ejecución real completa verificada con `finished: true`
+- [ ] **Code node nuevo con `this.helpers.*`**: probar en aislado con test manual en n8n UI antes de conectar al flujo. Nunca asumir que un helper existe — verificar con `Object.keys(this.helpers || {})`. El nodo debe nacer con try/catch visible.
 
 ---
 
@@ -135,6 +166,38 @@ Cuando el comando nuevo termina llamando a un sub-workflow existente (`sw-regist
 3. Si el comando cierra una sesión acumulada → reconstruir los campos desde `sessionData` antes de llamar al sub-workflow
 
 **No asumir compatibilidad. Verificar campo por campo.**
+
+---
+
+## Nodo Diagnóstico — Agregar Antes de Cualquier Nodo Problemático
+
+Cuando un nodo httpRequest, Code node o API falla con datos inesperados, insertar este Code node **justo antes** del nodo problemático para ver exactamente qué llega:
+
+```javascript
+// DIAGNOSTIC — remover antes de producción
+const item = $input.first();
+const bkeys = Object.keys(item.binary || {});
+return [{
+  json: {
+    json_keys: Object.keys(item.json || {}),
+    json_sample: Object.fromEntries(Object.entries(item.json||{}).slice(0,5).map(([k,v])=>[k,String(v).slice(0,80)])),
+    binary_keys: bkeys,
+    binary_info: Object.fromEntries(bkeys.map(k => [k, {
+      mimeType: item.binary[k]?.mimeType,
+      dataPrefix: String(item.binary[k]?.data||'').slice(0,30),
+      fileName: item.binary[k]?.fileName
+    }]))
+  },
+  binary: item.binary || {}
+}];
+```
+
+**Casos de uso**:
+- httpRequest con `formBinaryData` falla → ver si los binarios tienen `data_start=filesystem-v2` o base64
+- GPT Edits recibe "Missing required parameter: image" → ver si `canvas`/`data`/`data2`... están presentes
+- Split/Merge produce items vacíos → ver qué keys tiene cada item
+
+**Resultado**: aparece en el execution output del nodo diagnóstico — abrir en n8n UI para ver.
 
 ---
 

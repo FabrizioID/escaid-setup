@@ -15,24 +15,11 @@ Por defecto, la skill **no puede borrar, reemplazar, reestructurar, alterar vist
 
 ## Rutas de integracion
 
-1. **easy-notion-mcp primero cuando este disponible**: ruta markdown-first, rapida y compacta para paginas, secciones, bases, vistas, comentarios y usuarios.
-2. **Notion MCP oficial/remoto o local**: usar cuando el entorno ya lo exponga o cuando convenga trabajar con API JSON directa.
-3. **Notion API fallback**: si MCP no esta disponible o se requiere batch/control fino, usar API directa con token local del perfil.
-4. **Plan manual**: si no hay permisos o integracion, generar un plan Markdown/JSON para copiar a Notion.
+1. **Notion MCP primero**: si el entorno tiene Notion MCP oficial o easy-notion-mcp disponible y autenticado, usarlo como ruta principal.
+2. **Notion API fallback**: si MCP no esta disponible o se requiere batch/control fino, usar API directa con `NOTION_API_KEY`.
+3. **Plan manual**: si no hay permisos o integracion, generar un plan Markdown/JSON para copiar a Notion.
 
 Antes de proponer codigo propio, verificar si el MCP/herramienta nativa resuelve el flujo.
-
-## Paquete operativo
-
-Una llamada a `documentar-notion` debe resolver tres capas sin que el usuario tenga que pedirlas por separado:
-
-| Capa | Skill/ruta | Funcion |
-|---|---|---|
-| Dominio | `documentar-notion` | Decide que crear, actualizar, extender o documentar en Notion sin romper estructura |
-| Apertura/perfil | `notion-josefabrizioid` o `notion-coordinador-aecode` | Selecciona la cuenta correcta y valida identidad |
-| Pill local | `~/.codex/credentials/notion/<perfil>_notion.json` | Guarda el token local; nunca imprimirlo |
-
-Las plantillas y patrones de proyecto no son la capa de apertura. Viven como conocimiento de dominio/referencia y solo se leen cuando el flujo lo requiere.
 
 ## Arranque rapido obligatorio
 
@@ -53,51 +40,32 @@ Usar este bloque al inicio de cualquier tarea Notion para evitar diagnosticos la
 - Si MCP devuelve `object_not_found` para una pagina que deberia existir, asumir cuenta incorrecta antes de asumir que no existe.
 - Si MCP apunta a otra cuenta, no repetir busquedas amplias: usar API fallback del perfil elegido o indicar que hay que reiniciar Codex si `config.toml` fue corregido.
 
-### 3. Mapa de herramientas — cuál usar y cuándo (validado mayo 2026)
+### 3. Mapa de herramientas preferido
 
-**easy-notion-mcp (`mcp__notion-easy__*`) — ruta principal markdown-first**
+Con MCP remoto/oficial disponible:
+- Buscar paginas/bases: `mcp__notion__.notion_search`.
+- Leer pagina/base/data source: `mcp__notion__.notion_fetch`.
+- Crear pagina o fila: `mcp__notion__.notion_create_pages`.
+- Actualizar contenido/propiedades: `mcp__notion__.notion_update_page`.
+- Crear/actualizar vistas: `mcp__notion__.notion_create_view`, `mcp__notion__.notion_update_view`.
+- Consultar vista: `mcp__notion__.notion_query_database_view`.
 
-Usar para:
-- `get_me` → validar conexion y workspace.
-- `search`, `list_databases` → exploracion del workspace.
-- `read_page`, `read_section`, `read_block` → lectura de paginas/secciones (devuelve markdown).
-- `create_page`, `append_content` → escritura inicial de paginas con markdown rico (toggles `+++`, columns `:::`, callouts `> [!TIP]`).
-- `create_database` (inline o standalone) → crear DBs con `is_inline: true` y schema con `options: [{name, color}]`.
-- `add_database_entry`, `update_database_entry` → CRUD de filas con value-by-name resolution.
-- `update_data_source` → cambios de schema (rename props, add/remove options) sobre el endpoint moderno.
-- `create_view`, `update_view`, `query_view`, `list_views`, `get_view` → vistas con configuracion raw (necesita `property_id`).
-- `find_replace` → edicion quirurgica de texto plano sin tocar blocks.
-- `update_block` → edicion de un block especifico por id (preserva identidad).
-- `archive_page`, `delete_view`, `delete_database_entry` → destructivos (confirmar).
+Con easy-notion-mcp:
+- Verificar conexion con `mcp__notion-easy__get_me`.
+- Usar sus herramientas para crear/leer/actualizar paginas y bases cuando esten disponibles.
 
-NO usar (limitaciones validadas):
-- `replace_content` sin confirmar → DOBLE DESTRUCTIVO (borra body + child_databases). Aprendizaje #2.
-- `update_section` sobre seccion sin heading siguiente → borra hasta fin de pagina, incluido bases inline. Aprendizaje #9. Usar sentinela `### MEMORIA OPERATIVA` o cambiar a `find_replace`/`update_block`.
-- Callouts multi-linea con bullets → strippea todo menos primera linea. Aprendizaje #10. Usar callout solo titulo + children via REST.
-- `archive_page(database_id)` → falla con 404, las DBs no se archivan por este endpoint. Usar `update_data_source(in_trash: true)` o REST PATCH.
+Con MCP local oficial `@notionhq/notion-mcp-server`:
+- Esperar herramientas API-first con nombres tipo `search`, `retrieve-a-page`, `retrieve-a-database`, `retrieve-a-data-source`, `create-a-page`, `create-a-data-source`, `query-data-source`, `update-a-page` o equivalentes descubiertos por el cliente.
+- Usar `data_source_id` cuando el servidor local use Notion API nueva.
 
-**Notion REST API directa — fallback obligatorio para casos que easy-notion no cubre**
-
-Usar cuando:
-- Necesitas `property_id` de un schema → `GET /v1/data_sources/{id}` con `Notion-Version: 2026-03-11`. easy-notion's `get_database` NO devuelve IDs. Aprendizaje #1.
-- Necesitas agregar children a un callout (bullets, paragraphs) → `PATCH /v1/blocks/{callout_id}/children`. Aprendizaje #10.
-- Necesitas asignar un option_id especifico a una fila (bypass name resolution para fixes de phantoms encoding) → `PATCH /v1/pages/{row_id}` con `{"properties": {"<Prop>": {"select": {"id": "<option-id>"}}}}`.
-- Necesitas verificar colores reales de options → `GET /v1/data_sources/{id}`. easy-notion's `get_database` no devuelve color.
-- Token vive en `~/.codex/credentials/notion/<perfil>_notion.json` campo `token`. NUNCA imprimirlo.
-
-**Notion MCP oficial `mcp__notion__*` (cuando este disponible — no es el caso actual)**
-
-Esperar herramientas tipo `notion_search`, `notion_fetch`, `notion_create_pages`, `notion_update_page`, `notion_create_view`, `notion_update_view`, `notion_query_database_view`. Si esta cargado, preferirlo sobre easy-notion para schemas complejos (puede exponer mas detalle de la API).
-
-**Plan manual (sin MCP ni REST)**
-
-Generar markdown/JSON de plan que el usuario pegue a mano en Notion.
-
-### Versiones de API a usar
-
-- `Notion-Version: 2022-06-28` → endpoints estables: pages, blocks, databases, rows. Usar por defecto cuando no necesites data_sources.
-- `Notion-Version: 2026-03-11` → habilita endpoint `/v1/data_sources/{id}` (para property IDs, options con colores) y configuracion fina de views. Usar cuando necesites estos.
-- No mezclar version dentro del mismo flujo sin validar. Algunos parametros aceptados en `2022-06-28` fallan en `2026-03-11`.
+Con API fallback:
+- Identidad: `GET /v1/users/me`.
+- Buscar: `POST /v1/search`.
+- Leer pagina: `GET /v1/pages/{page_id}` y `GET /v1/blocks/{page_id}/children`.
+- Leer database/schema: `GET /v1/databases/{database_id}`.
+- Crear fila/pagina: `POST /v1/pages`.
+- Crear base inline clasica: `POST /v1/databases` con `parent.page_id` e `is_inline: true` cuando aplique.
+- Actualizar: `PATCH /v1/pages/{page_id}` o append de bloques con `PATCH /v1/blocks/{block_id}/children`.
 
 ### 4. Configuracion local esperada
 
@@ -105,37 +73,6 @@ Generar markdown/JSON de plan que el usuario pegue a mano en Notion.
 - Para Fabrizio, la configuracion preferida es un wrapper local que lee `~/.codex/credentials/notion/josefabrizioid_notion.json` y ejecuta `@notionhq/notion-mcp-server`.
 - No escribir tokens dentro de `config.toml` ni dentro de skills.
 - Tras cambiar `config.toml`, advertir que Codex debe reiniciarse para que el MCP activo se recargue.
-
-## Modos potenciados 2026
-
-### Markdown Fast Write Mode
-
-Para documentacion larga, minutas, briefs, aprendizajes y contenido narrativo:
-
-1. usar easy-notion-mcp si esta activo;
-2. leer pagina/seccion como markdown;
-3. aplicar append o update de seccion, no reemplazo total;
-4. usar `dry_run` si el cambio puede borrar bloques;
-5. verificar lectura final.
-
-### Data Source / View Guard Mode
-
-Para bases, vistas, boards, timelines o reportes:
-
-1. distinguir `database_id` de `data_source_id`;
-2. leer schema antes de crear filas;
-3. leer vistas vivas antes de replicar filtros;
-4. crear o actualizar vistas solo con instruccion clara;
-5. no borrar linked views o fuentes viejas hasta verificar conteo y query de la nueva fuente.
-
-### Profile-Safe Mode
-
-Para evitar esperas por credenciales:
-
-1. elegir perfil por alias antes de buscar;
-2. validar identidad con MCP o `/v1/users/me`;
-3. si MCP activo responde otra cuenta, usar fallback local del perfil o pedir recarga;
-4. nunca imprimir tokens ni copiarlos a config versionada.
 
 ## Setup de easy-notion-mcp
 
@@ -194,12 +131,10 @@ Flujo:
    - Si la BD formal del proyecto no es `ACTIVIDADES`, crear o mantener un padre operativo en `ACTIVIDADES` para agrupar tareas, reuniones realizadas y pendientes visibles en reportes generales.
    - No mover la pagina formal de `PROYECTOS` hacia `ACTIVIDADES`; usar un padre operativo separado si Notion no permite relacionar directamente entre bases.
 5. Pedir base raiz/data source destino si no se puede inferir.
-6. **REGLA BLOQUEANTE: preguntar SIEMPRE si usa plantilla antes de crear bases o body.** No improvisar "estructura ligera" sin consultar — aprendizaje validado en mayo 2026 (proyecto AGENTE INMOBILIARIO GEN+ tuvo que refactorizarse porque se omitio esta pregunta y se asumio estructura propia).
-   - Pregunta sugerida: `Quieres usar la plantilla GEN+ (Tingo-based) para este proyecto?`
-   - **No proceder a crear bases hasta tener respuesta explicita.** No vale asumir "es un proyecto chiquito o de software, le pongo solo lo minimo" — ese es el patron que produce refactor caro despues.
-   - Si el usuario dice si y no especifica cual, usar la plantilla Tingo (ver `references/template-engineering-project.md` para schema exacto, vistas validadas con config JSON, IDs y flujo paso a paso).
-   - La plantilla Tingo **NO es exclusiva de ingenieria estructural**. Aplica tambien a software, agentes IA, automatizaciones, marketing, training y cualquier proyecto GEN+ que viva en `PROYECTOS`. Las bases opcionales (DOCUMENTOS, CONTACTOS CLIENTE) se omiten cuando no hay material concreto.
-   - Si el usuario dice no, crear solo la estructura minima necesaria y no replicar bases/vistas de plantilla.
+6. Preguntar explicitamente si el proyecto usara plantilla, salvo que el usuario ya lo haya indicado con claridad.
+   - Pregunta sugerida: `Quieres usar una plantilla para este proyecto?`
+   - Si el usuario dice que si y no especifica cual, para GEN+ ingenieria sugerir `PUENTE TINGO` como plantilla de referencia disponible.
+   - Si el usuario dice que no, crear solo la estructura minima necesaria segun el proyecto y no replicar bases/vistas de plantilla.
 7. Pedir o identificar plantilla a replicar si aplica.
 8. Validar permisos, destino y plantilla.
 9. Leer la plantilla solo si se confirmo su uso.
@@ -253,19 +188,8 @@ Patron observado:
   - `CONTACTOS CLIENTE` es opcional; crearla solo si hay contactos externos concretos que gestionar o el usuario la pide.
 - `ACTIVIDADES`:
   - Propiedades: `Name`, `Entregable`, `Encargado`, `Fecha Límite`, `Observación`, `% Avance`, `Status`.
-  - Vistas validadas (3 vistas, ver `references/template-engineering-project.md` para config JSON exacta y property IDs):
-    - `Vista Filtrada`: board agrupado por **Entregable**, quick_filter Status IN [EN PROCESO, POR HACER, PENDIENTE] — vista de trabajo activo por entregable.
-    - `Original`: board agrupado por **Entregable**, sin filtro — vista completa por entregable, incluye COMPLETADO.
-    - `Status`: table agrupada por **Entregable**, quick_filter Status = PENDIENTE, subtasks parents_and_subitems — vista de planning por entregable.
-  - **Importante: el diseno canonico agrupa por Entregable** en las 3 vistas. Esto permite ver el avance por entregable real del proyecto, no por estado abstracto. El Tingo actual (consultado mayo 2026 via `get_view`) tiene los boards agrupados por Status — eso es drift de la plantilla original, no el patron a replicar.
-  - `Status`, `% Avance`, `Terminado` o `Completado` deben quedar como propiedades de control/cierre, no como agrupador principal del board cuando el objetivo del usuario sea avanzar por entregables.
-  - Colores recomendados para `Status`: `POR HACER` gray, `EN PROCESO` yellow, `COMPLETADO` green, `PENDIENTE` red. Los colores ayudan a leer, pero no reemplazan `Status`, `% Avance`, `Terminado`/`Completado` ni evidencia de cierre.
-  - En los proyectos BIM/observaciones, ajustar agrupaciones segun instruccion del usuario; ejemplo validado: columnas por `Entregable`/observacion, y vista adicional por `Entregable interno` si el proyecto necesita ver frentes operativos.
-  - Al crear actividades, usar siempre una jerarquia operativa: `Entregable` macro arriba y subactividades ejecutables debajo. El entregable debe ser el resultado/requisito que se busca cerrar; en proyectos con observaciones de revisor, el entregable suele ser la observacion levantada.
-  - Si hace falta separar disciplina, paquete tecnico, frente de trabajo o entregable interno, crear/usar un campo auxiliar como `Entregable interno`, `Frente BIM`, `Especialidad` o equivalente. No usar ese campo auxiliar como sustituto del entregable macro cuando el seguimiento se mide por entregables u observaciones.
-  - Para `Entregable` y `Entregable interno`, usar colores estables y semanticos por familia cuando sea posible; no copiar colores heredados de otra plantilla si confunden la lectura.
-  - `% Avance` solo debe representar avance real validado o reportado por el usuario/evidencia. No usar porcentajes para indicar planificacion, peso, prioridad o "avance de estructura". Las actividades creadas como desglose pendiente deben iniciar en `0%`.
-  - Si la actividad requiere informacion de terceros o insumo no confirmado, marcarla como bloqueada/pendiente cuando exista el campo correspondiente; no inventar avance.
+  - Vistas: `Vista Filtrada` board, `Status` table, `Original` board.
+  - En los proyectos BIM/observaciones, ajustar agrupaciones segun instruccion del usuario; ejemplo validado: boards por `Status`, tabla `Status` agrupada por `Entregable`.
 - `REUNIONES`:
   - Propiedades: `OBJETIVOS`, `Date`, `ACUERDOS`, `OBSERVACIONES`.
   - Vista `Untitled` table.
@@ -277,68 +201,6 @@ Patron observado:
   - Vista `Default view` table.
 
 Importante: `PUENTE TINGO` es plantilla de estructura, no fuente de contenido ni lista obligatoria de bases. No copiar sus entregables, responsables, ubicacion, categorias ni bases opcionales si no corresponden al proyecto nuevo. Para proyectos GEN+ ligeros o en etapa comercial/alcance, evitar crear `DOCUMENTOS` y `CONTACTOS CLIENTE` vacias.
-
-#### Aprendizajes validados (mayo 2026) — leer antes de crear/refactorizar
-
-Replica validada de la plantilla Tingo: proyecto `AGENTE INMOBILIARIO GEN+` en base `PROYECTOS` con las 2 bases inline obligatorias, 3 vistas Tingo en ACTIVIDADES y sincronizacion en T.TRABAJO. Lecciones que el skill debia haber evitado y ahora documenta:
-
-**1. `get_database` de easy-notion NO devuelve `property_id`.** Solo devuelve `name` y `type`. Los `property_id` SON obligatorios para `create_view` (la API rechaza con "Fix one: property_id should be defined" si solo pasas `property_name`). Solucion: llamar a la Notion REST API directa con el token local — PowerShell snippet en `references/template-engineering-project.md`. Property IDs son strings cortos como `SxZr`, `qxhs`, `title`. La API los devuelve URL-encoded a veces (e.g., `Gs%5DU` → usar como `Gs]U`).
-
-**2. `replace_content` es DOBLE DESTRUCTIVO.** No solo borra todos los bloques del body — tambien elimina automaticamente las `child_databases` referenciadas en ese body (verificado: child_databases declaradas en el markdown anterior desaparecen del workspace, no quedan orphans). Si vas a refactorizar el body de una pagina que ya tiene bases inline cargadas con filas, **te resignas a recrear las bases y re-insertar todas las filas**. Pedir confirmacion explicita al usuario antes de usar replace_content en una pagina con bases pobladas.
-
-**3. `archive_page(database_id)` falla con 404.** La API trata las DBs distinto de las pages. Para archivar una DB: `PATCH /v1/databases/{id}` con `{"archived": true}` via REST. En la practica las DBs huerfanas tras replace_content ya estan eliminadas automaticamente y este endpoint devuelve 404 — eso es ok, no es un error real.
-
-**4. `create_database` con select/multi_select acepta `options` inline aunque no aparezca en el JSON schema del tool.** Verificado: pasar `[{"name": "Status", "type": "select", "options": ["POR HACER", "EN PROCESO", "COMPLETADO", "PENDIENTE"]}]` funciona. Si una version futura lo rechaza, fallback: crear sin options y dejar que auto-populen al insertar filas.
-
-**4.b. Colores y nombres de select/multi_select son INMUTABLES por option_id — pero PASAR colores al crear el DB FUNCIONA PERFECTAMENTE.** Notion rechaza PATCH para cambiar color de una option existente (`validation_error: Cannot update color of select with id`). También ignora silenciosamente intentos de renombrar (devuelve 200 OK pero no aplica). **CAMINO LIMPIO Y OBLIGATORIO al crear DB nueva**: pasar opciones con formato `[{"name": "X", "color": "red"}, ...]`, NO strings simples. Verificado 2026-05-28: pasando `options: [{name, color}]` en `create_database`, los colores aplican al instante y aparecen en `get_data_source` con el color exacto. No hay razón legítima para crear con strings simples — si lo hiciste, mejor recrear el DB que aplicar el workaround. Si tienes que recolorear post-create (DB con datos vivos):
-
-**Workaround validado "park-and-restore"** (probado en `AGENTE INMOBILIARIO GEN+` 2026-05-28):
-
-1. **PATCH 1**: agregar opción temporal `_PARK_<name>` con `color: default`, manteniendo las opciones originales con sus IDs.
-2. **Row updates**: actualizar todas las filas que usan la opción original a usar `_PARK_<name>` (vía `update_database_entry` o REST con option_id explícito).
-3. **PATCH 2**: omitir la opción original (se elimina por la regla full-list), manteniendo `_PARK_<name>` y demás opciones intactas.
-4. **PATCH 3**: agregar nueva opción con el nombre original + el color deseado. DEBE ser un PATCH separado del paso 2 — combinar delete+add con el mismo `name` en un solo PATCH falla con `Cannot update color of select with name: X` (la API valida por nombre antes de procesar el diff).
-5. **Row updates**: actualizar las filas de vuelta del `_PARK_` a la nueva opción con el nombre original (resuelve por name a la nueva).
-6. **PATCH 4**: omitir `_PARK_<name>` para borrarla.
-
-Costo: ~5 PATCHes + 2N row updates por opción. Para opciones sin rows (recién creadas, vacías), saltar steps 2 y 5.
-
-**Beware encoding bugs**: en PowerShell con caracteres especiales (ó, ñ, +), pasar el name via JSON inline puede crear opciones fantasma duplicadas. Si después de unpark se ven dos opciones con el "mismo" nombre y colores distintos, fix: PATCH a `/v1/pages/{row_id}` asignando `option_id` explícito (bypassa la name resolution ambigua), luego eliminar el fantasma.
-
-Colores reales Tingo Status (verificados via REST): POR HACER=red, EN PROCESO=yellow, COMPLETADO=green, PENDIENTE=blue. Ver `references/template-engineering-project.md` para colores de Encargado y Entregable.
-
-**5. Sincronizacion con T.TRABAJO general — NO opcional.** Cuando el proyecto vive en `PROYECTOS`, **siempre** crear padre operativo en T.TRABAJO con sub-items espejo. Prefijo de sub-items: `G | <descripcion>` (convencion validada). Pendings con Status=0 explicito + Date de commitment, NO null. Reuniones se cargan tambien como sub-items con Status=100. Mantener ambos lados sincronizados ante cualquier cambio de Status/% Avance/Terminado.
-
-**6. Pendings con Status=0 + Date, no null.** En la lista general T.TRABAJO los pendings deben mostrar `Status: 0` explicito (no null/vacio) y `Date` con la fecha de commitment. Sin esto, el render de la vista filtrada se ve roto y dificulta el reporte de actividades generales.
-
-**7. Body Tingo usa H3 (`###`), no H2.** Headings de secciones superiores (`DESCRIPCIÓN`, `ACCESOS`, `INFORMACIÓN`) son `###`. Sub-bloques colapsables usan `+++ TÍTULO ... +++` (Easy-Notion-MCP los convierte a toggles reales). Sección ACCESOS usa layout `::: columns / ::: column ... :::` **con callouts dentro de cada columna** (sustituto del botón nativo que la API marca unsupported): `> [!TIP]`, `> [!INFO]`, `> [!NOTE]`, `> [!IMPORTANT]`. Sección APRENDIZAJES Y CRITERIOS: cada criterio se documenta como su propio callout `> [!IMPORTANT]` — la sección crece con el tiempo y cada entrada se ve como tarjeta independiente. Ver `references/template-engineering-project.md` para sintaxis exacta y convenciones por tipo de callout.
-
-**8. Plantilla Tingo es agnostica al tipo de proyecto.** No es solo ingenieria estructural. Se uso exitosamente para un agente IA / automatizacion n8n. Las opciones de `Entregable` (select) se adaptan al proyecto (e.g., software: "Desarrollo del agente / Documentacion / Testing / Cierre"); el schema base se mantiene igual.
-
-**9. `update_section` es DOBLE DESTRUCTIVO cuando la seccion editada NO tiene heading siguiente en la pagina.** Validado 2026-05-28 (DOS VECES porque cai en el mismo trap consecutivamente): `update_section(heading="APRENDIZAJES Y CRITERIOS")` en la pagina del inmobiliario BORRO ACTIVIDADES + REUNIONES inline databases que estaban debajo, porque el boundary del H3 se extiende hasta el siguiente heading H3/H2/H1 — y como no habia ninguno, extendio hasta el final de pagina, eliminando todo lo que estaba ahi, incluidos los child_databases.
-
-**Patron SENTINELA obligatorio:** cuando una pagina tenga una seccion H3 que crece con el tiempo (APRENDIZAJES Y CRITERIOS, NOTAS, IDEAS, etc.) **Y** debajo tenga bases inline (ACTIVIDADES, REUNIONES, etc.), insertar SIEMPRE un heading H3 sentinela entre la seccion creciente y las bases. Recomendado: `### MEMORIA OPERATIVA` (descriptivo + neutro). Asi `update_section` sobre la seccion creciente extiende hasta el sentinela, las bases quedan blindadas.
-
-Estructura segura:
-```
-### APRENDIZAJES Y CRITERIOS
-... callouts crecientes
-### MEMORIA OPERATIVA   ← sentinela
-[ACTIVIDADES inline]
-[REUNIONES inline]
-```
-
-Alternativa si por alguna razon no se puede agregar el sentinela: usar `find_replace` o `update_block` para edicion quirurgica, nunca `update_section`. Una seccion sin boundary siguiente es una bomba de tiempo para `update_section`.
-
-**10. Callouts multi-linea con children: easy-notion solo preserva la primera linea; REST API SI soporta children completos.** Confirmado 2026-05-28: pasar `> [!IMPORTANT]\n> **Titulo**\n> - bullet 1\n> - bullet 2` (con o sin lineas vacias `>`, con o sin sintaxis tight) — easy-notion strippea todo excepto la primera linea del callout. Notion API SI permite callouts con children blocks. Workaround validado:
-
-1. Crear el callout con solo el titulo via easy-notion `update_section`/`append_content`/`create_page`: `> [!IMPORTANT]\n> **Titulo del criterio**`.
-2. Encontrar el block_id del callout: `GET /v1/blocks/{page_id}/children` y filtrar por `type == "callout"`.
-3. Agregar bullets/paragraphs como children via REST: `PATCH /v1/blocks/{callout_id}/children` con array `children` de blocks `bulleted_list_item`, `paragraph`, etc. Cada block tiene `rich_text` array con annotations (`bold`, `italic`, `code`) por segmento.
-
-Asi cada criterio queda visualmente como UNA tarjeta callout completa, no como callout-banner + contenido suelto debajo. Patron recomendado para secciones tipo `APRENDIZAJES Y CRITERIOS` donde cada entrada debe sentirse autonoma.
-
-**11. NUNCA inventar nombres/datos del cliente.** Si el usuario menciona "Lily" en pasada (e.g., "actualizamos el de Lily") NO inferir que Lily es el cliente, asesor, o usuario sin confirmar. Usar placeholders explicitos como "Por confirmar" en campos no validados. Validado 2026-05-28: yo invente `CLIENTE: Lily / Inmobiliaria` en el proyecto inmobiliario sin tener confirmacion — error grave que violaba la regla Magnus de no fabricar datos. Si falta info, dejarla vacia o como placeholder, nunca llenar con inferencia.
 
 ### Actualizar proyecto
 
@@ -383,71 +245,6 @@ Trigger ejemplo: `sube la reunion a Notion` / `carga esto a reuniones`
 
 Usar este activador solo cuando el usuario lo pida de forma explicita o cuando el input describa inequívocamente una reunion real realizada o programada. Si solo hay cierre de actividad, seguimiento a una persona, mensaje de confirmacion, correo, WhatsApp, entrega documental o evidencia de Drive, no crear registro en `REUNIONES`; actualizar actividades/control/documentos segun corresponda.
 
-#### Preprocesamiento ICE obligatorio
-
-Antes de registrar cualquier reunion, activar primero `meeting-ice-processor`, incluso si el input del usuario no es una transcripcion literal sino notas manuales, memoria hablada, acuerdos sueltos o resumen informal.
-
-Secuencia obligatoria:
-
-1. Procesar el input con `meeting-ice-processor`.
-2. Obtener objetivo, observaciones fieles, acuerdos/pendientes, actividades trazables y puntos sueltos.
-3. Registrar en Notion usando esta skill.
-4. Generar mensaje WhatsApp curado.
-
-Regla de densidad:
-
-- Notion conserva la sustancia real: observaciones completas, decisiones, razonamiento, tensiones, puntos sueltos y estructura ICE dentro de la pagina de reunion.
-- WhatsApp es directo y mas compacto, pero no debe omitir temas necesarios; agrupar antes que borrar.
-
-Cuando se cree o actualice una pagina de reunion, insertar tambien una seccion `ICE - Estructura trazable de la reunion` con:
-- `I - Ideas e insights`
-- `C - Compromisos y cierres`
-- `E - Ejecucion pendiente`
-- `Puntos sueltos / por aclarar`
-
-Si la reunion abarca varios proyectos, productos o frentes, insertar ademas una seccion `Macrosecciones / frentes de la reunion` antes o despues del ICE. Cada frente debe conservar su propio contexto y no mezclarse en una sola lista plana.
-
-Formato recomendado:
-
-- `Frente: [nombre]`
-  - `Que se converso`
-  - `Ideas / decisiones clave`
-  - `Acuerdos / pendientes`
-  - `Responsables`
-  - `Puntos sueltos`
-  - `Riesgos / ambiguedades`
-  - `Preguntas de seguimiento`
-  - `Plan trazable del frente`
-
-Usar macrosecciones cuando aparezcan temas como AECODE Fase 2, AECODE Fase 3, GEN+, agentes, TessIA, Summit, SAMI, marketing/webinars, certificaciones, n8n, libro, partners, cliente externo o cualquier proyecto separado. Esta capa ayuda a que Notion funcione como memoria de proyecto, no solo como acta.
-
-Si existe esta capa, no concentrar todos los acuerdos, puntos sueltos, riesgos y preguntas en bloques globales. Esos bloques pueden existir como sintesis, pero la memoria primaria debe quedar separada por frente/proyecto.
-
-Regla de cantidad de frentes:
-
-- 1 frente: registrar una sola estructura de reunion, sin forzar macrosecciones.
-- 2-3 frentes: registrar cada frente como mini-acta completa. Este es el caso mas comun.
-- 4+ frentes: mantener estructura por frente, pero cuidar longitud; si hace falta, guardar por tandas y confirmar antes de continuar.
-
-Orden por defecto para Notion y WhatsApp: **frente -> secciones**. No invertirlo a **seccion -> frentes** salvo pedido explicito del usuario.
-
-Cada frente debe conservar la estructura tradicional de reunion como mini-acta. No reemplazar el ICE por prosa suelta. Orden recomendado dentro de cada frente:
-
-1. `Ficha del frente`
-2. `Resumen del frente`
-3. `Temas clave`
-4. `ICE`
-   - `I - Ideas e insights`
-   - `C - Compromisos y cierres`
-   - `E - Ejecucion pendiente`
-5. `Acuerdos / pendientes trazables`
-6. `Puntos sueltos`
-7. `Riesgos / ambiguedades`
-8. `Preguntas de seguimiento`
-9. `Plan trazable`
-
-Usar tablas cuando haya comparacion, ownership o seguimiento: temas, acuerdos, puntos sueltos, riesgos y plan. Usar bullets para resumen e insights.
-
 Este activador produce dos salidas: registro en Notion y mensaje listo para WhatsApp.
 
 **Paso 1 - Registrar en Notion REUNIONES**
@@ -471,10 +268,10 @@ No basta con crear la fila en la base inline `REUNIONES` del proyecto. La reunio
 
 **Paso 2 - Mensaje WhatsApp para copiar y pegar**
 
-Despues de documentar una reunion, si el usuario pide mensaje para WhatsApp/WSP, entregar siempre un mensaje de grupo con estructura **titulo/frente -> secciones**. Esta regla aplica aunque la reunion tenga un solo frente; no responder con resumen libre ni con listas separadas fuera del molde.
+Despues de documentar, entregar al usuario un mensaje de grupo de WhatsApp con este molde:
 
 ```text
-*REUNIONES ([DD/MM/AAAA]) - [Titulo o frente]*
+*REUNION [Nombre del proyecto] - [DD/MM/AAAA]*
 
 *Objetivo:*
 • [objetivo principal de la reunion]
@@ -492,7 +289,7 @@ Despues de documentar una reunion, si el usuario pide mensaje para WhatsApp/WSP,
 ✅ [cierre si aplica, ej: "Todo lo demas aprobado y validado en reunion."]
 ```
 
-Regla de titulo: la primera linea debe ser siempre `*REUNIONES ([DD/MM/AAAA]) - [Titulo o frente]*`. Usar fecha real de la reunion; si falta, usar `Sin fecha`. Para reuniones con 2+ frentes, repetir el bloque completo por cada frente y usar el nombre del frente en el titulo.
+Regla de titulo: siempre `*REUNION [Proyecto] - [DD/MM/AAAA]*`, con la palabra REUNION al inicio. Para Tingo usar `*REUNION PUENTE-TINGO - [DD/MM/AAAA]*`.
 
 Reglas del formato WA:
 - Texto plano, sin markdown de codigo, sin tablas.
@@ -501,8 +298,6 @@ Reglas del formato WA:
 - Tono directo, sin saludos ni firmas.
 - Maximo 20 lineas en total; si hay mas contenido, agrupar puntos similares.
 - Separar `Observaciones` de `Acuerdos / Pendientes`.
-- No usar encabezados alternativos como `Resumen`, `Punto principal`, `Criterios`, `Acuerdos` o `Pendientes por definir` fuera del molde validado.
-- No reemplazar el titulo por `FRENTE:`; el frente o tema va despues del guion en la primera linea.
 - Si no hay validacion general, omitir el cierre con check.
 
 ### Reporte de actividades generales
@@ -738,10 +533,6 @@ Antes de escribir:
 Para limites de Notion MCP/API, contratos internos, templates, blocks, imagenes y diffs, leer:
 
 `references/notion-mcp-and-api-patterns.md`
-
-Para candidatos MCP, riesgos y rutas alternativas, leer:
-
-`references/notion-mcp-candidates.md`
 
 Para la plantilla de referencia de proyectos de ingenieria (estructura PUENTE-TINGO), leer:
 

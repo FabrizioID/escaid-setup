@@ -1,220 +1,388 @@
-// ─────────────────────────────────────────────────────
-// QA DEV TESTER — Casuística agresiva clientefull02
-// v2 — script corregido y funcional
-// ─────────────────────────────────────────────────────
+#!/usr/bin/env node
+// ─────────────────────────────────────────────────────────────────────────────
+// QA RUNNER GENÉRICO — nodos Code de n8n
+//
+// Uso:  node test-normalizar.js <ruta-al-codigo.js>
+//
+// No hardcodea lógica de negocio. Lee el archivo fuente, lo escanea para
+// detectar grupos, comandos y sesiones, y genera los casos de prueba
+// dinámicamente. Siempre testea el código que está realmente desplegado.
+// ─────────────────────────────────────────────────────────────────────────────
 
-const TARGET_GROUP = '120363425018056471@g.us';
-const OTRO_GRUPO   = '999999999999@g.us';
-const PARTICIPANT  = '51924102571@s.whatsapp.net';
+const fs = require('fs');
+const path = require('path');
 
-// ── buildPayload completo (todos los tipos de media) ──
-function buildPayload({ text='', mediaType='text', fromMe=false, groupJid=TARGET_GROUP,
-  participant=PARTICIPANT, messageId='msg-'+Math.random().toString(36).slice(2), caption='' }={}) {
-  const message = {};
-  if (mediaType==='text')     message.conversation = text;
-  if (mediaType==='image')    message.imageMessage = { caption, mimetype:'image/jpeg', url:'http://test/img.jpg' };
-  if (mediaType==='document') message.documentMessage = { caption, fileName:'doc.pdf', mimetype:'application/pdf', url:'http://test/doc.pdf' };
-  if (mediaType==='audio')    message.audioMessage = { url:'http://test/audio.ogg', mimetype:'audio/ogg' };
-  if (mediaType==='video')    message.videoMessage = { caption, url:'http://test/video.mp4', mimetype:'video/mp4' };
+// ── 1. CARGAR CÓDIGO FUENTE ──────────────────────────────────────────────────
+
+const sourceFile = process.argv[2];
+if (!sourceFile) {
+  console.error('Uso: node test-normalizar.js <ruta-al-codigo.js>');
+  process.exit(1);
+}
+const sourceCode = fs.readFileSync(path.resolve(sourceFile), 'utf8');
+console.log(`\n=== QA RUNNER — ${path.basename(sourceFile)} ===\n`);
+
+// ── 2. EJECUTOR (mockea globals de n8n) ─────────────────────────────────────
+
+function runCode(inputJson, sd) {
+  const fn = new Function('$json', '$getWorkflowStaticData', sourceCode);
+  return fn(inputJson, () => sd);
+}
+
+function safeRun(inputJson, sd) {
+  try {
+    const result = runCode(inputJson, sd);
+    return { ok: true, result: Array.isArray(result) ? result[0]?.json : result };
+  } catch (e) {
+    return { ok: false, error: e.message };
+  }
+}
+
+// ── 3. SCANNER — detecta configuración desde el código ─────────────────────
+
+function scanCode(code) {
+  const info = {
+    targetGroups: [],
+    cmdPrefixes: [],     // ej: ['!new ', '!genbot']
+    newSubcmds: [],      // ej: ['prop', 'lote']
+    genbotSubcmds: [],   // ej: ['premium', 'catalogo', 'ayuda']
+    hasSessionProp: false,
+    hasSessionLote: false,
+    sessionTimeout: null,
+  };
+
+  // TARGET_GROUPS
+  const tgMatch = code.match(/TARGET_GROUPS\s*=\s*\[([^\]]+)\]/);
+  if (tgMatch) {
+    const hits = tgMatch[1].match(/'([^']+)'/g) || [];
+    info.targetGroups = hits.map(g => g.replace(/'/g, ''));
+  }
+
+  // Prefijos de comando (startsWith)
+  const swMatches = [...code.matchAll(/startsWith\('([^']+)'\)/g)];
+  swMatches.forEach(m => { if (!info.cmdPrefixes.includes(m[1])) info.cmdPrefixes.push(m[1]); });
+
+  // Subcomandos !new
+  if (/tipo\s*===\s*'prop'/.test(code))  info.newSubcmds.push('prop');
+  if (/tipo\s*===\s*'lote'/.test(code))  info.newSubcmds.push('lote');
+
+  // Subcomandos !genbot (arrays de aliases y comparaciones directas)
+  const arrayMatches = [...code.matchAll(/\[([^\]]{5,})\]\.includes\(subcomando\)/g)];
+  arrayMatches.forEach(m => {
+    const items = m[1].match(/'([a-záéíóú]+)'/g) || [];
+    items.forEach(i => {
+      const v = i.replace(/'/g, '');
+      if (!info.genbotSubcmds.includes(v)) info.genbotSubcmds.push(v);
+    });
+  });
+  const eqMatches = [...code.matchAll(/subcomando\s*===\s*'([a-z]+)'/g)];
+  eqMatches.forEach(m => { if (!info.genbotSubcmds.includes(m[1])) info.genbotSubcmds.push(m[1]); });
+
+  // Sesiones
+  info.hasSessionProp  = code.includes('propSessions');
+  info.hasSessionLote  = code.includes('loteSessions');
+
+  // Timeout de sesión
+  const toMatch = code.match(/SESSION_TIMEOUT\s*=\s*(\d+\s*\*\s*\d+\s*\*\s*\d+|\d+)/);
+  if (toMatch) info.sessionTimeout = eval(toMatch[1]); // solo eval de expresión numérica simple
+
+  return info;
+}
+
+const INFO = scanCode(sourceCode);
+const GROUP  = INFO.targetGroups[0] || '120363000000000000@g.us';
+const OTHER  = '999999999999@g.us';
+const SENDER = '51924102571@s.whatsapp.net';
+
+console.log('Detectado:');
+console.log('  target groups:', INFO.targetGroups);
+console.log('  cmd prefixes :', INFO.cmdPrefixes);
+console.log('  !new subcmds :', INFO.newSubcmds);
+console.log('  !genbot subs :', INFO.genbotSubcmds);
+console.log('  prop session :', INFO.hasSessionProp);
+console.log('  lote session :', INFO.hasSessionLote);
+console.log('  timeout (ms) :', INFO.sessionTimeout);
+console.log();
+
+// ── 4. HELPERS DE PAYLOAD ────────────────────────────────────────────────────
+
+let _seq = 0;
+function uid() { return 'msg-' + (++_seq); }
+
+function buildPayload({ text = '', mediaType = 'text', fromMe = false, groupJid = GROUP,
+  participant = SENDER, messageId, caption = '', lat, lng, mapsLink } = {}) {
+  const mid = messageId || uid();
+  const msg = {};
+  if (mediaType === 'text' && !mapsLink) msg.conversation = text;
+  else if (mapsLink) msg.conversation = mapsLink;
+  else if (mediaType === 'image')    msg.imageMessage    = { caption, mimetype: 'image/jpeg', url: 'http://test/img.jpg' };
+  else if (mediaType === 'document') msg.documentMessage = { caption, fileName: 'doc.pdf', mimetype: 'application/pdf', url: 'http://test/doc.pdf' };
+  else if (mediaType === 'audio')    msg.audioMessage    = { url: 'http://test/audio.ogg', mimetype: 'audio/ogg' };
+  else if (mediaType === 'video')    msg.videoMessage    = { caption, url: 'http://test/video.mp4', mimetype: 'video/mp4' };
+  else if (mediaType === 'location') msg.locationMessage = { degreesLatitude: lat || -12.0, degreesLongitude: lng || -77.0, name: 'Test', address: 'Calle Test' };
   return { body: { data: {
-    key: { remoteJid: groupJid, fromMe, id: messageId, participant: fromMe ? '' : participant },
-    message, messageType: mediaType==='text' ? 'conversation' : mediaType+'Message', pushName: 'Asesor Test'
+    key: { remoteJid: groupJid, fromMe, id: mid, participant: fromMe ? '' : participant },
+    message: msg,
+    messageType: mediaType === 'text' || mapsLink ? 'conversation' : mediaType + 'Message',
+    pushName: 'Asesor Test'
   }}};
 }
 
-// ── lógica del nodo — copia fiel del workflow ─────────
-function runNormalizar(payload, sd) {
-  try {
-    const $json = payload;
-    const TARGET_GROUPS = ['120363425018056471@g.us'];
-    const COMANDO = '!genbot';
-    const body = $json.body || $json;
-    const data = body.data || {};
-    const key = data.key || {};
-    const message = data.message || {};
+// Construye el comando !new detectado (primer prefijo que empieza con '!new')
+const NEW_PREFIX  = INFO.cmdPrefixes.find(p => p.startsWith('!new')) || '!new ';
+const GENBOT_CMD  = INFO.cmdPrefixes.find(p => p.startsWith('!genbot')) || '!genbot';
 
-    sd.seen = sd.seen || {};
-    const now = Date.now();
-    for (const k of Object.keys(sd.seen)) { if (now - sd.seen[k] > 120000) delete sd.seen[k]; }
-    const earlyId = key.id || '';
-    if (earlyId && sd.seen[earlyId]) return { ok:true, result:{ duplicate:true, message_id:earlyId } };
-    if (earlyId) sd.seen[earlyId] = now;
+// ── 5. TEST RUNNER ───────────────────────────────────────────────────────────
 
-    const rawJid = key.remoteJid || '';
-    const fromMe = key.fromMe || false;
-    const isGroup = rawJid.endsWith('@g.us');
-    const groupJid = isGroup ? rawJid : '';
-    const participantJid = key.participant || '';
-    const senderPhone = isGroup
-      ? participantJid.replace('@s.whatsapp.net','').replace('@lid','')
-      : rawJid.replace('@s.whatsapp.net','');
-    const pushName = data.pushName || 'Sin nombre';
-    const messageTypeRaw = data.messageType || 'unknown';
-
-    let texto='', mediaType='text', mediaUrl='', caption='', filename='', mimetype='';
-    if (message.conversation)             { texto=message.conversation; mediaType='text'; }
-    else if (message.extendedTextMessage) { texto=message.extendedTextMessage?.text||''; mediaType='text'; }
-    else if (message.imageMessage)        { caption=message.imageMessage?.caption||''; mediaType='image'; mediaUrl=message.imageMessage?.url||''; mimetype=message.imageMessage?.mimetype||'image/jpeg'; }
-    else if (message.documentMessage)     { caption=message.documentMessage?.caption||''; filename=message.documentMessage?.fileName||''; mediaType='document'; mediaUrl=message.documentMessage?.url||''; mimetype=message.documentMessage?.mimetype||'application/pdf'; }
-    else if (message.audioMessage)        { mediaType='audio'; mediaUrl=message.audioMessage?.url||''; }
-    else if (message.videoMessage)        { caption=message.videoMessage?.caption||''; mediaType='video'; mediaUrl=message.videoMessage?.url||''; }
-
-    const mensajeRaw = (texto||caption||'').trim();
-    const mensajeLower = mensajeRaw.toLowerCase();
-    const comandoMatch = mensajeLower.startsWith(COMANDO);
-    const mensajeSinComando = comandoMatch ? mensajeRaw.substring(COMANDO.length).trim() : mensajeRaw;
-    const hasMedia = (mediaType==='image'||mediaType==='document');
-
-    const partes = mensajeSinComando.split(/\s+/);
-    const subcomando = (partes[0]||'').toLowerCase();
-
-    const es1amb = ['1ambiente','1amb','1','1a','unambiente','plano1','tipo1'].includes(subcomando);
-    const es2amb = ['2ambientes','2amb','2','2a','dosambientes','plano2','tipo2'].includes(subcomando);
-    const es3amb = ['3ambientes','3amb','3','3a','tresambientes','plano3','tipo3'].includes(subcomando);
-    const esCatalogo = ['catalogo','catálogo','planos','catalogos'].includes(subcomando);
-    const esAyuda = ['ayuda','help','comandos','menu','menú','start'].includes(subcomando) || (comandoMatch && subcomando==='' && !hasMedia);
-    const esBuscar = ['buscar','busco','search','encuentra'].includes(subcomando);
-    const esPrecios = ['precios','precio','tarifas'].includes(subcomando);
-    const esLote = comandoMatch && isGroup && TARGET_GROUPS.includes(groupJid) && ['lote','batch','masivo','inicio'].includes(subcomando);
-    const esFin  = comandoMatch && isGroup && TARGET_GROUPS.includes(groupJid) && ['fin','finalizar','done','terminar','procesar'].includes(subcomando);
-    const esConsulta = es1amb||es2amb||es3amb||esCatalogo||esAyuda||esBuscar||esPrecios||esLote||esFin;
-
-    const isTargetGroup = TARGET_GROUPS.includes(groupJid);
-    const passFilter = isGroup && isTargetGroup && comandoMatch;
-    const esPremium = passFilter && subcomando==='premium';
-    const esNuevaPropiedad = passFilter && !esConsulta && !esPremium;
-    const passCatalogo = passFilter && esCatalogo;
-    const passAyuda = passFilter && esAyuda;
-
-    sd.batchSessions = sd.batchSessions || {};
-    const batchSession = sd.batchSessions[groupJid]||null;
-    const batchActive = batchSession?.active===true;
-    let esBatchQueue=false, batchQueueCount=0;
-
-    if (esNuevaPropiedad && batchActive && !esLote && !esFin) {
-      esBatchQueue=true;
-      sd.batchSessions[groupJid].messages = sd.batchSessions[groupJid].messages||[];
-      sd.batchSessions[groupJid].messages.push({ mensaje:mensajeSinComando });
-      batchQueueCount=sd.batchSessions[groupJid].messages.length;
-    }
-    if (!esBatchQueue && batchActive && isGroup && isTargetGroup && !fromMe && !esLote && !esFin) {
-      const hasContent = (mediaType==='text' && mensajeRaw.length>1) || mediaType==='image' || mediaType==='document';
-      if (hasContent) {
-        if (mediaType==='image'||mediaType==='document') {
-          sd.batchSessions[groupJid].messages = sd.batchSessions[groupJid].messages||[];
-          sd.batchSessions[groupJid].messages.push({ mensaje:'[IMG-PROCESADA-INDIVIDUALMENTE]' });
-          batchQueueCount=sd.batchSessions[groupJid].messages.length;
-        } else {
-          esBatchQueue=true;
-          sd.batchSessions[groupJid].messages = sd.batchSessions[groupJid].messages||[];
-          sd.batchSessions[groupJid].messages.push({ mensaje:mensajeRaw });
-          batchQueueCount=sd.batchSessions[groupJid].messages.length;
-        }
-      }
-    }
-
-    const esConsultaNatural = isGroup && isTargetGroup && !fromMe && !comandoMatch && mediaType==='text' && mensajeRaw.length>=3 && mensajeRaw.length<=500 && !batchActive;
-    const esImagenEnLote = batchActive && !fromMe && isGroup && isTargetGroup && hasMedia && !comandoMatch && !esLote && !esFin;
-    const finalEsNuevaPropiedad = esNuevaPropiedad||esImagenEnLote;
-
-    return { ok:true, result:{
-      duplicate:false, is_group:isGroup, group_jid:groupJid, is_target_group:isTargetGroup,
-      from_me:fromMe, push_name:pushName, media_type:mediaType, has_media:hasMedia,
-      mensaje_raw:mensajeRaw, subcomando,
-      es_catalogo:esCatalogo, es_ayuda:esAyuda, es_nueva_propiedad:finalEsNuevaPropiedad,
-      es_premium:esPremium, es_lote:esLote, es_fin:esFin,
-      pass_filter:passFilter, pass_catalogo:passCatalogo, pass_ayuda:passAyuda,
-      es_batch_queued:esBatchQueue, batch_active:batchActive, batch_queue_count:batchQueueCount,
-      es_consulta_natural:esConsultaNatural, es_imagen_en_lote:esImagenEnLote,
-      evolution_instance:'GenPlus'
-    }};
-  } catch(e) { return { ok:false, error:e.message }; }
-}
-
-// ── test runner ───────────────────────────────────────
-let passed=0, failed=0;
-const rows=[];
+let passed = 0, failed = 0;
+const rows = [];
 
 function test(name, payload, sd, assertion) {
-  const r = runNormalizar(payload, sd);
-  let status, obs='';
-  if (!r.ok) { status='❌'; obs='CRASH: '+r.error; failed++; }
-  else {
+  const r = safeRun(payload, sd);
+  let status, obs = '';
+  if (!r.ok) {
+    status = '❌'; obs = 'CRASH: ' + r.error; failed++;
+  } else {
     try {
       const ok = assertion(r.result);
-      if (ok) { status='✅'; passed++; }
-      else { status='❌'; obs=JSON.stringify(r.result).substring(0,150); failed++; }
-    } catch(e) { status='❌'; obs='Assertion error: '+e.message; failed++; }
+      if (ok) { status = '✅'; passed++; }
+      else { status = '❌'; obs = JSON.stringify(r.result).substring(0, 120); failed++; }
+    } catch (e) { status = '❌'; obs = 'Assert error: ' + e.message; failed++; }
   }
   rows.push({ name, status, obs });
 }
 
-console.log('\n=== QA DEV TESTER v2 — clientefull02 ===\n');
+// ── 6. CASOS UNIVERSALES ─────────────────────────────────────────────────────
 
-// ── GRUPO 1: Payloads vacíos / malformados ────────────
-test('Payload completamente vacío {}',         {}, {},            r => !r.pass_filter && !r.is_group);
-test('body.data undefined',                    {body:{}}, {},     r => !r.pass_filter);
-test('key undefined',                          {body:{data:{message:{conversation:'!genbot'},pushName:'T',messageType:'conversation'}}}, {}, r => !r.pass_filter);
-test('message vacío (sin tipo de media)',       buildPayload({text:''}), {}, r => r.media_type==='text' && !r.pass_filter);
-test('remoteJid null string',                  buildPayload({groupJid:'null'}), {}, r => !r.is_group);
-test('messageId vacío — dedup no bloquea',     {body:{data:{key:{remoteJid:TARGET_GROUP,fromMe:false,id:'',participant:PARTICIPANT},message:{conversation:'!genbot catalogo'},pushName:'T',messageType:'conversation'}}}, {}, r => r.pass_catalogo===true);
+test('Payload vacío {} → no crash',
+  {}, {}, r => r !== undefined);
 
-// ── GRUPO 2: Caracteres especiales ───────────────────
-test('Tildes: !genbot catálogo',               buildPayload({text:'!genbot catálogo'}), {},  r => r.es_catalogo===true);
-test('Emoji en descripción: !genbot 🏠 dpto',  buildPayload({text:'!genbot 🏠 dpto Lima 450k'}), {}, r => r.es_nueva_propiedad===true);
-test('Texto 2000 chars',                       buildPayload({text:'!genbot '+'a'.repeat(1990)}), {}, r => r.es_nueva_propiedad===true);
-test('!genbot con saltos de línea → propiedad',buildPayload({text:'!genbot\ndpto\n3D'}), {}, r => r.es_nueva_propiedad===true);
-test('pushName con chinos → no crashea',       {body:{data:{key:{remoteJid:TARGET_GROUP,fromMe:false,id:'cn1',participant:PARTICIPANT},message:{conversation:'!genbot catalogo'},pushName:'中文名字',messageType:'conversation'}}}, {}, r => r.pass_catalogo===true);
+test('body.data undefined → no crash',
+  { body: {} }, {}, r => r !== undefined);
 
-// ── GRUPO 3: Todos los tipos de media ────────────────
-test('Imagen + caption con propiedad',         buildPayload({mediaType:'image',caption:'!genbot Dpto 2D Miraflores'}), {}, r => r.es_nueva_propiedad===true && r.has_media===true);
-test('Documento + caption vacío → no ayuda (has_media bloquea)', buildPayload({mediaType:'document',caption:'!genbot '}), {}, r => r.es_ayuda===false && r.has_media===true);
-test('Audio → media_type=audio, no procesa',   buildPayload({mediaType:'audio'}), {}, r => r.media_type==='audio' && !r.pass_filter);
-test('Video → media_type=video, no procesa',   buildPayload({mediaType:'video',caption:'algo'}), {}, r => r.media_type==='video' && !r.pass_filter);
+test('Grupo incorrecto → ignorado',
+  buildPayload({ text: GENBOT_CMD, groupJid: OTHER }), {},
+  r => !r.is_target_group && !r.pass_filter);
 
-// ── GRUPO 4: Lote — casos límite ─────────────────────
-const sd_lote_lleno = { batchSessions:{ [TARGET_GROUP]:{ active:true, messages:new Array(999).fill({m:'x'}) } } };
-test('Lote 999 msgs + texto nuevo → cola 1000',buildPayload({text:'Dpto Barranco'}), sd_lote_lleno, r => r.es_batch_queued===true && r.batch_queue_count===1000);
-test('Lote activo + !genbot fin → es_fin, no cola', buildPayload({text:'!genbot fin'}), {batchSessions:{[TARGET_GROUP]:{active:true,messages:[]}}}, r => r.es_fin===true && r.es_batch_queued===false);
-test('Lote activo + !genbot lote → es_lote, no cola',buildPayload({text:'!genbot lote'}), {batchSessions:{[TARGET_GROUP]:{active:true,messages:[]}}}, r => r.es_lote===true && r.es_batch_queued===false);
-test('Lote activo + fromMe → NO auto-captura',      buildPayload({text:'nota interna',fromMe:true}), {batchSessions:{[TARGET_GROUP]:{active:true,messages:[]}}}, r => r.es_batch_queued===false);
-test('Lote activo + 1 char → NO auto-captura',      buildPayload({text:'x'}), {batchSessions:{[TARGET_GROUP]:{active:true,messages:[]}}}, r => r.es_batch_queued===false);
-test('Lote activo + audio → NO captura ni Vision',  buildPayload({mediaType:'audio'}), {batchSessions:{[TARGET_GROUP]:{active:true,messages:[]}}}, r => r.es_batch_queued===false && r.es_imagen_en_lote===false);
-test('Lote activo + imagen → Vision (no cola)',      buildPayload({mediaType:'image',caption:'foto'}), {batchSessions:{[TARGET_GROUP]:{active:true,messages:[]}}}, r => r.es_imagen_en_lote===true && r.es_batch_queued===false);
+test('Chat individual (no grupo) → ignorado',
+  buildPayload({ text: GENBOT_CMD, groupJid: SENDER }), {},
+  r => !r.is_group && !r.pass_filter);
 
-// ── GRUPO 5: Dedup — estado compartido real ───────────
-// Usamos el MISMO objeto sd para que el estado persista entre llamadas
-const sd_dedup = {};
-runNormalizar(buildPayload({text:'!genbot catalogo', messageId:'dup-001'}), sd_dedup);  // primera vez
-test('Dedup: segundo envío mismo messageId → bloqueado', buildPayload({text:'!genbot catalogo', messageId:'dup-001'}), sd_dedup, r => r.duplicate===true);
-test('Dedup: messageId distinto → pasa normal',          buildPayload({text:'!genbot catalogo', messageId:'dup-002'}), sd_dedup, r => r.pass_catalogo===true);
+test('fromMe + comando → pass_filter true',
+  buildPayload({ text: GENBOT_CMD, fromMe: true }), {},
+  r => r.pass_filter === true);
 
-// ── GRUPO 6: Filtros y routing ────────────────────────
-test('Grupo incorrecto → ignorado',            buildPayload({text:'!genbot catalogo', groupJid:OTRO_GRUPO}), {}, r => !r.is_target_group && !r.pass_filter);
-test('Chat individual → ignorado',             buildPayload({text:'!genbot catalogo', groupJid:'51924102571@s.whatsapp.net'}), {}, r => !r.is_group && !r.pass_filter);
-test('fromMe + comando → pass_filter true',    buildPayload({text:'!genbot catalogo', fromMe:true}), {}, r => r.pass_filter===true && r.pass_catalogo===true);
-test('Sin comando → no pasa filtro',           buildPayload({text:'Hola buen dia'}), {}, r => !r.pass_filter && !r.es_nueva_propiedad);
-test('!genbot vacío → ayuda',                  buildPayload({text:'!genbot'}), {}, r => r.es_ayuda===true);
-test('!genbot múltiples espacios → ayuda',     buildPayload({text:'!genbot   '}), {}, r => r.es_ayuda===true);
-test('!GENBOT mayúsculas → pasa igual',        buildPayload({text:'!GENBOT catalogo'}), {}, r => r.pass_catalogo===true);
-test('Subcomando inválido → es_nueva_propiedad',buildPayload({text:'!genbot xyz descripcion'}), {}, r => r.es_nueva_propiedad===true);
+test('Sin comando → pasa pero no activa routing',
+  buildPayload({ text: 'Hola buenas' }), {},
+  r => !r.comando_match);
 
-// ── REPORTE ───────────────────────────────────────────
-console.log(`${'Caso'.padEnd(58)} Estado  Observación`);
-console.log('─'.repeat(110));
-for (const row of rows) {
-  const obs = row.obs ? row.obs.substring(0,45)+'...' : '';
-  console.log(`${row.name.padEnd(58)} ${row.status.padEnd(7)} ${obs}`);
+test('Texto 2000 chars → no crash',
+  buildPayload({ text: GENBOT_CMD + ' ' + 'a'.repeat(1990) }), {},
+  r => r !== undefined && !r.duplicate);
+
+test('Tildes y emojis en texto → no crash',
+  buildPayload({ text: GENBOT_CMD + ' 🏠 café descripción ñoño' }), {},
+  r => r !== undefined);
+
+test('pushName con caracteres unicode → no crash',
+  { body: { data: {
+    key: { remoteJid: GROUP, fromMe: false, id: uid(), participant: SENDER },
+    message: { conversation: GENBOT_CMD },
+    messageType: 'conversation', pushName: '中文名字 ñ émoji 🎉'
+  }}}, {}, r => r !== undefined);
+
+// ── 7. DEDUPLICACIÓN ─────────────────────────────────────────────────────────
+
+{
+  const sd_dedup = {};
+  const fixedId = 'dedup-001-' + Date.now();
+  safeRun(buildPayload({ text: GENBOT_CMD, messageId: fixedId }), sd_dedup);
+  test('Dedup: mismo messageId × 2 → bloqueado',
+    buildPayload({ text: GENBOT_CMD, messageId: fixedId }), sd_dedup,
+    r => r.duplicate === true);
+  test('Dedup: messageId distinto → pasa',
+    buildPayload({ text: GENBOT_CMD, messageId: 'dedup-002' }), sd_dedup,
+    r => r.duplicate !== true);
 }
-console.log('─'.repeat(110));
-console.log(`\nRESULTADO FINAL: ${passed} ✅  ${failed} ❌  (${passed+failed} total)\n`);
 
-const criticos = rows.filter(r=>r.status==='❌');
+// ── 8. TIPOS DE MEDIA ────────────────────────────────────────────────────────
+
+test('Imagen sin comando → media_type image',
+  buildPayload({ mediaType: 'image', caption: 'foto' }), {},
+  r => r.media_type === 'image');
+
+test('Audio → no routing de comando',
+  buildPayload({ mediaType: 'audio' }), {},
+  r => !r.comando_match);
+
+test('Video → no routing de comando',
+  buildPayload({ mediaType: 'video', caption: 'clip' }), {},
+  r => !r.comando_match);
+
+test('Location message → is_location true',
+  buildPayload({ mediaType: 'location' }), {},
+  r => r.is_location === true);
+
+test('Google Maps link → is_location true',
+  buildPayload({ mapsLink: 'https://maps.app.goo.gl/abc123' }), {},
+  r => r.is_location === true);
+
+// ── 9. COMANDOS !new (generados desde scanner) ───────────────────────────────
+
+if (NEW_PREFIX && INFO.newSubcmds.includes('prop')) {
+  test(`"${NEW_PREFIX}prop [inmob]" → es_new_prop_open`,
+    buildPayload({ text: NEW_PREFIX + 'prop Inmobiliaria ABC' }), {},
+    r => r.es_new_prop_open === true && r.inmobiliaria === 'Inmobiliaria ABC');
+
+  test(`"${NEW_PREFIX}prop" sin nombre → es_new_prop_open (inmob vacío)`,
+    buildPayload({ text: NEW_PREFIX + 'prop' }), {},
+    r => r.es_new_prop_open === true);
+
+  test(`"${NEW_PREFIX}prop fin" sin sesión activa → es_new_prop_fin false`,
+    buildPayload({ text: NEW_PREFIX + 'prop fin' }), {},
+    r => r.es_new_prop_fin === false);
+
+  // Sesión completa: abrir → acumular → cerrar
+  {
+    const sd_prop = {};
+    safeRun(buildPayload({ text: NEW_PREFIX + 'prop Mi Inmobiliaria' }), sd_prop);
+    safeRun(buildPayload({ text: 'Casa 3 recamaras garage' }), sd_prop);
+    safeRun(buildPayload({ mediaType: 'image', caption: 'foto principal' }), sd_prop);
+    safeRun(buildPayload({ mediaType: 'location' }), sd_prop);
+
+    test(`Sesión prop: texto acumulado → es_prop_acumulado`,
+      buildPayload({ text: 'detalle adicional' }), sd_prop,
+      r => r.es_prop_acumulado === true);
+
+    const r_fin = safeRun(buildPayload({ text: NEW_PREFIX + 'prop fin' }), sd_prop);
+    test(`Sesión prop: fin → es_new_prop_fin + prop_session no null`,
+      buildPayload({ text: NEW_PREFIX + 'prop fin' }), (() => {
+        // sd fresco con sesión ya abierta
+        const fresh = {};
+        safeRun(buildPayload({ text: NEW_PREFIX + 'prop Mi Inmob' }), fresh);
+        safeRun(buildPayload({ text: 'descripcion propiedad' }), fresh);
+        return fresh;
+      })(),
+      r => r.es_new_prop_fin === true && r.prop_session !== null);
+  }
+
+  if (INFO.sessionTimeout) {
+    test(`Sesión prop: timeout → no acumula`,
+      buildPayload({ text: 'texto tardío' }), (() => {
+        const sd_exp = {};
+        safeRun(buildPayload({ text: NEW_PREFIX + 'prop Expirada' }), sd_exp);
+        // Simular expiración
+        sd_exp.propSessions = sd_exp.propSessions || {};
+        if (sd_exp.propSessions[GROUP]) {
+          sd_exp.propSessions[GROUP].lastActivity = Date.now() - (INFO.sessionTimeout + 1000);
+        }
+        return sd_exp;
+      })(),
+      r => r.es_prop_acumulado === false && r.prop_active === false);
+  }
+}
+
+if (NEW_PREFIX && INFO.newSubcmds.includes('lote')) {
+  test(`"${NEW_PREFIX}lote [inmob]" → es_new_lote_open`,
+    buildPayload({ text: NEW_PREFIX + 'lote Constructora XYZ' }), {},
+    r => r.es_new_lote_open === true && r.inmobiliaria === 'Constructora XYZ');
+
+  test(`Inmobiliaria con espacios, comas, tildes`,
+    buildPayload({ text: NEW_PREFIX + 'lote Inmob Súper Élite, S.A.' }), {},
+    r => r.es_new_lote_open === true && r.inmobiliaria === 'Inmob Súper Élite, S.A.');
+
+  test(`"${NEW_PREFIX}lote fin" sin sesión activa → es_new_lote_fin false`,
+    buildPayload({ text: NEW_PREFIX + 'lote fin' }), {},
+    r => r.es_new_lote_fin === false);
+
+  // Lote: auto-detección de límite entre propiedades (location + nuevo texto = nueva prop)
+  {
+    const sd_lote = {};
+    safeRun(buildPayload({ text: NEW_PREFIX + 'lote Test Inmob' }), sd_lote);
+    safeRun(buildPayload({ text: 'propiedad 1 descripcion' }), sd_lote);
+    safeRun(buildPayload({ mediaType: 'image' }), sd_lote);
+    safeRun(buildPayload({ mediaType: 'location' }), sd_lote); // cierra prop 1
+
+    test('Lote: texto tras location → detecta límite (nueva propiedad)',
+      buildPayload({ text: 'propiedad 2 descripcion' }), sd_lote,
+      r => {
+        const ls = sd_lote.loteSessions && sd_lote.loteSessions[GROUP];
+        return ls && ls.properties.length >= 1; // prop 1 fue archivada
+      });
+
+    test('Lote: fin con propiedades acumuladas → lote_session no null',
+      buildPayload({ text: NEW_PREFIX + 'lote fin' }), sd_lote,
+      r => r.es_new_lote_fin === true && r.lote_session !== null && r.lote_session.properties.length >= 1);
+  }
+
+  test('Lote activo + fromMe → NO acumula',
+    buildPayload({ text: 'nota interna', fromMe: true }), (() => {
+      const sd_fm = {};
+      safeRun(buildPayload({ text: NEW_PREFIX + 'lote Prueba' }), sd_fm);
+      return sd_fm;
+    })(),
+    r => r.es_lote_acumulado === false);
+
+  test('Lote activo + audio → NO acumula',
+    buildPayload({ mediaType: 'audio' }), (() => {
+      const sd_au = {};
+      safeRun(buildPayload({ text: NEW_PREFIX + 'lote Prueba' }), sd_au);
+      return sd_au;
+    })(),
+    r => r.es_lote_acumulado === false);
+}
+
+// ── 10. COMANDOS !genbot (generados desde scanner) ───────────────────────────
+
+const GENBOT_SUBSETS = {
+  catalogo: r => r.es_catalogo === true,
+  catálogo: r => r.es_catalogo === true,
+  ayuda:    r => r.es_ayuda    === true,
+  premium:  r => r.es_premium  === true,
+};
+
+// Agrupamos para evitar tests duplicados
+const testedSubs = new Set();
+for (const sub of INFO.genbotSubcmds) {
+  if (testedSubs.has(sub)) continue;
+  testedSubs.add(sub);
+  const assertFn = GENBOT_SUBSETS[sub];
+  if (assertFn) {
+    test(`"${GENBOT_CMD} ${sub}" → routing correcto`,
+      buildPayload({ text: GENBOT_CMD + ' ' + sub }), {}, assertFn);
+  } else {
+    // Subcomando detectado pero sin assert específico — solo verifica pass_filter
+    test(`"${GENBOT_CMD} ${sub}" → pass_filter true`,
+      buildPayload({ text: GENBOT_CMD + ' ' + sub }), {},
+      r => r.pass_filter === true);
+  }
+}
+
+test(`"${GENBOT_CMD}" solo (sin subcomando) → es_ayuda`,
+  buildPayload({ text: GENBOT_CMD }), {},
+  r => r.es_ayuda === true);
+
+test(`"${GENBOT_CMD}" en mayúsculas → mismo routing`,
+  buildPayload({ text: GENBOT_CMD.toUpperCase() }), {},
+  r => r.es_ayuda === true);
+
+// ── 11. REPORTE ──────────────────────────────────────────────────────────────
+
+const COL = 60;
+console.log(`${'Caso'.padEnd(COL)} Estado  Observación`);
+console.log('─'.repeat(115));
+for (const row of rows) {
+  const obs = row.obs ? row.obs.substring(0, 50) : '';
+  console.log(`${row.name.padEnd(COL)} ${row.status.padEnd(7)} ${obs}`);
+}
+console.log('─'.repeat(115));
+console.log(`\nRESULTADO: ${passed} ✅  ${failed} ❌  (${passed + failed} total)\n`);
+
+const criticos = rows.filter(r => r.status === '❌');
 if (criticos.length) {
-  console.log('🔴 CRÍTICOS A CORREGIR:');
+  console.log('🔴 FALLOS:');
   criticos.forEach(r => console.log(`   - ${r.name}\n     ${r.obs}`));
 } else {
-  console.log('🟢 Sin casos críticos — workflow robusto y listo para producción.');
+  console.log('🟢 Sin fallos — código robusto.');
 }
-console.log('\n✅ Funciona sólido en:');
-['Payloads vacíos/malformados','Caracteres especiales y emojis','Todos los tipos de media','Lógica de lote','Deduplicación','Routing y filtros'].forEach(g => console.log(`   - ${g}`));
+console.log();

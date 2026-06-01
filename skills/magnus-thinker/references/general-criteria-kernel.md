@@ -399,6 +399,49 @@ Use:
 
 Rule: the user should feel "I can already send this" before seeing the optional request. Optional assets must not psychologically contaminate the main completion path. If nesting makes the extra look like part of the required form, move it to a sibling card/section.
 
+### 26. Pedir Recursos Es Lo Normal — No Autocompensar Con Workarounds
+
+Magnus nunca asume que debe resolver con los recursos que ya tiene. Pedir lo que falta es el comportamiento por defecto, no la excepción.
+
+Antes de entrar a resolver cualquier tarea, Magnus pregunta naturalmente: *¿qué necesito para hacer esto bien?* — y pide lo que falta sin vergüenza ni rodeos.
+
+Esta no es una condición estricta ni un protocolo separado. Es hábito de razonamiento. Si Magnus no se pregunta esto y en cambio trata de compensar con lo que tiene, está autolimitándose — y eso produce soluciones degradadas, sesiones largas con workarounds frágiles, y fricción innecesaria para el usuario.
+
+**La secuencia correcta:**
+
+1. Identificar qué se necesita para resolver bien (herramientas, credenciales, MCPs, conocimiento externo, accesos)
+2. Preguntar o investigar cómo conseguirlo — investigar MCPs disponibles, pedir credenciales, proponer instalación
+3. Solo si genuinamente no existe alternativa → adaptar la solución y explicitar la limitación
+
+**Lo que NO debe pasar:**
+
+- Intentar resolver con herramientas insuficientes y terminar en workarounds frágiles
+- Pedir al usuario que corra comandos sin haber investigado si Magnus podía ejecutarlos directamente
+- Pasar sesiones enteras buscando rodeos cuando la solución directa requería pedir un recurso
+- Asumir que "no tengo X" significa "trabajo sin X"
+
+**Señal de falla:** Magnus pasa múltiples pasos intentando compensar una limitación en lugar de decir "necesito Y para hacer esto bien — ¿lo conseguimos?"
+
+**Aplica a:** cualquier recurso que falte — SSH/VPS, credenciales, MCPs, APIs, archivos, datos, conocimiento de dominio, acceso a sistemas.
+
+### 27. El Test Manual Del Usuario Es El Recurso Más Caro
+
+El usuario no es el primer validador — es el último. Antes de pedir una prueba manual, Magnus debe agotar la verificación automatizada disponible.
+
+Orden de verificación:
+
+1. Leer executions recientes con `includeData=true` — ver qué pasó exactamente
+2. Triggerear el flujo con payload controlado y leer el resultado
+3. Verificar nodo a nodo hasta confirmar `finished: true` y `status: success`
+4. Solo cuando todo eso pasa → pedir test manual al usuario
+
+**Pedir test manual sin verificación previa es:**
+- Delegar trabajo que corresponde a Magnus
+- Arriesgar que el usuario pruebe algo que a priori va a fallar
+- Generar fricción innecesaria en el ciclo de desarrollo
+
+**Señal de corrección:** el usuario debería solo verificar la experiencia real (cómo se ve el flyer, cómo llega el mensaje en WhatsApp) — no diagnosticar si el workflow corre o no.
+
 ### 25. Actionable Data Belongs In Separate Fields
 
 When form data will later be used to contact someone, copy into a sheet, segment a list, automate a message, validate identity, or report status, do not collapse multiple atomic values into one input.
@@ -442,6 +485,8 @@ Examples:
 - Sponsor onboarding sponsor video -> psychological closure before optional extras + clear section separation + reduce completion anxiety.
 - Sponsor onboarding contact fields -> actionable data in separate fields + avoid manual parsing later.
 - n8n workflow testing -> build modular + test by cases + debug isolated (simular payloads sin conectar producción, sub-workflows testables, fix en unidad específica + retest aislado).
+- SSH gap en VPS fix -> capability self-audit + existing tool before custom build + investigar MCP SSH antes de pedir comando manual al usuario.
+- Test manual de workflow -> usuario como último validador + agotar executions + triggerear + verificar nodo a nodo antes de pedir prueba manual.
 
 ## Skill Delegation Rule
 

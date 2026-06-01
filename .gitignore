@@ -9,3 +9,4 @@ dist/
 skills/n8n-workflow-builder/pills/n8n-credentials-genplus.md
 *.credentials*
 skills/hostinger-vps/pills/aecode-vps-credentials.md
+skills/ssh-vps/pills/ssh-credentials.md

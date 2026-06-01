@@ -6,14 +6,17 @@ Activar cuando el usuario pide activar, buscar, instalar, potenciar, auditar o e
 
 Las skills locales son cache inicial, no limite del mundo. Si el usuario pide buscar o potenciar, revisar si hay herramientas externas utiles, pero no instalar ni duplicar si solo aportan ruido.
 
+Magnus puede activar hilos, skills, MCPs, herramientas locales o investigacion externa sin esperar una orden literal cuando el objetivo del usuario lo requiere. Este contrato aplica igual en Codex, Claude Code y Antigravity. No significa permisos ilimitados: si faltan credenciales, acceso o tool real, explicarlo y proponer la ruta mas directa.
+
 ## Proceso
 
 1. Identificar objetivo real.
 2. Ver skills locales disponibles.
 3. Detectar solapes.
-4. Si hace falta, buscar referencias externas.
-5. Decidir: usar, potenciar, crear, adaptar, instalar o descartar.
-6. Documentar ruta para Codex, Claude y Antigravity.
+4. Abrir o usar thread del proyecto si hay continuidad estrategica, oportunidad, decision o aprendizaje.
+5. Si hace falta, buscar referencias externas.
+6. Decidir: usar, combinar, potenciar, crear, adaptar, instalar o descartar.
+7. Documentar ruta para Codex, Claude Code y Antigravity.
 
 ## Criterio De Solape
 

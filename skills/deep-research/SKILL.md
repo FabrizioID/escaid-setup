@@ -48,6 +48,44 @@ Problem -> Risk -> Evidence -> Pattern -> Solution -> Tradeoff -> Recommendation
 
 For high-stakes strategic work, hand off the evidence to Magnus / Strategic Thinker as raw material, not as the final answer. Deep Research explores deeply; Magnus gives shape, intent, hierarchy and conclusion.
 
+## Gap-Filling and First-Principles Pass
+
+Before synthesizing, run a gap audit. Treat unexplained concepts, technical terms, hidden actors, missing flows, undefined risks and assumed knowledge as research gaps.
+
+For each important claim, ask:
+
+```text
+What must be true for this claim to be valid?
+What term or mechanism would a non-specialist not understand?
+Where does the risk actually enter the system?
+Who touches the information?
+What information is sensitive, exactly?
+Through which channel can it leak?
+What control reduces that risk?
+What evidence proves that control exists or is standard practice?
+```
+
+Use a first-principles ladder when the topic is complex:
+
+```text
+Surface claim:
+Underlying mechanism:
+Actors involved:
+Data / money / decision flow:
+Failure points:
+Base truth or necessary assumption:
+Evidence that supports it:
+Open question if not provable:
+```
+
+Do not use unexplained jargon in the final answer. If a term is necessary, define it in context the first time it appears. Example: instead of only saying "tenant", explain it as "the company's private Microsoft/Azure environment where users, permissions, files and policies live".
+
+When researching security, privacy, AI, finance, law, construction or enterprise operations, decompose the problem end to end:
+
+```text
+Actors -> data created -> storage -> access -> processing -> sharing -> decision -> audit -> failure/leak paths -> controls
+```
+
 ## Research Depth Engine
 
 Use this engine for any serious investigation, not only company research. Magnus must not treat "deep research" as a longer Google answer. It is an intelligence workflow: plan, collect, analyze, verify, report, and preserve uncertainty.
@@ -170,6 +208,8 @@ Before finalizing, ask:
 - Did I produce a useful decision map, or just a biography/summary?
 - Did each major recommendation have a source-backed reason or clearly marked inference?
 - Did the output sustain a thesis connected to the user's original problem, or did it merely dump facts?
+- Did I define non-common technical terms and fill concept gaps before using them as premises?
+- Did I decompose the problem end to end enough to locate where the risk, cost or value is created?
 
 ## Research Modes
 

@@ -23,6 +23,29 @@ Antes de cerrar, verificar:
 - Hay una conclusion accionable, no solo contexto.
 - Los riesgos y tradeoffs aparecen antes de vender la solucion.
 
+## Primeros Principios y Vacio Cero
+
+No asumir que el usuario conoce conceptos tecnicos, legales, financieros u operativos que no han sido introducidos. Si un termino sostiene la conclusion, definirlo en lenguaje simple y conectarlo al caso.
+
+Antes de concluir, bajar hasta una verdad base:
+
+```text
+Que sabemos o debemos asumir como cierto:
+Por que importa:
+Que mecanismo lo explica:
+Que actores intervienen:
+Donde nace el problema:
+Donde se agrava:
+Que control lo reduce:
+Que decision habilita:
+```
+
+Para problemas complejos, desmembrar la dinamica de punta a punta antes de recomendar. Ejemplo para IA/confidencialidad:
+
+`quien crea informacion -> donde se guarda -> quien accede -> quien la comparte -> como entra a la IA -> que devuelve la IA -> quien decide -> que queda auditado -> por donde se puede filtrar`.
+
+Magnus debe detectar preguntas que faltan aunque el usuario no las haga. Si esas preguntas pueden responderse con investigacion o razonamiento, responderlas. Si requieren datos internos del cliente, marcarlas como "validar con cliente".
+
 ## Prerequisito
 
 Esta skill opera sobre proyectos existentes en:
@@ -104,3 +127,4 @@ Pasos:
 - Cada analysis session es historica: no sobreescribir.
 - Terminar siempre con una accion concreta.
 - Convertir investigacion externa en tesis estrategica conectada al problema inicial.
+- Definir terminos tecnicos y cerrar vacios conceptuales antes de usarlos como base de una recomendacion.

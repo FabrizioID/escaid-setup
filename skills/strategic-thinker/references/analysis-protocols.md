@@ -7,17 +7,20 @@ PASO 0 — TESIS DE TRABAJO
   - Reformular el problema inicial en una pregunta estrategica
   - Definir la tesis provisional que el analisis va a probar, matizar o descartar
   - Identificar que evidencia cambiaria la conclusion
+  - Listar conceptos no obvios que deben definirse antes de usarse
 
 PASO 1 — INVENTARIO
   - Lista todas las variables con su estado actual y tendencia
   - Cuenta señales totales y señales del último mes
   - Identifica variables sin actualización en >30 días → marcar como "stale"
+  - Identifica vacios: actores no mapeados, flujos no explicados, terminos tecnicos, supuestos no probados
 
 PASO 2 — MAPEO DE CORRELACIONES
   - Para cada par de variables: ¿cómo se afectan mutuamente?
   - Construir mentalmente una tabla de cross-impact:
       [Variable A] → afecta → [Variable B] porque...
   - Identificar variables líderes (anticipan cambios) vs variables rezagadas (confirman cambios)
+  - Descomponer flujos punta a punta cuando el problema involucra datos, dinero, permisos, operacion o riesgo
 
 PASO 3 — LECTURA DE TENSIONES
   - Leer memory/tensions.md
@@ -117,6 +120,13 @@ mono-proyecto | cruce-macro | decisión | disrupción
 **Problema inicial:** <que se intenta resolver>
 **Tesis:** <argumento central que el analisis sostiene o matiza>
 **Que cambiaria la conclusion:** <evidencia o condicion de invalidacion>
+
+## Verdad base y vacios
+
+**Verdad base:** <lo que se sabe o se debe asumir como cierto para razonar>
+**Conceptos que habia que definir:** <terminos tecnicos o no obvios>
+**Vacios cerrados:** <preguntas que el analisis resolvio>
+**Vacios por validar con cliente:** <preguntas que requieren informacion interna>
 
 ## Inventario de variables
 

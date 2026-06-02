@@ -80,6 +80,8 @@ Open question if not provable:
 
 Do not use unexplained jargon in the final answer. If a term is necessary, define it in context the first time it appears. Example: instead of only saying "tenant", explain it as "the company's private Microsoft/Azure environment where users, permissions, files and policies live".
 
+When a research artifact uses dense tables, add a short **Conceptos de esta tabla** block directly below any table that introduces technical, legal, operational or uncommon terms. Do not push all definitions to one glossary if the user needs to read the table immediately. The global glossary can remain, but local concept blocks reduce black-box reading.
+
 When researching security, privacy, AI, finance, law, construction or enterprise operations, decompose the problem end to end:
 
 ```text
@@ -177,6 +179,8 @@ angle question
 For Deep Research Proper, increase source density: important fronts, sublayers, gaps and child branches should carry citations or explicitly state that evidence is still missing and must be validated. Do not concentrate all citations in one bibliography or a few high-level sections. Sources must sit next to the claim, gap, finding or decision they support; otherwise the evidence trail becomes a black box.
 
 When a sublayer opens new gaps, continue recursively. Do not assume one sublayer produces only one gap. A sublayer may produce zero, one, or several relevant gaps; each relevant gap becomes its own child branch until evidence is sufficient, the branch stops changing the decision, or the remaining gap must be marked as explicitly unresolved.
+
+If only one section has child branches, audit whether that is genuinely because only that section needed recursion. In Deep Research Proper, most strategic/technical angles usually open at least some child branches. If an angle has no child branches, state why: enough evidence, branch irrelevant to decision, or pending client validation.
 
 ```text
 sublayer finding

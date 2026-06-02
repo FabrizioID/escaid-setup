@@ -243,6 +243,20 @@ Both modes must preserve this backbone:
 objective -> necessary angles -> fronts/layers -> sublayers -> gaps -> evidence/signal/inference -> base truth -> conclusion/recommendation
 ```
 
+Use this replicable sequence:
+
+1. Define the research objective and the decision it must support.
+2. Identify the necessary angles for that decision.
+3. For each angle, open the key fronts/layers that explain the problem.
+4. For each layer, ask the question that justifies its existence.
+5. Gather evidence, signal or labeled inference for that question.
+6. Extract the finding and explain why it matters.
+7. Detect gaps created by the finding.
+8. Branch recursively only into gaps that may change the decision.
+9. Stop each branch when evidence is sufficient, the branch becomes irrelevant, or the gap must be validated by the client.
+10. Connect the branches into a base truth.
+11. Convert the base truth into conclusion, recommendation, tradeoffs and next validation steps.
+
 Do not make Research Assist a casual fact dump. Even in a short pass, identify the problem being answered, inspect multiple angles, surface the most important gaps, and connect evidence to a conclusion.
 
 Use this compression rule:
@@ -995,6 +1009,8 @@ Rules:
 - short quotes only when the wording itself matters
 
 ## Output Formats
+
+Default to Markdown. A rendered Markdown document is usually enough for research speed. Do not generate HTML, slides, dashboards or visual reports unless the user explicitly asks for them or the visual artifact is clearly part of the deliverable.
 
 For most tasks:
 

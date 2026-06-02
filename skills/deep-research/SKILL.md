@@ -275,6 +275,8 @@ There are two different research behaviors:
 
 If the user explicitly asks for Deep Research Proper, do not answer from memory, Research Assist, a short scan, or a curated Coda-only structure. This is a hard trigger. If tool/time/source limits prevent true depth, say so and label the result as a partial pass.
 
+For Deep Research Proper, do not over-compress to "save space" when the artifact is a local `.md`. Use the file as the working surface and expand it as needed. If the research is too large for one response, update the artifact iteratively and summarize progress to the user; do not collapse the investigation into a shallow answer.
+
 ### Same Method, Different Depth
 
 Research Assist and Deep Research Proper use the same intellectual structure. They differ in expansion, not in logic.
@@ -300,6 +302,12 @@ Use this replicable sequence:
 11. Convert the base truth into conclusion, recommendation, tradeoffs and next validation steps.
 
 For strategic Deep Research Proper with Magnus, the conclusion must be a reasoned closure, not a short executive summary. It should explain the path from final-chain variables to decision: which variables changed the recommendation, which sources were decisive, what base truth survived, what option wins, what is rejected, and why. Include source links next to the decisive variables or claims in the conclusion itself, not only earlier in the artifact.
+
+The Magnus F1-F13 trace should not be artificially reduced to one question per phase. Magnus may run a broad internal battery; the visible artifact should show the 1-3 decisive questions per phase when they add different variables, especially in disruption, reframing, asymmetry, adoption, feedback and final closure. One visible question is acceptable only when additional questions would be redundant.
+
+When the topic benefits from academic support, include a real academic/literature layer, not only consulting reports, vendor docs and official frameworks. Papers, theses, systematic reviews or scholarly articles are especially useful for adoption, trust, human-in-the-loop, security risks, construction/AEC digital transformation, methods, legal/ethical risk and any claim that needs non-vendor validation. Put those sources inside the relevant angle/front/branch, not only in the final bibliography.
+
+The final Magnus conclusion must be a variable-crossing closure. Do not merely restate phases or summarize sources. It should name the decisive crosses, such as adoption vs value, workflow vs confidentiality, no-training vs retention/logs, construction maturity vs sophistication, legal/IP vs architecture, and human adoption vs technical controls. Then it must convert those crosses into a concrete decision, rejected options, conditions to proceed and the final base truth.
 
 In Deep Research Proper, each major angle must also close with an **Angle Conclusion** before moving to the next angle. This is not a generic summary. It should connect that angle's decisive evidence, strongest gaps, what the angle changed in the recommendation, and what remains to validate. Use sources near the claims that mattered most. Tables can carry the evidence, but the angle conclusion must turn the table into meaning.
 
@@ -328,7 +336,8 @@ Deep Research Proper must show how branches were expanded, why they stopped, and
 Before saying "done" on Deep Research Proper, audit the artifact against this checklist and fix missing pieces first:
 
 - Local `.md` artifact exists or was updated as the working surface.
-- Initial Magnus F1-F13 trace is present when the research is strategic; visible rows show 1-3 decisive questions per relevant phase.
+- The `.md` artifact was used as the expandable working surface; Deep Research Proper was not compressed just to fit a chat answer.
+- Initial Magnus F1-F13 trace is present when the research is strategic; visible rows show 1-3 decisive questions per relevant phase, not automatically one question per phase.
 - Angles are emergent, not a fixed template, and each selected angle has a question mother.
 - Each major angle shows a front map/table before expansion when the angle is broad. The map lists fronts, trigger questions, evidence/hallazgo, gaps opened and whether each front is expanded.
 - Major angles are decomposed into numbered sublayers when complexity requires it, e.g. `8.1 Prompts`, `8.2 Permissions`, `8.3 Cloud/retention`, not only one flat table.
@@ -336,10 +345,12 @@ Before saying "done" on Deep Research Proper, audit the artifact against this ch
 - If a sublayer reveals a new unresolved mechanism, open visible child sublayers under it, e.g. `8.1.1 Prompt injection`, `8.1.2 Prompt logs`, `8.1.3 Prompt DLP`. These child sublayers are not decorative; they appear only because the parent finding created a real gap that can change the decision.
 - Each sublayer has question, evidence/signal/inference, finding, gaps and decision impact.
 - Important gaps can branch into multiple child branches; child branches explain evidence, what remains unproven and decision impact.
+- Academic/literature sources were evaluated and included inside relevant fronts/branches when they strengthen the topic; if not included, the artifact explains why vendor/official/business sources were sufficient.
 - Sources are inline near claims, gaps and findings; final bibliography is not a substitute.
 - Dense tables have local **Conceptos de esta tabla** blocks when they introduce non-common terms.
 - Each major angle closes with an **Angle Conclusion** that turns tables into meaning and names how the angle changed the recommendation.
-- Final Magnus chain runs after evidence and feeds a reasoned conclusion with decisive variables and sources.
+- Final Magnus chain runs after evidence; visible rows again show 1-3 decisive questions when multiple variables matter.
+- Final Magnus conclusion is not a short summary. It explicitly crosses decisive variables, names rejected options, states the winning decision, gives conditions/gates to proceed and ends with a base truth.
 - If any element is intentionally omitted, state why: evidence sufficient, irrelevant to decision, or pending client validation.
 
 ### Depth Ladder

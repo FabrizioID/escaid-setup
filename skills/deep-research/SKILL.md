@@ -103,7 +103,7 @@ What gap remains:
 Why the next layer follows:
 ```
 
-Before expanding a topic, choose the angles that are necessary for the decision. Angles are not decorative categories; they are lenses that prevent blind spots.
+Before expanding a topic, choose the angles that are necessary for the decision. Angles are not decorative categories, templates or fixed checklists; they are lenses that prevent blind spots and extract variables. Common families are useful starting points, but the real angle set must emerge from the problem, Magnus' initial chain, evidence gaps and decision stakes.
 
 Common angle families:
 
@@ -115,6 +115,8 @@ Common angle families:
 - Political/internal power: who gains visibility, who loses discretion, approval dynamics.
 - Commercial: how to sell the solution without triggering fear or commoditizing the offer.
 - Disruptive: what non-obvious move reframes the client's problem or creates unfair advantage.
+
+Do not force these families into every investigation. Technical, psychological, financial, legal and operational angles are often useful, but they are still candidates, not requirements. Also allow problem-specific angles to appear: versioning/dependency angle for development bugs, regulatory angle for compliance, trust/adoption angle for AI, category-language angle for marketing, founder/resource angle for startups, or any other angle Magnus surfaces. If an emergent angle can change the recommendation, promote it to a real research branch with fronts, evidence, gaps and angle conclusion.
 
 For each important angle, generate at least one disruptive question:
 

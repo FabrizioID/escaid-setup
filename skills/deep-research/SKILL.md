@@ -320,6 +320,14 @@ Stop condition:
 
 If a reasonable scope can be inferred, proceed. Ask only when missing scope would make the research misleading.
 
+### Local / Provided Sources
+
+Research is not web-only. If the user provides local files, Drive folders, PDFs, Word docs, Sheets, transcripts, screenshots, exports, repo docs, Notion pages or project memory, inspect those sources as part of the evidence base before assuming public web is enough.
+
+Treat client-provided or project-local documents as **internal primary sources** for what the client said, planned, measured, promised or documented. Cite them near claims using the clearest available locator: file path/name, Drive/doc title, page/slide/sheet, section heading, row, timestamp or excerpt label. Separate internal evidence from public evidence, for example: `Internal source: /path/proposal.pdf, p. 4` or `Drive source: "Dashboard Lili", sheet Metas`.
+
+Use web research to verify external facts, current vendors, regulations, benchmarks and public claims; use local/provided sources to understand the actual case, constraints, history and client-specific truth. If local access is unavailable or a Drive link cannot be read, mark the gap and ask for access or an export.
+
 ### Evidence Ledger
 
 For L2+, maintain a compact evidence ledger while researching:
@@ -342,11 +350,12 @@ Do not wait until the final answer to decide what sources support what claims. B
 
 Prefer evidence in this order, adjusting by domain:
 
-1. Primary/official source: company, government, court, regulator, standards body, original paper, official docs.
-2. Direct ecosystem source: client, partner, supplier, project owner, certifier, event organizer.
-3. Reputable analysis/report: academic, consultancy, industry report, credible media with named sources.
-4. Public behavior signal: reviews, forums, comments, job posts, social posts, communities.
-5. Weak/directory source: aggregator, scraped profile, generic listing, AI-written article, SEO page.
+1. Internal/client primary source: provided files, Drive docs, transcripts, meeting notes, spreadsheets, project memory, repo docs, signed proposals, official client exports.
+2. Primary/official public source: company, government, court, regulator, standards body, original paper, official docs.
+3. Direct ecosystem source: client, partner, supplier, project owner, certifier, event organizer.
+4. Reputable analysis/report: academic, consultancy, industry report, credible media with named sources.
+5. Public behavior signal: reviews, forums, comments, job posts, social posts, communities.
+6. Weak/directory source: aggregator, scraped profile, generic listing, AI-written article, SEO page.
 
 Weak sources can generate leads, not conclusions. Upgrade them through primary or direct ecosystem evidence.
 

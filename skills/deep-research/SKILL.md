@@ -20,6 +20,107 @@ Always separate:
 
 Never present intuition as evidence. If sources are thin or conflicting, say so.
 
+## Research Depth Engine
+
+Use this engine for any serious investigation, not only company research. Magnus must not treat "deep research" as a longer Google answer. It is an intelligence workflow: plan, collect, analyze, verify, report, and preserve uncertainty.
+
+### Depth Ladder
+
+Before researching, choose the depth explicitly:
+
+| Level | When | Minimum behavior |
+|---|---|---|
+| L0 Orientation | Quick definition, low stakes | 2-3 sources, no broad claims |
+| L1 Quick Scan | Need direction today | 3-5 sources, strongest evidence only |
+| L2 Standard Research | Decision, proposal, product, client, strategy | 6-12 sources across at least 3 source classes |
+| L3 Deep Dive | High impact, public claims, academic/legal/financial/client-facing | iterative search, primary sources, contradiction search, evidence matrix |
+| L4 Source Mining | Dataset needed | schema first, broad extraction, dedupe, confidence scoring |
+| L5 Investigation Dossier | Sensitive/strategic due diligence | provenance log, claim audit, adversarial checks, unknowns and validation plan |
+
+If the user asks for "profundo", "a fondo", "exprime", "mas poder", "no te quedes corto", "todos los datos relevantes", or the answer will guide a client-facing decision, default to L3 or L4 unless time/tool limits make that impossible.
+
+### Intelligence Requirement
+
+Start by defining internally:
+
+```text
+Decision this research supports:
+Audience:
+What would change the recommendation:
+Entities / aliases:
+Geography and timeframe:
+Required source classes:
+Claims that require primary evidence:
+Known unknowns:
+Stop condition:
+```
+
+If a reasonable scope can be inferred, proceed. Ask only when missing scope would make the research misleading.
+
+### Evidence Ledger
+
+For L2+, maintain a compact evidence ledger while researching:
+
+```text
+Claim:
+Source:
+Source class:
+Source quality:
+Date/freshness:
+What the source actually supports:
+What it does not support:
+Corroboration:
+Confidence:
+```
+
+Do not wait until the final answer to decide what sources support what claims. Build the mapping during research.
+
+### Source Quality Order
+
+Prefer evidence in this order, adjusting by domain:
+
+1. Primary/official source: company, government, court, regulator, standards body, original paper, official docs.
+2. Direct ecosystem source: client, partner, supplier, project owner, certifier, event organizer.
+3. Reputable analysis/report: academic, consultancy, industry report, credible media with named sources.
+4. Public behavior signal: reviews, forums, comments, job posts, social posts, communities.
+5. Weak/directory source: aggregator, scraped profile, generic listing, AI-written article, SEO page.
+
+Weak sources can generate leads, not conclusions. Upgrade them through primary or direct ecosystem evidence.
+
+### Verification Moves
+
+Adopt these verification moves before closing material claims:
+
+- **SIFT:** stop, investigate the source, find better coverage, trace claims/quotes/media to original context.
+- **Corroborate:** seek at least two independent sources for important claims unless the primary source is authoritative and sufficient.
+- **Contradict:** search for disconfirming evidence, stale data, sanctions, disputes, rebrands, expired domains, changed leadership, or conflicting numbers.
+- **Triangulate entities:** distinguish legal entity, brand, holding, subsidiary, product, project, and person.
+- **Check dates:** mark whether a source is current, historical, undated, or stale.
+- **Audit citation fit:** verify that the cited source actually supports the sentence it is attached to.
+- **Label gaps:** if a claim cannot be verified publicly, state the gap and create a validation question.
+
+### Research Artifact Standards
+
+For any report, deck, HTML, proposal, client memo or strategic brief:
+
+- Attach sources near claims, not only in a final bibliography.
+- Include confidence/unknowns for sensitive or decision-changing claims.
+- Separate "what we know", "what signals suggest", "what we infer", and "what to validate".
+- Preserve query/source diversity enough that a future agent can continue the investigation.
+- If the output is visual, include a source section plus inline support for major data points.
+
+### Anti-Shallow Checks
+
+Before finalizing, ask:
+
+- Did I inspect sources or only search snippets?
+- Did I search aliases, old names and related entities?
+- Did I include at least one contrary/risk query?
+- Did I mine primary sources before secondary summaries?
+- Did I confuse a project, client, contractor and owner?
+- Did I produce a useful decision map, or just a biography/summary?
+- Did each major recommendation have a source-backed reason or clearly marked inference?
+
 ## Research Modes
 
 Choose the smallest mode that fits the stakes.

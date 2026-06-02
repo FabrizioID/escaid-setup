@@ -276,6 +276,20 @@ Select the relevant angles based on the context. Do not apply every lens by defa
 - **Institutional/regulatory:** credentials, standards, compliance, official recognition, procurement requirements, licensing, legal constraints.
 - **Evidence of demand:** search trends, job posts, course reviews, forum questions, waitlists, communities, competitor enrollment claims, public datasets.
 - **Contrary signals:** why this may fail, user skepticism, failed products, complaints, churn causes, better substitutes.
+- **Internal power and incentives:** who benefits, who loses control, who approves, who blocks, political risk, accountability shifts, status threats.
+- **Trust, privacy and risk:** confidentiality, data residency, permissions, auditability, hallucination tolerance, brand/legal/reputational risk.
+- **Operational flow:** where work actually moves: intake, approval, production, QA, procurement, handoff, reporting, billing, post-sale/support.
+- **Financial control:** cost leakage, cashflow, working capital, forecast, margin, ROI, loss avoidance, payback, budget owner.
+- **Technology adoption:** existing stack, IT constraints, security posture, change management, workflow fit, training burden, support burden.
+- **Decision architecture:** buyer vs user vs blocker, procurement path, proof needed, pilot shape, success metric, next decision gate.
+- **Language/perception:** words that lower resistance, words that trigger skepticism, category framing, executive vs operator language.
+
+Angle selection rule:
+- Pick the angles that can change the recommendation, not the longest list.
+- For enterprise, construction, operations, healthcare, legal, finance, education, government or other trust-heavy contexts, include at least: operational flow, internal power/incentives, trust/privacy/risk, financial control and technology adoption.
+- For consumer products, include at least: psychology, behavior, language/perception, adoption and economics.
+- For strategic client-facing recommendations, show a compact "Angulos que cambiaron la decision" section unless the user explicitly asks for a short answer.
+- If an angle was considered but had no evidence, label it as an open validation question rather than filling it with intuition.
 
 For each chosen angle, capture:
 
@@ -285,6 +299,7 @@ Evidence:
 Signal strength:
 Implication:
 Open question:
+Decision impact:
 ```
 
 Do not force every angle into every answer. Use enough angles to avoid a narrow conclusion.
@@ -308,6 +323,7 @@ Que busque:
 Hallazgo:
 Fuente/senal:
 Impacto en la decision:
+Pregunta de validacion:
 ```
 
 Keep this summary selective: show the angles that materially shaped the recommendation, not every possible lens. Avoid exposing raw scratchpad, long query logs, or discarded dead ends unless explicitly requested.

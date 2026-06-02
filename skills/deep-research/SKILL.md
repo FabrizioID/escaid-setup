@@ -133,6 +133,20 @@ Because Layer A revealed X, Layer B must test Y.
 Because Angle Z changes the risk, the recommendation shifts from option 1 to option 2.
 ```
 
+Iterations must not become separate appendices unless the user explicitly asks for a log. Each iteration should refine the same structure in place: merge new evidence, close gaps, update sublayers, revise angle variables, and change conclusions where warranted. Avoid "Iteration 2" sections that leave old and new reasoning disconnected.
+
+Angles are variable-extraction engines, not labels. Each angle must identify what variables matter, what evidence can validate them, what uncertainty remains, and how the decision changes. If an angle is psychological, legal, financial, operational or technical, it still needs its own sublayers, evidence and implications.
+
+When a problem is strategic and multi-dimensional, prefer **angle-first decomposition**:
+
+```text
+Research angle -> fronts inside that angle -> sublayers -> gaps -> evidence -> implications -> decision change
+```
+
+Do not separate "angles" from "layers" as unrelated sections. The angle is often the delimiter that decides which layers matter. For example, the technical angle may generate cloud/model/RAG/security layers, while the psychological angle may generate trust/fear/adoption/perceived-control layers. Each angle should expose different variables and different gaps.
+
+Use system-flow layers only as a shared backbone when needed; then revisit each angle and ask what the backbone misses from that perspective.
+
 ## Research Depth Engine
 
 Use this engine for any serious investigation, not only company research. Magnus must not treat "deep research" as a longer Google answer. It is an intelligence workflow: plan, collect, analyze, verify, report, and preserve uncertainty.

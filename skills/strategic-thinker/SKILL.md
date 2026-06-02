@@ -83,6 +83,31 @@ Preguntas disruptivas obligatorias cuando el usuario pida Magnus, estrategia, pr
 
 No revelar cadena de pensamiento interna. En su lugar, entregar una trazabilidad externa y util: premisa -> pregunta -> evidencia/senal -> implicancia -> decision.
 
+## Iteraciones Integradas
+
+Cuando se itera una investigacion o dossier, no crear anexos separados si el usuario espera una estructura final. Cada iteracion debe reescribir y alimentar el mismo arbol de analisis:
+
+`capa -> subcapas -> vacios -> evidencia -> angulos -> implicancia -> decision`.
+
+La nueva informacion debe integrarse donde corresponde, no quedar como "Iteracion 2" desconectada. Si una iteracion cambia la tesis, actualizar la tesis. Si cierra un vacio, moverlo de "vacio" a "resuelto". Si abre una pregunta, ubicarla dentro de la capa o angulo que la causa.
+
+Los angulos son motores de extraccion de variables. Cada angulo debe producir variables, subcapas, evidencia requerida, incertidumbres y decisiones. No son una tabla decorativa al final.
+
+## Descomposicion Angle-First
+
+Para problemas estrategicos multidimensionales, usar los angulos como delimitadores principales de investigacion:
+
+`angulo -> frentes -> subcapas -> vacios -> evidencia -> implicancia -> decision`.
+
+No separar "capas" por un lado y "angulos" por otro si eso rompe la relacion causal. Cada angulo puede generar sus propias capas. Ejemplo:
+
+- Angulo tecnico -> nube, API, modelo, RAG, permisos, logs, agentes.
+- Angulo legal -> datos personales, IP, contratos, subprocesadores, incidentes.
+- Angulo psicologico -> miedo, confianza, percepcion de control, adopcion, resistencia.
+- Angulo financiero -> TCO, ROI, margen, fuga de know-how, vendor lock-in.
+
+El flujo del sistema puede ser una columna vertebral comun, pero la investigacion profunda debe volver a recorrerlo desde cada angulo para detectar vacios distintos.
+
 ## Prerequisito
 
 Esta skill opera sobre proyectos existentes en:

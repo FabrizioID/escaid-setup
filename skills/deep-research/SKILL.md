@@ -279,7 +279,7 @@ Use this compression rule:
 
 Research Assist may say: "This is a quick pass; I am only opening the strongest branches." It must not imply exhaustive coverage.
 
-When Research Assist is used for strategic questions, do not collapse the structure into a flat list of findings. Keep the same visible skeleton in compact form: a short Magnus trace, a table of selected angles, 1-3 fronts per key angle, local concepts only where needed, and a connected conclusion. The difference from Deep Research Proper is fewer sources, fewer branches and shorter explanations, not removing angles, fronts or Magnus trace entirely.
+When Research Assist is used for strategic questions, do not collapse the structure into a flat list of findings or an over-short answer. Keep the same visible skeleton in developed-but-compact form: a short Magnus trace, a table of selected angles, 1-3 fronts per key angle, local concepts only where needed, and a connected conclusion. Each selected angle should be developed enough to show its fronts, what each front reveals, what gap remains and how it changes the recommendation. The difference from Deep Research Proper is fewer search iterations, fewer sources per claim, fewer recursive branches and shorter explanations, not removing angles, fronts, Magnus trace or meaningful development.
 
 Deep Research Proper must show how branches were expanded, why they stopped, and what remains unresolved.
 

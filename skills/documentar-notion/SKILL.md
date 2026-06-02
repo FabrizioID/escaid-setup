@@ -28,6 +28,17 @@ No usar Notion como motor de pensamiento. Notion es la superficie de ejecucion/d
 
 Una actividad no se crea solo porque encaja en una taxonomia. Debe ayudar a resolver el entregable: producir evidencia, cerrar una brecha, habilitar una decision, corregir un insumo, validar calidad, integrar componentes, publicar/entregar o dejar trazabilidad verificable.
 
+## Auditoria obligatoria post-escritura
+
+Despues de crear o actualizar actividades en Notion, auditar antes de cerrar la respuesta:
+
+- No deben quedar grupos/opciones `Obs.` vacios en vistas agrupadas por entregable, macro u observacion.
+- No deben quedar opciones duplicadas de select para la misma observacion si una de ellas queda sin filas.
+- Cada observacion/entregable operativo debe tener una macro clara y al menos una subactividad ejecutable, salvo que el usuario pida explicitamente solo registrar una macro.
+- Las subactividades deben tener observacion/descripcion con aporte al cierre del entregable.
+- Cuando el desglose prometido sea por especialidad + transversales, verificar que las filas creadas reflejen ambos tipos y no solo una agrupacion nominal.
+- Si se corrige una base existente, no borrar filas sin confirmacion; preferir reasignar, completar, renombrar o consolidar opciones vacias de forma trazable.
+
 ## Rutas de integracion
 
 1. **Notion MCP primero**: si el entorno tiene Notion MCP oficial o easy-notion-mcp disponible y autenticado, usarlo como ruta principal.

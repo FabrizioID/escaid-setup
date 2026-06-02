@@ -237,7 +237,7 @@ There are two different research behaviors:
    - Output: structured findings with sources near claims, angles that changed the decision, risks, unknowns and next validation steps.
    - Time expectation: slower; do not pretend it is complete if only a quick scan was performed.
 
-If the user explicitly asks for Deep Research Proper, do not answer from memory or a short scan. If tool/time/source limits prevent true depth, say so and label the result as a partial pass.
+If the user explicitly asks for Deep Research Proper, do not answer from memory, Research Assist, a short scan, or a curated Coda-only structure. This is a hard trigger. If tool/time/source limits prevent true depth, say so and label the result as a partial pass.
 
 ### Same Method, Different Depth
 
@@ -286,6 +286,23 @@ Research Assist may say: "This is a quick pass; I am only opening the strongest 
 When Research Assist is used for strategic questions, do not collapse the structure into a flat list of findings or an over-short answer. Research may run the same internal structure, but the visible output should be curated: a brief **Coda Magnus** with the few questions/variables that changed the frame, a table of selected angles, a developed conclusion for each angle with the most relevant sources underneath, local concepts only where needed, and a strong final conclusion. Do not show the full Magnus chain unless the user asks. Each selected angle should still be developed enough to explain what it reveals, what gap remains and how it changes the recommendation. The difference from Deep Research Proper is fewer search iterations, fewer sources per claim, fewer recursive branches and shorter explanations, not removing angles, fronts, Magnus trace or meaningful development.
 
 Deep Research Proper must show how branches were expanded, why they stopped, and what remains unresolved.
+
+### Deep Research Completion Audit
+
+Before saying "done" on Deep Research Proper, audit the artifact against this checklist and fix missing pieces first:
+
+- Local `.md` artifact exists or was updated as the working surface.
+- Initial Magnus F1-F13 trace is present when the research is strategic; visible rows show 1-3 decisive questions per relevant phase.
+- Angles are emergent, not a fixed template, and each selected angle has a question mother.
+- Major angles are decomposed into numbered sublayers when complexity requires it, e.g. `8.1 Prompts`, `8.2 Permissions`, `8.3 Cloud/retention`, not only one flat table.
+- If a sublayer reveals a new unresolved mechanism, open visible child sublayers under it, e.g. `8.1.1 Prompt injection`, `8.1.2 Prompt logs`, `8.1.3 Prompt DLP`. These child sublayers are not decorative; they appear only because the parent finding created a real gap that can change the decision.
+- Each sublayer has question, evidence/signal/inference, finding, gaps and decision impact.
+- Important gaps can branch into multiple child branches; child branches explain evidence, what remains unproven and decision impact.
+- Sources are inline near claims, gaps and findings; final bibliography is not a substitute.
+- Dense tables have local **Conceptos de esta tabla** blocks when they introduce non-common terms.
+- Each major angle closes with an **Angle Conclusion** that turns tables into meaning and names how the angle changed the recommendation.
+- Final Magnus chain runs after evidence and feeds a reasoned conclusion with decisive variables and sources.
+- If any element is intentionally omitted, state why: evidence sufficient, irrelevant to decision, or pending client validation.
 
 ### Depth Ladder
 

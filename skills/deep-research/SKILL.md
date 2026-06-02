@@ -73,6 +73,76 @@ This is not a casual "find 5 people" search. Treat it as a talent-intelligence t
 
 Use this mode especially when the user asks for "ponentes", "speakers", "expertos", "personas", "LinkedIn", "base de datos de ponentes", "quien sabe de X", or similar.
 
+### Company Intelligence / Commercial Due Diligence
+
+Use when the user needs to understand a company before a meeting, sales visit, proposal, partnership, investment conversation, procurement decision, or strategic outreach.
+
+Activate this mode when the user asks who a company is, what ecosystem it belongs to, what services it provides, who its clients/partners are, what projects it has delivered, how mature it is, what technology/automation/AI opportunities may fit, or when the user says they need "more power", "exprimir mas", "investigar mas a fondo", "mapa de empresa", "conexiones", "clientes", "proyectos", "proveedores", "RUC", "OSCE", "RNP", "LinkedIn", "organigrama", or similar.
+
+This is not a generic company summary. Treat it as public-source commercial intelligence:
+- identify legal names, brand names, old names, subsidiaries, holding relationships, RUC/tax IDs, addresses, domains and aliases;
+- map business lines, revenue mix signals, certifications, compliance posture, registrations and procurement capacity;
+- mine project pages, client pages, case studies, public contracts, supplier directories, PDFs, theses, environmental files, permits, news and social/professional profiles;
+- extract structured entities: projects, clients, locations, scope, area, budget, dates, duration, height/floors, subcontractors, banks, supervisors, public bodies, technologies, certifications;
+- separate what is confirmed from official/primary sources from weak directory data and inference;
+- convert findings into meeting intelligence: what to ask, what not to assume, where to enter, which offer modules fit, what evidence supports each angle.
+
+Recommended source classes:
+- company official site: home, about, companies, projects, clients, indicators, press, certifications, contact;
+- official/government registries: RUC/SUNAT-like pages, RNP/OSCE/public procurement, regulators, municipal/government files;
+- project evidence: project detail pages, brochures, Mivivienda-like publications, environmental studies, theses/repositories, construction suppliers;
+- ecosystem evidence: clients, banks, consultants, subcontractors, architects, engineering/geotechnical firms, certifiers, auditors;
+- professional/social: LinkedIn company and people pages, job posts, event mentions, interviews, YouTube or press;
+- risk/contrary evidence: sanctions, disputes, complaints, expired domains, inactive registrations, conflicting addresses, stale pages.
+
+Dataset schema for company/project mining:
+
+```text
+Entity type:
+Canonical name:
+Aliases / old names:
+Source URL:
+Source quality: official | government | partner | directory | media | academic | weak
+Claim:
+Evidence excerpt or field:
+Date / freshness:
+Confidence:
+Implication:
+Open validation question:
+```
+
+For construction/infrastructure/inmobiliaria companies, also extract:
+
+```text
+Project:
+Business line:
+Client / promotor / contractor:
+Location:
+Scope:
+Area / units / floors / duration / budget:
+Dates:
+Certifications / compliance signals:
+Operational pain implied:
+Technology opportunity:
+Evidence source:
+Confidence:
+```
+
+Output patterns:
+- **Meeting brief:** 1-page synthesis with "what they are", "what they likely care about", "what to ask", "what to offer".
+- **Evidence matrix:** table mapping each claim to source quality and confidence.
+- **Ecosystem map:** holding/subsidiaries/clients/projects/providers/regulators.
+- **Opportunity map:** pains by business function and technology modules that could solve them.
+- **Unknowns to validate:** exact questions for the meeting; never fill these with assumptions.
+
+Failure modes to avoid:
+- stopping at the official homepage;
+- treating a brand, holding, subsidiary and contractor as the same entity without checking aliases;
+- claiming current operations from stale project pages without dates;
+- turning weak directory data into fact;
+- proposing technology before mapping business lines and operational pains;
+- hiding uncertainty in polished language.
+
 ## Source Mix
 
 Pick sources based on the question:
@@ -212,6 +282,14 @@ site:reddit.com <topic> worth it problem alternative
 <role> job postings skills requirements
 <category> market size growth report
 <topic> why people quit churn complaints
+site:<company-domain> proyectos clientes indicadores certificaciones
+site:<company-domain> "Plazo de Ejecución" "Cliente" "<company-or-alias>"
+"<company>" RUC OR "tax id" OR "registro nacional de proveedores"
+"<company>" OSCE OR RNP OR SUNAT OR licitacion OR sancion
+"<company>" "<project>" "<client>" "<city>"
+"<company>" LinkedIn gerencia operaciones proyectos calidad
+"<company>" ISO 9001 ISO 14001 ISO 45001 Bureau Veritas SGS
+"<company>" proveedor contratista promotor constructor principal
 ```
 
 ## Web Scraping / Source Mining Protocol

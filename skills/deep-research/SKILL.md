@@ -80,7 +80,7 @@ Open question if not provable:
 
 Do not use unexplained jargon in the final answer. If a term is necessary, define it in context the first time it appears. Example: instead of only saying "tenant", explain it as "the company's private Microsoft/Azure environment where users, permissions, files and policies live".
 
-When a research artifact uses dense tables, add a short **Conceptos de esta tabla** block directly below any table that introduces technical, legal, operational or uncommon terms. Do not push all definitions to one glossary if the user needs to read the table immediately. The global glossary can remain, but local concept blocks reduce black-box reading.
+When a research artifact uses dense tables, add a short **Conceptos de esta tabla** block directly below any table that introduces technical, legal, operational or uncommon terms. Define each concept in 1-3 clear sentences: what it is, why it matters for the user's case, and the main caution if relevant. Do not push all definitions to one glossary if the user needs to read the table immediately. The global glossary can remain, but local concept blocks reduce black-box reading.
 
 When researching security, privacy, AI, finance, law, construction or enterprise operations, decompose the problem end to end:
 

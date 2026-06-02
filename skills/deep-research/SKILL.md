@@ -261,6 +261,8 @@ Use this replicable sequence:
 10. Connect the branches into a base truth.
 11. Convert the base truth into conclusion, recommendation, tradeoffs and next validation steps.
 
+For strategic Deep Research Proper with Magnus, the conclusion must be a reasoned closure, not a short executive summary. It should explain the path from final-chain variables to decision: which variables changed the recommendation, which sources were decisive, what base truth survived, what option wins, what is rejected, and why. Include source links next to the decisive variables or claims in the conclusion itself, not only earlier in the artifact.
+
 Do not make Research Assist a casual fact dump. Even in a short pass, identify the problem being answered, inspect multiple angles, surface the most important gaps, and connect evidence to a conclusion.
 
 Use this compression rule:

@@ -263,6 +263,8 @@ Use this replicable sequence:
 
 For strategic Deep Research Proper with Magnus, the conclusion must be a reasoned closure, not a short executive summary. It should explain the path from final-chain variables to decision: which variables changed the recommendation, which sources were decisive, what base truth survived, what option wins, what is rejected, and why. Include source links next to the decisive variables or claims in the conclusion itself, not only earlier in the artifact.
 
+In Deep Research Proper, each major angle must also close with an **Angle Conclusion** before moving to the next angle. This is not a generic summary. It should connect that angle's decisive evidence, strongest gaps, what the angle changed in the recommendation, and what remains to validate. Use sources near the claims that mattered most. Tables can carry the evidence, but the angle conclusion must turn the table into meaning.
+
 Do not make Research Assist a casual fact dump. Even in a short pass, identify the problem being answered, inspect multiple angles, surface the most important gaps, and connect evidence to a conclusion.
 
 Use this compression rule:

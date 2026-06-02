@@ -219,8 +219,8 @@ There are two different research behaviors:
 1. **Research Assist** - default when Magnus needs external context to reason.
    - Purpose: feed Magnus enough current evidence to cross variables without stopping every interaction.
    - Depth: usually L0-L2.
-   - Behavior: quick source check, a few high-signal sources, clear evidence/signal/inference labels.
-   - Output: concise synthesis and useful caveats.
+   - Behavior: quick source check, a few high-signal sources, same angle/layer/gap logic in compressed form.
+   - Output: concise synthesis with 2-4 key angles, limited sublayers, truth base, useful caveats and next gaps.
    - Time expectation: fast.
 
 2. **Deep Research Proper** - only when the user explicitly asks for deep research or uses equivalent wording.
@@ -232,6 +232,34 @@ There are two different research behaviors:
    - Time expectation: slower; do not pretend it is complete if only a quick scan was performed.
 
 If the user explicitly asks for Deep Research Proper, do not answer from memory or a short scan. If tool/time/source limits prevent true depth, say so and label the result as a partial pass.
+
+### Same Method, Different Depth
+
+Research Assist and Deep Research Proper use the same intellectual structure. They differ in expansion, not in logic.
+
+Both modes must preserve this backbone:
+
+```text
+objective -> necessary angles -> fronts/layers -> sublayers -> gaps -> evidence/signal/inference -> base truth -> conclusion/recommendation
+```
+
+Do not make Research Assist a casual fact dump. Even in a short pass, identify the problem being answered, inspect multiple angles, surface the most important gaps, and connect evidence to a conclusion.
+
+Use this compression rule:
+
+| Element | Research Assist | Deep Research Proper |
+|---|---|---|
+| Objective | 1 clear decision/problem | decision-grade brief with audience, stakes and stop condition |
+| Angles | 2-4 necessary angles | all decision-relevant angles, including disruptive/psychological/legal/technical when needed |
+| Layers | 1-2 layers per key angle | multi-layer expansion per angle |
+| Sublayers | only where a real gap changes the answer | recursive branches until sufficient, irrelevant or explicitly unresolved |
+| Gaps | top gaps only | full gap tree with child branches |
+| Evidence | few high-signal sources, label weak areas | dense source mapping, primary sources, contradiction checks |
+| Output | short connected synthesis | dossier, matrix, narrative and decision logic |
+
+Research Assist may say: "This is a quick pass; I am only opening the strongest branches." It must not imply exhaustive coverage.
+
+Deep Research Proper must show how branches were expanded, why they stopped, and what remains unresolved.
 
 ### Depth Ladder
 

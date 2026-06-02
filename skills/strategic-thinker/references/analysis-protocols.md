@@ -21,16 +21,19 @@ PASO 2 — MAPEO DE CORRELACIONES
       [Variable A] → afecta → [Variable B] porque...
   - Identificar variables líderes (anticipan cambios) vs variables rezagadas (confirman cambios)
   - Descomponer flujos punta a punta cuando el problema involucra datos, dinero, permisos, operacion o riesgo
+  - Explicar transiciones: por que cada capa de analisis lleva a la siguiente
 
 PASO 3 — LECTURA DE TENSIONES
   - Leer memory/tensions.md
   - Para cada tensión activa: ¿las señales recientes la intensifican o la alivian?
   - Identificar tensiones nuevas no documentadas aún
+  - Elegir angulos relevantes: tecnico, legal, operativo, financiero, psicologico, politico, comercial, disruptivo
 
 PASO 4 — SÍNTESIS
   - Extraer 3-5 insights ordenados por potencial estratégico (mayor impacto primero)
   - Cada insight: qué está pasando + por qué importa ahora
   - Conectar cada insight a la tesis de trabajo; descartar datos que no cambien la decision
+  - Formular preguntas disruptivas y responderlas si se puede con evidencia o razonamiento
 
 PASO 5 — RECOMENDACIÓN
   - 1-3 acciones concretas, con:
@@ -127,6 +130,23 @@ mono-proyecto | cruce-macro | decisión | disrupción
 **Conceptos que habia que definir:** <terminos tecnicos o no obvios>
 **Vacios cerrados:** <preguntas que el analisis resolvio>
 **Vacios por validar con cliente:** <preguntas que requieren informacion interna>
+
+## Conexion entre capas
+
+| Capa | Por que existe | Que revelo | Que cambia | Por que abre la siguiente |
+|---|---|---|---|---|
+| <N> | <necesidad> | <hallazgo> | <implicancia> | <transicion> |
+
+## Angulos aplicados
+
+| Angulo | Por que importa | Pregunta incomoda | Implicancia |
+|---|---|---|---|
+| <angulo> | <razon> | <pregunta> | <decision o riesgo> |
+
+## Preguntas disruptivas
+
+- **Pregunta:** <pregunta que rompe supuesto>
+  **Respuesta/implicancia:** <que cambia en el analisis>
 
 ## Inventario de variables
 

@@ -46,6 +46,43 @@ Para problemas complejos, desmembrar la dinamica de punta a punta antes de recom
 
 Magnus debe detectar preguntas que faltan aunque el usuario no las haga. Si esas preguntas pueden responderse con investigacion o razonamiento, responderlas. Si requieren datos internos del cliente, marcarlas como "validar con cliente".
 
+## Conexion Entre Capas y Angulos
+
+Cada capa de analisis debe tener una funcion causal. No basta con enumerar capas.
+
+Formato recomendado para trabajos complejos:
+
+```text
+Capa N:
+Por que existe:
+Que pregunta resuelve:
+Que descubrio:
+Que cambia en la decision:
+Por que abre la siguiente capa:
+```
+
+Despues de mapear el sistema, elegir angulos deliberadamente y explicar por que aplican al caso. Para cada angulo, producir:
+
+```text
+Angulo:
+Por que importa:
+Pregunta incomoda:
+Hallazgo/razonamiento:
+Implicancia:
+```
+
+Preguntas disruptivas obligatorias cuando el usuario pida Magnus, estrategia, propuesta o investigacion profunda:
+
+- Que estamos asumiendo demasiado pronto?
+- Que parte del problema parece tecnica pero en realidad es politica, psicologica o comercial?
+- Que parte parece segura solo porque tiene marca enterprise?
+- Que parte parece riesgosa solo porque suena tecnica o nueva?
+- Donde se esconde el verdadero activo del cliente?
+- Que no deberiamos automatizar aunque sea posible?
+- Que decision volveria a la propuesta dificil de copiar?
+
+No revelar cadena de pensamiento interna. En su lugar, entregar una trazabilidad externa y util: premisa -> pregunta -> evidencia/senal -> implicancia -> decision.
+
 ## Prerequisito
 
 Esta skill opera sobre proyectos existentes en:

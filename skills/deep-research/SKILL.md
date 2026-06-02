@@ -86,6 +86,53 @@ When researching security, privacy, AI, finance, law, construction or enterprise
 Actors -> data created -> storage -> access -> processing -> sharing -> decision -> audit -> failure/leak paths -> controls
 ```
 
+## Layer Transition and Angle Discipline
+
+Layered research must explain why each layer exists and how it changes the next layer. Do not present layers as independent sections.
+
+Use a visible reasoning trace instead of raw hidden chain-of-thought:
+
+```text
+Layer:
+Why this layer is necessary:
+Question it answers:
+What it revealed:
+What gap remains:
+Why the next layer follows:
+```
+
+Before expanding a topic, choose the angles that are necessary for the decision. Angles are not decorative categories; they are lenses that prevent blind spots.
+
+Common angle families:
+
+- Technical: architecture, integrations, model behavior, cloud, APIs, security controls.
+- Legal/compliance: privacy, contracts, IP, liability, audit, data processing roles.
+- Operational: who creates data, who updates it, where workflows break, field adoption.
+- Financial: cost, margin, leakage, ROI, procurement, vendor lock-in.
+- Psychological/trust: fear, adoption resistance, perceived control, executive confidence.
+- Political/internal power: who gains visibility, who loses discretion, approval dynamics.
+- Commercial: how to sell the solution without triggering fear or commoditizing the offer.
+- Disruptive: what non-obvious move reframes the client's problem or creates unfair advantage.
+
+For each important angle, generate at least one disruptive question:
+
+```text
+What assumption are we accepting too early?
+What would make the safest-looking option unsafe?
+What would make the riskiest-looking option strategically superior?
+Who benefits if the current confusion remains?
+Where is the hidden asset or hidden liability?
+What should not be automated even if it can be?
+What must be true for the client to trust this?
+```
+
+The final synthesis should show connection, not just coverage:
+
+```text
+Because Layer A revealed X, Layer B must test Y.
+Because Angle Z changes the risk, the recommendation shifts from option 1 to option 2.
+```
+
 ## Research Depth Engine
 
 Use this engine for any serious investigation, not only company research. Magnus must not treat "deep research" as a longer Google answer. It is an intelligence workflow: plan, collect, analyze, verify, report, and preserve uncertainty.

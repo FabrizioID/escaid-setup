@@ -176,10 +176,13 @@ angle question
 
 For Deep Research Proper, increase source density: important fronts and sublayers should carry citations or explicitly state that evidence is still missing and must be validated. Do not concentrate all citations in one bibliography or a few high-level sections.
 
-When a sublayer opens a new gap, continue recursively:
+When a sublayer opens new gaps, continue recursively. Do not assume one sublayer produces only one gap. A sublayer may produce zero, one, or several relevant gaps; each relevant gap becomes its own child branch until evidence is sufficient, the branch stops changing the decision, or the remaining gap must be marked as explicitly unresolved.
 
 ```text
-sublayer finding -> unresolved mechanism -> sub-sublayer question -> evidence -> expanded finding -> decision/gap
+sublayer finding
+-> unresolved mechanism A -> sub-sublayer question -> evidence -> expanded finding -> decision/gap
+-> unresolved mechanism B -> sub-sublayer question -> evidence -> expanded finding -> decision/gap
+-> unresolved mechanism C -> sub-sublayer question -> evidence -> expanded finding -> decision/gap
 ```
 
 Do not stop at "finding labels." Explain what was found, why it matters, what it does not prove, and what decision it changes. If the output is a table, make evidence/finding cells wide enough or split them into multi-line blocks so the reasoning is readable.

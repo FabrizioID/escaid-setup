@@ -176,6 +176,14 @@ angle question
 
 For Deep Research Proper, increase source density: important fronts and sublayers should carry citations or explicitly state that evidence is still missing and must be validated. Do not concentrate all citations in one bibliography or a few high-level sections.
 
+When a sublayer opens a new gap, continue recursively:
+
+```text
+sublayer finding -> unresolved mechanism -> sub-sublayer question -> evidence -> expanded finding -> decision/gap
+```
+
+Do not stop at "finding labels." Explain what was found, why it matters, what it does not prove, and what decision it changes. If the output is a table, make evidence/finding cells wide enough or split them into multi-line blocks so the reasoning is readable.
+
 ### Disruption as a Chain Event
 
 Disruption is not always an initial angle. It is a Magnus event that can occur:

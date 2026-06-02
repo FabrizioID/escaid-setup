@@ -174,7 +174,7 @@ angle question
 -> next sublayer question or decision
 ```
 
-For Deep Research Proper, increase source density: important fronts and sublayers should carry citations or explicitly state that evidence is still missing and must be validated. Do not concentrate all citations in one bibliography or a few high-level sections.
+For Deep Research Proper, increase source density: important fronts, sublayers, gaps and child branches should carry citations or explicitly state that evidence is still missing and must be validated. Do not concentrate all citations in one bibliography or a few high-level sections. Sources must sit next to the claim, gap, finding or decision they support; otherwise the evidence trail becomes a black box.
 
 When a sublayer opens new gaps, continue recursively. Do not assume one sublayer produces only one gap. A sublayer may produce zero, one, or several relevant gaps; each relevant gap becomes its own child branch until evidence is sufficient, the branch stops changing the decision, or the remaining gap must be marked as explicitly unresolved.
 

@@ -151,6 +151,42 @@ Do not separate "angles" from "layers" as unrelated sections. The angle is often
 
 Use system-flow layers only as a shared backbone when needed; then revisit each angle and ask what the backbone misses from that perspective.
 
+### Fronts vs Child Branches
+
+Do not confuse **fronts/subfronts** with **child branches**:
+
+- **Front / subfront:** a planned analytical decomposition chosen before or during the angle scan because the angle is broad. Example: inside a technical angle, planned fronts may be prompts, permissions, cloud/provider, open source, RAG and agents. Fronts answer: "What parts must this angle be split into to understand it?"
+- **Child branch:** a recursive expansion created only after a researched front/subfront reveals a real gap. Child branches answer: "What new uncertainty did this finding create that could change the decision?"
+
+Deep Research Proper should normally show this visible structure for each major angle:
+
+```text
+Angle
+-> table of fronts for that angle
+   -> front expanded because it is decisive
+      -> internal table of subfronts for that front
+         -> subfront finding
+            -> gap detected
+               -> child branch / sub-branch with evidence and decision impact
+```
+
+Do not jump straight from an angle to isolated numbered sections if the angle first needs a map of fronts. The front map is the reader's proof that the angle was decomposed intentionally. Numbered sections such as `8.1`, `8.2` usually represent decisive fronts being expanded; deeper numbers such as `8.1.1` may represent child branches if they were created by gaps.
+
+Use labels that preserve causality:
+
+```text
+## 8. Technical angle
+| Front | Trigger question | Evidence/hallazgo | Gap opened | Expand? |
+
+### 8.1 Prompts as leakage surface
+| Subfront | Question | Evidence/hallazgo | Gap opened | Decision |
+
+#### Child branches from P1 - Prompt as data
+| Gap detected | Child branch | Evidence/hallazgo | What remains unproven | Decision impact |
+```
+
+If a child branch itself reveals another gap, continue as a sub-branch. If it does not change the decision, stop and state why.
+
 ### Recursive Question-Evidence Chain
 
 Every angle, front, layer and sublayer must be triggered by a question and resolved through evidence or a labeled inference. If there is no question, the section is probably decorative. If there is no evidence/hallazgo, it is not deep research.
@@ -294,7 +330,9 @@ Before saying "done" on Deep Research Proper, audit the artifact against this ch
 - Local `.md` artifact exists or was updated as the working surface.
 - Initial Magnus F1-F13 trace is present when the research is strategic; visible rows show 1-3 decisive questions per relevant phase.
 - Angles are emergent, not a fixed template, and each selected angle has a question mother.
+- Each major angle shows a front map/table before expansion when the angle is broad. The map lists fronts, trigger questions, evidence/hallazgo, gaps opened and whether each front is expanded.
 - Major angles are decomposed into numbered sublayers when complexity requires it, e.g. `8.1 Prompts`, `8.2 Permissions`, `8.3 Cloud/retention`, not only one flat table.
+- Expanded fronts distinguish planned subfronts from child branches caused by gaps. Do not label a planned subfront as a child branch unless it was created by a finding's unresolved gap.
 - If a sublayer reveals a new unresolved mechanism, open visible child sublayers under it, e.g. `8.1.1 Prompt injection`, `8.1.2 Prompt logs`, `8.1.3 Prompt DLP`. These child sublayers are not decorative; they appear only because the parent finding created a real gap that can change the decision.
 - Each sublayer has question, evidence/signal/inference, finding, gaps and decision impact.
 - Important gaps can branch into multiple child branches; child branches explain evidence, what remains unproven and decision impact.

@@ -1012,6 +1012,8 @@ Rules:
 
 Default to Markdown. A rendered Markdown document is usually enough for research speed. Do not generate HTML, slides, dashboards or visual reports unless the user explicitly asks for them or the visual artifact is clearly part of the deliverable.
 
+For Deep Research Proper, prefer creating or updating a local `.md` artifact instead of placing the whole investigation in chat. The Markdown file is the working surface: iterate in place, expand branches, merge new evidence, revise conclusions, and preserve the structure across turns. The chat response should only summarize what changed, where the file is, and any important caveat. This avoids context/output limits and lets future agents continue the investigation safely.
+
 For most tasks:
 
 ```text

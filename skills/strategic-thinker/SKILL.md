@@ -203,6 +203,7 @@ Secuencia obligatoria:
 3. Separar macros de actividades ejecutables. Una actividad ejecutable debe tener `verbo + objeto claro + unidad/taxonomia cuando aplique + criterio de cierre verificable`.
 4. Evitar dos errores opuestos: empaquetar demasiadas cosas en una sola actividad; o desglosar todo usando una sola dimension y perder actividades transversales.
 5. Combinar actividades por taxonomia dominante con actividades transversales de preparacion, coordinacion, QA, consolidacion, entrega, publicacion, validacion y cierre.
+6. Verificar orientacion a entregable: cada actividad debe explicar como contribuye a resolver/cerrar el entregable u observacion. Si no produce evidencia, decision, correccion, validacion, integracion, publicacion o cierre verificable, no debe crearse aunque encaje en la taxonomia.
 
 Si se usara `documentar-notion`, Magnus primero produce y valida aqui la matriz de desglose. La skill Notion solo ejecuta en Notion una estructura ya pensada; Notion no decide ni inventa el desglose.
 

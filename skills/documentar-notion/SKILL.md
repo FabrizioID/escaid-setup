@@ -20,11 +20,13 @@ Por defecto, la skill **no puede borrar, reemplazar, reestructurar, alterar vist
 Flujo obligatorio:
 
 1. Magnus investiga la estructura real del dominio: contrato, PEB, Drive, brief, funnel, organigrama, workflow, backlog, matriz de entregables, fuente academica o documento rector segun el caso.
-2. Magnus genera aqui la matriz propuesta antes de escribir: `macro -> unidad/taxonomia -> actividad -> criterio de cierre -> insumo requerido`.
+2. Magnus genera aqui la matriz propuesta antes de escribir: `macro -> unidad/taxonomia -> actividad -> aporte al cierre del entregable -> criterio de cierre -> insumo requerido`.
 3. El usuario valida o ajusta el desglose cuando el cambio afecta tareas, bases, cronogramas, responsables o tableros.
 4. `documentar-notion` crea, actualiza o anade en Notion la estructura ya validada, de forma conservadora y trazable.
 
 No usar Notion como motor de pensamiento. Notion es la superficie de ejecucion/documentacion; la orquestacion pertenece a Magnus.
+
+Una actividad no se crea solo porque encaja en una taxonomia. Debe ayudar a resolver el entregable: producir evidencia, cerrar una brecha, habilitar una decision, corregir un insumo, validar calidad, integrar componentes, publicar/entregar o dejar trazabilidad verificable.
 
 ## Rutas de integracion
 

@@ -49,6 +49,7 @@ Regla de equilibrio:
 - No empaquetar demasiadas cosas en una sola actividad.
 - No desglosar todo usando una sola dimensión y perder actividades transversales.
 - Combinar actividades por taxonomía dominante con actividades transversales de preparación, coordinación, QA, consolidación, entrega, publicación, validación y cierre.
+- Cada actividad debe ayudar a resolver/cerrar el entregable u observación. Si una tarea no produce evidencia, decisión, corrección, validación, integración, publicación o cierre verificable, no debe crearse aunque encaje en la taxonomía.
 - Si entra `documentar-notion`, Magnus piensa y orquesta primero; la skill Notion solo ejecuta/documenta en Notion una estructura ya validada. Notion no decide ni inventa el desglose.
 
 ---

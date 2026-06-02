@@ -108,6 +108,50 @@ No separar "capas" por un lado y "angulos" por otro si eso rompe la relacion cau
 
 El flujo del sistema puede ser una columna vertebral comun, pero la investigacion profunda debe volver a recorrerlo desde cada angulo para detectar vacios distintos.
 
+## Cadena Recursiva de Pregunta, Evidencia y Hallazgo
+
+Cada angulo, frente, capa y subcapa debe nacer de una pregunta. Esa pregunta debe responderse con evidencia, senal o inferencia marcada. Si no hay pregunta, la seccion probablemente es decorativa. Si no hay evidencia/hallazgo, no es investigacion profunda.
+
+Unidad minima:
+
+```text
+Pregunta que dispara esta capa:
+Por que importa:
+Evidencia buscada:
+Evidencia encontrada:
+Hallazgo:
+Que resuelve:
+Que nueva pregunta abre:
+Como cambia la decision:
+```
+
+La cadena debe repetirse:
+
+`pregunta del angulo -> pregunta del frente -> pregunta de subcapa -> evidencia/hallazgo -> nueva pregunta o decision`.
+
+Para deep research, las citas deben estar distribuidas dentro de angulos/frentes/subcapas, no solo en una bibliografia o seccion de hallazgos.
+
+## Disrupcion como Evento de Magnus
+
+La disrupcion no es siempre un angulo de origen. Es un evento de Magnus que aparece cuando una pregunta rompe el marco:
+
+- al inicio, si el encuadre del usuario es demasiado estrecho;
+- durante la investigacion, si un hallazgo contradice un supuesto;
+- al final, si las nuevas variables permiten replantear la propuesta.
+
+Formato:
+
+```text
+Supuesto cuestionado:
+Por que Magnus lo detecta:
+Evidencia o razonamiento que presiona el supuesto:
+Pregunta disruptiva:
+Investigacion necesaria:
+Como podria cambiar la decision:
+```
+
+Las preguntas disruptivas no son adorno. Deben responderse o quedar como vacios explicitos de investigacion.
+
 ## Prerequisito
 
 Esta skill opera sobre proyectos existentes en:

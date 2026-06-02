@@ -147,6 +147,56 @@ Do not separate "angles" from "layers" as unrelated sections. The angle is often
 
 Use system-flow layers only as a shared backbone when needed; then revisit each angle and ask what the backbone misses from that perspective.
 
+### Recursive Question-Evidence Chain
+
+Every angle, front, layer and sublayer must be triggered by a question and resolved through evidence or a labeled inference. If there is no question, the section is probably decorative. If there is no evidence/hallazgo, it is not deep research.
+
+Use this recursive unit:
+
+```text
+Question that triggers this layer:
+Why this question matters:
+Evidence sought:
+Evidence found:
+Finding / hallazgo:
+What this resolves:
+New gap or next question opened:
+Decision impact:
+```
+
+Apply it repeatedly:
+
+```text
+angle question
+-> front question
+-> sublayer question
+-> evidence/hallazgo
+-> next sublayer question or decision
+```
+
+For Deep Research Proper, increase source density: important fronts and sublayers should carry citations or explicitly state that evidence is still missing and must be validated. Do not concentrate all citations in one bibliography or a few high-level sections.
+
+### Disruption as a Chain Event
+
+Disruption is not always an initial angle. It is a Magnus event that can occur:
+
+- at the beginning, when the initial framing is too narrow;
+- during research, when a finding breaks an assumption;
+- at the end, when new variables allow a sharper strategic reframing.
+
+When disruption occurs, document it as:
+
+```text
+Assumption being challenged:
+Why Magnus surfaced it:
+Evidence or reasoning that pressures the assumption:
+New disruptive question:
+Research needed to answer it:
+How the decision could change:
+```
+
+Do not treat disruptive questions as rhetorical decoration. They must either be answered with evidence/reasoning, or become explicit research gaps.
+
 ## Research Depth Engine
 
 Use this engine for any serious investigation, not only company research. Magnus must not treat "deep research" as a longer Google answer. It is an intelligence workflow: plan, collect, analyze, verify, report, and preserve uncertainty.

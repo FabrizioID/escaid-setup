@@ -20,6 +20,34 @@ Always separate:
 
 Never present intuition as evidence. If sources are thin or conflicting, say so.
 
+## Purpose-Led Synthesis Contract
+
+Research is not a pile of facts. It must sustain a decision, thesis or narrative with real-world logic.
+
+Before final output, convert evidence into a connected argument:
+
+```text
+Initial problem:
+Strategic thesis:
+Why this matters now:
+Real dangers / constraints:
+Evidence that supports the danger:
+Existing solutions or enterprise patterns:
+What those patterns imply for this user/client:
+Recommended move:
+What remains uncertain:
+```
+
+If the output only lists sources, vendors, features or isolated facts, it is incomplete. The result must tell the user what the evidence means in relation to the original problem.
+
+Use this chain for client-facing research:
+
+```text
+Problem -> Risk -> Evidence -> Pattern -> Solution -> Tradeoff -> Recommendation
+```
+
+For high-stakes strategic work, hand off the evidence to Magnus / Strategic Thinker as raw material, not as the final answer. Deep Research explores deeply; Magnus gives shape, intent, hierarchy and conclusion.
+
 ## Research Depth Engine
 
 Use this engine for any serious investigation, not only company research. Magnus must not treat "deep research" as a longer Google answer. It is an intelligence workflow: plan, collect, analyze, verify, report, and preserve uncertainty.
@@ -141,6 +169,7 @@ Before finalizing, ask:
 - Did I confuse a project, client, contractor and owner?
 - Did I produce a useful decision map, or just a biography/summary?
 - Did each major recommendation have a source-backed reason or clearly marked inference?
+- Did the output sustain a thesis connected to the user's original problem, or did it merely dump facts?
 
 ## Research Modes
 

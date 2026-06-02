@@ -3,6 +3,11 @@
 ## PROTOCOLO: ANÁLISIS INTERNO (mono-proyecto)
 
 ```
+PASO 0 — TESIS DE TRABAJO
+  - Reformular el problema inicial en una pregunta estrategica
+  - Definir la tesis provisional que el analisis va a probar, matizar o descartar
+  - Identificar que evidencia cambiaria la conclusion
+
 PASO 1 — INVENTARIO
   - Lista todas las variables con su estado actual y tendencia
   - Cuenta señales totales y señales del último mes
@@ -22,12 +27,14 @@ PASO 3 — LECTURA DE TENSIONES
 PASO 4 — SÍNTESIS
   - Extraer 3-5 insights ordenados por potencial estratégico (mayor impacto primero)
   - Cada insight: qué está pasando + por qué importa ahora
+  - Conectar cada insight a la tesis de trabajo; descartar datos que no cambien la decision
 
 PASO 5 — RECOMENDACIÓN
   - 1-3 acciones concretas, con:
       Acción: verbo + objeto + plazo
       Por qué ahora: urgencia o ventana de oportunidad
       Riesgo principal: qué podría salir mal
+  - Cerrar con una conclusion: que debe creer/hacer distinto el usuario despues de leer el analisis
 ```
 
 ---
@@ -72,6 +79,7 @@ PASO 6 — DECISIÓN MACRO
 PASO 1 — ENCUADRE
   - Reformular la decisión como una pregunta binaria o de opciones discretas
   - Identificar cuáles variables de la memoria son relevantes para esta decisión
+  - Declarar la historia causal esperada: si hacemos X, deberia reducir Y porque Z
 
 PASO 2 — EVIDENCIA
   - ¿Qué dicen los hechos estables a favor y en contra de cada opción?
@@ -103,6 +111,12 @@ PASO 4 — RECOMENDACIÓN
 
 ## Modo
 mono-proyecto | cruce-macro | decisión | disrupción
+
+## Tesis de trabajo
+
+**Problema inicial:** <que se intenta resolver>
+**Tesis:** <argumento central que el analisis sostiene o matiza>
+**Que cambiaria la conclusion:** <evidencia o condicion de invalidacion>
 
 ## Inventario de variables
 

@@ -9,6 +9,20 @@ Motor de analisis estrategico que opera sobre proyectos gestionados por `strateg
 
 Para protocolos detallados y formato de output, lee `references/analysis-protocols.md`.
 
+## Contrato Narrativo
+
+Strategic Thinker no entrega listas de datos. Cuando recibe evidencia de `deep-research`, debe darle forma como una historia decisional:
+
+`problema inicial -> tension/peligro -> evidencia -> patron observado -> implicancia -> solucion -> decision recomendada`.
+
+La investigacion sirve para sostener una tesis, no para exhibir fuentes. Si el usuario esta preparando una propuesta, reunion o decision, empezar por explicar que esta realmente en juego y luego usar la evidencia para justificar el camino.
+
+Antes de cerrar, verificar:
+- La respuesta esta conectada al problema inicial del usuario.
+- Cada dato importante tiene una funcion dentro del argumento.
+- Hay una conclusion accionable, no solo contexto.
+- Los riesgos y tradeoffs aparecen antes de vender la solucion.
+
 ## Prerequisito
 
 Esta skill opera sobre proyectos existentes en:
@@ -89,3 +103,4 @@ Pasos:
 - Documentar correlaciones con fuente antes de usarlas.
 - Cada analysis session es historica: no sobreescribir.
 - Terminar siempre con una accion concreta.
+- Convertir investigacion externa en tesis estrategica conectada al problema inicial.

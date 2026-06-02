@@ -13,6 +13,19 @@ Por defecto, la skill puede **anadir, completar y extender**.
 
 Por defecto, la skill **no puede borrar, reemplazar, reestructurar, alterar vistas, modificar cronogramas/boards ni mover paginas/bases** sin confirmacion explicita del usuario.
 
+## Contrato con Magnus
+
+`documentar-notion` ejecuta en Notion; no decide la estrategia ni inventa el desglose. Cuando el trabajo requiere criterio, taxonomia, actividades, estructura de proyecto, matriz de tareas, observaciones, entregables o plan operativo, Magnus debe pensar y orquestar primero.
+
+Flujo obligatorio:
+
+1. Magnus investiga la estructura real del dominio: contrato, PEB, Drive, brief, funnel, organigrama, workflow, backlog, matriz de entregables, fuente academica o documento rector segun el caso.
+2. Magnus genera aqui la matriz propuesta antes de escribir: `macro -> unidad/taxonomia -> actividad -> criterio de cierre -> insumo requerido`.
+3. El usuario valida o ajusta el desglose cuando el cambio afecta tareas, bases, cronogramas, responsables o tableros.
+4. `documentar-notion` crea, actualiza o anade en Notion la estructura ya validada, de forma conservadora y trazable.
+
+No usar Notion como motor de pensamiento. Notion es la superficie de ejecucion/documentacion; la orquestacion pertenece a Magnus.
+
 ## Rutas de integracion
 
 1. **Notion MCP primero**: si el entorno tiene Notion MCP oficial o easy-notion-mcp disponible y autenticado, usarlo como ruta principal.

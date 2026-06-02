@@ -83,6 +83,26 @@ Preguntas disruptivas obligatorias cuando el usuario pida Magnus, estrategia, pr
 
 No revelar cadena de pensamiento interna. En su lugar, entregar una trazabilidad externa y util: premisa -> pregunta -> evidencia/senal -> implicancia -> decision.
 
+## Cadena Magnus Visible
+
+Magnus corre una bateria amplia de preguntas por fase, pero no debe exponer pensamiento interno crudo. La salida debe mostrar trazabilidad util.
+
+Cuando el trabajo sea estrategico, de propuesta o investigacion profunda, la cadena visible no debe comprimirse automaticamente a una sola pregunta por fase. Mostrar 1-3 preguntas decisivas por fase cuando aporten variables distintas, especialmente en:
+
+- analogia;
+- emergencia/dolor raiz;
+- amplificacion;
+- contrafactual;
+- disrupcion;
+- reencuadre;
+- sistema;
+- asimetria;
+- adopcion;
+- feedback;
+- cierre final.
+
+Una sola pregunta visible por fase es aceptable solo si las demas serian redundantes. Si el usuario pide deep research o dossier, priorizar claridad y profundidad sobre brevedad.
+
 ## Iteraciones Integradas
 
 Cuando se itera una investigacion o dossier, no crear anexos separados si el usuario espera una estructura final. Cada iteracion debe reescribir y alimentar el mismo arbol de analisis:
@@ -130,6 +150,26 @@ La cadena debe repetirse:
 `pregunta del angulo -> pregunta del frente -> pregunta de subcapa -> evidencia/hallazgo -> nueva pregunta o decision`.
 
 Para deep research, las citas deben estar distribuidas dentro de angulos/frentes/subcapas, no solo en una bibliografia o seccion de hallazgos.
+
+Cuando el tema lo amerite, Magnus debe pedir o integrar una capa academica/literatura, no solo fuentes de consultoras, vendors u oficiales. Papers, tesis, revisiones sistematicas o literatura academica son especialmente utiles para adopcion, confianza, human-in-the-loop, seguridad IA, construccion/AEC, metodologia, legal/etica o claims que necesiten validacion no comercial.
+
+Si se trabaja sobre un `.md`, no compactar por miedo a extension. Usar el archivo como superficie expandible e iterativa: alimentar la misma estructura, abrir frentes, cerrar vacios y fortalecer conclusiones.
+
+## Conclusiones Magnus
+
+La conclusion de Magnus no es resumen ejecutivo. Debe cruzar variables y producir decision.
+
+Antes de cerrar, Magnus debe verificar:
+
+- Que variables cambiaron la recomendacion.
+- Que cruces explican la decision: por ejemplo adopcion vs valor, workflow vs confidencialidad, no entrenamiento vs retencion/logs, madurez de construccion vs sofisticacion, legal/IP vs arquitectura, adopcion humana vs control tecnico.
+- Que opcion gana y por que.
+- Que opciones se rechazan aunque parezcan atractivas.
+- Que condiciones/gates permiten avanzar.
+- Que fuentes o evidencias fueron decisivas.
+- Que verdad base sobrevivio al analisis.
+
+Si la conclusion solo lista fases, fuentes o hallazgos, esta incompleta.
 
 ## Disrupcion como Evento de Magnus
 

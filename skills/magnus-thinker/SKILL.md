@@ -193,10 +193,17 @@ Leer `<workspace>\second-brain\MASTER_IDEAS.md` al inicio de cada sesiÃ³n.
 - la accion es reversible, barata y no afecta promesas externas;
 - el usuario pide explicitamente no investigar.
 
-**Umbral de profundidad:**
-- Quick Scan: orientacion rapida, ejemplos, referencias ligeras, bajo riesgo.
-- Standard Research: producto, marketing, decision comercial, comportamiento de usuario, comparacion de alternativas.
-- Deep Dive: decisiones de alto impacto, tesis/academia, pricing importante, claims publicos, regulacion, estrategia de categoria o apuestas dificiles.
+**Umbral de profundidad — escalera de 3 niveles (criterio explicito):**
+
+| Nivel | Cuando | Que activa | Que estructura lleva |
+|---|---|---|---|
+| **0. Dato puntual** | Un precio, fecha, nombre, definicion suelta | Busqueda directa, NO la maquinaria de `deep-research` | Ninguna; solo el dato con su fuente |
+| **1. Research Assist / Standard** | Decision media: comparar alternativas, pricing no critico, comportamiento de usuario, validar una hipotesis | `deep-research` en modo comprimido | Misma logica a menor volumen: 2-4 angulos, 1-2 casos reales CON cifra, tabla compacta, balance exito/fracaso si aplica, Coda Magnus breve, conclusion conectada |
+| **2. Deep Research Proper / Deep Dive** | Alto impacto, cliente-facing, pricing importante, tesis/papers, regulacion, claims publicos, apuestas dificiles | `deep-research` completo | Cadenas Magnus inicial Y final, angulos con fronts/sublayers, tablas de casos por angulo con cifra, capa academica, conclusion que aterriza la decision |
+
+**Regla clave de la escalera:** lo que cambia entre nivel 1 y 2 es la *cantidad* (menos fuentes, menos ramas, menos filas), NO el *principio*. Un Research Assist sigue exigiendo: casos con su cifra, balance exito/fracaso donde importe, tabla compacta en vez de casos dispersos, y conclusion conectada. "Es solo Research Assist" no justifica soltar la cifra ni listar casos sin tabla. Menor profundidad = menos filas, no menor estandar por fila.
+
+**Extraccion de dato puntual NO es investigacion:** para un precio o nombre suelto, busqueda directa basta. Reservar la skill estructurada para decisiones que cruzan variables.
 
 **Como entra en la cadena:**
 - F1: buscar analogias y casos externos reales.

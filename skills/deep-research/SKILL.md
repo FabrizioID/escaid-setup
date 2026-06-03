@@ -441,6 +441,18 @@ When Research Assist is used for strategic questions, do not collapse the struct
 
 Research Assist must also seek at least one real-world case/example when the topic is business, technology, product, operations or proposal-related. In the quick mode, one strong case may be enough; in Deep Research Proper, cases should be mapped across the important angles/fronts.
 
+**Case-quality rules scale by volume, not by principle — they apply at BOTH levels.** The rules above (the number IS the case, balance failure with success, success cases show the "how", prefer same-sector cases, both evidence tables, distinguish mirror/model) are NOT exclusive to Deep Research Proper. They define *quality*, and quality applies even to a single case. What changes between levels is only the quantity:
+
+| Element | Research Assist (L2) | Deep Research Proper (L3+) |
+|---|---|---|
+| Cases | 1-2 strong cases, still WITH their figure and a success/failure balance where it matters | full per-angle case tables across every relevant angle |
+| Case tables | a compact table even for 2-3 cases is fine and preferred over scattered inline | dedicated table per angle |
+| Figure rule | still mandatory — a pricing/cost case without its number is incomplete at any level | same |
+| Academic | cite if one strong source materially supports a claim; say so if not academic | dedicated academic table per relevant angle |
+| Magnus chains | a brief Coda Magnus (few decisive questions) | full initial AND final F1-F13 chains |
+
+So: a Research Assist on "how does competitor X price" must still give competitor X's actual price (figure rule) and, if relevant, one success and one cautionary case — just fewer of them, in a smaller table, with a shorter conclusion. Do not use "this is only Research Assist" as an excuse to drop the figure, drop the success/failure balance, or list cases without a table. Lower depth means fewer rows, not lower standards per row.
+
 Deep Research Proper must show how branches were expanded, why they stopped, and what remains unresolved.
 
 ### Deep Research Completion Audit

@@ -250,3 +250,23 @@ Este patrón aplica a cualquier lenguaje o proceso:
 - Docker compose: logs de cada servicio en el orden correcto
 
 **Tags**: #debugging #nodo-a-nodo #metodologia #universal #qa
+
+---
+
+## 2026-06-03 — batch-one-page-1am: fixes aplicados en la misma sesión
+
+**Dominio**: n8n
+**Severidad**: 🟡 Operacional
+**Contexto**: Creación del workflow de batch nocturno + fixes relacionados
+
+**Fixes aplicados en la sesión:**
+- Gemini Selección: deduplicación por file_id (evita fotos repetidas cuando hay menos de 4)
+- Merge Binarios overrides para 2 y 3 fotos (evita que GPT invente galería extra)
+- continueOnFail en Gemini Vision (evita que overload de Gemini corte el registro)
+- Es Batch? IF node en sw-premium: cuando batch_mode=true, salta Enviar Premium
+- batch-one-page-1am: pasa batch_mode:true para no spam al grupo de producción
+
+**Bug específico confirmado:**
+GPT /v1/responses devuelve `message` en lugar de `image_generation_call` cuando recibe fotos duplicadas (detecta inconsistencia y responde con texto). Fix: enviar solo fotos únicas.
+
+**Tags**: #batch #fotos-duplicadas #gemini-overload #continueOnFail #batch_mode

@@ -1,0 +1,8 @@
+interface:
+  display_name: "Google Docs Format Guardian"
+  short_description: "QA and repair Google Docs formatting"
+  brand_color: "#17365D"
+  default_prompt: "Use $google-docs-format-guardian to audit and preserve the formatting of this Google Doc after edits."
+
+policy:
+  allow_implicit_invocation: true

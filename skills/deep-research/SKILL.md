@@ -307,6 +307,14 @@ The Magnus F1-F13 trace should not be artificially reduced to one question per p
 
 When the topic benefits from academic support, include a real academic/literature layer, not only consulting reports, vendor docs and official frameworks. Papers, theses, systematic reviews or scholarly articles are especially useful for adoption, trust, human-in-the-loop, security risks, construction/AEC digital transformation, methods, legal/ethical risk and any claim that needs non-vendor validation. Put those sources inside the relevant angle/front/branch, not only in the final bibliography.
 
+When the research supports a business, strategy, technology, product, operations or client proposal decision, actively look for **real-world examples / case studies / adoption proof** inside each important angle or front. Do not rely only on abstract patterns, papers or vendor capability pages. The strongest structure is:
+
+```text
+Claim or pattern -> real company / sector / country example -> what they did -> source -> what transfers to this user/client -> what does not transfer
+```
+
+If no named company case is available, use the closest credible implementation evidence: public case study, government/program case, customer story, interview, public architecture, procurement record, product adoption report, benchmark, incident postmortem, or industry survey with examples. If no credible case exists, mark the gap explicitly instead of implying real adoption.
+
 The final Magnus conclusion must be a variable-crossing closure. Do not merely restate phases or summarize sources. It should name the decisive crosses, such as adoption vs value, workflow vs confidentiality, no-training vs retention/logs, construction maturity vs sophistication, legal/IP vs architecture, and human adoption vs technical controls. Then it must convert those crosses into a concrete decision, rejected options, conditions to proceed and the final base truth.
 
 In Deep Research Proper, each major angle must also close with an **Angle Conclusion** before moving to the next angle. This is not a generic summary. It should connect that angle's decisive evidence, strongest gaps, what the angle changed in the recommendation, and what remains to validate. Use sources near the claims that mattered most. Tables can carry the evidence, but the angle conclusion must turn the table into meaning.
@@ -329,6 +337,8 @@ Research Assist may say: "This is a quick pass; I am only opening the strongest 
 
 When Research Assist is used for strategic questions, do not collapse the structure into a flat list of findings or an over-short answer. Research may run the same internal structure, but the visible output should be curated: a brief **Coda Magnus** with the few questions/variables that changed the frame, a table of selected angles, a developed conclusion for each angle with the most relevant sources underneath, local concepts only where needed, and a strong final conclusion. Do not show the full Magnus chain unless the user asks. Each selected angle should still be developed enough to explain what it reveals, what gap remains and how it changes the recommendation. The difference from Deep Research Proper is fewer search iterations, fewer sources per claim, fewer recursive branches and shorter explanations, not removing angles, fronts, Magnus trace or meaningful development.
 
+Research Assist must also seek at least one real-world case/example when the topic is business, technology, product, operations or proposal-related. In the quick mode, one strong case may be enough; in Deep Research Proper, cases should be mapped across the important angles/fronts.
+
 Deep Research Proper must show how branches were expanded, why they stopped, and what remains unresolved.
 
 ### Deep Research Completion Audit
@@ -346,6 +356,7 @@ Before saying "done" on Deep Research Proper, audit the artifact against this ch
 - Each sublayer has question, evidence/signal/inference, finding, gaps and decision impact.
 - Important gaps can branch into multiple child branches; child branches explain evidence, what remains unproven and decision impact.
 - Academic/literature sources were evaluated and included inside relevant fronts/branches when they strengthen the topic; if not included, the artifact explains why vendor/official/business sources were sufficient.
+- Real-world company/sector/country examples or case studies were searched for and attached to relevant fronts when they strengthen the claim. If none were found, the gap is explicit.
 - Sources are inline near claims, gaps and findings; final bibliography is not a substitute.
 - Dense tables have local **Conceptos de esta tabla** blocks when they introduce non-common terms.
 - Each major angle closes with an **Angle Conclusion** that turns tables into meaning and names how the angle changed the recommendation.

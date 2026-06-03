@@ -168,6 +168,18 @@ Para deep research, las citas deben estar distribuidas dentro de angulos/frentes
 
 Cuando el tema lo amerite, Magnus debe pedir o integrar una capa academica/literatura, no solo fuentes de consultoras, vendors u oficiales. Papers, tesis, revisiones sistematicas o literatura academica son especialmente utiles para adopcion, confianza, human-in-the-loop, seguridad IA, construccion/AEC, metodologia, legal/etica o claims que necesiten validacion no comercial.
 
+Cuando el analisis sostiene una propuesta, decision de negocio, tecnologia, producto u operacion, Magnus debe buscar o pedir **casos reales** ademas de teoria, papers o patrones. Cada angulo/frente importante debe intentar responder:
+
+```text
+Que empresa/sector/pais ya hizo algo parecido?
+Que hizo exactamente?
+Que fuente lo prueba?
+Que parte se puede transferir al usuario/cliente?
+Que parte no se puede transferir?
+```
+
+Si no existe un caso con empresa nombrada, usar evidencia de implementacion cercana: caso de estudio, customer story, arquitectura publica, licitacion/procurement, programa publico, benchmark, entrevista, incidente o survey con ejemplos. Si no hay caso creible, marcarlo como vacio; no convertir papers o claims de vendor en prueba de adopcion real.
+
 Si se trabaja sobre un `.md`, no compactar por miedo a extension. Usar el archivo como superficie expandible e iterativa: alimentar la misma estructura, abrir frentes, cerrar vacios y fortalecer conclusiones.
 
 ## Conclusiones Magnus
@@ -182,6 +194,7 @@ Antes de cerrar, Magnus debe verificar:
 - Que opciones se rechazan aunque parezcan atractivas.
 - Que condiciones/gates permiten avanzar.
 - Que fuentes o evidencias fueron decisivas.
+- Que casos reales hicieron mas creible la recomendacion y que limites de transferencia tienen.
 - Que verdad base sobrevivio al analisis.
 
 Si la conclusion solo lista fases, fuentes o hallazgos, esta incompleta.

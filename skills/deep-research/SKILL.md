@@ -84,6 +84,18 @@ When a research artifact uses dense tables, add a short **Conceptos de esta tabl
 
 This local concept block is mandatory when the table includes terms such as Purview, tenant, DLP, RAG, ZDR, RBAC, MDM, IAM, API, webhook, model, embedding, vector database, agent, evals, guardrails, subprocessor, sensitivity label, ethical wall, SPI/CPI, BIM, scheduling or any acronym/domain term the user may not already use. Do not assume technical vocabulary is understood because it is common to vendors. If a term appears in a table and affects the decision, define it directly below that table.
 
+For tables that include technical concepts, controls, methods, frameworks, case studies or vendor terms, include a visible column such as **Para que sirve / Utilidad para el cliente** unless the same function is already explicit in another column. The reader should understand not only what the concept is, but why it matters and how it helps the decision. Example: do not only say "Morgan Stanley used evals"; explain that evals are test sets/scoring checks used before deployment to see whether the AI answers correctly, cites sources, avoids sensitive data and is safe enough to use. For ESPARQ, evals would help test report answers, SPI/CPI explanations, contract summaries or purchase alerts before putting them in production.
+
+Minimum explanation for a concept/control in research tables:
+
+```text
+What it is:
+What it is for:
+How it applies to this user/client:
+What decision or control it enables:
+Main caution:
+```
+
 When researching security, privacy, AI, finance, law, construction or enterprise operations, decompose the problem end to end:
 
 ```text
@@ -202,10 +214,10 @@ Use labels that preserve causality:
 | Front | Trigger question | Evidence/hallazgo | Gap opened | Expand? |
 
 ### 8.1 Prompts as leakage surface
-| Subfront | Question | Evidence/hallazgo | Gap opened | Decision |
+| Subfront | Question | Evidence/hallazgo | What it is for / client utility | Gap opened | Decision |
 
 #### Child branches from P1 - Prompt as data
-| Gap detected | Child branch | Evidence/hallazgo | What remains unproven | Decision impact |
+| Gap detected | Child branch | Evidence/hallazgo | What it is for / client utility | What remains unproven | Decision impact |
 ```
 
 If a child branch itself reveals another gap, continue as a sub-branch. If it does not change the decision, stop and state why.
@@ -377,12 +389,13 @@ Before saying "done" on Deep Research Proper, audit the artifact against this ch
 - Major angles are decomposed into numbered sublayers when complexity requires it, e.g. `8.1 Prompts`, `8.2 Permissions`, `8.3 Cloud/retention`, not only one flat table.
 - Expanded fronts distinguish planned subfronts from child branches caused by gaps. Do not label a planned subfront as a child branch unless it was created by a finding's unresolved gap.
 - If a sublayer reveals a new unresolved mechanism, open visible child sublayers under it, e.g. `8.1.1 Prompt injection`, `8.1.2 Prompt logs`, `8.1.3 Prompt DLP`. These child sublayers are not decorative; they appear only because the parent finding created a real gap that can change the decision.
-- Each sublayer has question, evidence/signal/inference, finding, gaps and decision impact.
+- Each sublayer has question, evidence/signal/inference, finding, utility/what-it-is-for when a concept/control/case is introduced, gaps and decision impact.
 - Important gaps can branch into multiple child branches; child branches explain evidence, what remains unproven and decision impact.
 - Academic/literature sources were evaluated and included inside relevant fronts/branches when they strengthen the topic; if not included, the artifact explains why vendor/official/business sources were sufficient.
 - Real-world company/sector/country examples or case studies were searched for and attached to relevant fronts when they strengthen the claim. If none were found, the gap is explicit.
 - Sources are inline near claims, gaps and findings; final bibliography is not a substitute.
 - Dense tables have local **Conceptos de esta tabla** blocks when they introduce non-common terms. Important acronyms and vendor terms used in a table, such as Purview, tenant, DLP, RAG, ZDR, RBAC, API, BIM, evals or subprocessor, are defined directly below that table.
+- Tables that introduce controls, methods, tools, cases or technical concepts include a clear **Para que sirve / Utilidad para el cliente** explanation, either as a column or in the local concept block. If the user cannot tell why the concept matters for their decision, the table is incomplete.
 - Each major angle closes with an **Angle Conclusion** that turns tables into meaning and names how the angle changed the recommendation.
 - Final Magnus chain runs after evidence; visible rows again show 1-3 decisive questions when multiple variables matter.
 - Final Magnus conclusion is not a short summary. It explicitly crosses decisive variables, names rejected options, states the winning decision, gives conditions/gates to proceed and ends with a base truth.

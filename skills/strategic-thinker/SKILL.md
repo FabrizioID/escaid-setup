@@ -203,6 +203,18 @@ Si se trabaja sobre un `.md`, no compactar por miedo a extension. Usar el archiv
 
 Cuando uses tablas densas con terminos tecnicos, legales, financieros u operativos, exige un bloque local **Conceptos de esta tabla** debajo. Terminos como Purview, tenant, DLP, RAG, ZDR, RBAC, API, BIM, evals, subprocessor o sensitivity label deben definirse ahi mismo en lenguaje simple y conectado al caso. No asumir que el usuario los conoce.
 
+Si una tabla introduce un control, metodo, herramienta, caso real o concepto tecnico, debe quedar claro **para que sirve**. Agregar una columna o explicacion local tipo:
+
+```text
+Que es:
+Para que sirve:
+Como aplica al cliente:
+Que decision/control habilita:
+Cuidado principal:
+```
+
+Ejemplo: no basta decir "Morgan Stanley uso evals". Debe explicarse que `evals` son pruebas de calidad/seguridad antes de produccion; sirven para validar si la IA responde bien, cita fuentes, no expone datos sensibles y puede usarse con confianza. Para ESPARQ, servirian para probar reportes, SPI/CPI, contratos, compras o alertas antes de activar IA real.
+
 ## Conclusiones Magnus
 
 La conclusion de Magnus no es resumen ejecutivo. Debe cruzar variables y producir decision.

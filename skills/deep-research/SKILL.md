@@ -342,6 +342,19 @@ The Magnus F1-F13 trace should not be artificially reduced to one question per p
 
 When the topic benefits from academic support, include a real academic/literature layer, not only consulting reports, vendor docs and official frameworks. Papers, theses, systematic reviews or scholarly articles are especially useful for adoption, trust, human-in-the-loop, security risks, construction/AEC digital transformation, methods, legal/ethical risk and any claim that needs non-vendor validation. Put those sources inside the relevant angle/front/branch, not only in the final bibliography.
 
+**Both evidence tables are dedicated and repeatable per section — symmetric rule.** A Deep Research Proper artifact has TWO recurring evidence-table types: (1) the per-angle real-world cases table, and (2) the academic/literature table. Both follow the SAME placement rule: each gets its own dedicated table inside EVERY section, angle, or front where that evidence class strengthens the argument — not one global table at the end, and not "scattered inline". If a topic has six angles and academic evidence strengthens four of them, there are four academic tables, one per angle. The academic table structure:
+
+| Fuente académica | Hallazgo | Relevancia para [cliente/decisión] | Grado |
+|---|---|---|---|
+
+When you introduce either table type in one section, ask for every other section: "does this evidence class also apply here?" If yes, add the table there too. If a section genuinely does not need one (e.g. the topic is industry-driven, not academic), state that explicitly in that section ("tema de industria, no académico — fuentes formales son sustento secundario aquí") rather than silently leaving it out. The reader should never wonder whether you forgot the table or decided it did not apply — make the decision visible.
+
+**Academic vs. vendor source hierarchy for security/AI/enterprise topics:** peer-reviewed papers and academic preprints (arXiv, ACM, IEEE, PubMed) outrank vendor documentation as evidence of mechanism or risk. Vendor docs confirm product behavior; papers confirm whether the underlying mechanism is real, how severe it is, and what defenses actually work under controlled conditions. When both exist, use papers for the claim and vendor docs for the product-specific implementation. If only vendor docs exist for a claim, label it as vendor assertion, not independent evidence.
+
+**Lateral-path question for AI/data/privacy research (2025–2026 standard):** the central question is no longer "does the provider train with my data?" but "by what lateral paths can my information leave the perimeter even if the provider does not train with it?" Always decompose: training / retention / logs / connectors / agents / RAG / cache / grounding / third-party extensions / telemetry / human review for abuse/compliance. Each path is an independent risk surface. A "no training" commitment does not close the other paths. Treat this decomposition as mandatory when the topic is AI confidentiality, data governance, enterprise AI adoption, or security architecture.
+
+**Honesty rule for residual risk claims:** do not present a universal safety percentage for AI security. NIST explicitly states that many GenAI risks are difficult to estimate and that the science of measurement in this domain remains immature. The correct framing is: auditable engineering objectives (e.g., "zero transmission of restricted data in clear to external models", "100% of connectors in allowlist with privacy evaluation", "no critical exfiltration findings in red teaming before production") rather than statistical guarantees. If the user or client expects a percentage, reframe it as a controlled test result on a specific corpus, not a universal rate.
+
 When the research supports a business, strategy, technology, product, operations or client proposal decision, actively look for **real-world examples / case studies / adoption proof** inside each important angle or front. Do not rely only on abstract patterns, papers or vendor capability pages. The strongest structure is:
 
 ```text
@@ -350,9 +363,60 @@ Claim or pattern -> real company / sector / country example -> what they did -> 
 
 If no named company case is available, use the closest credible implementation evidence: public case study, government/program case, customer story, interview, public architecture, procurement record, product adoption report, benchmark, incident postmortem, or industry survey with examples. If no credible case exists, mark the gap explicitly instead of implying real adoption.
 
+**Per-angle real-world cases table (mandatory in Deep Research Proper for client/proposal work):** just as academic evidence gets its own dedicated section before the angle's sub-fronts, real-world cases must also get their own table *inside each angle where they are relevant*, not only in a final bibliography or scattered inline. Do not consolidate all cases into one global section — cases mean different things in different angles. The same company (e.g., JPMorgan) may belong in the technical angle as an architecture example, in the psychological/adoption angle as a trust-building pattern, and in the financial/competitive angle as a data-protection decision. Each instance of the case must explain what that angle specifically learned from it.
+
+Use this table structure per angle:
+
+| Empresa / Caso | Que hizo (especifico) | Que demuestra para este angulo | Que transfiere al cliente | Que NO transfiere | Fuente / Grado |
+|---|---|---|---|---|---|
+
+Rules for this table:
+- Include only cases where the company is named and the action is documented, not vague "a large bank" references.
+- If a case only appears as secondary press reporting with no primary disclosure, label it as "ampliamente reportado, fuente primaria no localizada" — do not omit it, but do not present it as primary evidence.
+- Each case row must complete both "que transfiere" and "que NO transfiere" — a case without a "no transfiere" limit is overclaiming.
+- Cases from sectors adjacent to the client (finance, legal, operations, construction) are more transferable than pure tech company cases; note the sector distance explicitly.
+- For psychological/adoption angles, prioritize cases where user sentiment, resistance, or trust trajectory is documented, not just architecture.
+- For legal/IP angles, prioritize cases where IP loss, data breach notification, or contract conflict was the reported outcome.
+- **The number IS the case.** When a case has a central quantitative fact — price, amount charged, revenue, % change, user count, cost, conversion, time — that figure MUST appear in the row. A pricing/cost/market case without its key figure is incomplete and reads as filler. If you cite "Adobe switched to subscription" you must also cite *for how much* (e.g. "perpetual ~USD 2,600 → USD 54.99–69.99/month"). If the figure is not yet found, run another search specifically for it before finalizing; only if it is genuinely undisclosed do you write "cifra no divulgada" explicitly.
+- **Distinguish mirror cases from model cases.** A case can be the *opposite* of the client's situation (mirror) or the *same* (model). Both are valuable but must be labeled. A mirror case (e.g. Adobe retaining IP when the client wants to own it) proves *why* a pattern exists; a model case (e.g. a custom-built platform with disclosed cost) gives the *actual number to transfer*. For decisions that need a concrete figure, always hunt for at least one model case with a real number, not only mirror cases.
+
+**Proactivity rule — do not wait to be asked.** Real-world cases AND academic sources are part of the default Deep Research Proper deliverable, not add-ons the user has to request. If the research is proposal/decision-oriented and you ship it without a per-angle cases table and without checking for academic support, that is an incomplete pass — even if the user did not explicitly ask for them. Search for both proactively. If after searching they genuinely do not apply or do not exist, say so explicitly ("no se encontró caso real con cifra para X" / "el tema es de industria, no académico — fuentes formales son sustento secundario"). Stating honestly that a source class does not apply is correct; silently omitting it is not.
+
 The final Magnus conclusion must be a variable-crossing closure. Do not merely restate phases or summarize sources. It should name the decisive crosses, such as adoption vs value, workflow vs confidentiality, no-training vs retention/logs, construction maturity vs sophistication, legal/IP vs architecture, and human adoption vs technical controls. Then it must convert those crosses into a concrete decision, rejected options, conditions to proceed and the final base truth.
 
+**Two Magnus chains are mandatory in strategic Deep Research Proper — initial AND final.** The *initial* chain (F1-F13) runs before the evidence and opens the variables/angles. The *final* chain (F1-F13) runs AFTER the evidence is gathered and re-crosses each phase with the real numbers and findings the research produced. These are different tables with different answers — the initial chain asks "what should we investigate?", the final chain asks "now that we know X, Y, Z, what does each phase decide?". Shipping only the initial chain is an incomplete pass. The final chain is what connects the investigation to the closing decision; without it the conclusion floats. If a phase did not change between initial and final, it is fine to compress it, but the final chain must exist as its own visible section before the conclusion.
+
+**Quantitative-decision rule — when the decision is a number, the conclusion must produce that number.** If the research exists to support a price, budget, size, rate, timeline, headcount, or any quantitative decision, the conclusion is NOT done until it lands a concrete tentative figure (or a tight range) WITH its derivation and a "why this number and not more / not less" justification. Do not stop at the structure or the model ("charge in 4 layers") — that is the method, not the answer. The user asked, implicitly or explicitly, "how much?" — and the conclusion must answer it with the calculation shown (e.g. "900–1,600h × USD 45–55/h = USD 45k–88k") anchored to the benchmark sources. A conclusion that explains *how to think about* the number without producing the number is incomplete for a quantitative decision.
+
 In Deep Research Proper, each major angle must also close with an **Angle Conclusion** before moving to the next angle. This is not a generic summary. It should connect that angle's decisive evidence, strongest gaps, what the angle changed in the recommendation, and what remains to validate. Use sources near the claims that mattered most. Tables can carry the evidence, but the angle conclusion must turn the table into meaning.
+
+**Explanation quality rule — applies throughout the entire document, not only in the conclusion:** every time a component, control, concept, angle or decision is explained in an investigation oriented toward a proposal, the explanation must follow this structure:
+
+1. Say what it IS in simple terms — do not assume the reader already knows.
+2. Say what specific problem it solves for this client — not generically, but anchored to their pain.
+3. Connect it to a real case or evidence that justifies the choice.
+4. Use short paragraphs with line breaks between ideas — never a wall of text.
+
+This applies to the conclusion, to angle summaries, to component descriptions, to tables, and to any section where something important is being explained. The test: if a reader who knows nothing about the technology reads the explanation, they should understand what the thing is, why it matters for them, and why this option was chosen over others. If the explanation only names the component without those elements, it is incomplete.
+
+**Magnus conclusion structure for proposal-oriented research:**
+
+```
+1. Opening decision — one paragraph, what the investigation closes on and why
+2. Per-angle synthesis — for each relevant angle:
+   - What the angle revealed that changed the recommendation
+   - Short paragraphs, real case or evidence inline, reduced citations (decisive ones only)
+   - Not a summary of the angle — the specific insight that moved the decision
+3. Definitive solution — each component explained with:
+   - What it is (simple)
+   - What problem it solves for this client specifically
+   - Why this option wins over alternatives
+   - Real case or evidence that supports it
+4. What gets rejected — brief, with the reason and a case that illustrates it
+5. Closing phrase — one or two lines, client-facing, proposal-ready
+```
+
+Do not collapse the conclusion into a short summary. The conclusion is where the investigation lands — it must carry enough explanation that someone who reads only the conclusion understands what gets built, why, and what was ruled out.
 
 Do not make Research Assist a casual fact dump. Even in a short pass, identify the problem being answered, inspect multiple angles, surface the most important gaps, and connect evidence to a conclusion.
 
@@ -473,6 +537,13 @@ Prefer evidence in this order, adjusting by domain:
 
 Weak sources can generate leads, not conclusions. Upgrade them through primary or direct ecosystem evidence.
 
+**Source grade mapping for AI/security/enterprise research:**
+- **Grade A:** peer-reviewed paper, academic preprint with clear methodology, official government/standards body document (NIST, ISO, OWASP), primary incident disclosure from the affected organization.
+- **Grade B:** reputable vendor technical documentation (Microsoft Learn, AWS Docs, Google Cloud Docs, Anthropic Terms), credible consultancy report with named methodology, systematic review or meta-analysis.
+- **Grade C:** widely reported corporate case (Samsung, JPMorgan) where no primary company disclosure exists — label explicitly as "widely reported, no primary source located."
+- **Grade D:** secondary press summary, marketing claim, undated or unattributed vendor blog.
+When building a security or privacy argument, Grade A must anchor the mechanism claim; Grade B can confirm product behavior; Grade C may illustrate adoption pattern but must carry an explicit "primary source not verified" label.
+
 ### Verification Moves
 
 Adopt these verification moves before closing material claims:
@@ -509,6 +580,13 @@ Before finalizing, ask:
 - Did the output sustain a thesis connected to the user's original problem, or did it merely dump facts?
 - Did I define non-common technical terms and fill concept gaps before using them as premises?
 - Did I decompose the problem end to end enough to locate where the risk, cost or value is created?
+- For AI/security/privacy topics: did I decompose the full lateral-path surface (training / retention / logs / connectors / agents / RAG / cache / grounding / third-party extensions / telemetry) or did I stop at "no training = safe"?
+- Did I use academic papers as mechanism evidence and vendor docs as implementation evidence, or did I conflate them?
+- If I stated a safety/security percentage, did I anchor it to a specific test corpus and scope, or did I imply a universal guarantee?
+
+### Output Growth Rule
+
+Do not artificially compress tables, branches, or evidence sections to keep the output short. If a table naturally grows because there are more relevant fronts, gaps, or cases, let it grow. Compression is for chat synthesis only; in `.md` artifacts and Deep Research Proper, completeness wins over brevity. The rule is: compress what does not change the decision; expand what does. Never truncate evidence that carries a decision impact, even if the total output becomes long.
 
 ## Research Modes
 

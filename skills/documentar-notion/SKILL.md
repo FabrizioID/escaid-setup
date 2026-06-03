@@ -1,4 +1,4 @@
----
+﻿---
 name: documentar-notion
 description: Documenta informacion en Notion desde el contexto del agente usando Notion MCP/easy-notion-mcp como ruta principal y Notion API como fallback. Usar cuando el usuario quiera crear proyectos desde plantillas, actualizar proyectos existentes conservando estructura, anadir contenido directo a paginas/bases/secciones o insertar imagenes/texto/tablas/tareas sin romper Notion.
 ---
@@ -12,6 +12,33 @@ Skill para llevar informacion trabajada con el agente hacia Notion de forma cons
 Por defecto, la skill puede **anadir, completar y extender**.
 
 Por defecto, la skill **no puede borrar, reemplazar, reestructurar, alterar vistas, modificar cronogramas/boards ni mover paginas/bases** sin confirmacion explicita del usuario.
+
+## Contrato con Magnus
+
+`documentar-notion` ejecuta en Notion; no decide la estrategia ni inventa el desglose. Cuando el trabajo requiere criterio, taxonomia, actividades, estructura de proyecto, matriz de tareas, observaciones, entregables o plan operativo, Magnus debe pensar y orquestar primero.
+
+Flujo obligatorio:
+
+1. Magnus investiga la estructura real del dominio: contrato, PEB, Drive, brief, funnel, organigrama, workflow, backlog, matriz de entregables, fuente academica o documento rector segun el caso.
+2. Magnus genera aqui la matriz propuesta antes de escribir: `macro -> unidad/taxonomia -> actividad -> aporte al cierre del entregable -> criterio de cierre -> insumo requerido`.
+3. El usuario valida o ajusta el desglose cuando el cambio afecta tareas, bases, cronogramas, responsables o tableros.
+4. `documentar-notion` crea, actualiza o anade en Notion la estructura ya validada, de forma conservadora y trazable.
+
+No usar Notion como motor de pensamiento. Notion es la superficie de ejecucion/documentacion; la orquestacion pertenece a Magnus.
+
+Una actividad no se crea solo porque encaja en una taxonomia. Debe ayudar a resolver el entregable: producir evidencia, cerrar una brecha, habilitar una decision, corregir un insumo, validar calidad, integrar componentes, publicar/entregar o dejar trazabilidad verificable.
+
+## Auditoria obligatoria post-escritura
+
+Despues de crear o actualizar actividades en Notion, auditar antes de cerrar la respuesta:
+
+- No deben quedar grupos/opciones `Obs.` vacios en vistas agrupadas por entregable, macro u observacion.
+- No deben quedar opciones duplicadas de select para la misma observacion si una de ellas queda sin filas.
+- Cada observacion/entregable operativo debe tener una macro clara y al menos una subactividad ejecutable, salvo que el usuario pida explicitamente solo registrar una macro.
+- Las subactividades deben tener observacion/descripcion con aporte al cierre del entregable.
+- Cuando el desglose prometido sea por especialidad + transversales, verificar que las filas creadas reflejen ambos tipos y no solo una agrupacion nominal.
+- No inventar porcentajes de avance. Si la fuente o el usuario no indica avance, dejar el campo vacio/null cuando sea posible, o usar `0` solo si el estado real es "sin iniciar" y eso esta sustentado. Si el avance es desconocido, registrar "pendiente por confirmar" en observacion en vez de asumir un porcentaje.
+- Si se corrige una base existente, no borrar filas sin confirmacion; preferir reasignar, completar, renombrar o consolidar opciones vacias de forma trazable.
 
 ## Rutas de integracion
 
@@ -180,24 +207,24 @@ Para proyectos GEN+ tipo expediente/ingenieria, usar como referencia visual y es
 
 Patron observado:
 
-- Contenido superior: `DESCRIPCIÓN`, `ACCESOS`, `INFORMACIÓN`, toggles operativos y divisor.
+- Contenido superior: `DESCRIPCIÃ“N`, `ACCESOS`, `INFORMACIÃ“N`, toggles operativos y divisor.
 - Bases visibles al final como inline reales, ajustadas al proyecto:
   - `ACTIVIDADES` debe existir por defecto para seguimiento operativo.
   - `REUNIONES` debe existir cuando haya coordinaciones, acuerdos o seguimiento con terceros.
   - `DOCUMENTOS` es opcional; crearla solo si el usuario entrega enlaces/documentos o pide control documental propio del proyecto.
   - `CONTACTOS CLIENTE` es opcional; crearla solo si hay contactos externos concretos que gestionar o el usuario la pide.
 - `ACTIVIDADES`:
-  - Propiedades: `Name`, `Entregable`, `Encargado`, `Fecha Límite`, `Observación`, `% Avance`, `Status`.
+  - Propiedades: `Name`, `Entregable`, `Encargado`, `Fecha LÃ­mite`, `ObservaciÃ³n`, `% Avance`, `Status`.
   - Vistas: `Vista Filtrada` board, `Status` table, `Original` board.
   - En los proyectos BIM/observaciones, ajustar agrupaciones segun instruccion del usuario; ejemplo validado: boards por `Status`, tabla `Status` agrupada por `Entregable`.
 - `REUNIONES`:
   - Propiedades: `OBJETIVOS`, `Date`, `ACUERDOS`, `OBSERVACIONES`.
   - Vista `Untitled` table.
 - `DOCUMENTOS`:
-  - Propiedades: `Nombre`, `Tipo`, `Fecha`, `Versión`, `Estado`, `Link`.
+  - Propiedades: `Nombre`, `Tipo`, `Fecha`, `VersiÃ³n`, `Estado`, `Link`.
   - Vista `Default view` table.
 - `CONTACTOS CLIENTE`:
-  - Propiedades: `Nombre`, `Institución`, `Tipo`, `Cargo`, `Email`, `Teléfono`.
+  - Propiedades: `Nombre`, `InstituciÃ³n`, `Tipo`, `Cargo`, `Email`, `TelÃ©fono`.
   - Vista `Default view` table.
 
 Importante: `PUENTE TINGO` es plantilla de estructura, no fuente de contenido ni lista obligatoria de bases. No copiar sus entregables, responsables, ubicacion, categorias ni bases opcionales si no corresponden al proyecto nuevo. Para proyectos GEN+ ligeros o en etapa comercial/alcance, evitar crear `DOCUMENTOS` y `CONTACTOS CLIENTE` vacias.
@@ -243,7 +270,7 @@ Flujo:
 
 Trigger ejemplo: `sube la reunion a Notion` / `carga esto a reuniones`
 
-Usar este activador solo cuando el usuario lo pida de forma explicita o cuando el input describa inequívocamente una reunion real realizada o programada. Si solo hay cierre de actividad, seguimiento a una persona, mensaje de confirmacion, correo, WhatsApp, entrega documental o evidencia de Drive, no crear registro en `REUNIONES`; actualizar actividades/control/documentos segun corresponda.
+Usar este activador solo cuando el usuario lo pida de forma explicita o cuando el input describa inequÃ­vocamente una reunion real realizada o programada. Si solo hay cierre de actividad, seguimiento a una persona, mensaje de confirmacion, correo, WhatsApp, entrega documental o evidencia de Drive, no crear registro en `REUNIONES`; actualizar actividades/control/documentos segun corresponda.
 
 Este activador produce dos salidas: registro en Notion y mensaje listo para WhatsApp.
 
@@ -274,19 +301,19 @@ Despues de documentar, entregar al usuario un mensaje de grupo de WhatsApp con e
 *REUNION [Nombre del proyecto] - [DD/MM/AAAA]*
 
 *Objetivo:*
-• [objetivo principal de la reunion]
+â€¢ [objetivo principal de la reunion]
 
 *Observaciones:*
-• [punto 1]
-• [punto 2]
-• ...
+â€¢ [punto 1]
+â€¢ [punto 2]
+â€¢ ...
 
 *Acuerdos / Pendientes:*
-• [acuerdo o pendiente 1]
-• [acuerdo o pendiente 2]
-• ...
+â€¢ [acuerdo o pendiente 1]
+â€¢ [acuerdo o pendiente 2]
+â€¢ ...
 
-✅ [cierre si aplica, ej: "Todo lo demas aprobado y validado en reunion."]
+âœ… [cierre si aplica, ej: "Todo lo demas aprobado y validado en reunion."]
 ```
 
 Regla de titulo: siempre `*REUNION [Proyecto] - [DD/MM/AAAA]*`, con la palabra REUNION al inicio. Para Tingo usar `*REUNION PUENTE-TINGO - [DD/MM/AAAA]*`.
@@ -294,7 +321,7 @@ Regla de titulo: siempre `*REUNION [Proyecto] - [DD/MM/AAAA]*`, con la palabra R
 Reglas del formato WA:
 - Texto plano, sin markdown de codigo, sin tablas.
 - Negrita solo con asteriscos simples (*texto*).
-- Cada punto es una linea con bullet `•`.
+- Cada punto es una linea con bullet `â€¢`.
 - Tono directo, sin saludos ni firmas.
 - Maximo 20 lineas en total; si hay mas contenido, agrupar puntos similares.
 - Separar `Observaciones` de `Acuerdos / Pendientes`.
@@ -351,16 +378,16 @@ Formato WhatsApp validado:
 *REPORTE DE ACTIVIDADES*
 *Fecha:* DD/MM/AAAA
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🟣 *AECODE*
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+ðŸŸ£ *AECODE*
 *Proyectos visibles:* N
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 *Puntos clave generales:*
 - [Aporte/valor logrado por actividades completadas y pendientes relevantes.]
 - [Desarrollo de herramientas, control de procesos, gestion academica, comercial u operativa segun corresponda.]
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 *DESGLOSE POR PROYECTO*
 
 *Nombre del proyecto*
@@ -370,29 +397,29 @@ Formato WhatsApp validado:
 *Pendientes:*
 - [Actividad] - XX%
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🔵 *GEN+*
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+ðŸ”µ *GEN+*
 *Proyectos visibles:* N
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 *Puntos clave generales:*
 - [Aporte/valor logrado en proyectos, gestion tecnica, BIM, entregables, coordinaciones o modelos.]
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 *DESGLOSE POR PROYECTO*
 
 *Nombre del proyecto*
 ...
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-⚪ *ThesIA*
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+âšª *ThesIA*
 *Proyectos visibles:* N
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 *Puntos clave generales:*
 - [Aporte/valor del seguimiento academico o documental.]
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 *DESGLOSE POR PROYECTO*
 
 *Nombre del proyecto*
@@ -404,17 +431,17 @@ Reglas visuales del formato:
 - Separar cada empresa con doble linea: una linea larga antes del encabezado de empresa y otra despues de `*Proyectos visibles:* N`.
 - Antes de `*DESGLOSE POR PROYECTO*`, usar una sola linea larga. No poner segunda linea debajo del titulo de desglose.
 - Dentro de cada empresa, siempre mostrar primero `*Puntos clave generales:*` y despues el desglose por proyecto.
-- El separador estandar es `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`.
+- El separador estandar es `â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”`.
 - Usar `*Proyectos visibles:* N`, no `*Proyectos activos:* N`, porque el reporte depende de la vista filtrada.
 
 Lineamientos de redaccion para `Puntos clave generales`:
 
 - No titular como `Resumen de aporte`; usar siempre `Puntos clave generales`.
-- Redactar en viñetas breves, enfocadas en valor, avance y desbloqueo operativo.
+- Redactar en viÃ±etas breves, enfocadas en valor, avance y desbloqueo operativo.
 - Para AECODE/marketing, mencionar `desarrollo de herramientas` cuando aplique.
 - Para automatizacion n8n, no decir `cierre operativo` si el programa esta arrancando; describirlo como arranque, control de procesos y avance de sesiones/talleres.
 - Para GEN+, enfocar en gestion tecnica, trazabilidad de entregables, avance BIM/modelos, coordinaciones y desbloqueo de pendientes.
-- No incluir una viñeta generica tipo `Falta alinear pendientes al planning` salvo que el usuario lo pida explicitamente.
+- No incluir una viÃ±eta generica tipo `Falta alinear pendientes al planning` salvo que el usuario lo pida explicitamente.
 - Usar bolitas por empresa: AECODE morado, GEN+ azul, ThesIA verde.
 
 ### Matrices y contenido editable
@@ -445,7 +472,7 @@ Puntos aprendidos en proyectos GEN+:
   4. Migrar filas.
   5. Replicar vistas sobre la nueva base.
   6. Verificar conteo de filas y vistas.
-  7. Recién despues archivar la linked view y la fuente vieja si corresponde.
+  7. ReciÃ©n despues archivar la linked view y la fuente vieja si corresponde.
 - Antes de archivar cualquier base, verificar que la nueva base responde a query y que la pagina visible muestra solo la estructura deseada.
 
 ### Views API
@@ -472,9 +499,9 @@ Cuando haya que igualar vistas de una plantilla:
 
 ### Codificacion
 
-- En Windows/PowerShell, usar Python con `-X utf8` o escapes Unicode para evitar que tildes y `ñ` entren como `?`.
+- En Windows/PowerShell, usar Python con `-X utf8` o escapes Unicode para evitar que tildes y `Ã±` entren como `?`.
 - Verificar despues los textos visibles de pagina, propiedades y filas.
-- Corregir nombres de propiedades si quedan con codificacion rota, por ejemplo `Observación` y `Fecha Límite`.
+- Corregir nombres de propiedades si quedan con codificacion rota, por ejemplo `ObservaciÃ³n` y `Fecha LÃ­mite`.
 
 ## Cambios seguros vs sensibles
 
@@ -572,3 +599,4 @@ Limitaciones:
 Siguiente paso:
 - ...
 ```
+

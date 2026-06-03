@@ -57,6 +57,7 @@ Despues de crear o actualizar actividades en Notion, auditar antes de cerrar la 
 - Las subactividades deben tener observacion/descripcion con aporte al cierre del entregable.
 - Cuando el desglose prometido sea por especialidad + transversales, verificar que las filas creadas reflejen ambos tipos y no solo una agrupacion nominal.
 - No inventar porcentajes de avance. Si la fuente o el usuario no indica avance, dejar el campo vacio/null cuando sea posible, o usar `0` solo si el estado real es "sin iniciar" y eso esta sustentado. Si el avance es desconocido, registrar "pendiente por confirmar" en observacion en vez de asumir un porcentaje.
+- En propiedades Notion de tipo `number` con formato `percent`, escribir el valor en escala decimal: `1` significa `100%`, `0.35` significa `35%`, `0` significa `0%`. Nunca escribir `100` para representar `100%`, porque Notion lo muestra como `10000%`. Antes de cerrar, auditar que ningun `% Avance` sea mayor a `1` salvo que la propiedad no sea de tipo porcentaje.
 - Si se corrige una base existente, no borrar filas sin confirmacion; preferir reasignar, completar, renombrar o consolidar opciones vacias de forma trazable.
 
 ## Rutas de integracion

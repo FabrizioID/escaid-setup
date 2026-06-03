@@ -82,6 +82,8 @@ Do not use unexplained jargon in the final answer. If a term is necessary, defin
 
 When a research artifact uses dense tables, add a short **Conceptos de esta tabla** block directly below any table that introduces technical, legal, operational or uncommon terms. Define each concept in 1-3 clear sentences: what it is, why it matters for the user's case, and the main caution if relevant. Do not push all definitions to one glossary if the user needs to read the table immediately. The global glossary can remain, but local concept blocks reduce black-box reading.
 
+This local concept block is mandatory when the table includes terms such as Purview, tenant, DLP, RAG, ZDR, RBAC, MDM, IAM, API, webhook, model, embedding, vector database, agent, evals, guardrails, subprocessor, sensitivity label, ethical wall, SPI/CPI, BIM, scheduling or any acronym/domain term the user may not already use. Do not assume technical vocabulary is understood because it is common to vendors. If a term appears in a table and affects the decision, define it directly below that table.
+
 When researching security, privacy, AI, finance, law, construction or enterprise operations, decompose the problem end to end:
 
 ```text
@@ -103,7 +105,7 @@ What gap remains:
 Why the next layer follows:
 ```
 
-Before expanding a topic, choose the angles that are necessary for the decision. Angles are not decorative categories, templates or fixed checklists; they are lenses that prevent blind spots and extract variables. Common families are useful starting points, but the real angle set must emerge from the problem, Magnus' initial chain, evidence gaps and decision stakes.
+Before expanding a topic, choose the angles that are necessary for the decision. Angles are not decorative categories, templates or fixed checklists; they are **strategic lenses** that prevent blind spots and extract variables. Common families are useful starting points, but the real angle set must emerge from the problem, Magnus' initial chain, evidence gaps and decision stakes.
 
 Common angle families:
 
@@ -117,6 +119,18 @@ Common angle families:
 - Disruptive: what non-obvious move reframes the client's problem or creates unfair advantage.
 
 Do not force these families into every investigation. Technical, psychological, financial, legal and operational angles are often useful, but they are still candidates, not requirements. Also allow problem-specific angles to appear: versioning/dependency angle for development bugs, regulatory angle for compliance, trust/adoption angle for AI, category-language angle for marketing, founder/resource angle for startups, or any other angle Magnus surfaces. If an emergent angle can change the recommendation, promote it to a real research branch with fronts, evidence, gaps and angle conclusion.
+
+For strategic/client work, do not let implementation topics or examples replace the real angle set. "Cases reales", "Morgan Stanley", "Copilot", "Purview", "RAG", "agentes", "dashboard" or "Bilding" are usually **fronts/subfronts or evidence inside an angle**, not angles by themselves. A good angle name should describe the lens, e.g.:
+
+```text
+Technical/security angle -> fronts: Purview, prompts, RAG, agents, model deployment.
+Psychological/adoption angle -> fronts: trust, fear, field adoption, executive confidence.
+Financial/business angle -> fronts: ROI, margin leakage, cost of manual reporting, vendor lock-in.
+Operational angle -> fronts: data entry, approvals, multi-project workflow, Bilding integration.
+Commercial/proposal angle -> fronts: narrative, scope, phases, pricing logic, objections.
+Legal/IP angle -> fronts: data protection, source code ownership, no reuse, subprocessor contracts.
+Real-world cases angle? Usually no: cases should be evidence inside each angle, unless the specific research objective is "compare case studies".
+```
 
 For each important angle, generate at least one disruptive question:
 
@@ -139,7 +153,16 @@ Because Angle Z changes the risk, the recommendation shifts from option 1 to opt
 
 Iterations must not become separate appendices unless the user explicitly asks for a log. Each iteration should refine the same structure in place: merge new evidence, close gaps, update sublayers, revise angle variables, and change conclusions where warranted. Avoid "Iteration 2" sections that leave old and new reasoning disconnected.
 
-Angles are variable-extraction engines, not labels. Each angle must identify what variables matter, what evidence can validate them, what uncertainty remains, and how the decision changes. If an angle is psychological, legal, financial, operational or technical, it still needs its own sublayers, evidence and implications.
+Angles are variable-extraction engines, not labels. Each angle must identify what variables matter, what evidence can validate them, what uncertainty remains, and how the decision changes. If an angle is psychological, legal, financial, operational or technical, it still needs its own fronts, sublayers, evidence and implications.
+
+Before writing the angle list, run an **angle sanity check**:
+
+```text
+Is this a lens that changes how we interpret the problem?
+Or is it a topic, technology, vendor, case, source type or deliverable?
+If it is a topic/vendor/case, place it under the right lens as a front or evidence.
+If it is a lens, explain what variables it extracts and what decision it can change.
+```
 
 When a problem is strategic and multi-dimensional, prefer **angle-first decomposition**:
 
@@ -349,6 +372,7 @@ Before saying "done" on Deep Research Proper, audit the artifact against this ch
 - The `.md` artifact was used as the expandable working surface; Deep Research Proper was not compressed just to fit a chat answer.
 - Initial Magnus F1-F13 trace is present when the research is strategic; visible rows show 1-3 decisive questions per relevant phase, not automatically one question per phase.
 - Angles are emergent, not a fixed template, and each selected angle has a question mother.
+- Each selected angle is a strategic lens such as technical, psychological/adoption, financial/business, operational, legal/IP/compliance, commercial/proposal, political/internal power or another justified lens. Topics, vendors, tools, case studies and deliverables are not promoted to angles unless the research objective specifically requires that comparison.
 - Each major angle shows a front map/table before expansion when the angle is broad. The map lists fronts, trigger questions, evidence/hallazgo, gaps opened and whether each front is expanded.
 - Major angles are decomposed into numbered sublayers when complexity requires it, e.g. `8.1 Prompts`, `8.2 Permissions`, `8.3 Cloud/retention`, not only one flat table.
 - Expanded fronts distinguish planned subfronts from child branches caused by gaps. Do not label a planned subfront as a child branch unless it was created by a finding's unresolved gap.
@@ -358,7 +382,7 @@ Before saying "done" on Deep Research Proper, audit the artifact against this ch
 - Academic/literature sources were evaluated and included inside relevant fronts/branches when they strengthen the topic; if not included, the artifact explains why vendor/official/business sources were sufficient.
 - Real-world company/sector/country examples or case studies were searched for and attached to relevant fronts when they strengthen the claim. If none were found, the gap is explicit.
 - Sources are inline near claims, gaps and findings; final bibliography is not a substitute.
-- Dense tables have local **Conceptos de esta tabla** blocks when they introduce non-common terms.
+- Dense tables have local **Conceptos de esta tabla** blocks when they introduce non-common terms. Important acronyms and vendor terms used in a table, such as Purview, tenant, DLP, RAG, ZDR, RBAC, API, BIM, evals or subprocessor, are defined directly below that table.
 - Each major angle closes with an **Angle Conclusion** that turns tables into meaning and names how the angle changed the recommendation.
 - Final Magnus chain runs after evidence; visible rows again show 1-3 decisive questions when multiple variables matter.
 - Final Magnus conclusion is not a short summary. It explicitly crosses decisive variables, names rejected options, states the winning decision, gives conditions/gates to proceed and ends with a base truth.

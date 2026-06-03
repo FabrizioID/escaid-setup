@@ -143,6 +143,25 @@ No separar "capas" por un lado y "angulos" por otro si eso rompe la relacion cau
 
 El flujo del sistema puede ser una columna vertebral comun, pero la investigacion profunda debe volver a recorrerlo desde cada angulo para detectar vacios distintos.
 
+Antes de escribir los angulos, Magnus debe distinguir **lente estrategico** de **frente/evidencia**:
+
+```text
+Angulo = lente que cambia como interpretamos el problema.
+Frente = tema, mecanismo, herramienta, vendor, caso real o flujo que se analiza dentro del angulo.
+Evidencia = fuente, paper, caso, dato o senal que sostiene un hallazgo.
+```
+
+Ejemplos:
+
+- Correcto: angulo tecnico/seguridad -> frentes Purview, DLP, RAG, agentes, prompts.
+- Correcto: angulo psicologico/adopcion -> frentes confianza, miedo legal, adopcion en obra, percepcion de vigilancia.
+- Correcto: angulo financiero/empresarial -> frentes ROI, costo de reproceso, margen, TCO, vendor lock-in.
+- Correcto: angulo comercial/propuesta -> frentes narrativa, objeciones, fases, pricing, propiedad.
+- Incorrecto salvo objetivo especifico: "casos reales" como angulo. Los casos reales deben vivir dentro de los angulos como evidencia comparativa.
+- Incorrecto salvo objetivo especifico: "Copilot", "Purview", "Bilding", "dashboard" o "Morgan Stanley" como angulos. Son frentes, herramientas o evidencia.
+
+Si un candidato de angulo no extrae variables distintas ni cambia la decision, bajarlo a frente/subfrente.
+
 ## Cadena Recursiva de Pregunta, Evidencia y Hallazgo
 
 Cada angulo, frente, capa y subcapa debe nacer de una pregunta. Esa pregunta debe responderse con evidencia, senal o inferencia marcada. Si no hay pregunta, la seccion probablemente es decorativa. Si no hay evidencia/hallazgo, no es investigacion profunda.
@@ -181,6 +200,8 @@ Que parte no se puede transferir?
 Si no existe un caso con empresa nombrada, usar evidencia de implementacion cercana: caso de estudio, customer story, arquitectura publica, licitacion/procurement, programa publico, benchmark, entrevista, incidente o survey con ejemplos. Si no hay caso creible, marcarlo como vacio; no convertir papers o claims de vendor en prueba de adopcion real.
 
 Si se trabaja sobre un `.md`, no compactar por miedo a extension. Usar el archivo como superficie expandible e iterativa: alimentar la misma estructura, abrir frentes, cerrar vacios y fortalecer conclusiones.
+
+Cuando uses tablas densas con terminos tecnicos, legales, financieros u operativos, exige un bloque local **Conceptos de esta tabla** debajo. Terminos como Purview, tenant, DLP, RAG, ZDR, RBAC, API, BIM, evals, subprocessor o sensitivity label deben definirse ahi mismo en lenguaje simple y conectado al caso. No asumir que el usuario los conoce.
 
 ## Conclusiones Magnus
 

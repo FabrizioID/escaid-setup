@@ -442,6 +442,31 @@ Orden de verificación:
 
 **Señal de corrección:** el usuario debería solo verificar la experiencia real (cómo se ve el flyer, cómo llega el mensaje en WhatsApp) — no diagnosticar si el workflow corre o no.
 
+### 28. Todo Cambio, Creación Nueva o Modificación Debe Testearse — Activar QA
+
+**Regla:** Cualquier cambio técnico nuevo (nuevo nodo, modificación de código, nuevo workflow, cambio de conexiones, nueva integración) activa automáticamente QA o n8n-test antes de declararlo listo.
+
+**Cuándo aplica — sin excepción:**
+- Nuevo nodo agregado → test de ese nodo aislado
+- Nuevo workflow creado → test de extremo a extremo
+- Nueva integración/API → test del flujo completo
+- Conexión de nodos modificada → test del flujo completo
+- Modificación de prompt, lógica o código → test del output resultante
+- Deploy a producción → test con payload real antes de avisar al usuario
+- Cualquier "ya debería funcionar" → verificar antes de declararlo
+
+**El método universal (nodo a nodo):**
+1. Identificar cada paso del proceso (nodo, función, endpoint)
+2. Para cada paso: verificar input y output
+3. Detectar el paso exacto donde el dato cambia inesperadamente
+4. No trabajar el síntoma final — trabajar la causa exacta
+
+Este patrón aplica a n8n, Python, APIs, pipelines, scripts — cualquier proceso secuencial.
+
+**Señal de falla:** declarar "funciona" sin haber verificado el output real de cada nodo. El usuario no debería tener que detectar el bug que ya era visible en los datos intermedios.
+
+**Activación automática:** si el input involucra desarrollo técnico (n8n, código, API, infra), activar qa-dev-tester antes de cerrar el cambio. No esperar a que el usuario lo pida.
+
 ### 25. Actionable Data Belongs In Separate Fields
 
 When form data will later be used to contact someone, copy into a sheet, segment a list, automate a message, validate identity, or report status, do not collapse multiple atomic values into one input.

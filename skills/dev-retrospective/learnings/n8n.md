@@ -216,3 +216,37 @@ Al inicio de cualquier sesión n8n, ejecutar `n8n_health_check` y verificar que 
 
 **Tags**: #mcp #n8n-mcp #vps #credenciales #windows
 
+
+---
+
+## 2026-06-02 — Debug nodo a nodo: el patrón universal de diagnóstico
+
+**Dominio**: n8n / debugging general
+**Severidad**: 🟢 Patrón positivo (aprendizaje de método)
+**Contexto**: Sesión larga de debugging de sw-premium y sw-registrar
+
+**El patrón:**
+Para cualquier proceso secuencial (n8n, Python, API, pipeline), diagnosticar siempre nodo a nodo:
+1. Input de cada nodo → qué entra
+2. Output de cada nodo → qué sale
+3. Identificar el nodo exacto donde los datos cambiaron inesperadamente
+4. No el síntoma al final — el nodo específico donde se rompe
+
+**Casos reales resueltos con este patrón:**
+- `Extractor IA → output: "es_propiedad: false"` → todos los campos vacíos desde ese punto
+- `Gemini Vision → output: campos en inglés` → merge falló porque esperaba español
+- `Append Sheets → no ejecutó` → rama paralela abortada por error anterior en otra rama
+- `Merge Binarios → binary: {}` → nodo Set upstream había eliminado el binario
+- `GPT Responses → success` pero `Extraer Resultado → error` → código leía `resp.output` en lugar de `resp.body.output`
+
+**Por qué importa:**
+El síntoma final (flyer sin datos, Sheets vacío, binary missing) nunca indica la causa real. Solo el trace nodo a nodo la revela. Cada error se resuelve diferente PORQUE el nodo de falla es diferente.
+
+**Extrapolación:**
+Este patrón aplica a cualquier lenguaje o proceso:
+- Script Python: print del output de cada función
+- API chain: log de cada response intermedio
+- Pipeline de datos: sample de cada transformación
+- Docker compose: logs de cada servicio en el orden correcto
+
+**Tags**: #debugging #nodo-a-nodo #metodologia #universal #qa

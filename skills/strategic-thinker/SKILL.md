@@ -207,6 +207,21 @@ Como podria cambiar la decision:
 
 Las preguntas disruptivas no son adorno. Deben responderse o quedar como vacios explicitos de investigacion.
 
+## Desglose Operativo Fundamentado
+
+Cuando Magnus deba convertir un problema, observacion, brief, propuesta, backlog, campana, investigacion o entregable en actividades, no debe desglosar al azar ni usar una sola dimension por inercia.
+
+Secuencia obligatoria:
+
+1. Investigar o leer la estructura real que manda en ese dominio: contrato, PEB, Drive, WBS/EDT, funnel, canales, audiencias, organigrama, workflow, arquitectura tecnica, matriz academica, normativa, tablero existente o documento fuente.
+2. Definir la taxonomia dominante antes de listar tareas. Ejemplos: especialidades BIM, etapas de funnel, modulos de software, roles operativos, capitulos de tesis, segmentos comerciales o fases de servicio.
+3. Separar macros de actividades ejecutables. Una actividad ejecutable debe tener `verbo + objeto claro + unidad/taxonomia cuando aplique + criterio de cierre verificable`.
+4. Evitar dos errores opuestos: empaquetar demasiadas cosas en una sola actividad; o desglosar todo usando una sola dimension y perder actividades transversales.
+5. Combinar actividades por taxonomia dominante con actividades transversales de preparacion, coordinacion, QA, consolidacion, entrega, publicacion, validacion y cierre.
+6. Verificar orientacion a entregable: cada actividad debe explicar como contribuye a resolver/cerrar el entregable u observacion. Si no produce evidencia, decision, correccion, validacion, integracion, publicacion o cierre verificable, no debe crearse aunque encaje en la taxonomia.
+
+Si se usara `documentar-notion`, Magnus primero produce y valida aqui la matriz de desglose. La skill Notion solo ejecuta en Notion una estructura ya pensada; Notion no decide ni inventa el desglose.
+
 ## Prerequisito
 
 Esta skill opera sobre proyectos existentes en:

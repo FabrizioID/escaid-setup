@@ -1,6 +1,6 @@
 ﻿---
 name: documentar-notion
-description: Documenta informacion en Notion desde el contexto del agente usando Notion MCP/easy-notion-mcp como ruta principal y Notion API como fallback. Usar cuando el usuario quiera crear proyectos desde plantillas, actualizar proyectos existentes conservando estructura, anadir contenido directo a paginas/bases/secciones o insertar imagenes/texto/tablas/tareas sin romper Notion.
+description: Documenta informacion en Notion desde el contexto del agente usando Notion MCP/easy-notion-mcp como ruta principal y Notion API como fallback. Usar cuando el usuario quiera crear proyectos desde plantillas, actualizar proyectos existentes conservando estructura, anadir contenido directo a paginas/bases/secciones o insertar imagenes/texto/tablas/tareas sin romper Notion. Para actividades, observaciones, entregables, cronogramas o tableros, primero exige procesamiento fuera de Notion con matriz/diff validable y recien despues ejecuta la carga.
 ---
 
 # Documentar Notion
@@ -17,14 +17,15 @@ Por defecto, la skill **no puede borrar, reemplazar, reestructurar, alterar vist
 
 `documentar-notion` ejecuta en Notion; no decide la estrategia ni inventa el desglose. Cuando el trabajo requiere criterio, taxonomia, actividades, estructura de proyecto, matriz de tareas, observaciones, entregables o plan operativo, Magnus debe pensar y orquestar primero.
 
-Flujo obligatorio:
+Flujo obligatorio de dos fases:
 
-1. Magnus investiga la estructura real del dominio: contrato, PEB, Drive, brief, funnel, organigrama, workflow, backlog, matriz de entregables, fuente academica o documento rector segun el caso.
-2. Magnus genera aqui la matriz propuesta antes de escribir: `macro -> unidad/taxonomia -> actividad -> aporte al cierre del entregable -> criterio de cierre -> insumo requerido`.
-3. El usuario valida o ajusta el desglose cuando el cambio afecta tareas, bases, cronogramas, responsables o tableros.
-4. `documentar-notion` crea, actualiza o anade en Notion la estructura ya validada, de forma conservadora y trazable.
+1. **Procesar fuera de Notion**: Magnus investiga la estructura real del dominio: contrato, PEB, Drive, brief, funnel, organigrama, workflow, backlog, matriz de entregables, fuente academica o documento rector segun el caso.
+2. **Construir artefacto previo**: Magnus genera aqui una matriz/diff validable antes de escribir: `macro -> unidad/taxonomia -> actividad -> aporte al cierre del entregable -> criterio de cierre -> insumo requerido -> accion Notion`.
+3. **Validar criterio**: el usuario valida o ajusta el desglose cuando el cambio afecta tareas, bases, cronogramas, responsables, estados, porcentajes o tableros.
+4. **Ejecutar en Notion**: `documentar-notion` crea, actualiza o anade en Notion la estructura ya validada, de forma conservadora y trazable.
+5. **Auditar contra el artefacto**: despues de escribir, comparar Notion contra la matriz/diff aprobada y corregir solo desviaciones mecanicas, no decisiones nuevas de criterio.
 
-No usar Notion como motor de pensamiento. Notion es la superficie de ejecucion/documentacion; la orquestacion pertenece a Magnus.
+No usar Notion como motor de pensamiento ni como lugar de ensayo. Notion es la superficie de ejecucion/documentacion; la orquestacion pertenece a Magnus.
 
 Una actividad no se crea solo porque encaja en una taxonomia. Debe ayudar a resolver el entregable: producir evidencia, cerrar una brecha, habilitar una decision, corregir un insumo, validar calidad, integrar componentes, publicar/entregar o dejar trazabilidad verificable.
 

@@ -28,6 +28,25 @@ No usar Notion como motor de pensamiento. Notion es la superficie de ejecucion/d
 
 Una actividad no se crea solo porque encaja en una taxonomia. Debe ayudar a resolver el entregable: producir evidencia, cerrar una brecha, habilitar una decision, corregir un insumo, validar calidad, integrar componentes, publicar/entregar o dejar trazabilidad verificable.
 
+## Regla bloqueante: desglose antes de Notion
+
+Cuando el usuario pida corregir, cargar o reconstruir actividades/observaciones/entregables en Notion:
+
+1. **Leer antes de cambiar**: consultar la fuente rectora y la estructura viva de Notion. No escribir durante esta lectura.
+2. **Calcular diff fuera de Notion**: producir una matriz previa con:
+   - observacion/entregable actual en Notion;
+   - texto o criterio de la fuente;
+   - macro propuesta;
+   - subactividades propuestas;
+   - criterio usado para desglosar: especialidad, elemento, entregable, transversal o cierre documental;
+   - filas a conservar, renombrar, crear, archivar o fusionar.
+3. **Separar sin empaquetar**: si la fuente dice "por especialidad", "por tipo", "por elemento", "por partida", "por componente" o enumera items, el desglose debe reflejar esas unidades. No agrupar varios items en una sola actividad salvo que la fuente los trate como un unico cierre.
+4. **Agregar transversales solo con proposito**: control de calidad, federacion, publicacion, compatibilizacion, evidencia o gestion documental solo se agregan si ayudan a cerrar el entregable y estan sustentadas por fuente, contexto o instruccion del usuario.
+5. **Mostrar primero, escribir despues**: presentar la matriz/diff al usuario antes de ejecutar cambios, salvo que el usuario haya autorizado explicitamente aplicar sin revision previa.
+6. **Ejecutar Notion como segunda fase**: una vez validado el desglose, `documentar-notion` solo materializa la matriz aprobada y luego audita que Notion coincida con ella.
+
+No corregir "sobre la marcha" dentro de Notion cuando el problema sea de criterio, taxonomia, desglose o interpretacion de fuente. Primero se reconstruye el criterio fuera de Notion; luego se escribe.
+
 ## Auditoria obligatoria post-escritura
 
 Despues de crear o actualizar actividades en Notion, auditar antes de cerrar la respuesta:

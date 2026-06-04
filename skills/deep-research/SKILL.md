@@ -300,6 +300,42 @@ There are two different research behaviors:
    - Output: concise synthesis with 2-4 key angles, limited sublayers, truth base, useful caveats and next gaps.
    - Time expectation: fast.
 
+   Research Assist is **not** a loose web summary. It uses the same reasoning spine as Deep Research Proper, only with fewer sources, fewer expanded branches and shorter writing. Magnus still runs the full F1-F13 chain internally; the visible response shows the decisive variables and phases that changed the recommendation. Do not call this a "mini chain"; call it a **visible trace of decisive Magnus variables** or simply **Traza Magnus visible**.
+
+   Minimum Research Assist output for strategic/client work:
+
+   ```text
+   1. Objective and decision supported
+   2. Strategic thesis / base truth
+   3. Traza Magnus visible: only the F1-F13 phases that changed the decision
+   4. Angle map: real angles, not vendors/cases/topics
+   5. For each important angle:
+      - fronts or decisive fronts
+      - evidence/cases with source links
+      - what transfers to the user/client
+      - conclusion of that angle
+   6. Good cases / bad cases or limits when relevant
+   7. Academic/literature note when useful, or explicitly say industry evidence is the stronger basis
+   8. Remaining gaps / validation questions
+   9. Final conclusion connecting variables into the recommendation
+   ```
+
+   In Research Assist, **every selected angle must end with a short conclusion**. This conclusion is not a summary of the table; it explains how that angle changes the decision. Example: "The financial angle shows that ROI depends less on saving report hours and more on avoiding even 0.5%-1% of portfolio deviations."
+
+   Cases and academic evidence in Research Assist:
+
+   - Include real-world cases when the topic involves ROI, pricing, adoption, technology implementation, AI, security, operations, product strategy or client proposals.
+   - Include both positive cases and negative/limiting evidence when the decision could fail through adoption, scope, risk, poor data, bad implementation or weak governance.
+   - Include a compact academic/literature layer if papers or formal studies materially strengthen the claim. If the topic is mostly industry/commercial, explicitly state that industry cases are the stronger evidence base and academic evidence is secondary.
+   - Do not dump all cases in a single list if angle-level placement is more useful. Prefer cases inside the angle they support; a small cross-angle case table is acceptable only after angle conclusions.
+
+   Research Assist style:
+
+   - Explain like an analyst telling a coherent story, not like a source extractor.
+   - Each table should answer "so what?" through columns such as `Transferencia al cliente`, `Utilidad`, `Decision impact` or a conclusion immediately below.
+   - Use compact prose between tables to connect cause and consequence.
+   - Do not over-technicalize client-facing findings. If a concept is uncommon, define it directly below the table.
+
 2. **Deep Research Proper** - only when the user explicitly asks for deep research or uses equivalent wording.
    - Triggers: "deep research", "investiga a profundidad", "investiga bien profundo", "exprime todo", "L3", "L4", "dossier", "fuentes completas", "matriz de evidencia", "no te quedes corto", or equivalent.
    - Purpose: produce a decision-grade investigation.
@@ -320,6 +356,30 @@ Both modes must preserve this backbone:
 
 ```text
 objective -> necessary angles -> fronts/layers -> sublayers -> gaps -> evidence/signal/inference -> base truth -> conclusion/recommendation
+```
+
+Research Assist must not skip steps just because the answer is shorter. It may compress them:
+
+| Deep Research Proper | Research Assist |
+|---|---|
+| Full angle maps with many fronts | 2-5 decisive angles with only the fronts that change the decision |
+| Many sources per front | 1-3 high-signal sources per decisive front |
+| Child branches shown when gaps open | Gaps listed compactly; branch only if it changes the recommendation |
+| Full F1-F13 trace may be shown | Full F1-F13 runs internally; visible trace shows decisive phases/variables |
+| Conclusion per angle and final closure | Conclusion per angle and final closure still mandatory |
+| Detailed cases and academic tables per section | Compact cases and academic note/table where relevant |
+
+Before answering in Research Assist, run this output QA:
+
+```text
+Did I define the decision the research supports?
+Did Magnus run the full chain internally, with only decisive variables shown?
+Did I choose angles as lenses, not topics/vendors/cases?
+Did each angle include fronts/evidence/transfer/conclusion?
+Did I include real-world cases or explain why they are not relevant?
+Did I include academic/literature support when it materially strengthens the claim, or explain why industry evidence is primary?
+Did I separate evidence, signal, inference and assumption?
+Did the final conclusion connect variables into a recommendation instead of merely summarizing facts?
 ```
 
 Use this replicable sequence:

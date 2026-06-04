@@ -402,6 +402,16 @@ In Deep Research Proper, each major angle must also close with an **Angle Conclu
 
 This applies to the conclusion, to angle summaries, to component descriptions, to tables, and to any section where something important is being explained. The test: if a reader who knows nothing about the technology reads the explanation, they should understand what the thing is, why it matters for them, and why this option was chosen over others. If the explanation only names the component without those elements, it is incomplete.
 
+**Narrative sequentiality — explanations must chain, not sit side by side (applies to BOTH Research Assist and Deep Research Proper).** Well-explained blocks placed next to each other are still weak if they are *informative* (isolated facts laid out in a row). The goal is *narrative*: each idea leads into the next, builds on it, and advances toward the decision. The reader is carried by the hand through a reasoning that moves forward — not handed a list of correct-but-disconnected items.
+
+The decisive test: **if you can reorder the paragraphs without the meaning breaking, it is informative (weak); if the order matters because each paragraph leans on the one before it, it is narrative (strong).**
+
+Example of the difference (technical angle of a conclusion):
+- Informative (weak): "DLP is X. RAG is Y. API enterprise is Z." — three correct facts, reorderable, no momentum.
+- Narrative (strong): "The risk does not live only in the model → so 'no training' is not enough → so there are 10 lateral paths → so the architecture must close each one structurally." — each clause pushes the next; the order cannot be shuffled.
+
+Use connective logic ("por eso", "entonces", "lo que significa que", "y aquí aparece") to make the sequence visible. This is mandatory in the conclusion and strongly preferred wherever an argument is being built — at any research depth, not only deep dives. A Research Assist conclusion is shorter, but it must still flow as a sequence, not as a bullet dump.
+
 **Magnus conclusion structure for proposal-oriented research:**
 
 ```

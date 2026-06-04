@@ -59,6 +59,8 @@ Si el escaneo encuentra lógica comercial sin confirmar, preguntar antes de escr
 - Preservar el template antes de optimizar el texto.
 - Preferir cambios quirúrgicos sobre reemplazos amplios.
 - No tratar contenido heredado del template como alcance confirmado.
+- Mantener lenguaje entendible para cliente/gerencia. No insertar etiquetas tecnicas internas como titulo principal, fila de precio, entregable o nombre de fase si un comprador no tecnico no lo entiende de inmediato.
+- Para propuestas de IA/seguridad, traducir antes de insertar: preferir "IA con control de permisos y seguridad" o "asistente de IA seguro para documentos y reportes" en vez de etiquetas sin explicar como "IA gobernada". Si el termino tecnico sirve, colocarlo entre parentesis o en una nota despues de la frase simple.
 - Preguntar antes de mantener supuestos comerciales no confirmados (pilotos, descuentos, nombres de cliente, tarifas, condiciones de pago).
 - Antes de elegir colores, usar la primera tabla existente del documento como referencia visual.
 - Si el usuario dice "mismo precio" o "alcance similar", verificar si los pilotos, descuentos y etiquetas heredadas aplican al nuevo proyecto.

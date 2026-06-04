@@ -127,6 +127,16 @@ Use professional technical language:
 - aligned with engineering/BIM vocabulary
 - consistent across rows
 
+### 6.1 Client-Facing Language Gate
+
+Before putting a term in a quotation that a client, manager or non-technical buyer will read, ask:
+
+- Would the client understand what they are buying without an explanation?
+- Does the term sound like a benefit, deliverable or internal technical label?
+- If the term is technically correct but unclear, can it be translated into a simpler commercial phrase?
+
+Do not use specialized labels as the main client-facing wording unless they have already been explained. Example: avoid leading with **"IA gobernada"** if the audience has not adopted that vocabulary. Prefer **"IA con control de permisos y seguridad"**, **"asistente de IA seguro para documentos y reportes"**, or **"funciones de IA dentro de la plataforma, bajo control de ESPARQ"**. The technical term may appear in parentheses or in an explanatory note, not as the only commercial message.
+
 For structural/BIM quotations, useful terms include:
 
 - Tekla Structures

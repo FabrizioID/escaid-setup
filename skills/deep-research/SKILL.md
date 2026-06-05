@@ -458,6 +458,27 @@ The local layer is often **more persuasive** than the international one, because
 
 So: when you identify the client's country/jurisdiction (or it can be reasonably inferred), actively search for the national counterpart of every international standard you cite — the local data-protection law, the local AI law, the local technical norm (NTP, NOM, NCh, IRAM, etc.), the local regulator, and the local penalty scale. This is not only for laws: it applies to industry standards, certifications, procurement rules, tax/labor regimes and market benchmarks. If a national instrument exists and you omitted it, the research is incomplete for that client. If none exists yet, say so explicitly ("no hay aún norma nacional específica; aplica el marco internacional X como referencia").
 
+**Family-term completeness check — do not take one face of a multi-part thing as if it were the whole (applies at BOTH levels).** Many things cited in research are not single objects but **families** with several faces. Treating one face as the whole is a silent blind spot: you pick the right piece for the immediate problem but never map that other pieces of the SAME term exist — and one of them surfaces later (in a technical doc, a meeting, a competitor) looking like a gap the research missed.
+
+Before citing a standard, framework, law, technology, provider, methodology or category as if it were one thing, check whether it is actually a family. If it is: briefly enumerate the relevant variants, declare which one(s) apply to the client's problem, and state which are left out and why.
+
+Common family-terms that hide multiple faces:
+
+| Family-term | Faces (must disambiguate which you mean) |
+|---|---|
+| OWASP | ASVS (app sec) · LLM Top 10 (AI) · API Security Top 10 · Top 10 (web) |
+| ISO | 27001 (infosec) · 42001 (AI mgmt) · 9001 (quality) · 27701 (privacy) · 14001 (environment) |
+| NIST | CSF · AI RMF · 800-53 · 800-171 |
+| SOC | SOC 1 / 2 / 3 · Type I / II |
+| "The cloud" | IaaS · PaaS · SaaS |
+| "AI" | predictive/ML · generative/LLM · agentic |
+| A law | base text + reglamento + decretos supremos + modificatorias |
+| A vendor | its multiple products / tiers / contracts |
+
+The test: if you write "we follow / we use [X]" and X has named sub-parts, the reader cannot tell which part you mean — and may need a different face of the same X. The one-sentence fix: *"X has parts A, B, C; we use A because [fit with the problem]; B/C are out of scope because [reason]."*
+
+This is the generalization of the OWASP lesson: the failure was not "we should have researched ASVS too" — ASVS was correctly out of scope. The failure was treating "OWASP" as one thing instead of mapping that it is a family and declaring which face we used and which we left out. Run this check on every family-term so the second face never ambushes the research later.
+
 The final Magnus conclusion must be a variable-crossing closure. Do not merely restate phases or summarize sources. It should name the decisive crosses, such as adoption vs value, workflow vs confidentiality, no-training vs retention/logs, construction maturity vs sophistication, legal/IP vs architecture, and human adoption vs technical controls. Then it must convert those crosses into a concrete decision, rejected options, conditions to proceed and the final base truth.
 
 **Two Magnus chains are mandatory in strategic Deep Research Proper — initial AND final.** The *initial* chain (F1-F13) runs before the evidence and opens the variables/angles. The *final* chain (F1-F13) runs AFTER the evidence is gathered and re-crosses each phase with the real numbers and findings the research produced. These are different tables with different answers — the initial chain asks "what should we investigate?", the final chain asks "now that we know X, Y, Z, what does each phase decide?". Shipping only the initial chain is an incomplete pass. The final chain is what connects the investigation to the closing decision; without it the conclusion floats. If a phase did not change between initial and final, it is fine to compress it, but the final chain must exist as its own visible section before the conclusion.

@@ -215,6 +215,15 @@ Cuidado principal:
 
 Ejemplo: no basta decir "Morgan Stanley uso evals". Debe explicarse que `evals` son pruebas de calidad/seguridad antes de produccion; sirven para validar si la IA responde bien, cita fuentes, no expone datos sensibles y puede usarse con confianza. Para ESPARQ, servirian para probar reportes, SPI/CPI, contratos, compras o alertas antes de activar IA real.
 
+## Lenguaje Comercial Entendible
+
+Cuando Magnus convierta una decision, investigacion o arquitectura en propuesta comercial, no debe usar terminos tecnicos como etiqueta principal si el cliente no los entiende de inmediato.
+
+- La precision tecnica no basta; el termino debe comunicar valor y control para la audiencia real.
+- Si el termino es correcto pero opaco, traducirlo a lenguaje de negocio y dejar el termino tecnico como apoyo.
+- Ejemplo: no liderar con "IA gobernada" si gerencia no maneja ese vocabulario. Usar "IA con control de permisos y seguridad", "IA segura para documentos y reportes" o "funciones de IA dentro de la plataforma bajo reglas de ESPARQ".
+- Antes de cerrar una propuesta, revisar nombres de secciones, filas de precio, fases y entregables con la pregunta: "si el cliente lee solo esta linea, sabe que compra y por que importa?"
+
 ## Conclusiones Magnus
 
 La conclusion de Magnus no es resumen ejecutivo. Debe cruzar variables y producir decision.

@@ -6,6 +6,8 @@ Activar cuando falta algo necesario para cumplir bien el objetivo: logos, imagen
 
 Falta de recurso no significa bajar alcance de inmediato.
 
+Tampoco significa limitarse a las herramientas ya cargadas. Si el problema necesita mas capacidad, Magnus debe abrir rutas para conseguirla: investigar opciones, descubrir tools, usar web, conectar MCPs, crear un script, adaptar una skill, instalar un plugin o proponer un artefacto temporal.
+
 Primero abrir rutas:
 
 - conseguir;
@@ -18,6 +20,7 @@ Primero abrir rutas:
 - adaptar;
 - usar fallback;
 - crear version temporal.
+- crear o adaptar una skill/herramienta si el recurso sera reutilizable.
 
 ## Output Recomendado
 

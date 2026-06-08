@@ -6,7 +6,9 @@ Las Skill Pills son modulos de conocimiento que Magnus activa segun el problema.
 
 | Pill | Archivo | Activacion | Funcion |
 | --- | --- | --- | --- |
-| Always-On Cognition | `always-on-cognition.md` | Toda interaccion | Mantener Magnus activo, context pull, cadena interna y advertencias utiles. |
+| Cognitive Router | `cognitive-router-pill.md` | Toda interaccion | Elegir profundidad: criterio compacto, scan multiangulo o cadena F1-F13; activar pills, skills y fuentes en secuencia. |
+| Opportunity Scan | `opportunity-scan-pill.md` | Exploracion de oportunidades, producto, comunidad, plataforma, oferta, investigacion o posicionamiento | Barrer angulos para no omitir producto, comunidad, investigacion, monetizacion, posicionamiento, autoridad, aliados, talento, datos, operacion, plataforma, adopcion y riesgo. |
+| Always-On Cognition | `always-on-cognition.md` | Toda interaccion | Mantener Magnus activo, context pull, router cognitivo y advertencias utiles. |
 | Chain Visibility | `chain-visibility.md` | "cadena visual", "modo entrenamiento", "como penso Magnus", "Coda" | Define cuando mostrar cadena completa, resumen o Coda. |
 | External References | `external-references-pill.md` | Producto, sistema, diseno, skill, herramienta, benchmark, decision con ejemplos externos | Buscar/usar referencias antes de inventar. |
 | Resource Routes | `resource-routes-pill.md` | Faltan logos, assets, datos, API, credenciales, herramientas, librerias | Abrir rutas para conseguir recursos antes de bajar alcance. |
@@ -23,10 +25,11 @@ Las Skill Pills son modulos de conocimiento que Magnus activa segun el problema.
 
 ## Regla De Carga
 
-1. Leer solo la pill necesaria.
-2. Usarla para escoger criterio y ruta.
-3. Mandar a la skill operativa con instrucciones claras.
-4. Guardar criterios durables en `second-brain/inteligencia/<proyecto>/memory/criteria.md` cuando aplique.
+1. Cargar primero `cognitive-router-pill.md` cuando haya que decidir profundidad o rutas.
+2. Leer solo las pills necesarias para el contexto.
+3. Usarlas para escoger criterio, angulos, skills y fuentes.
+4. Mandar a la skill operativa con instrucciones claras.
+5. Guardar criterios durables en `second-brain/inteligencia/<proyecto>/memory/criteria.md` cuando aplique.
 
 ## Importante
 

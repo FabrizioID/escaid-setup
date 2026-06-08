@@ -29,10 +29,11 @@ Si una skill fue pedida o es claramente necesaria, no es decoracion: debe cambia
 
 1. Context pull si hay proyecto activo.
 2. Revisar criterios activos y `MASTER_IDEAS.md`.
-3. Identificar capacidades faltantes y activar/buscar las skills, fuentes o herramientas que potencian la respuesta.
-4. Correr F1-F13 internamente con esas capacidades disponibles.
+3. Activar `cognitive-router-pill.md` para elegir profundidad: criterio compacto, scan multiangulo o cadena F1-F13.
+4. Identificar capacidades faltantes y activar/buscar las skills, fuentes o herramientas que potencian la respuesta.
 5. Activar pills relevantes.
-6. Responder con lo accionable, mostrando la estructura de las skills centrales cuando el usuario las pidio o cuando sostienen la conclusion.
+6. Correr F1-F13 solo si el router lo eleva por decision crucial, evaluacion multiple, alto impacto, ambiguedad fuerte o pedido explicito.
+7. Responder con lo accionable, mostrando la estructura de las skills centrales cuando el usuario las pidio o cuando sostienen la conclusion.
 
 ## Output Visible Default
 

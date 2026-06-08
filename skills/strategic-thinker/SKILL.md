@@ -1,9 +1,17 @@
 ---
 name: strategic-thinker
-description: Motor de analisis estrategico sobre second-brain. Cruza variables dentro de un proyecto o entre proyectos conectados para producir insights, detectar tensiones y recomendar decisiones disruptivas basadas en memoria acumulada.
+description: LEGACY/compatibilidad. Preferir magnus-thinker como motor general. Usar solo como modo compacto de analisis sobre second-brain cuando magnus-thinker no este disponible o para cruzar variables, tensiones y memoria de proyecto bajo la orquestacion de Magnus.
 ---
 
 # Strategic Thinker
+
+**Estado:** capa legacy/compatibilidad. No debe competir con `magnus-thinker`.
+
+Ruta correcta:
+
+1. `magnus-thinker` actua como core/orquestador cognitivo.
+2. Si el problema requiere memoria de proyecto, Magnus activa este modo compacto para leer variables, tensiones, threads y correlaciones.
+3. Si `magnus-thinker` no esta disponible en la sesion, esta skill puede operar como fallback estrategico.
 
 Motor de analisis estrategico que opera sobre proyectos gestionados por `strategic-project`. Lee memoria acumulada, cruza variables, identifica tensiones y sinergias, y produce recomendaciones accionables.
 

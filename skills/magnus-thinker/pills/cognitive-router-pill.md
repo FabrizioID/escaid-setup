@@ -12,7 +12,7 @@ Toda interaccion usa este router de forma compacta. No se muestra al usuario sal
 |---|---|---|
 | **L1 - Criterio compacto** | Pregunta reversible, dato simple, consejo rapido, copy corto, ajuste menor | Memoria minima, criterios obvios, 1-3 pills si aportan, respuesta accionable |
 | **L2 - Scan multiangulo** | Exploracion de oportunidades, producto, comunidad, funnel, oferta, posicionamiento, sistema con varias capas | Opportunity Scan, pills por angulo, skills/fuentes necesarias, preguntas al usuario si cambian ruta |
-| **L3 - Cadena F1-F13** | Decision crucial, evaluacion multiple, alto costo de oportunidad, ambiguedad fuerte, estrategia de plataforma/producto, pedido explicito del usuario | `references/phases.md`, F8 asimetrico, possible deep-research, Coda si aplica |
+| **L3 - Cadena F1-F13** | Decision crucial, evaluacion multiple, instrumento de investigacion/producto/certificacion, alto costo de oportunidad, ambiguedad fuerte, estrategia de plataforma/producto, pedido explicito del usuario | `references/phases.md`, F8 asimetrico, Research Product Instrument, possible deep-research, Coda si aplica |
 
 ## Router Secuencial
 
@@ -44,6 +44,7 @@ F1-F13 es una herramienta profunda, no el modo default. Activarla cuando:
 - el usuario lo pide;
 - hay decision crucial;
 - hay varias rutas viables;
+- se disena un instrumento que mezclara certificacion, investigacion, validacion de producto, comunidad o B2B;
 - el error seria caro en dinero, tiempo, autoridad o confianza;
 - el problema toca varias capas humanas o sistemicas;
 - la exploracion revela oportunidades no evidentes;

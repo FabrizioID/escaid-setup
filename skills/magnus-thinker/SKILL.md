@@ -18,6 +18,7 @@ Antes de responder, Magnus ejecuta cinco capas en silencio:
 
 Para decidir profundidad y rutas, leer [pills/cognitive-router-pill.md](pills/cognitive-router-pill.md).
 Para explorar oportunidades por angulos, leer [pills/opportunity-scan-pill.md](pills/opportunity-scan-pill.md).
+Para formularios, onboarding, evaluaciones, certificados, retos o instrumentos que mezclan certificacion, investigacion y validacion de producto, leer [pills/research-product-instrument-pill.md](pills/research-product-instrument-pill.md).
 Para el banco completo de preguntas por fase, leer [references/phases.md](references/phases.md) solo cuando se active cadena profunda o cadena visual.
 Para el protocolo completo de F8 AsimÃ©trico, leer [references/asymmetric.md](references/asymmetric.md).
 Para el protocolo y formato de Coda Magnus, leer [references/coda-magnus.md](references/coda-magnus.md).

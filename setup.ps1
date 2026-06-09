@@ -81,27 +81,23 @@ Copy-Item -Force "$SETUP_DIR\magnus-checkpoint.txt" "$claudeDir\magnus-checkpoin
 Copy-Item -Force "$SETUP_DIR\magnus-checkpoint.txt" "$codexDir\magnus-checkpoint.txt"
 Write-Host "  OK: magnus-checkpoint.txt copiado a .claude y .codex" -ForegroundColor Green
 
-# Hook de Codex (config.toml) - mismo mecanismo que Claude, idempotente
-$codexConfig = "$codexDir\config.toml"
-$codexCheckpoint = "$codexDir\magnus-checkpoint.txt"
-$magnusHookToml = @"
-
-# === Magnus checkpoint hook (enforcement Magnus 100%) ===
-[[hooks.UserPromptSubmit.hooks]]
-type = "command"
-command = 'powershell -NoProfile -Command "Get-Content -Raw $codexCheckpoint"'
-"@
-if (Test-Path $codexConfig) {
-    $existingToml = Get-Content $codexConfig -Raw
-    if ($existingToml -notmatch "magnus-checkpoint") {
-        Add-Content -Path $codexConfig -Value $magnusHookToml
-        Write-Host "  OK: hook Magnus agregado a Codex config.toml" -ForegroundColor Green
+# Magnus en Codex via AGENTS.md (instrucciones permanentes). NO usa hook de comando:
+# en Windows Home el sandbox de Codex puede fallar al ejecutar comandos por prompt y
+# bloquear la sesion ("Couldn't set up non-admin sandbox"). AGENTS.md no ejecuta nada,
+# no depende del sandbox y no puede romper Codex. Idempotente via marcador.
+$codexAgents = "$codexDir\AGENTS.md"
+$magnusAgents = Get-Content "$SETUP_DIR\magnus-agents.md" -Raw
+if (Test-Path $codexAgents) {
+    $existingAgents = Get-Content $codexAgents -Raw
+    if ($existingAgents -notmatch "MAGNUS-ENFORCEMENT-START") {
+        Add-Content -Path $codexAgents -Value "`r`n$magnusAgents"
+        Write-Host "  OK: Magnus agregado a Codex AGENTS.md" -ForegroundColor Green
     } else {
-        Write-Host "  OK: hook Magnus ya presente en Codex config.toml" -ForegroundColor Green
+        Write-Host "  OK: Magnus ya presente en Codex AGENTS.md" -ForegroundColor Green
     }
 } else {
-    Set-Content -Path $codexConfig -Value $magnusHookToml -Encoding UTF8
-    Write-Host "  OK: Codex config.toml creado con hook Magnus" -ForegroundColor Green
+    Set-Content -Path $codexAgents -Value $magnusAgents -Encoding UTF8
+    Write-Host "  OK: Codex AGENTS.md creado con Magnus" -ForegroundColor Green
 }
 
 # --- 5. Instalar skills custom (Claude Code Y Codex - paridad) ---

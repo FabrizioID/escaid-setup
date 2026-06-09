@@ -72,19 +72,55 @@ $settingsContent = $settingsContent.Replace("DOCX_DRIVE_OAUTH_PATH_PLACEHOLDER",
 $settingsContent | Set-Content "$claudeDir\settings.json" -Encoding UTF8
 Write-Host "  OK: settings.json copiado (paths actualizados)" -ForegroundColor Green
 
-# --- 5. Instalar skills custom ---
+# --- 4b. Instalar Magnus checkpoint (enforcement) en Claude Code Y Codex ---
 Write-Host ""
-Write-Host "[5/7] Copiando skills custom a ~/.codex/skills ..." -ForegroundColor Yellow
+Write-Host "[4b/7] Instalando Magnus checkpoint (enforcement Claude + Codex)..." -ForegroundColor Yellow
+$codexDir = "$env:USERPROFILE\.codex"
+if (-not (Test-Path $codexDir)) { New-Item -ItemType Directory -Path $codexDir -Force | Out-Null }
+Copy-Item -Force "$SETUP_DIR\magnus-checkpoint.txt" "$claudeDir\magnus-checkpoint.txt"
+Copy-Item -Force "$SETUP_DIR\magnus-checkpoint.txt" "$codexDir\magnus-checkpoint.txt"
+Write-Host "  OK: magnus-checkpoint.txt copiado a .claude y .codex" -ForegroundColor Green
+
+# Hook de Codex (config.toml) - mismo mecanismo que Claude, idempotente
+$codexConfig = "$codexDir\config.toml"
+$codexCheckpoint = "$codexDir\magnus-checkpoint.txt"
+$magnusHookToml = @"
+
+# === Magnus checkpoint hook (enforcement Magnus 100%) ===
+[[hooks.UserPromptSubmit.hooks]]
+type = "command"
+command = 'powershell -NoProfile -Command "Get-Content -Raw $codexCheckpoint"'
+"@
+if (Test-Path $codexConfig) {
+    $existingToml = Get-Content $codexConfig -Raw
+    if ($existingToml -notmatch "magnus-checkpoint") {
+        Add-Content -Path $codexConfig -Value $magnusHookToml
+        Write-Host "  OK: hook Magnus agregado a Codex config.toml" -ForegroundColor Green
+    } else {
+        Write-Host "  OK: hook Magnus ya presente en Codex config.toml" -ForegroundColor Green
+    }
+} else {
+    Set-Content -Path $codexConfig -Value $magnusHookToml -Encoding UTF8
+    Write-Host "  OK: Codex config.toml creado con hook Magnus" -ForegroundColor Green
+}
+
+# --- 5. Instalar skills custom (Claude Code Y Codex - paridad) ---
+Write-Host ""
+Write-Host "[5/7] Copiando skills custom a ~/.claude/skills y ~/.codex/skills ..." -ForegroundColor Yellow
 Write-Host "  Incluye skills de memoria, hilos persistentes y especialidad por dominio" -ForegroundColor DarkYellow
-$codexSkillsDir = "$env:USERPROFILE\.codex\skills"
-if (-not (Test-Path $codexSkillsDir)) { New-Item -ItemType Directory -Path $codexSkillsDir -Force | Out-Null }
+$skillTargets = @("$claudeDir\skills", "$env:USERPROFILE\.codex\skills")
+foreach ($skillsDir in $skillTargets) {
+    if (-not (Test-Path $skillsDir)) { New-Item -ItemType Directory -Path $skillsDir -Force | Out-Null }
+}
 
 $skillDirs = Get-ChildItem "$SETUP_DIR\skills" -Directory
 foreach ($skillDir in $skillDirs) {
-    $targetDir = Join-Path $codexSkillsDir $skillDir.Name
-    if (Test-Path $targetDir) { Remove-Item -Recurse -Force $targetDir }
-    Copy-Item -Recurse -Force $skillDir.FullName $targetDir
-    Write-Host "  OK: $($skillDir.Name) instalado" -ForegroundColor Green
+    foreach ($skillsDir in $skillTargets) {
+        $targetDir = Join-Path $skillsDir $skillDir.Name
+        if (Test-Path $targetDir) { Remove-Item -Recurse -Force $targetDir }
+        Copy-Item -Recurse -Force $skillDir.FullName $targetDir
+    }
+    Write-Host "  OK: $($skillDir.Name) instalado (Claude + Codex)" -ForegroundColor Green
 }
 
 # --- 6. Registrar MCPs locales/npx en Claude Code ---

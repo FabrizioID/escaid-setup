@@ -16,6 +16,15 @@
             "command": "powershell -NoProfile -File \"SETUP_DIR\\scripts\\context-monitor.ps1\""
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -NoProfile -Command \"Get-Content -Raw $env:USERPROFILE\\.claude\\magnus-checkpoint.txt\""
+          }
+        ]
       }
     ]
   },

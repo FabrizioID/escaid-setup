@@ -7,7 +7,7 @@
 | [n8n.md](n8n.md) | n8n workflows, binarios, API, MCP | 5 | 2026-05-30 |
 | [evolution-api.md](evolution-api.md) | WhatsApp, media, mensajes | — | — |
 | [openai-api.md](openai-api.md) | GPT, imágenes, multipart | — | — |
-| [google-apis.md](google-apis.md) | Drive, Sheets, auth | — | — |
+| [google-apis.md](google-apis.md) | Drive, Sheets, Apps Script, auth, deploy estático | 2 | 2026-06-10 |
 | [docker-vps.md](docker-vps.md) | Docker Swarm, env vars, crashes | — | — |
 | [general.md](general.md) | Patrones cross-dominio | — | — |
 

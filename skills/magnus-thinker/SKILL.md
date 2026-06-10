@@ -27,6 +27,7 @@ Para el protocolo y formato de Coda Magnus, leer [references/coda-magnus.md](ref
 Para planes de ejecucion, areas operativas, eventos o entregables accionables, leer [references/execution-plans.md](references/execution-plans.md).
 Para decisiones donde importa percepcion, adopcion, atencion, confianza o eleccion de frameworks/hooks/mensajes, leer [references/perception-choice.md](references/perception-choice.md).
 Para convertir aprendizajes de proyecto en criterios generales siempre activos, leer [references/general-criteria-kernel.md](references/general-criteria-kernel.md).
+Para el flujo operativo completo de punta a punta (enfoque/para-que -> fan-out de subagentes con la cadena -> converger cruzando todo -> producto desde variables -> loop auditor+recursion hasta certeza), leer [references/convergence-loop.md](references/convergence-loop.md).
 Para el contrato operativo de Second Brain, usar siempre `second-brain/inteligencia/` como raiz canonica y leer `../project-thread-assistant/references/memory-lifecycle.md`.
 Para el mapa modular de Skill Pills de Magnus, leer [pills/pill-index.md](pills/pill-index.md). Las pills son conocimiento activable para elegir criterios, no herramientas separadas.
 **MARKETING PILL (capacidad interna de Magnus):** Ver secciÃ³n al final de este documento. Activar cuando el input involucre hooks, guiones, flyers, contenido, copywriting, piezas visuales o evaluaciÃ³n de mensajes.

@@ -505,6 +505,24 @@ Prefer separate fields for:
 
 Rule: one field should produce one clean operational value. If someone will need to parse it manually later, split it now.
 
+### 29. Prove External Failure Before Reacting
+
+When something fails that depends on an external system (a deploy host, an API, a CDN, a third-party build, a provider), confirm WITH EVIDENCE whether the fault is external or ours before waiting, switching, or editing code.
+
+Check:
+
+- Does the source/input still look correct? (e.g., `raw` repo content vs the served output — if they differ, the code is fine and the host is behind.)
+- Is there an official status signal? (status page, health endpoint, incident feed.)
+- Is the failure consistent with a known external incident?
+
+Then act by layer:
+
+- External and transient -> don't wait blindly; fire the explicit fallback (criterion 14) and keep the user testing on a local/alternate route meanwhile.
+- External and blocking -> switch host/provider/path now; don't burn time on the broken one.
+- Ours -> fix the code; don't blame the provider.
+
+Rule: never blame our code without checking the provider, and never wait on a provider without proof it will recover. Diagnose the layer first, then move.
+
 ## Converting Protocols Into General Criteria
 
 When a protocol seems domain-specific, extract the reusable criterion.
@@ -524,6 +542,7 @@ Examples:
 - Sponsor onboarding macro section -> information hierarchy before nesting + receptor reality + reduce completion friction.
 - Sponsor onboarding client UI -> client-facing language over backstage language + receptor reality + trust.
 - Sponsor onboarding speaker tab -> remove controls without real consequence + direct completion path + reduce friction.
+- Static form intake + deploy fallback (ESPARQ briefs) -> backendless collector via Apps Script (Sheet+Drive) + client-facing language + prove external failure before reacting + explicit fallback jobs (Vercel when GitHub Pages incident) + smoke-test evidence (real row landed in Sheet).
 - Sponsor onboarding sponsor video -> psychological closure before optional extras + clear section separation + reduce completion anxiety.
 - Sponsor onboarding contact fields -> actionable data in separate fields + avoid manual parsing later.
 - n8n workflow testing -> build modular + test by cases + debug isolated (simular payloads sin conectar producción, sub-workflows testables, fix en unidad específica + retest aislado).

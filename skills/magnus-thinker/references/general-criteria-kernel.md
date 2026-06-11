@@ -523,6 +523,30 @@ Then act by layer:
 
 Rule: never blame our code without checking the provider, and never wait on a provider without proof it will recover. Diagnose the layer first, then move.
 
+### 30. Execution Plans Decompose Activities, Not Just Deliverables
+
+An execution/action plan must break down the real ACTIVITIES — what you DO — not only the deliverables (what gets produced). A schedule that only says "what is delivered / what is ready" is not enough to execute; it lacks the real sequence of activities and ceremonies:
+
+- kickoff / requirements meeting with the client,
+- build increments with their durations,
+- internal coordination reviews (the team checking progress),
+- demos / reviews with the client,
+- QA — naming WITH WHOM (internal / external),
+- sign-offs / acceptances.
+
+Those activities are aligned TO THE SCHEDULE (same weeks, not a disconnected separate list). Milestones: besides appearing in their week, are reflected in a separate register (list/table) so they read at a glance.
+
+Control test: could someone EXECUTE this knowing which meeting/increment/review/QA happens each week, or do they only know what to deliver? If only the latter, the activity layer is missing.
+
+### 31. One Well-Designed, Color-Coded Table Over Several (with empathy)
+
+When decomposing execution (or any set of tables that share a timeline AND reader), evaluate with the READER'S EMPATHY whether ONE well-designed table that unifies the layers — differentiated by COLOR — beats N separate tables the reader must cross-reference mentally.
+
+- DEFAULT when tables share schedule and reader: UNIFY into one table, COLOR to differentiate categories (e.g. coordination/ceremonies vs executable tasks), and MILESTONES in another color and/or size so they pop.
+- SEPARATE only when the layers serve different readers or purposes (one is reference, another is action; a technical reader vs an executive). Sometimes separating IS better — that is why it is judgment, not a fixed rule.
+- Test: read it as the end user — do they have to jump between tables to understand one stretch? If so, unify.
+- MEDIUM: cell/row color requires HTML (markdown does not color). If the criterion calls for color, the deliverable escalates to HTML; confirm the design on ONE section before scaling.
+
 ## Converting Protocols Into General Criteria
 
 When a protocol seems domain-specific, extract the reusable criterion.

@@ -29,8 +29,25 @@ Antes de mostrar: subagente **AUDITOR fresco** (no contaminado) ABRE la BD del d
 | **BD** (`general-criteria-kernel.md` + criteria.md + pills) | catálogo vivo de criterios | se **LEE DEL DISCO** (no de memoria) para que un criterio nuevo se aplique al instante. **Una sola fuente canónica** (runtime); el repo sincroniza hacia ahí |
 | **SUBAGENTES** | jueces y exploradores independientes | **fan-out** (exploración paralela por ángulo) + **auditor** (juez independiente que lee la BD del disco y re-abre ángulos). El **fan-in** (converger/producto) es del orquestador |
 
+## Reglas, objetivo y condición de salida (lo que gobierna el loop)
+Un loop de convergencia se gobierna por DOS cosas — reglas + objetivo (confirmado por la literatura: el loop necesita criterios definidos y un exit condition real).
+
+- **REGLAS (contra qué mide el auditor):** (1) la BD de criterios del disco — `general-criteria-kernel.md` + `criteria.md` del proyecto + pills; (2) las **3 alineaciones** — al ENTREGABLE, al CÓMO/formato, al ENFOQUE/para-qué; (3) el **recorrido del receptor** (¿se entiende, fluye, tiene impacto?).
+- **OBJETIVO (la condición de salida):** **certeza contra el para-qué** — el auditor pasa Y una vuelta más no abre ángulos/vacíos que cambien la decisión. NO es "agotar N vueltas"; es la certeza (1º y 2º orden).
+- **CONDICIÓN DE SALIDA CONCRETA (declararla en PASO 0, no dejarla abstracta):** el objetivo del loop debe escribirse como **criterios de aprobación checkables AL INICIO** — *"este loop pasa cuando ✓ A, ✓ B, ✓ C"* (la checklist exacta que el auditor usará para ESTA tarea). Un exit condition concreto evita que "certeza" sea juicio subjetivo. (Es lo que la literatura llama un goal bien especificado, como "que pasen todos los tests".)
+
+## Las 4 mitigaciones obligatorias (las 4 causas de fallo de loops, ya cubiertas)
+Todo loop falla por 4 causas; este modelo las cubre por diseño:
+1. **Sin parada dura** → tope de **3 vueltas / presupuesto** (maxIterations).
+2. **Objetivo subespecificado** → PASO 0 enfoque + condición de salida concreta.
+3. **Context overflow en sesión larga** → el **MD-substrate** (memoria de trabajo en archivo).
+4. **Sin control de costo** → presupuesto de tokens del loop.
+
 ## Por qué converge solo
 **Juez independiente** (auditor) + **target fijo** (MD-substrate) + **criterios al día** (disco) + **recursión** (el producto re-alimenta el análisis) → converge sin depender de que el usuario cace errores.
 
+## Respaldo (no es invento — es un patrón documentado)
+Este modelo = **Evaluator-Optimizer** (Anthropic, *Building Effective Agents*: generador + evaluador con criterios, itera hasta PASS) + **Reflexion** (reflexionar sobre lo que falló y reintentar = nuestra recursión auditor→análisis), dentro del marco de **"loop engineering"** (2026). NO existe un plugin único que lo dé hecho y conectado a esta BD: es una arquitectura ensamblada de HOOK (criterios presentes) + SKILL (motor) + BD (reglas del disco) + SUBAGENTES (juez+exploradores). El Workflow tool del entorno es el motor de loop determinista cuando se quiere rigor de código.
+
 ## En una línea
-**Enfoque específico → divergir (subagentes con la cadena) → converger cruzando todo → producto desde variables → loop auditor+recursión hasta certeza.**
+**Enfoque específico + condición de salida concreta → divergir (subagentes con la cadena) → converger cruzando todo → producto desde variables → loop auditor+recursión hasta certeza (no agotamiento).**

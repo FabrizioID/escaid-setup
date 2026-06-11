@@ -237,7 +237,10 @@ Patron observado:
 - `ACTIVIDADES`:
   - Propiedades: `Name`, `Entregable`, `Encargado`, `Fecha LÃ­mite`, `ObservaciÃ³n`, `% Avance`, `Status`.
   - Vistas: `Vista Filtrada` board, `Status` table, `Original` board.
-  - En los proyectos BIM/observaciones, ajustar agrupaciones segun instruccion del usuario; ejemplo validado: boards por `Status`, tabla `Status` agrupada por `Entregable`.
+  - Agrupacion estandar (criterio actualizado 2026-06-11): los dos boards (`Vista Filtrada` y `Original`) se agrupan por `Entregable`; la tabla `Status` se mantiene agrupada por `Entregable`.
+  - `Vista Filtrada` conserva el filtro real `Status` no es `Listo` (solo lo no completado) y deja `Status` visible en la tarjeta. Asi el board muestra "solo lo que falta hacer", organizado por tipo de entregable.
+  - El viejo criterio "boards agrupados por `Status`" quedo REEMPLAZADO. Validado en The Circle y Dovelas Panama.
+  - En proyectos BIM/observaciones u otros, igual se puede ajustar la agrupacion segun instruccion del usuario; pero el default para boards es `Entregable`.
 - `REUNIONES`:
   - Propiedades: `OBJETIVOS`, `Date`, `ACUERDOS`, `OBSERVACIONES`.
   - Vista `Untitled` table.
@@ -249,6 +252,17 @@ Patron observado:
   - Vista `Default view` table.
 
 Importante: `PUENTE TINGO` es plantilla de estructura, no fuente de contenido ni lista obligatoria de bases. No copiar sus entregables, responsables, ubicacion, categorias ni bases opcionales si no corresponden al proyecto nuevo. Para proyectos GEN+ ligeros o en etapa comercial/alcance, evitar crear `DOCUMENTOS` y `CONTACTOS CLIENTE` vacias.
+
+#### Subgrupo por paquete (solo proyectos desarrollados por paquetes)
+
+Casuistica OPCIONAL, NO por defecto. Aplica solo a proyectos que se desarrollan por paquetes repetibles: unidades que se entregan varias veces con la misma estructura (edificios/bloques, tramos, niveles, frentes, lotes, modulos).
+
+- El agente DEBE preguntar primero, antes de tocar nada: "Este proyecto se trabaja por paquetes? Quieres subagrupar el board por paquete?". No aplicar sin confirmacion explicita del usuario.
+- Si el usuario confirma: mantener la agrupacion primaria por `Entregable` y anadir un SUBGRUPO (`sub_group_by`) por el campo de paquete. Notion soporta grupo + subgrupo en boards.
+- Campo de paquete: REUSAR el campo que ya cumple esa funcion en el proyecto si existe (`Bloque` en edificaciones tipo The Circle, `Tramo` en viaductos tipo Dovelas Panama). Crear un campo nuevo llamado `Paquete` SOLO si el proyecto no tiene ningun campo que represente la unidad repetible.
+- "Paquete" es un ROL, no un nombre fijo: primero identificar la unidad repetible real del proyecto y recien decidir que campo usar como eje de subgrupo.
+- Resultado visual: columnas por `Entregable` y, dentro de cada columna, carriles/subgrupos por paquete (edificio, bloque, tramo, etc.). Sirve para ver, por tipo de entregable, en que paquete va cada cosa.
+- Mantener el filtro de `Vista Filtrada` (`Status` no es `Listo`) tambien cuando hay subgrupo.
 
 ### Actualizar proyecto
 
@@ -507,9 +521,11 @@ Cuando haya que igualar vistas de una plantilla:
 - Usar `data_sources[0].id` de `GET /v1/databases/<database_id>` para crear vistas.
 - Para boards, configurar `group_by` segun la plantilla o instruccion del usuario.
 - Para tablas agrupadas, configurar `configuration.type = "table"` y `group_by`.
-- Ejemplo operativo:
-  - Board de actividades agrupado por `Status`.
+- Ejemplo operativo (criterio actualizado 2026-06-11):
+  - Boards de actividades (`Vista Filtrada` y `Original`) agrupados por `Entregable`; `Vista Filtrada` con filtro `Status` no es `Listo` y `Status` visible en la tarjeta.
   - Vista tabla `Status` agrupada por `Entregable`.
+  - Proyectos por paquetes (solo previa confirmacion del usuario): board agrupado por `Entregable` + subgrupo (`sub_group_by`) por el campo de paquete; reusar `Bloque`/`Tramo` si existe, o crear `Paquete` si no existe.
+- En easy-notion-mcp/MCP nuevo, leer y escribir la config de vista con `list_views`/`get_view`/`update_view`; el agrupamiento de board vive en `configuration.group_by` (y el subgrupo en `configuration.sub_group_by`), y el filtro en `filter` (no confundir filtro con agrupamiento).
 - No copiar a ciegas filtros, agrupaciones ni categorias de la plantilla; adaptar a la informacion real del proyecto.
 
 ### Accesos tipo botones

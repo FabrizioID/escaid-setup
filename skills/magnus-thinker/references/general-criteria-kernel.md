@@ -547,6 +547,30 @@ When decomposing execution (or any set of tables that share a timeline AND reade
 - Test: read it as the end user — do they have to jump between tables to understand one stretch? If so, unify.
 - MEDIUM: cell/row color requires HTML (markdown does not color). If the criterion calls for color, the deliverable escalates to HTML; confirm the design on ONE section before scaling.
 
+### 32. Verify Asset Identity Before Use
+
+A logo, image, icon, or brand asset found by name may belong to a DIFFERENT entity with the same name. Never trust the filename or the search-result label.
+
+The homonym trap (real cases): "KAMAN" returns Kaman Aerospace (US helicopters), not the Peruvian incubator; "Presto" returns a retail brand, not RIB Presto (construction software); "Synchro" returns an unrelated company; a product's favicon often returns the parent company's generic mark, not the product's own.
+
+Rule:
+- Verify each asset VISUALLY in its real context (e.g. on the actual dark background) before integrating it.
+- Download assets LOCAL — never hotlink (remote URLs break or change).
+- Prefer official sources / brand-verified repos; confirm the mark, not the slug.
+- If the correct-brand asset cannot be sourced, fall back to clean text — never use another entity's logo and never ship a broken image.
+
+Applies to: logos, brand/partner/tool walls, decks, flyers, presentations, any asset-bearing deliverable.
+
+### 33. Portable Delivery Of Asset-Dependent Artifacts
+
+An artifact that depends on relative asset paths (`assets/...`) breaks the moment it is moved or downloaded as loose files — downloading individual files from a chat flattens folders, so `index.html` can no longer resolve `assets/partners/x.png` and images break.
+
+Rule:
+- Deliver asset-dependent artifacts as either (a) SELF-CONTAINED (assets embedded as base64 data URIs — one file that cannot break when moved) or (b) a single ZIP that preserves the folder structure. Never hand over loose files for download.
+- To repair an already-flattened folder: move each file back into its subfolder by name (`assets/{logos,partners,tools,reference}`).
+
+Applies to: landings, microsites, exported/email HTML, any artifact whose images/CSS/JS live in sibling folders.
+
 ## Converting Protocols Into General Criteria
 
 When a protocol seems domain-specific, extract the reusable criterion.
@@ -572,6 +596,7 @@ Examples:
 - n8n workflow testing -> build modular + test by cases + debug isolated (simular payloads sin conectar producción, sub-workflows testables, fix en unidad específica + retest aislado).
 - SSH gap en VPS fix -> capability self-audit + existing tool before custom build + investigar MCP SSH antes de pedir comando manual al usuario.
 - Test manual de workflow -> usuario como último validador + agotar executions + triggerear + verificar nodo a nodo antes de pedir prueba manual.
+- Landing builder (logos + entrega) -> verify asset identity before use (homonym trap: Kaman Aerospace ≠ KAMAN, Presto retail ≠ RIB Presto) + portable delivery of asset-dependent artifacts (self-contained base64 o zip, nunca archivos sueltos) + visual proof via Playwright (http.server + force reveal).
 
 ## Skill Delegation Rule
 

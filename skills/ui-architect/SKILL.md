@@ -609,6 +609,12 @@ ScrollTrigger.create({
 
 ---
 
+## Assets y Entrega Portátil
+
+**Verificar identidad del asset antes de usarlo.** Un logo encontrado por nombre puede ser de OTRA marca con el mismo nombre (Kaman Aerospace ≠ KAMAN incubadora; "Presto" retail ≠ RIB Presto; el favicon de un producto suele ser el símbolo genérico de la empresa madre, no el del producto). Confirmar la marca VISUALMENTE sobre el fondo real, no por el nombre del archivo/slug. Descargar local, nunca hotlink. Contraste: logo oscuro monocromo sobre fondo oscuro → recolorear a claro por CSS; logo con fondo opaco → no invertir (sale bloque blanco) → texto; wordmark ancho → no entra inline → texto. Si no hay logo de la marca correcta → texto, nunca el logo ajeno ni una imagen rota.
+
+**Entrega portátil.** Un HTML con rutas relativas (`assets/...`) se rompe al descargarlo suelto (la descarga del chat aplana carpetas → no encuentra `assets/...`). Entregar self-contained (assets en base64, un archivo que no se rompe al moverlo) o un `.zip` que conserve la estructura; nunca archivos sueltos. En esta skill el output ya es "un único archivo HTML autocontenido" — embeber en base64 cumple esto de forma natural.
+
 ## Entregable Estructurado
 
 Todo output termina con un bloque de decisiones de diseño:

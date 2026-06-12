@@ -200,6 +200,19 @@ Working heuristic from Summit pipeline iteration:
 - prefer opacity microadjustments over drastic changes;
 - validate desktop and mobile screenshots before calling it done.
 
+## Assets And Delivery
+
+Logos, brand marks, partner/tool walls:
+- **Verify asset identity before use.** A logo found by name may belong to a different entity with the same name (Kaman Aerospace ≠ KAMAN incubator; "Presto" retail ≠ RIB Presto; a product's favicon is often the parent company's generic mark, not the product's). Confirm the actual mark VISUALLY on the real background, not the filename/slug.
+- Download every asset LOCAL — never hotlink (remote URLs break). If the correct-brand asset can't be sourced, fall back to clean text; never use another brand's logo and never ship a broken image.
+- Contrast: monochrome dark logo on dark bg → recolor to light via CSS. Opaque-background logo → don't invert (it becomes a white block) → text. Wide wordmark → doesn't fit inline → text.
+
+Portable delivery (so it never breaks when moved):
+- HTML with relative `assets/...` paths breaks when downloaded as loose files (chat downloads flatten folders → `index.html` can't find `assets/...` → broken images). Deliver SELF-CONTAINED (assets as base64 data URIs — one unbreakable file) or a single ZIP that preserves the structure. Never hand over loose files.
+- Repair a flattened folder by moving each file back into its subfolder by name.
+
+Verify visually (Playwright): serve via `python -m http.server` (file:// is blocked); for reveal-on-scroll, force the reveal class before a full-page screenshot.
+
 ## Hard Rules
 
 - No cards by default.

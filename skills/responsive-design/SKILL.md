@@ -298,6 +298,14 @@ input.addEventListener('change', (e) => {
 
 NO uses `<label for="inputId">` envolviendo el input + JS handler — algunos browsers (Safari) bloquean el doble-trigger y el dialog no abre.
 
+## Entrega Portátil (los assets no se rompen al mover)
+
+Un HTML que depende de rutas relativas (`assets/partners/x.png`) se rompe al descargarlo o moverlo: descargar archivos sueltos del chat APLANA las carpetas → `index.html` no encuentra `assets/...` → imágenes rotas.
+
+- Entregar **self-contained** (assets en base64 — un solo archivo que no se rompe al moverlo) o un **`.zip`** que conserve la estructura de carpetas. Nunca archivos sueltos para descargar.
+- Reparar una carpeta plana: reubicar cada archivo en su subcarpeta por nombre (`assets/{logos,partners,tools,reference}`).
+- **Verificar identidad del asset antes de usarlo:** un logo hallado por nombre puede ser de otra marca homónima (Kaman Aerospace ≠ KAMAN; "Presto" retail ≠ RIB Presto). Confirmar visualmente sobre el fondo real; descargar local, no hotlink; fallback a texto si no hay marca correcta.
+
 ## Anti-patterns a Evitar
 
 - `position: fixed` para botones full-width en mobile sin `env(safe-area-inset-bottom)` → se cortan en iPhones con home indicator.

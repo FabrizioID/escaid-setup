@@ -48,6 +48,17 @@ Cuando el usuario pida corregir, cargar o reconstruir actividades/observaciones/
 
 No corregir "sobre la marcha" dentro de Notion cuando el problema sea de criterio, taxonomia, desglose o interpretacion de fuente. Primero se reconstruye el criterio fuera de Notion; luego se escribe.
 
+## Regla bloqueante: espejo proyecto <-> lista global ACTIVIDADES
+
+SIEMPRE que se actualiza el status / avance / responsable de una actividad en la base de un proyecto (inline del proyecto o BD `PROYECTOS`), se DEBE reflejar el mismo cambio en la lista global `T.TRABAJO / ACTIVIDADES`, y viceversa. Es una sola realidad en dos superficies; no se cierra la tarea con una sola actualizada.
+
+- Lista global de referencia: pagina `T.TRABAJO (8 hr)`, base `ACTIVIDADES` (database id `2dcd8cc4-cfc1-806c-bda6-f9c4862a9cfd`). Usa `Actividad` como titulo, `Status` NUMERICO 0-100 (no el select POR HACER/EN PROCESO), `Empresa`, y parent/sub-item por proyecto.
+- Mapear por nombre normalizado + proyecto + Obs/entregable. Si el equivalente NO existe en el global, CREARLO como subitem bajo el padre del proyecto (no dejar el avance solo en la base inline).
+- Traducir estados: COMPLETADO -> 100; EN PROCESO -> % real; POR HACER -> 0; PENDIENTE/sin iniciar -> 0. No inventar %; si no se sabe, dejar el valor previo y marcar en observacion.
+- Si el mapeo es 1-a-varios o ambiguo, preguntar antes de escribir.
+- Por que importa: el reporte WSP ("Reporte de actividades generales") lee el GLOBAL. Si el global esta desfasado, el reporte miente. Por eso el sync es OBLIGATORIO en cada actualizacion de proyecto, no opcional.
+- Auditar antes de cerrar: confirmar que el item del proyecto y su equivalente global quedaron con el mismo estado.
+
 ## Auditoria obligatoria post-escritura
 
 Despues de crear o actualizar actividades en Notion, auditar antes de cerrar la respuesta:

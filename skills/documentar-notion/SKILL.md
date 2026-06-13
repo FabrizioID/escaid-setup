@@ -377,6 +377,8 @@ Reglas del formato WA:
 
 Trigger ejemplo: `dame la lista de actividades generales`, `reporte de actividades generales`, `actividades generales para WSP`, `status general de actividades`.
 
+IMPORTANTE antes de generar el reporte: el reporte LEE el global `T.TRABAJO / ACTIVIDADES`. Si los proyectos se actualizaron en sus bases inline / BD `PROYECTOS` pero NO en el global (ver "Regla bloqueante: espejo proyecto <-> lista global"), el reporte saldra DESFASADO. Verificar/sincronizar el global primero; un global viejo produce un reporte que miente. No inventar % al sincronizar: traducir el estado real (COMPLETADO->100, EN PROCESO->% real, POR HACER/sin avance->0).
+
 Este activador usa la Notion de Fabrizio/GEN+ y la pagina:
 
 - `T.TRABAJO (8 hr: 09:00 - 17:00)`: `https://www.notion.so/T-TRABAJO-8-hr-09-00-17-00-241d8cc4cfc180e7bce2f01e6a14c7f4`

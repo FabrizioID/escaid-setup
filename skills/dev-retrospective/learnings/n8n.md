@@ -5,6 +5,56 @@ Más reciente primero. Leer antes de trabajar en este dominio.
 
 ---
 
+## 2026-06-14 — Flujo de clasificación con IA: el IF no lee la salida de Gemini sin Structured Output Parser
+
+**Dominio**: n8n
+**Severidad**: 🟡 Importante
+**Contexto**: Caso demo de clase (especialización n8n M2): form requerimiento → Gemini clasifica prioridad → If rutea → Data Table / correo
+
+**Síntoma**:
+El nodo If (`{{ $json.prioridad }}` = "Alta") nunca entra a la rama true. El flujo "casi funciona" pero el ruteo siempre cae a false.
+
+**Causa raíz**:
+El `Basic LLM Chain` (`@n8n/n8n-nodes-langchain.chainLlm`) devuelve la respuesta del modelo como **texto** (`output`), no como JSON parseado. Aunque el prompt diga "devuelve JSON", el nodo siguiente recibe un string, no `{prioridad: ...}`.
+
+**Fix aplicado**:
+Conectar un `Structured Output Parser` (`@n8n/n8n-nodes-langchain.outputParserStructured`) al chain por la conexión `ai_outputParser`, con esquema `{material, cantidad, tipo_de_issue, prioridad}`. Recién entonces los nodos siguientes leen `$json.prioridad` directo.
+
+**Receta reutilizable (flujo de clasificación IA)**:
+`formTrigger → chainLlm (+ lmChatGoogleGemini por ai_languageModel + outputParserStructured por ai_outputParser) → if → dataTable / set`
+
+**Cómo detectarlo antes**:
+- Si vas a rutear (If/Switch) por un campo que produce un nodo de IA → SIEMPRE adjuntar Structured Output Parser; no confiar en "pedí JSON en el prompt".
+- El modelo Gemini (`@n8n/n8n-nodes-langchain.lmChatGoogleGemini`) se conecta al chain por `ai_languageModel`, no por `main`.
+- Ver también: pills/n8n-generador-asistente.md
+
+**Tags**: #ia #langchain #gemini #chainLlm #outputParser #if #routing #clasificacion
+
+---
+
+## 2026-06-14 — Data Table nativa + 1 sola credencial: patrón para demos/clases sin OAuth caducado
+
+**Dominio**: n8n
+**Severidad**: 🟢 Menor (patrón operativo)
+**Contexto**: preparar un flujo demostrable en vivo sin que una credencial muera en plena clase
+
+**Síntoma / problema a evitar**:
+Demos que dependen de Google Sheets/Gmail (OAuth) se caen en vivo cuando el token caducó (ver google-apis.md 2026-06-06). En clase no hay margen para reconectar.
+
+**Patrón**:
+- Almacenamiento → `nodes-base.dataTable` (Data Table nativa): guarda entre ejecuciones, **sin credencial externa**. Operaciones insert/get/update/delete.
+- Notificación → simular con `Set` que arma el mensaje ("aquí conectas Gmail/WhatsApp") en vez de enviar de verdad.
+- IA → preferir **API key** (Gemini) sobre OAuth: la key no caduca como el refresh token.
+- Resultado: el flujo corre con **1 sola credencial viva** (la del modelo).
+
+**Cómo detectarlo antes**:
+- Antes de un demo en vivo, contar credenciales vivas del flujo. Cada OAuth = riesgo. Bajar a 1 (API key) cuando se pueda.
+- **Verificación segura sin tocar la instancia**: `validate_workflow` del MCP valida un JSON en memoria (estructura, conexiones, tipos) sin crear nada; `search_nodes`/`get_node` son lecturas de catálogo. Sirve para preparar/validar un workflow de antemano sin deployar.
+
+**Tags**: #datatable #credenciales #oauth #demo #clase #gemini #validate #mcp
+
+---
+
 ## 2026-05-31 — Deploy de Code node con `this.helpers.*` sin verificar disponibilidad en el task runner
 
 **Dominio**: n8n
@@ -270,3 +320,42 @@ Este patrón aplica a cualquier lenguaje o proceso:
 GPT /v1/responses devuelve `message` en lugar de `image_generation_call` cuando recibe fotos duplicadas (detecta inconsistencia y responde con texto). Fix: enviar solo fotos únicas.
 
 **Tags**: #batch #fotos-duplicadas #gemini-overload #continueOnFail #batch_mode
+
+---
+
+## 2026-06-08 — n8n-mcp validator: errores que son falsos positivos (no bloquean)
+
+**Dominio**: n8n / n8n-mcp
+**Severidad**: 🟢 Patrón (evita perder tiempo)
+
+**Síntoma**:
+`n8n_validate_workflow` reporta "errores" en workflows que corren perfecto en producción: `googleDrive: Invalid value for 'operation'`, `googleSheets: Range/Values required for update`, Code node `Cannot return primitive values directly`, `URL missing http://` (cuando va en expresión).
+
+**Causa raíz**:
+El validador estático malinterpreta configs de nodos nuevos / Code con return condicional / URLs en expresión. NO refleja runtime.
+
+**Cómo distinguir real vs falso positivo**:
+- La verdad es el **historial de ejecución** (`n8n_executions list/get`), no el validador.
+- Lo que SÍ bloquea el `save` de `n8n_update_partial_workflow`: estructuras de operador mal formadas (ej. operador unario `notEmpty` sin `singleValue:true`, o `continueOnFail` + `onError` juntos). Esos hay que corregirlos aunque estén en nodos que no tocaste (n8n valida todo el workflow al guardar).
+- Falsos positivos (operation/range/primitive/url-en-expresión): ignorar.
+
+**Tags**: #mcp #validator #falsos-positivos #notEmpty #continueOnFail #ejecuciones
+
+---
+
+## 2026-06-08 — Patrones de calidad: flyer GPT terreno-aware, default ciudad, timezone, enrutado de hoja
+
+**Dominio**: n8n / OpenAI / Google Sheets
+**Severidad**: 🟢 Patrón positivo
+
+**Patrones aplicados (agente inmobiliario):**
+
+- **GPT image flyer no respeta datos del prompt** (inventa teléfono `123-4567`, muestra "0 recámaras" en terrenos, cambia la fachada): reforzar con reglas explícitas de máxima prioridad — *"render phone EXACTLY 663-438-31-52, never a placeholder"*, *"use ONLY the real photos, never replace the facade"*, y para terrenos *"FINAL AUTHORITY: do NOT show bedrooms/bathrooms/parking"*. Poner la regla del caso especial como ÚLTIMA instrucción (GPT pesa más lo último). Aún así requiere validación visual — el prompt mitiga, no garantiza.
+
+- **Default de campo + timezone en Code node**: ciudad vacía → `'Tijuana'`; timestamps en zona local con el hack `new Date(new Date().toLocaleString('en-US',{timeZone:'America/Tijuana'}))` (los getters luego devuelven hora local sin reescribir el resto del código).
+
+- **Enrutar filas a otra pestaña sin nodos nuevos**: en Google Sheets append, `sheetName.value` como expresión condicional → `={{ (incompleta) ? 'hoja de testeo' : 'Inventario' }}`. Separa pruebas/incompletas del inventario real con 1 expresión.
+
+- **`.startsWith`/`.includes` sobre celdas de Sheets**: siempre `String(x||'')` — una fila con ID numérico (escrito a mano) rompe el filtro con `is not a function`.
+
+**Tags**: #gpt-image #prompt-engineering #terreno #timezone #sheets #append #sheetName #string-coercion

@@ -15,9 +15,12 @@ Una llamada a `n8n-workflow-builder` debe activar estas capas:
 | Dominio | `n8n-workflow-builder` | Diseñar, revisar, modificar y validar workflows |
 | Apertura MCP | `mcp__n8n__*` | Probar salud, listar workflows, leer/crear/actualizar/validar |
 | Pill local | `C:\Users\USUARIO\.codex\skills\n8n-workflow-builder\pills\n8n-credentials.md` | Guarda URL/API key local; nunca imprimir valores |
+| Perfiles MCP | `C:\Users\USUARIO\claude-setup\mcps\n8n-instances.json` | Registro multi-instancia; switch de n8n por puntero `active` (ver `references/n8n-mcp-setup.md`) |
 | Fallback | REST API directa | Usar si el MCP falla o no expone una operacion necesaria |
 
 Arranque veloz esperado: leer pill en silencio, probar `n8n_health_check`, listar workflows solo si la tarea lo requiere, y evitar diagnosticos largos si REST fallback puede resolver.
+
+**SWITCH DE INSTANCIA (multi-n8n):** si el usuario dice "apunta a otra n8n / cambia de instancia", NO editar wrappers a mano. Editar el campo `"active"` en `n8n-instances.json` al perfil deseado (o agregar uno nuevo con `url`+`key`) y pedir recarga del MCP (stdio lee env solo al arrancar). Procedimiento completo en `references/n8n-mcp-setup.md` → sección "Sistema de PERFILES de instancia".
 
 Actúa como arquitecto de automatizaciones en n8n. Conecta a la instancia real del usuario, entiende los flujos existentes y construye nuevos workflows de forma estructurada, validada y lista para deploy.
 
@@ -293,6 +296,14 @@ const r = await this.helpers.httpRequest({
 });
 const text = r.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
 ```
+
+## Generar workflows con un asistente (IA → JSON) y flujo de clasificación
+
+Cuando la tarea sea construir un "asistente generador de workflows" (un LLM que devuelve JSON importable) o un flujo de clasificación con IA (form → IA → If → salida), leer:
+
+- `pills/n8n-generador-asistente.md` — system prompt reusable + receta `formTrigger → chainLlm (+ lmChatGoogleGemini por ai_languageModel + outputParserStructured por ai_outputParser) → if → dataTable/set`, tipos de nodo verificados, y patrón Data Table + 1 credencial para demos.
+
+> Gotcha clave: para rutear (If/Switch) por un campo que produce la IA, el `chainLlm` NECESITA un `outputParserStructured` conectado por `ai_outputParser`; sin él devuelve texto y el If no lee el campo. Ver `learnings/n8n.md` 2026-06-14.
 
 ## Evolution API — descarga de media (imágenes/videos)
 

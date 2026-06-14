@@ -97,8 +97,9 @@ La skill puede y debe aportar creatividad: no limitarse a ejecutar literal. Prop
 Antes de cerrar:
 
 1. abrir la UI en navegador o Playwright;
+   - **El Playwright MCP bloquea `file://`** → servir con `python -m http.server <puerto>` desde la carpeta del HTML y navegar a `http://localhost:<puerto>/archivo.html` (cerrar con `pkill -f "http.server <puerto>"`). Los screenshots caen en `.playwright-mcp/` o el cwd.
 2. screenshot desktop y mobile cuando haya responsive/motion/canvas/3D;
-3. revisar consola sin errores;
+3. revisar consola sin errores (el `404 favicon.ico` es inofensivo, NO cuenta como error);
 4. verificar que texto no se corta ni se superpone;
 5. si hay canvas/Three.js, comprobar pixeles no blancos/no negros y movimiento visible;
 6. si hay interaccion, probar al menos una accion principal.

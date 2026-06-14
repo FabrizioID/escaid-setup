@@ -571,6 +571,33 @@ Rule:
 
 Applies to: landings, microsites, exported/email HTML, any artifact whose images/CSS/JS live in sibling folders.
 
+### 34. El Imán De Audiencia Es La Afiliación De Marca, No El Uso De La Herramienta
+
+Cuando se cura una figura, vocero, aliado, ponente u oferta para JALAR audiencia/registro, el imán es la MARCA que la persona representa oficialmente (empleado, embajador, MVP, GDE, developer advocate, fundador, ex-cargo notorio), no alguien que solo USA esa marca o herramienta.
+
+Preguntar:
+
+- ¿Esta persona REPRESENTA a la marca (afiliación verificable) o solo la usa?
+- ¿El jalón viene del logo (Google / NVIDIA / Rappi / n8n / Microsoft) o de su expertise individual?
+- Si el slot es "draw" (jalar gente), priorizar afiliación de marca; si el slot es "sustancia/caso", priorizar expertise real y aplicado.
+- Separar explícitamente el tier IMÁN (marca) del tier CONTENIDO (caso aplicado): son trabajos distintos dentro del mismo programa, y mezclarlos diluye ambos.
+
+Regla: no confundir "usa X" con "es de X". El draw curado se sostiene en afiliación oficial; el contenido se sostiene en caso real. Verificar la afiliación Y su vigencia ("ex-VP de Rappi" ≠ "VP de Rappi"; un sales manager de NVIDIA jala marca pero no da masterclass técnica). Marcar gaps cuando una marca deseada no tiene vocero hispano real (no inventar).
+
+### 35. La Restricción Dura Fija El Marco, No La Preferencia
+
+En toda decisión con una variable que NO se puede mover (huso horario del cartel, presupuesto, agenda ya cerrada, disponibilidad de un actor clave, idioma del público), esa restricción FIJA el marco; la preferencia o comodidad local se acomoda alrededor de ella, no al revés.
+
+Preguntar:
+
+- ¿Cuál es la variable que NO se puede mover en este caso?
+- ¿Qué queda forzado por ella?
+- ¿La preferencia local (gusto, costumbre, comodidad de la audiencia) está peleando contra una restricción dura? Entonces gana la restricción, y el lado sacrificado se cubre por otra vía.
+
+Ejemplos: evento virtual con cartel europeo → el live va a mediodía LatAm (= tarde-noche Europa) y la audiencia local en horario laboral se cubre con grabaciones on-demand; agenda académica cerrada → se llenan campos vacíos y se nota en Descripción, no se rediseña; duración exacta fijada por el usuario → al quitar un bloque, se reabsorbe el tiempo en otro (panel) para mantener el total.
+
+Regla: nombrar la restricción dura ANTES de optimizar, dejar que ELLA derive la decisión, y declarar explícito el trade-off y cómo se mitiga el lado que se sacrifica.
+
 ## Converting Protocols Into General Criteria
 
 When a protocol seems domain-specific, extract the reusable criterion.
@@ -597,6 +624,7 @@ Examples:
 - SSH gap en VPS fix -> capability self-audit + existing tool before custom build + investigar MCP SSH antes de pedir comando manual al usuario.
 - Test manual de workflow -> usuario como último validador + agotar executions + triggerear + verificar nodo a nodo antes de pedir prueba manual.
 - Landing builder (logos + entrega) -> verify asset identity before use (homonym trap: Kaman Aerospace ≠ KAMAN, Presto retail ≠ RIB Presto) + portable delivery of asset-dependent artifacts (self-contained base64 o zip, nunca archivos sueltos) + visual proof via Playwright (http.server + force reveal).
+- Precongreso virtual lineup (Summit 2026) -> imán = afiliación de marca, no uso de herramienta (#34: embajador Google/n8n/Rappi/NVIDIA ≠ usuario) + restricción dura fija el marco (#35: huso del cartel europeo → mediodía Perú; 3h exactas → reabsorber el break en el panel) + authority adjacency (#18: draw de marca arriba, caso AEC abajo) + verify identity (#32: homónimos "Alejandro Jiménez/NVIDIA", "Laurentiu").
 
 ## Skill Delegation Rule
 

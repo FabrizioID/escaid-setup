@@ -114,6 +114,19 @@ Repair:
 
 Do not overwrite it. Read the corrected style and treat it as local source of truth.
 
+## Gotchas al DUPLICAR Docs (copyFile MCP) — aprendido en cartas Summit 2026
+
+Cuando replicas una carta/plantilla de Google Docs (ej. membrete + cuerpo) duplicando con `copyFile`:
+
+- **El membrete/logo vive como IMAGEN INCRUSTADA** en el cuerpo o header del Doc. `copyFile` lo preserva nativo; **copiar solo el TEXTO a un Doc en blanco lo pierde** (y arrastra espaciado sucio). Para replicar una carta con membrete: duplicar el Doc bueno con `copyFile`, no recrear el texto.
+- **`copyFile` puede CORROMPER caracteres especiales** (« » guillemets, · middot, — em-dash): parte párrafos o pierde contenido en la copia. **Regla: auditar el texto completo tras duplicar** (no fiarse de los counts de `findAndReplace`).
+- **`findAndReplace` y « »:** los guillemets no siempre matchean en `findText` (sí funcionan en `replaceText`). Evitar « » en los `findText`; usar substrings sin ellos.
+- **`findAndReplace` SÍ matchea saltos de línea:** `"Señor\n"` → `"Señores\n"` funciona (útil para reemplazos que cruzan párrafos).
+- **Bloque de datos justificado con valor largo que wrappea = se ESTIRA** (huecos horribles entre palabras). Fix: `alignment: START` + `indentEnd: 0` en esos párrafos (mantener `indentStart`). Mismo principio que en Sheets (ver `google-sheets-format-guardian`).
+- **Borrar Docs preexistentes suele estar bloqueado** (recurso compartido) → renombrar a "OBSOLETA — NO ENVIAR" en vez de borrar.
+
+Para el flujo operativo de cartas-a-pedido (variables, QA checklist), ver el proyecto, no esta skill.
+
 ## Final Response Discipline
 
 When finished, report:

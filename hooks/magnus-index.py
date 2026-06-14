@@ -78,6 +78,20 @@ def main():
                     kernel_lines.append("  Reglas inamovibles: " + " · ".join(rules))
         except Exception:
             pass
+    # --- KERNEL: criterios absorbidos del usuario (universales, propagados) ---
+    kpath = os.path.join(skill_dir, "references", "general-criteria-kernel.md")
+    if os.path.isfile(kpath):
+        try:
+            ktxt = open(kpath, encoding="utf-8").read()
+            m = re.search(r"## Criterios absorbidos del usuario(.+?)(?:\n## |\Z)", ktxt, re.S)
+            if m:
+                rows = re.findall(r"^\|\s*(U\d+)\s*\|\s*(.+?)\s*\|", m.group(1), re.M)
+                abs_items = [f"{cid}: {crit}" for cid, crit in rows if crit and not crit.startswith("(vac")]
+                if abs_items:
+                    kernel_lines.append("  Criterios absorbidos (universales, aplican a TODOS los proyectos): " + " · ".join(abs_items))
+        except Exception:
+            pass
+
     for sub in ("pills", "references"):
         d = os.path.join(skill_dir, sub)
         if os.path.isdir(d):
@@ -104,7 +118,9 @@ def main():
     context = "\n".join(txt)
 
     event = "SubagentStart" if is_sub else "SessionStart"
-    print(json.dumps({"hookSpecificOutput": {"hookEventName": event, "additionalContext": context}}, ensure_ascii=False))
+    payload = json.dumps({"hookSpecificOutput": {"hookEventName": event, "additionalContext": context}}, ensure_ascii=False)
+    # Escribir UTF-8 directo al buffer: evita UnicodeEncodeError si la consola es cp1252 (Windows)
+    sys.stdout.buffer.write(payload.encode("utf-8"))
 
 if __name__ == "__main__":
     main()

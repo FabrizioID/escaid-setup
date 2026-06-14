@@ -33,3 +33,9 @@ Mostrar 2-4 rutas con:
 - cuando elegirla.
 
 Reducir alcance solo como opcion explicita.
+
+## Reflejo Ante El Limite Y Fuentes De Discovery
+
+Ante una pared, algo no claro, o estar por construir algo custom (ver gatillo calibrado en kernel #26), el default es BUSCAR prior art antes de forzar un workaround. Orden de fuentes (prior art tecnico): inventario SkillOps propio -> docs oficiales del servicio -> GitHub repos -> marketplaces de skills -> web/Reddit/foros. (`external-alternatives.md` de los planning-brains es un patron de busqueda analogo orientado a procesos/SaaS, no la lista tecnica.)
+
+Conexion: buscar prior art tecnico es funcionalmente nivel 0/1 del Research Gate (no crear doctrina paralela). Instalar una skill/herramienta nueva pasa por `external-skill-auditor` y lo pide el usuario; buscar y usar local es autonomo.

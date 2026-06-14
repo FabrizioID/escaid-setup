@@ -9,6 +9,23 @@ Research real-world questions with source-backed synthesis, not intuition-only r
 
 Use this skill when the user asks to investigate, research, verify, compare, benchmark, find evidence, cite sources, study how people behave, analyze trends, review papers, or make a decision that would be weaker without current external context.
 
+## Orchestration Mode — read this FIRST (decide before working)
+
+Esta skill casi siempre la invoca **Magnus** para rellenar UN vacío específico de su análisis; rara vez corre sola. El aparato cognitivo de abajo (cadena F1-F13, ángulos, Coda, conclusión, Completion Audit) ya lo corre Magnus alrededor — correrlo aquí TAMBIÉN sería duplicarlo. Decide tu modo antes de trabajar:
+
+**Modo ORQUESTADO (DEFAULT — Magnus te llamó para un vacío):**
+- Recibes de Magnus: el **para-qué** + UN **vacío/ángulo acotado** + el **schema de retorno**.
+- Tu trabajo = SOLO traer evidencia de ESE vacío: búsqueda, source grading, evidence ledger, separar evidencia/señal/inferencia/supuesto, casos con cifra, fuentes inline.
+- **NO corras tu propia cadena F1-F13** (ni inicial ni final), **NO Coda, NO conclusión/decisión final, NO Completion Audit propio.** Eso lo hace **Magnus arriba, una sola vez, sobre el conjunto.** Repetirlo aquí viola "define once, reference everywhere".
+- **DEVUELVE structured-output** (evidencia · fuentes · qué resuelve · qué vacío nuevo abre). Magnus lo appendea verbatim a su substrato.
+- Magnus suele lanzar **varias deep-research en paralelo (una por vacío)**: mantente en TU vacío; los cruces entre vacíos y el cierre los hace Magnus.
+- Eres su **brazo de evidencia**, no un segundo Magnus.
+
+**Modo STANDALONE (raro — el usuario te llamó directo, sin Magnus orquestando):**
+- Corre el aparato completo de abajo (cadena inicial+final, ángulos, Completion Audit, conclusión). Tú das forma y cierras.
+
+Si dudas del modo: si te llegó un vacío acotado + para-qué de Magnus → ORQUESTADO. Si te llegó un pedido amplio de un humano → STANDALONE.
+
 ## Core Contract
 
 Always separate:
@@ -291,6 +308,8 @@ Use this engine for any serious investigation, not only company research. Magnus
 
 ### Activation Contract
 
+> **Alcance de toda esta sección y las de abajo (cadenas F1-F13, Coda, conclusión, Completion Audit): MODO STANDALONE.** En **MODO ORQUESTADO** (Magnus te llamó para un vacío — el default, ver "Orchestration Mode" arriba) NO corres tu cadena ni tu auditoría: Magnus las corre arriba, una vez, sobre el conjunto. Aquí solo traes evidencia estructurada de tu vacío. Lo de abajo aplica cuando corres SOLA.
+
 There are two different research behaviors:
 
 1. **Research Assist** - default when Magnus needs external context to reason.
@@ -481,7 +500,7 @@ This is the generalization of the OWASP lesson: the failure was not "we should h
 
 The final Magnus conclusion must be a variable-crossing closure. Do not merely restate phases or summarize sources. It should name the decisive crosses, such as adoption vs value, workflow vs confidentiality, no-training vs retention/logs, construction maturity vs sophistication, legal/IP vs architecture, and human adoption vs technical controls. Then it must convert those crosses into a concrete decision, rejected options, conditions to proceed and the final base truth.
 
-**Two Magnus chains are mandatory in strategic Deep Research Proper — initial AND final.** The *initial* chain (F1-F13) runs before the evidence and opens the variables/angles. The *final* chain (F1-F13) runs AFTER the evidence is gathered and re-crosses each phase with the real numbers and findings the research produced. These are different tables with different answers — the initial chain asks "what should we investigate?", the final chain asks "now that we know X, Y, Z, what does each phase decide?". Shipping only the initial chain is an incomplete pass. The final chain is what connects the investigation to the closing decision; without it the conclusion floats. If a phase did not change between initial and final, it is fine to compress it, but the final chain must exist as its own visible section before the conclusion.
+**Two Magnus chains are mandatory in strategic Deep Research Proper — initial AND final.** *(MODO STANDALONE only. En modo ORQUESTADO, Magnus corre ambas cadenas arriba — no las repitas aquí.)* The *initial* chain (F1-F13) runs before the evidence and opens the variables/angles. The *final* chain (F1-F13) runs AFTER the evidence is gathered and re-crosses each phase with the real numbers and findings the research produced. These are different tables with different answers — the initial chain asks "what should we investigate?", the final chain asks "now that we know X, Y, Z, what does each phase decide?". Shipping only the initial chain is an incomplete pass. The final chain is what connects the investigation to the closing decision; without it the conclusion floats. If a phase did not change between initial and final, it is fine to compress it, but the final chain must exist as its own visible section before the conclusion.
 
 **Quantitative-decision rule — when the decision is a number, the conclusion must produce that number.** If the research exists to support a price, budget, size, rate, timeline, headcount, or any quantitative decision, the conclusion is NOT done until it lands a concrete tentative figure (or a tight range) WITH its derivation and a "why this number and not more / not less" justification. Do not stop at the structure or the model ("charge in 4 layers") — that is the method, not the answer. The user asked, implicitly or explicitly, "how much?" — and the conclusion must answer it with the calculation shown (e.g. "900–1,600h × USD 45–55/h = USD 45k–88k") anchored to the benchmark sources. A conclusion that explains *how to think about* the number without producing the number is incomplete for a quantitative decision.
 
@@ -560,6 +579,8 @@ So: a Research Assist on "how does competitor X price" must still give competito
 Deep Research Proper must show how branches were expanded, why they stopped, and what remains unresolved.
 
 ### Deep Research Completion Audit
+
+*(MODO STANDALONE. En modo ORQUESTADO esta auto-auditoría NO la corres tú — el auditor independiente de Magnus revisa el dossier ensamblado, una sola vez, arriba.)*
 
 Before saying "done" on Deep Research Proper, audit the artifact against this checklist and fix missing pieces first:
 

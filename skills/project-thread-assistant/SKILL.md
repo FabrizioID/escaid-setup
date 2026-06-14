@@ -114,7 +114,12 @@ Contradicciones o tensiones encontradas:
    - Señales exportables a otros proyectos
 3. Actualizar la fila del hilo en `_index.md` con los tags y resumen corto finales.
 4. Si hay aprendizajes, oportunidades o decisiones que aplican a todo el proyecto (no solo al hilo), proponer promoverlos a `memory/facts.md`, `memory/tensions.md` o `memory/decisions.md`.
-5. Confirmar al usuario el cierre con un resumen de 3-5 puntos de lo documentado.
+5. **CHECKPOINT MASTER_IDEAS (obligatorio — evaluar SIEMPRE):** preguntar "¿algo de este hilo le sirve a OTRO proyecto?" Filtro cross-proyecto: revela un **activo reutilizable**, una **necesidad activa** que otro proyecto cubre, o **cambia la lectura macro** del ecosistema.
+   - Si pasa el filtro → actualizar `second-brain/MASTER_IDEAS.md`: la sección del proyecto (Variables / Activos / Necesidades / Threads clave) y tocar su fecha "Última actualización" en la tabla "Proyectos Activos". **Si el proyecto no tiene sección/fila aún, CREARLA.**
+   - Si NO pasa el filtro → no tocar MASTER_IDEAS (no es vertedero). La fecha se actualiza SOLO si subió algo, para que siga señalando staleness real.
+   - Esto NO es "copiar todo el hilo": es subir solo la señal cross-proyecto. El cruce multihilo solo es real si MASTER_IDEAS se alimenta aquí.
+6. Si en el hilo surgió un criterio que pasa la prueba 2-dominios (aplica en proyectos de dominios distintos), proponer promoverlo al **kernel** (`magnus-thinker/references/general-criteria-kernel.md`), no solo al `criteria.md` del proyecto. Ver "Absorción de criterios — protocolo" del SKILL de Magnus.
+7. Confirmar al usuario el cierre con un resumen de 3-5 puntos de lo documentado, indicando qué subió a MASTER_IDEAS y/o al kernel (si algo subió).
 
 ---
 

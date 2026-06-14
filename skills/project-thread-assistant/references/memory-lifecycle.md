@@ -31,6 +31,13 @@ Promover a `MASTER_IDEAS.md` solo si:
 - Revela una necesidad activa que otro proyecto puede cubrir.
 - Cambia una lectura macro del ecosistema.
 
+Promover al KERNEL universal (`magnus-thinker/references/general-criteria-kernel.md`, seccion "Criterios absorbidos del usuario") solo si:
+
+- Es un CRITERIO de como juzgar (no un fact de un caso), Y
+- Pasa la prueba 2-dominios: cambia una decision en 2+ proyectos de dominios distintos, Y
+- Ningun criterio madre del kernel ya lo subsume.
+- Al subir al kernel se MUEVE (se quita del `criteria.md` del proyecto), no se copia.
+
 ## No Promover
 
 - Detalles de ejecucion de bajo valor.
@@ -48,7 +55,9 @@ Al cerrar un hilo:
 2. Actualizar `_index.md`.
 3. Listar candidatos a promocion.
 4. Promover directamente solo si es seguro y confirmado.
-5. Si hay duda, proponer al usuario: `Esto podria subir a memoria del proyecto: ...`.
+5. **Checkpoint MASTER_IDEAS (siempre):** evaluar el filtro cross-proyecto; si pasa, actualizar `MASTER_IDEAS.md` (seccion del proyecto + fecha en la tabla; crear seccion/fila si no existe). La fecha se toca solo si algo subio.
+6. **Checkpoint kernel:** si un criterio del hilo pasa la prueba 2-dominios, proponer promoverlo al kernel universal (mover, no copiar).
+7. Si hay duda, proponer al usuario: `Esto podria subir a memoria del proyecto / MASTER_IDEAS / kernel: ...`.
 
 ## Context Pull
 

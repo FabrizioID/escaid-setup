@@ -59,6 +59,17 @@ La forma óptima para tareas L3 que tienen **a la vez** valor-en-cruce y valor-e
 
 **Mitigar la pérdida de cruce cuando igual hay que fan-out:** (1) contexto compartido (spine/hilos) para que cada subagente flaguee conexiones al marco común; (2) pedir a cada subagente que devuelva **cross-candidates** ("señala lo que conecte con otras unidades"); (3) un **pase de síntesis dedicado** sobre todos los retornos cuyo único trabajo es cazar cruce (la cadena final F7/F9 lo hace, pero sobre retornos). **Patrón óptimo:** fan-out para profundidad → main-loop para síntesis de cruce; el techo aceptado es que ese cruce trabaja sobre retornos, no sobre profundidad cruda.
 
+**GATE DE COMPLETITUD DE ÁNGULOS — ANTES de gastar en fan-out (protege el tronco):**
+
+La elección de ángulos es el paso de MAYOR apalancamiento: de cada ángulo nacen frentes → preguntas de disrupción → vacíos → subagentes. **Omitir un ángulo importante = toda su rama de búsqueda nunca ocurre**, y el dossier se ve "completo" igual. Por eso el SET DE ÁNGULOS debe CONVERGER antes del fan-out, no validarse después (caro: ya gastaste los subagentes). Secuencia:
+1. **DIVERGIR con lentes variados (NO fijos):** el banco de lentes = las 13 fases F1-F13 (cada fase es un lente que propone ángulos) + las ~11 familias opportunity-scan (red de completitud) + lentes emergentes del caso. El nº de lentes/ángulos escala con el stake, no es fijo. Scouts ciegos entre sí proponen → junta y dedup.
+2. **COMPLETITUD:** por cada familia, ¿aplica? si se omite, ¿por qué? (omisión visible, no silenciosa).
+3. **ADVERSARIAL:** "¿qué ángulo/lente omitido voltearía la decisión?" — rescata el no-obvio (poder interno, legal-local, dueño del dato…).
+4. **FILTRO:** sobrevive solo el ángulo que cambia la decisión; descarte con razón anotada.
+5. **SET CERRADO y trazado al para-qué** → recién AHÍ el fan-out. (Es el criterio universal U1 del kernel: ángulos y lentes se derivan del para-qué + pasan completitud; no son plantilla.)
+
+**deep-research como subagente de evidencia (modo orquestado/lean):** cuando un vacío necesita evidencia externa, el subagente ES una **deep-research en modo orquestado** — un vacío acotado, para-qué inyectado, devuelve structured-output, SIN cadena F1-F13 / Coda / Completion-Audit propios (ver su SKILL, "Orchestration Mode"). **Una deep-research por vacío.** Magnus appendea verbatim, audita cobertura + coherencia cruzada, y corre **el auditor independiente sobre el dossier completo + la cadena final convergente** (Etapa 4). El auditor vive AQUÍ, una sola vez, arriba — no dentro de cada deep-research.
+
 **Mecánica del fan-out (cuando se activa):**
 - A cada subagente se le pasa: su unidad + el **contexto compartido que da coherencia** (el spine, el hilo transversal, la lógica de gates) + el schema de retorno.
 - **Unidad:** un subagente = una unidad que cabe **sin resumir**.

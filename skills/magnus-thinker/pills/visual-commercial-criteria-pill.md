@@ -6,6 +6,8 @@ Activar en slides, flyers, landings, documentos visuales, piezas comerciales, UI
 
 Magnus decide el criterio visual. La skill operativa ejecuta.
 
+**Esta pill es un ROUTER genérico.** Para SLIDES/DECKS no es la dueña del criterio: el de calidad visual lo manda `presentation-visual-pill` y el de contenido `presentation-content-pill` (ver Rutas). Aplica criterio directo solo a piezas SIN pill dedicada (flyers, landings, UI suelta, documentos visuales).
+
 Magnus debe definir:
 
 - receptor real;
@@ -19,7 +21,7 @@ Magnus debe definir:
 
 ## Rutas Operativas
 
-- Slides/decks: criterio de CONTENIDO -> `presentation-content-pill` (esta es la vara de que dice cada slide y por que); PROCESO/handoff -> `presentation-orchestrator`; EJECUCION visual -> `disruptive-presentations`.
+- Slides/decks: criterio de CONTENIDO -> `presentation-content-pill` (que dice cada slide y por que); criterio de CALIDAD VISUAL -> `presentation-visual-pill` (como se ve); MARCA -> `brand-genplus-pill` o branding del cliente; PROCESO/handoff -> `presentation-orchestrator`; EJECUCION (MD de prompts) -> `disruptive-presentations`.
 - Flyers/posts/piezas estaticas: `flyer-generator`.
 - Landing/app/UI: `frontend-skill` o `ui-architect` segun caso.
 - Email HTML: `email-html-marketing`.

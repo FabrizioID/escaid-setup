@@ -122,6 +122,308 @@ dato | tendencia | insight | evidencia | caso real | comparacion | objecion resu
 
 Si una slide no tiene carga de valor, Orchestrator debe mejorarla, fusionarla, convertirla en separador o eliminarla.
 
+### Protocolo De Investigación Activa (OBLIGATORIO)
+
+Antes de definir el contenido de cualquier slide, Orchestrator debe investigar activamente usando web_search. No asumir datos de memoria. No inventar cifras. No dejar fuentes como "pendiente" si se puede resolver ahora.
+
+#### Cuándo investigar
+
+Investigar siempre antes del handoff cuando la slide requiere:
+
+- datos cuantitativos: adopción, mercado, crecimiento, porcentajes;
+- tendencias recientes: últimos 6-12 meses;
+- casos reales de empresas o sectores;
+- benchmarks o comparaciones;
+- señales de mercado: lanzamientos, regulaciones, hitos de Big Tech;
+- estadísticas de impacto: ahorro, productividad, ROI;
+- nombres de herramientas, modelos o plataformas actuales.
+
+No investigar cuando:
+- la slide es puramente conceptual o narrativa (apertura, cierre, separador);
+- el usuario ya proveyó los datos exactos;
+- la carga de valor es una analogía o pregunta retórica.
+
+#### Protocolo de búsqueda
+
+Para cada slide que requiera sustancia, correr al menos 1-2 búsquedas antes de escribir el handoff:
+
+```text
+INVESTIGACIÓN SLIDE [N]
+Query 1: [búsqueda específica]
+Query 2: [búsqueda de validación o complemento]
+Hallazgos:
+  - dato 1 + fuente
+  - dato 2 + fuente
+  - caso real + fuente
+Decisión: usar [dato X] porque [razón de relevancia para la audiencia]
+```
+
+Reglas de búsqueda:
+- queries cortas y específicas (3-6 palabras);
+- priorizar fuentes: reportes de McKinsey, Gartner, Goldman Sachs, MIT, IEEE, blogs oficiales de OpenAI/Anthropic/Google;
+- si los resultados son contradictorios, usar el más reciente y declararlo;
+- nunca incluir en el handoff un dato sin fuente identificada.
+
+#### Cómo inyectar los datos al handoff
+
+Los datos investigados deben llegar al handoff de `disruptive-presentations` como campos concretos, no como sugerencias vagas:
+
+```yaml
+dato_verificado: "77% de empresas Fortune 500 ya usan agentes de IA en operaciones (McKinsey, 2025)"
+fuente: "McKinsey Global AI Survey 2025"
+como_usarlo_en_slide: título de impacto o label de datos
+nivel_de_confianza: alto / medio / bajo
+accion_si_falta_dato: [alternativa o dato de respaldo]
+```
+
+Si después de 2-3 búsquedas no se encuentra un dato confiable, marcarlo explícitamente como `dato_pendiente: true` y proponer una alternativa conceptual para la slide.
+
+#### Regla de honestidad de datos
+
+Nunca redondear ni extrapolar sin declararlo. Si el dato es "estimado" o "proyectado", decirlo en el handoff para que `disruptive-presentations` lo trate como tendencia, no como hecho.
+
+#### Criterio absorbido — verificar antes de decidir (SIEMPRE)
+
+Investigar y verificar antes de proponer cualquier definición, afirmación o dato — incluso los que parecen obvios. "IA es software" es ejemplo de afirmación que suena razonable pero es técnicamente incorrecta. La búsqueda va primero, la construcción va después. Nunca al revés.
+
+#### Criterio fundamental — nada es aleatorio (CRÍTICO)
+
+Cada dato, stat, cifra o evidencia que aparece en una slide debe estar ahí por una razón narrativa explícita. No se incluye un dato "porque es interesante" o "porque respalda el tema". Se incluye porque construye algo concreto:
+
+- una emoción específica en la audiencia (urgencia, sorpresa, alivio, ambición)
+- una postura que el presentador quiere instalar ("esto ya pasó", "estás en riesgo", "hay una oportunidad")
+- un puente hacia la siguiente slide ("y por eso GEN+ existe")
+
+Antes de incluir cualquier dato en un handoff, orchestrator debe responder explícitamente:
+1. ¿Qué emoción busca generar este dato?
+2. ¿Qué postura instala en la audiencia?
+3. ¿Hacia dónde empuja narrativamente — qué viene después?
+
+Si no hay respuesta clara a las tres preguntas, el dato no va en esa slide. Va en otra o se elimina.
+
+#### Regla de un foco por slide (CRÍTICO — ponencias y presentaciones comerciales)
+
+Una slide = un mensaje = un foco de comunicación.
+
+En clases o talleres una slide puede tener más contenido porque el presentador permanece en ella y explica. En ponencias y presentaciones comerciales esto no aplica — la audiencia lee todo lo que ve e intenta procesarlo simultáneamente.
+
+Regla: si una slide intenta comunicar dos cosas distintas — aunque estén relacionadas — son dos slides.
+
+Ejemplos de error frecuente:
+- "El costo de no usar IA" + "Lo que tu competencia ya hace" → dos slides
+- "Qué es la IA" + "Por qué importa ahora" → dos slides
+- "Las fases del ML" + "Por qué cada fase importa" → dos slides
+
+Test de un foco: ¿Se puede resumir el mensaje de esta slide en UNA frase de menos de 10 palabras? Si no — hay dos focos y hay que separar.
+
+En ponencia y comercial: directo, impactante, un solo golpe por slide. La siguiente slide da el siguiente golpe.
+
+### Criterio de variación de diagramación (CRÍTICO — aplicar en planificación del deck)
+
+Nunca repetir el mismo layout o esquema visual en slides consecutivas. Si una slide usa un patrón, la siguiente debe usar uno diferente.
+
+| Si la slide anterior usó | La siguiente NO puede usar |
+|---|---|
+| Cards horizontales en fila | Cards horizontales en fila |
+| Diagrama radial | Diagrama radial |
+| Split izquierda/derecha | Split izquierda/derecha |
+| Stat hero centrado | Stat hero centrado |
+| Full-page analogy background | Full-page analogy background |
+| Timeline horizontal | Timeline horizontal |
+
+La variación no es solo estética — es narrativa. Cada cambio de diagramación señala a la audiencia que entraron a un nuevo momento del argumento.
+
+Orchestrator debe asignar el layout de cada slide en el handoff y verificar que no se repita el mismo patrón en dos slides consecutivas. Si hay riesgo de repetición — cambiar el layout antes de pasar a disruptive.
+
+### Separación de responsabilidades — Magnus / Orchestrator / Disruptive (CRÍTICO)
+
+**Magnus** → investiga, analiza, piensa y valida. Es el cerebro del sistema.
+**Orchestrator** → estructura y redacta el contenido de cada slide basándose en lo que Magnus encontró y validó.
+**Disruptive** → convierte el contenido en prompts visuales y los empaqueta en un MD listo para ejecutar.
+
+**División exacta de trabajo:**
+
+| Tarea | Magnus | Orchestrator | Disruptive |
+|---|---|---|---|
+| Investigar datos y fuentes | ✅ | — | — |
+| Analizar audiencia y contexto | ✅ | — | — |
+| Validar foco, tono y narrativa | ✅ | — | — |
+| Estructurar el deck y la narrativa | — | ✅ | — |
+| Redactar texto exacto de cada slide | — | ✅ | — |
+| Pedir datos reales al usuario | — | ✅ | — |
+| Decidir diagramación y estilo visual | — | — | ✅ |
+| Variar layouts entre slides | — | — | ✅ |
+| Producir prompts para ChatGPT Image | — | — | ✅ |
+| Empaquetar prompts en MD | — | — | ✅ |
+
+**Orchestrator produce:** MD estructurado con contenido de cada slide.
+**Disruptive produce:** MD con todos los prompts numerados, listos para copiar y pegar en orden.
+
+**Formato de output de Orchestrator — MD estructurado:**
+
+```markdown
+# [Nombre del deck]
+
+## Slide [N] — [Tipo de slide]
+
+**Objetivo:** [qué debe lograr esta slide en la audiencia]
+**Modo:** [comercial / keynote / técnico / clase]
+**Emoción buscada:** [urgencia / claridad / ambición / etc.]
+**Foco único:** [el único mensaje de esta slide en max 10 palabras]
+
+**Contenido:**
+- Micro-label: [texto exacto]
+- Título: [texto exacto]
+- Subtítulo: [texto exacto si aplica]
+- Datos/métricas: [dato exacto · fuente · año]
+- Features/items: [lista exacta con descripciones]
+- Frase de cierre: [texto exacto si aplica]
+
+**Notas para Disruptive:**
+- [Indicación de si hay imagen real que el usuario reemplazará]
+- [Indicación de si hay datos ficticios para demo]
+- [Cualquier restricción de contenido]
+```
+
+**Formato de output de Disruptive — MD con todos los prompts:**
+
+```markdown
+# Prompts — [Nombre del deck]
+
+---
+
+## SLIDE 01 — [Nombre]
+> Diagramación: [tipo elegido]
+> Modo: [comercial/keynote/técnico]
+
+[PROMPT COMPLETO LISTO PARA COPIAR Y PEGAR]
+
+---
+
+## SLIDE 02 — [Nombre]
+> Diagramación: [tipo elegido — diferente al anterior]
+> Modo: [comercial/keynote/técnico]
+
+[PROMPT COMPLETO LISTO PARA COPIAR Y PEGAR]
+
+---
+```
+
+El usuario abre el MD de disruptive, va al prompt 1, lo copia, lo pega en ChatGPT Image, genera, sigue con el 2. Sin fricción.
+
+Cuando una slide involucra un proyecto real, caso real, cliente real o cualquier información específica del usuario, orchestrator DEBE solicitar esos datos explícitamente antes de generar el handoff. Nunca inventar, asumir ni usar datos genéricos de referencia.
+
+**Qué solicitar según el tipo de slide:**
+
+Proyectos de infraestructura/ingeniería:
+- Nombre oficial del proyecto
+- Tramo o ubicación exacta (progresivas km inicio - km fin)
+- Longitud total
+- Tipo de intervención (rehabilitación, mejoramiento, conservación, etc.)
+- Inversión total o por etapa
+- Plazo de ejecución
+- Indicadores técnicos relevantes (IRI, resistencia, volumen de tráfico, etc.)
+- Empresa o entidad ejecutora
+
+Proyectos comerciales/empresariales:
+- Nombre del cliente o empresa
+- Métricas específicas (ventas, usuarios, ROI, etc.)
+- Fechas o hitos relevantes
+- Resultados verificados
+
+Regla: si el usuario no ha proporcionado los datos — orchestrator pregunta antes de continuar. Nunca avanzar con datos inventados o genéricos en slides de proyectos reales.
+
+### Protocolo de imagen reemplazable — diseño separado texto/imagen (CRÍTICO)
+
+Cuando una slide requiere una foto real del proyecto que el usuario reemplazará después:
+
+1. **Generar con imagen placeholder** — foto referencial investigada del lugar o tipo de proyecto. Buscar referencias reales del lugar, no inventar.
+
+2. **Diseñar el layout con zonas separadas** — la imagen ocupa su zona limpia y el texto vive en una zona completamente separada. NUNCA superponer texto encima de la zona donde irá la imagen real.
+
+3. **Indicar en el handoff** qué zona es para la imagen y cuáles son las dimensiones/proporciones esperadas para que el usuario pueda reemplazarla sin romper el diseño.
+
+**Layouts seguros para imagen reemplazable:**
+- Split: imagen 50% derecha / texto 50% izquierda — zonas completamente separadas
+- Header imagen: imagen en franja superior, texto en zona inferior
+- Sidebar imagen: imagen lateral, texto en zona principal
+- **NUNCA:** texto flotando sobre imagen (overlay) si esa imagen será reemplazada por el usuario
+
+#### Criterio de fases de venta — tono por momento narrativo (CRÍTICO)
+
+Una presentación comercial tiene dos fases distintas con tonos completamente diferentes:
+
+**Fase 1 — Venta indirecta (construcción de conciencia):**
+- Se muestran hechos, datos, realidad del sector
+- La audiencia reacciona y saca sus propias conclusiones
+- NO se insertan frases que fuercen un pensamiento o acción
+- NO se empuja hacia una decisión
+- El tono es: informativo, diagnóstico, neutral, de consultor
+
+**Fase 2 — Venta directa (cuando ya hay conciencia construida):**
+- La audiencia ya entiende el problema
+- Ahora sí se puede empujar hacia una acción o decisión
+- CTAs explícitos, urgencia, posicionamiento de solución
+
+**Regla de frases de cierre por fase:**
+
+Fase 1 — frase de síntesis interpretativa:
+- Sintetiza lo que significan los datos juntos
+- No vende, no empuja, no fuerza conclusión
+- El gerente lee y piensa solo
+- Ejemplos correctos:
+  - "El sector está comenzando a moverse hacia la IA, pero la mayoría aún está en etapas tempranas."
+  - "Los números muestran un sector en movimiento, con una brecha importante entre adopción e implementación real."
+- Ejemplos incorrectos ❌:
+  - "La pregunta no es si adoptar IA. Es cuánto te está costando no haberlo hecho ya." — venta agresiva disfrazada
+  - "El mercado ya decidió. La pregunta es dónde estás tú." — eslogan de pitch, muy forzado
+  - "La mayoría ya la tiene. La minoría la sabe usar." — frase cortada, suena rara
+  - "Ya no es cuestión de si usarla. Es cuestión de cuándo." — orientado a venta, no a diagnóstico
+
+**Test de frase de cierre fase 1:** ¿Podría aparecer esta frase en un reporte de McKinsey o Gartner como conclusión de sección? Si sí — es correcta. Si suena a eslogan o pitch — reescribir.
+
+Ejemplo de error: meter un stat de adopción de mercado ("8x más empresas con IA") en una slide de definición ("qué es la IA"). El dato es real pero no construye nada en ese contexto — la slide intenta hacer dos cosas y no hace ninguna bien.
+
+Ejemplo correcto: el mismo "8x" en una slide de urgencia posterior, donde la postura es "tu competencia ya se está moviendo" y la emoción buscada es urgencia de acción. Ahí el dato tiene función narrativa clara.
+
+#### Criterio absorbido — saturación visual en slides de texto grande
+
+Cuando una slide tiene texto grande como protagonista (cita, definición, pregunta), NO agregar título adicional. El título satura y compite con el texto principal. La jerarquía es: un elemento domina, el resto sirve. Título + texto grande = saturación garantizada.
+
+#### Criterio absorbido — slides foto-worthy (CRÍTICO)
+
+Cada slide debe incitar al usuario de la audiencia a sacar el celular y tomarle foto. Esto es el test de calidad visual real. Una slide que nadie fotografía es una slide que no impacta. Para lograrlo:
+- Un solo elemento visual dominante que se entienda en 2 segundos
+- Composición con tensión o belleza — no información empaquetada
+- El texto visible debe sentirse como una frase que vale la pena guardar
+- Negative space generoso — lo que no está es tan importante como lo que está
+- Si la slide tiene más de 3 elementos compitiendo, nadie la fotografía
+
+Aplicar este test antes de aprobar cualquier prompt: ¿Un asistente a esta ponencia sacaría el celular para fotografiar esta slide?
+
+### Regla De Posicionamiento De Marca (CRÍTICA)
+
+El logo del presentador en el header ya hace el trabajo de marca. No repetir el nombre o CTA de la marca dentro del cuerpo de la slide salvo que sea la slide de cierre explícita del deck.
+
+Regla de CTA por momento narrativo:
+
+| Momento en el deck | CTA permitido |
+|---|---|
+| Slide 1-2 de N (apertura/urgencia) | Ninguno — el logo en header es suficiente |
+| Slide intermedia (demostración/evidencia) | Ninguno — el dato habla solo |
+| Slide final o penúltima | CTA explícito permitido: "Únete", "Regístrate", "Agenda tu demo" |
+
+Regla de audiencia técnica (ingenieros, developers, especialistas):
+- No meter CTA de venta antes de entregar valor demostrable
+- El ingeniero decide con datos, no con invitaciones genéricas
+- Si la slide tiene un dato con fuente verificada, ese dato ES el argumento — no necesita CTA adicional
+- El CTA prematuro en una audiencia técnica genera rechazo, no conversión
+
+Fuentes siempre visibles:
+- Si una slide usa un dato verificado, la fuente debe aparecer visible en la slide (pequeña, limpia, debajo del dato)
+- Formato: "Fuente · Año · N de muestra si aplica"
+- Nunca dejar un dato flotando sin referencia en una audiencia técnica
+
 ### Regla Comercial
 
 En modo comercial, la slide no debe vender ilusion: debe vender realidad demostrable.
@@ -185,13 +487,31 @@ Si el asset falta, pedirlo o reservarlo como pendiente. No inventar evidencia.
 
 # INTEGRACIÓN — MAGNUS THINKER (OBLIGATORIO)
 
-Debes activar y utilizar la skill **Magnus Thinker** como capa de pensamiento principal en todo momento.
+Magnus Thinker no es un validador pasivo — es el **cerebro activo** del sistema. Investiga, analiza y decide ANTES de que Orchestrator redacte cualquier contenido.
 
-- **Antes de planificar** → analizar con Magnus Thinker para entender el problema correctamente
-- **Durante el proceso** → aplicar su lógica y criterios
-- **Antes del output** → validar coherencia y claridad
+**División real de trabajo Magnus / Orchestrator:**
 
-No es opcional. No avances sin haberlo aplicado primero.
+Magnus hace:
+- Investiga datos, fuentes, estadísticas y contexto con web_search
+- Analiza la audiencia — quiénes son, qué saben, qué necesitan sentir
+- Decide el enfoque narrativo — qué argumento es más poderoso para esta audiencia
+- Valida que cada dato tenga fuente y sea técnicamente correcto
+- Detecta errores conceptuales antes de que lleguen al contenido ("IA es software")
+- Aplica los tests: foco único, tono por fase, redacción natural, foto-worthy
+
+Orchestrator hace (basándose en lo que Magnus encontró):
+- Estructura el deck y la narrativa
+- Redacta el texto exacto de cada slide
+- Pide datos reales al usuario cuando los necesita
+- Produce el MD estructurado
+
+**Secuencia obligatoria:**
+1. Magnus investiga y analiza
+2. Magnus valida el enfoque
+3. Orchestrator redacta basándose en el análisis de Magnus
+4. Magnus valida el output antes de pasarlo a Disruptive
+
+No es opcional. Orchestrator no redacta nada sin que Magnus haya investigado y validado primero.
 
 ---
 

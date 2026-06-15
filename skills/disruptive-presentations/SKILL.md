@@ -13,7 +13,18 @@ Commercial disruptive slide patterns -> [references/commercial-disruptive-patter
 
 ---
 
-## DEFAULT MODE: FULL IMAGE WITH CHATGPT
+## DEFAULT MODE: PROMPT PRODUCTION
+
+Disruptive produce prompts — no ejecuta la generación de imágenes por defecto.
+
+Output estándar: un MD con todos los prompts numerados y listos para copiar y pegar en ChatGPT Image o GPT Image 2.
+
+Disruptive NO llama a ChatGPT Image ni genera imágenes automáticamente a menos que el usuario lo solicite explícitamente con frases como:
+- "genera la imagen"
+- "córrelo tú"
+- "produce la slide directamente"
+
+Si el usuario no lo pide — solo produce el MD de prompts y se detiene ahí.
 
 Use this mode unless the user explicitly asks for editable HTML layout, Imagen 4, Canva export, or legacy mode.
 
@@ -114,6 +125,672 @@ For commercial prompt-only work, prefer these slide families:
 - `architecture/process`: flow, layers, matrix or dashboard-style system map.
 
 Do not over-apply one family. A commercial deck needs rhythm: agenda, data, comparison, evidence, product, process, case and CTA should alternate.
+
+### Criterio Premium vs Genérico en Elementos Visuales Técnicos (CRÍTICO)
+
+**Regla fundamental de modo por visual:**
+
+| Modo | Rol del visual | Estilo |
+|---|---|---|
+| Disruptivo/keynote | El visual ES el mensaje — protagonista | 3D cinematográfico, glow, profundidad dramática, esferas de cristal, renders premium |
+| Comercial/suave | El visual APOYA al texto — secundario | Line-art minimalista, ilustración técnica fina, sin relleno, sin glow, elegante y contenido |
+
+**En modo comercial NUNCA usar:**
+- Renders 3D dramáticos con glow y esferas de cristal
+- Visualizaciones cinematográficas tipo NVIDIA/DeepMind
+- Cualquier elemento visual que compita con el texto en protagonismo
+
+**En modo comercial SÍ usar:**
+- Line-art técnico: trazos finos (1-2px), sin relleno o relleno muy sutil, monocromático en el color de acento
+- Ilustraciones estilo Apple technical docs o McKinsey report diagrams
+- Íconos de trazo fino (stroke icons, no filled)
+- Diagramas esquemáticos limpios — precisos, no decorativos
+- El visual ocupa su zona y no sangra dramáticamente — está contenido
+
+**Regla crítica — imagen que acompaña vs imagen que comunica:**
+
+Esta distinción define el tratamiento visual de toda foto en modo comercial:
+
+| Rol de la imagen | Función | Tratamiento |
+|---|---|---|
+| **Acompaña** — da estilo, atmósfera, elegancia | No dice nada específico — es ambiente | Desvanecida, ghosted, wireframe, opacity 15-25%, fade hacia el texto, integrada al fondo |
+| **Comunica** — demuestra algo, es argumento | Dice algo específico — es evidencia | Foto real con presencia, B&N pero opacidad completa, bleeding al borde, peso visual real |
+
+### Criterio de analogías en modo comercial (CRÍTICO)
+
+En presentaciones comerciales las analogías tienen reglas estrictas — completamente distintas al modo disruptivo/keynote:
+
+**Dónde va la analogía en comercial:**
+- En el **elemento visual de fondo** — ghosted, wireframe, casi invisible
+- En **2-3 palabras sueltas** dentro del texto — nunca como título, nunca como párrafo
+- Nunca como concepto principal — el texto principal siempre es ejecutivo y directo
+
+**Dónde NO va en comercial:**
+- En el título — un gerente no puede presentar "Tienes los ingredientes pero no el plato" a otros gerentes
+- En frases de cierre largas — generan confusión técnica o conceptual
+- Como elemento visual protagonista — la analogía es fondo, no frente
+
+**Niveles de disrupción y analogía por modo:**
+
+| Modo | Analogía | Visual | Texto |
+|---|---|---|---|
+| Keynote/disruptivo fuerte | Protagonista — título, hero visual | Cinematográfico, 3D, glow | Metafórico, emocional |
+| Comercial con disrupción suave | Fondo ghosted wireframe + 2-3 palabras sutiles | Wireframe blueprint, ghosted | Ejecutivo directo |
+| Comercial puro | Sin analogía | Diagrama limpio, cards | 100% ejecutivo |
+
+### Criterio CRÍTICO — Prohibido efectos de IA visibles
+
+Glows, trails luminosos, halos eléctricos, partículas brillantes, rayos de luz digital, efectos neón y cualquier elemento que "brille eléctricamente" son indicadores inmediatos de imagen generada por IA. Destruyen la credibilidad visual de la slide.
+
+**NUNCA usar:**
+- Glows o halos alrededor de objetos o texto
+- Trails luminosos (flechas o líneas con brillo)
+- Partículas brillantes flotando
+- Efectos neón o eléctricos de cualquier tipo
+- Luces digitales artificiales
+
+**SÍ usar para profundidad y dramatismo:**
+- Luz natural direccional — luz de ventana, luz de faro, luz de luna
+- Sombras suaves y realistas con offset diagonal
+- Contraste entre zonas iluminadas y zonas oscuras — cinematográfico
+- Bokeh o desenfoque de fondo — fotográfico, no digital
+- Materiales con textura real — madera, piedra, agua, metal
+
+**La premium viene de composición y luz natural — no de efectos digitales.**
+
+### Criterio — Coherencia entre estilo visual y analogía
+
+El estilo visual debe ser coherente con el concepto de la analogía. No aplicar dark/neón por default.
+
+| Tipo de analogía | Estilo correcto |
+|---|---|
+| Cotidiana, editorial, de negocios (faro, mapa, brecha) | Ilustración premium limpia, fondo light, sin efectos |
+| Naturaleza, arquitectura, ingeniería | Ilustración editorial con textura y materialidad |
+| Tecnología, futuro, sci-fi, espacio | Ahí sí: dark, dramático, efectos controlados |
+| Datos, métricas, procesos | Diagrama limpio comercial, sin analogía visual |
+
+Regla: el estilo sirve al concepto — no al revés. Nunca aplicar dark/neón solo porque "se ve impactante".
+
+"Flat vector" e "icon style" producen ilustraciones de aspecto infantil o de app. Para slides premium el estilo correcto es ilustración editorial con profundidad y materialidad.
+
+**NUNCA usar en prompts de ilustración:**
+- "flat vector illustration"
+- "simple shapes"
+- "icon style scaled up"
+- "cartoon style"
+- "flat design"
+- "2D flat"
+
+**SÍ usar para ilustración premium:**
+- "detailed editorial illustration with subtle depth"
+- "paper texture on sticky notes, slight shadows suggesting physical weight"
+- "architectural line weight variation on structures"
+- "realistic material feel without photorealism"
+- "Behance premium editorial illustration style"
+- "sophisticated minimal — not flat, not cartoon, not childish"
+- "illustration with depth achieved through shadow and texture, not color fills"
+
+**La diferencia en práctica:**
+- ❌ Flat: formas sólidas de color, sin sombra, sin textura — parece app infantil
+- ✅ Premium: mismas formas pero con sombra sutil, variación de línea, textura de material — parece diseño editorial de calidad
+- **No foto real** — demasiado peso visual
+- **No ilustración cartoon** — no profesional
+- **Wireframe de trazo** — líneas delgadas (1-1.5px), sin relleno, sin sombra, estilo blueprint técnico o sketch de arquitecto
+- Líneas ligeramente irregulares — sugieren naturalidad sin perder precisión
+- Opacity 12-18% — visible y notable pero no dominante
+- Fade upward — desaparece hacia la zona del texto
+- El vacío/brecha en la ilustración debe alinearse con el elemento visual que representa esa misma brecha en el contenido
+
+**Instrucción de prompt para wireframe analógico:**
+```
+Background analogy rendered in pure wireframe/blueprint 
+line style — lines only, no fill, no shading, no gradients.
+Stroke weight 1-1.5px, dark navy at 15% opacity.
+Lines slightly irregular — suggests natural form through 
+line variation, not geometric perfection.
+Hand-drawn blueprint feel — like an architect's technical 
+sketch, not a cartoon, not a photo.
+Fades upward — fully transparent by middle of slide.
+The void/gap in the illustration aligns with the 
+content gap element (dashed line, card gap, etc.)
+```
+
+### Criterio de hooks emocionales en slides comerciales (CRÍTICO)
+
+El título o cierre de una slide comercial debe generar una emoción específica — no solo informar. El hook funciona cuando el gerente piensa *"eso me pasa a mí."*
+
+**Estructura de hook efectivo:**
+- Nombra el dolor real del gerente en lenguaje cotidiano
+- Sin jerga técnica
+- Máximo 10 palabras
+- La segunda parte llega en electric blue o bold — es el punch
+- Genera incomodidad productiva: el gerente se reconoce y quiere resolver
+
+**Test de hook:** ¿Un gerente que ve esto piensa "eso me pasa a mí"? Si sí — funciona. Si no — reescribir.
+
+**Ejemplos verificados en sesión:**
+- ❌ "La brecha no está en los datos. Está en la inteligencia que los conecta." — no tiene sentido técnico ni ejecutivo
+- ❌ "Tienes los ingredientes pero no el plato." — válido para keynote, inapropiado para comercial
+- ✅ "Tener datos no sirve de nada si no puedes usarlos." — directo, el gerente se reconoce, genera incomodidad productiva
+
+### Regla CRÍTICA — Protocolo de Reconstrucción Visual Verificada
+
+Cuando una slide incluye interfaces reales, herramientas, flujos, productos, logos o elementos visuales que existen en el mundo real, disruptive NO debe inventarlos desde memoria o imaginación.
+
+**Bloque obligatorio AL INICIO de cualquier prompt con contenido real:**
+
+```
+MODO RECONSTRUCCIÓN VISUAL VERIFICADA
+
+La fidelidad visual es más importante que la creatividad.
+
+FASE 1 — INVESTIGACIÓN OBLIGATORIA
+Antes de generar la imagen:
+- Busca referencias visuales actuales y oficiales en la web.
+- Prioriza: 1. Sitio oficial  2. Documentación oficial  
+  3. Capturas oficiales  4. Material de prensa oficial
+- Analiza visualmente: colores, proporciones, iconografía, 
+  tipografía, espaciado, bordes, sombras, conectores, 
+  jerarquía visual y layout.
+- Extrae únicamente elementos verificables visualmente.
+NO uses conocimiento previo. NO uses memoria.
+NO completes elementos faltantes mediante inferencia.
+
+FASE 2 — AUDITORÍA DE REFERENCIAS
+Antes de renderizar, indica internamente:
+- Qué elementos fueron verificados.
+- Qué elementos no pudieron verificarse.
+- Qué partes poseen evidencia visual directa.
+Si un elemento no puede verificarse: 
+mantén representación neutra, no inventes detalles.
+
+FASE 3 — RECONSTRUCCIÓN
+Genera una reconstrucción visual basada en referencias.
+Objetivo: parecer una captura real — no arte conceptual, 
+no una reinterpretación.
+Prioridades: 1. Fidelidad visual  2. Exactitud estructural  
+3. Consistencia con referencia  4. Estética
+La creatividad tiene prioridad mínima.
+
+REGLA CRÍTICA
+La generación será considerada incorrecta si:
+- Algún componente fue reconstruido desde memoria.
+- Se inventan iconos, colores, nodos, estilos de conexión o layouts.
+
+Actúa como: "Un diseñador UI que debe replicar una captura 
+existente con máxima fidelidad."
+No actúes como: "Un ilustrador que debe imaginar cómo se ve."
+```
+
+**Cuándo activar — cualquier mención de:**
+n8n, Make, Notion, Slack, HubSpot, Salesforce, Jira, Monday,
+Revit, Civil 3D, ETABS, SAP2000, ACC, Navisworks,
+o cualquier interfaz, dashboard, nodo o marca con apariencia oficial documentada.
+
+Todo texto visible en una slide debe sonar como algo que una persona real diría en una conversación. Si suena a eslogan, jerga de consultor o pitch forzado — reescribir.
+
+**Patrones que suenan mal — evitar siempre:**
+- Estructura "No es X, es Y" — suena construido y artificial
+- "Adoptar IA", "implementar la solución" — jerga técnica que nadie usa en conversación real
+- "La mayoría ya X. La minoría Y." — estructura cortada, suena rara
+- Preguntas retóricas que empujan acción: "¿Dónde estás tú?" — demasiado directo, se siente venta agresiva
+- Frases de dos palabras separadas por punto: "El mercado decidió. Tú también." — telegráfico y forzado
+
+**Tono de cierre por fase de la presentación:**
+
+Fase 1 — diagnóstico/conciencia (slides de datos, contexto del sector):
+- Frase de síntesis interpretativa — lo que significan los datos juntos
+- Tono de reporte de consultoría, no de pitch
+- El gerente lee y piensa solo — no se le fuerza ninguna conclusión
+- Test: ¿podría aparecer en un reporte de McKinsey o Gartner? Si sí — correcto
+
+Fase 2 — solución/cierre (slides de producto, propuesta, CTA):
+- Frases más directas, orientadas a acción
+- CTAs naturales, no agresivos ni eslogan
+
+**Ejemplos verificados en sesión:**
+- ❌ "La pregunta no es si adoptar IA. Es cuánto te está costando no haberlo hecho ya." — venta agresiva disfrazada de pregunta
+- ❌ "El mercado ya decidió. La pregunta es dónde estás tú." — eslogan de pitch, muy forzado
+- ❌ "La mayoría ya la tiene. La minoría la sabe usar." — suena raro, nadie habla así
+- ✅ "El sector está comenzando a moverse hacia la IA, pero la mayoría aún está en etapas tempranas." — síntesis informativa, tono de consultor
+- ✅ "Los números muestran un sector en movimiento, con una brecha entre adopción e implementación real." — correcto para fase 1
+
+**Imagen que acompaña — instrucción de prompt:**
+```
+The image accompanies — it provides atmosphere and elegance, 
+not argument. Treatment: fully desaturated, opacity 18-22%, 
+positioned right/center, fades with a soft gradient toward 
+the left where the text lives. Fully transparent by 35% 
+from left edge. No frame, no container — integrated into 
+the background. The text is the protagonist. The image is 
+the environment.
+```
+
+**Imagen que comunica — instrucción de prompt:**
+```
+The image communicates — it is evidence or demonstration. 
+Treatment: fully desaturated (B&W) but full opacity, 
+bleeds to the right and bottom edges, no fade. 
+A solid electric blue rectangle (50-60px wide) at the 
+inner edge acts as color bridge. The image has weight 
+and presence — it shares protagonist status with the text.
+```
+
+```
+Commercial visual pattern (premium):
+- Real photograph relevant to the topic — not animated, 
+  not simplified, not illustrated
+- Fully desaturated (black and white, no color) — 
+  so it does not compete with the brand color system
+- Bleeds to the right and/or bottom edge — not framed 
+  or contained in a box
+- A solid brand color rectangle (electric blue, 60-80px wide, 
+  full height or partial) sits at the inner edge of the photo — 
+  acts as a color bridge between the B&W photo and the 
+  white content zone
+- No glow, no dramatic shadows, no effects — 
+  just the photo with desaturation treatment
+- The photo is real and architectural/technical in nature — 
+  structural steel, server racks, data centers, circuit boards, 
+  industrial machinery — whatever is relevant to the topic
+
+For AI topic specifically, ideal photo subjects:
+server racks in a data center, GPU hardware close-up, 
+fiber optic cables, circuit board detail, 
+research lab equipment — real, physical, technical.
+```
+
+Ejemplos concretos:
+
+| Elemento | Versión colegio ❌ | Versión premium ✅ |
+|---|---|---|
+| Red neuronal | Círculos 2D conectados por líneas planas | Esferas 3D con luz propia, conexiones con gradiente y glow, profundidad de capas |
+| Flujo de datos | Flechas y cajas rectangulares | Partículas en movimiento, streams de luz, nodos que emiten energía |
+| Arquitectura cloud | Rectángulos apilados con iconos | Bloques con sombra volumétrica, perspectiva isométrica, iluminación ambiental |
+| Cerebro/IA | Silueta de cerebro con circuitos | Estructura orgánica con luz azul interna, textura translúcida, profundidad |
+| Grafo de nodos | Puntos y líneas grises planas | Nodos como esferas con specular highlight, conexiones como hilos de luz |
+
+**Instrucción para prompts de ChatGPT Image cuando se pide un elemento técnico:**
+
+Nunca describir como diagrama 2D. Siempre pedir:
+```
+Render this as a premium 3D visualization, not a flat diagram.
+Nodes/elements must have: specular highlights (light reflection at top-left), 
+soft drop shadows below, ambient glow in the accent color, 
+and visible depth separation between layers (Z-depth).
+The overall feel should match the quality of NVIDIA, DeepMind or Apple 
+product visualization — not a textbook illustration.
+```
+
+**Para redes neuronales específicamente:**
+```
+Neural network rendered as a 3D visualization: 
+- Nodes are translucent glass spheres with electric blue light inside, 
+  specular highlight at top-left, soft glow radiating outward
+- Connection lines are thin luminous threads (gradient from blue to invisible) 
+  not solid lines
+- Layers have visible Z-depth — input layer furthest back, output layer forward
+- Background receives ambient blue light from the nodes
+- Overall: cinematic, premium, like a DeepMind or NVIDIA product visual
+```
+
+Estos criterios aplican a slides en modo comercial/suave. Son reglas de cómo se estructura y dibuja bien — no de color ni branding.
+
+**Cards — la unidad base:**
+- Border-radius 12-16px en todas las cards — consistente en toda la slide
+- Borde 1px: gris claro (#E5E7EB) en slides light, blanco 10% opacity en slides dark
+- Drop shadow muy suave: blur 8-12px, opacity 8-12% — casi imperceptible pero da flotación
+- Padding interno generoso — el contenido no toca los bordes de la card
+- Una card = una idea. Nunca lista de 5+ items dentro de una card
+- La card más importante recibe borde de acento (1px del color de marca) — no las demás
+
+**Jerarquía dentro de la slide:**
+- Micro-label primero: pequeño, letter-spaced, color de acento — establece el contexto
+- Título: grande, bold, oscuro — la afirmación principal
+- Descripción bajo título: regular, gris, 1-2 líneas — complementa sin repetir
+- Cards/diagrama: el argumento visual — ocupa 60-70% de la slide
+- Nunca todo al mismo peso tipográfico — la jerarquía es el diseño
+
+**Diagramas de flujo con nodos reales — criterios adicionales:**
+
+- **Sin fondo de canvas oscuro en slides comerciales** — los nodos flotan directamente sobre el fondo blanco de la slide. El fondo oscuro del canvas hace ruido visual y compite con el diseño. Reservar el canvas oscuro solo para slides de clase técnica o keynote donde se quiere replicar la interfaz real.
+
+- **Nodo hero con callout explicativo** — cuando el objetivo de la slide es explicar un nodo específico, ese nodo debe: ser visualmente más grande que los demás (1.5x-2x), tener un borde de acento más prominente, y tener un callout — una línea o flecha que apunta a una descripción lateral o inferior que explica qué hace ese nodo. El callout es el argumento; el nodo es el objeto.
+- Las flechas/conectores son finas y grises — no protagonizan, solo conectan
+- Cada nodo tiene: ícono o logo (si aplica) + nombre bold + descripción tiny
+- Los nodos de herramientas externas usan su logo real o un placeholder geométrico representativo
+- Flujo horizontal para procesos lineales, radial para relaciones de dependencia
+
+**Fases/roadmap horizontal:**
+- Número de fase en círculo de color sólido (acento) encima de cada card
+- Cards conectadas por flecha delgada gris entre ellas
+- Duración en badge pequeño gris dentro de la card
+- Precio o resultado en bold grande al final de cada card — el número domina
+
+**Niveles/jerarquía de datos:**
+- Badges de color diferenciado por nivel o categoría — el color comunica la categoría, no la decoración
+- Cada badge: texto corto, peso bold, color de fondo que se lee de un vistazo
+- Los niveles de mayor riesgo o urgencia reciben colores cálidos (amber, rojo) — los neutros van en azul/gris
+
+**Diagramas concéntricos (capas/seguridad):**
+- Rectángulos o círculos anidados, cada capa con borde de su propio color
+- La capa más interna (lo más protegido o importante) tiene fondo sólido de acento
+- Labels de cada capa en la esquina superior del rectángulo — no centrados
+- Flechas externas a la derecha apuntando a cards de explicación
+
+**Splits asimétricos (foto + texto):**
+- Foto o visual técnico ocupa 40-50% del ancho, bleeding al borde — no en un cuadro flotante
+- La foto va en B&N desaturada para no competir con el sistema de color
+- Bloque de color sólido del acento en esquina de la foto — acento geométrico que conecta foto con sistema
+- El texto respira en el lado opuesto — no hay elementos decorativos adicionales
+
+### Sistema de composición modular — principios recombinables (CRÍTICO)
+
+Lo que importa no es replicar un layout exacto sino entender los **principios de composición** que lo hacen funcionar. Estos principios se pueden recombinar en infinitas variaciones — cada combinación genera una diagramación distinta con la misma esencia de calidad.
+
+**Los 6 principios modulares:**
+
+**1. Zona de color lateral**
+- Puede ser izquierda o derecha, 35-50% de ancho
+- Fondo sólido del color de marca
+- Genera contraste inmediato con zona blanca opuesta
+- Variaciones: header color (franja superior), footer color, banda diagonal
+
+**2. Foto/imagen de contexto como overlay**
+- Va dentro de la zona de color, detrás del texto
+- Opacity 20-30% — atmósfera, nunca contenido
+- Desaturada o con tinte del color de la zona
+- Reemplazable por imagen real sin romper el diseño
+
+**3. Stats en footer de zona**
+- Números grandes (Black 20-24px) + etiqueta pequeña (Regular 10px)
+- Pueden ir en zona color o zona blanca
+- Separados por línea thin o simplemente por espacio
+- Mismo color en todos los stats — no semáforo
+
+**4. Grid de features**
+- 2x2 es el más común pero puede ser 1x3, 2x3, etc.
+- Separadores de línea thin entre features — NO cards con bordes
+- Ícono outline pequeño + nombre bold + descripción concisa 1-2 líneas
+- Zona blanca siempre
+
+**5. Elemento hero sangrando por esquina**
+- Sutil — máximo 30% del ancho de su zona
+- Siempre en esquina — superior derecha, inferior derecha, superior izquierda
+- Opacity 85-90% — ligeramente suavizado
+- Nunca tapa contenido — retrocede si hay texto cerca
+- Es un acento, no un protagonista
+
+**6. Pills de categorías en footer**
+- Outline style — borde del color de texto, fondo transparente
+- 2-4 pills máximo
+- Resumen de tecnologías, categorías o servicios
+
+**Combinaciones posibles:**
+
+```
+Variación A (original):
+[ZONA COLOR IZQ] | [FEATURES GRID + HERO ESQUINA SUP DER]
+[STATS FOOTER IZQ] | [PILLS FOOTER DER]
+
+Variación B:
+[HERO ESQUINA SUP IZQ + FEATURES GRID] | [ZONA COLOR DER]
+[PILLS FOOTER IZQ] | [STATS FOOTER DER]
+
+Variación C:
+[ZONA COLOR HEADER TOP — full width]
+[FEATURES GRID IZQ] | [STATS + HERO ESQUINA INF DER]
+
+Variación D:
+[ZONA COLOR IZQ angosta 30%] | [ZONA BLANCA CENTRAL] | [HERO esquina]
+```
+
+La clave: **nunca replicar la misma variación en slides consecutivas** — rotar los principios para que cada slide tenga personalidad propia.
+
+### Patrón — Contenido en ventana flotante sobre fondo inmersivo
+
+Layout de alto impacto para slides de apertura, transición o presentación de concepto. La imagen comunica el contexto, el card contiene el argumento.
+
+**Estructura:**
+```
+┌─────────────────────────────────────────────────────┐
+│ [NAV HORIZONTAL TOP — tabs de sección]              │
+│                                                     │
+│  [IMAGEN FULL-BLEED — ocupa 100% del fondo]        │
+│                                                     │
+│         ┌──────────────────────────┐                │
+│         │ [LOGO(S)]               │                │
+│         │ Título grande           │                │
+│         │ 2x2 checkmarks          │                │
+│         │ FRASE DE TRANSICIÓN     │                │
+│         └──────────────────────────┘                │
+│                                                     │
+│[BANDA LATERAL IZQ — título sección rotado + logo]  │
+└─────────────────────────────────────────────────────┘
+```
+
+**Reglas del patrón:**
+
+Imagen full-bleed:
+- Ocupa 100% de la slide — no tiene zona, no tiene frame
+- Foto real o render de alta calidad del contexto
+- Puede ser oscura/dramática porque el card blanco genera el contraste
+
+Card flotante central (glassmorphism):
+- Fondo blanco 85-92% opacity — semi-transparente
+- Border-radius 16-20px — generoso
+- Drop shadow suave (blur 30px, opacity 20%) — flota visiblemente
+- Ocupa 55-65% del ancho de la slide, centrado
+- Contiene: logos, título, features, frase de cierre
+- Todo el contenido vive aquí — nada fuera del card
+
+Navegación horizontal top:
+- Tabs de secciones del deck — el usuario sabe dónde está
+- Tab activo: color de acento bold
+- Tabs inactivos: gris suave, Regular
+- Fondo de la barra nav: dark navy semitransparente o color de marca
+- Solo aplica en decks con múltiples secciones definidas
+
+Banda lateral vertical de identidad:
+- Franja angosta (30-40px) en borde izquierdo o derecho
+- Color de acento sólido
+- Título de sección rotado 90° — white, small, letter-spaced
+- Logo en esquina inferior de la banda
+- Da profundidad y marca sin ocupar espacio horizontal
+
+Frase de transición en footer del card:
+- Formato: "DE [ESTADO ACTUAL] → [ESTADO DESEADO]"
+- Caps, Bold, dark navy, centrado dentro del card
+- Thin separator line arriba
+- No es CTA — es postura/síntesis del argumento
+
+Cuándo usar este patrón:
+- Slides de apertura de sección
+- Presentación de concepto o producto con contexto visual fuerte
+- Slides donde la imagen comunica más que cualquier diagrama
+
+### Patrón — Gráfico de datos con jerarquía visual y síntesis interpretativa
+
+Layout limpio para slides de datos cuantitativos. El gráfico habla solo — la síntesis en footer confirma lo que el ojo ya vio.
+
+**Principios de este patrón:**
+
+**Color como jerarquía, no decoración:**
+- Segmento/barra/elemento hero: color más oscuro o más saturado — el dato más importante
+- Elementos secundarios: escala de grises descendente según importancia
+- Acento de color (verde, azul) solo para 1 elemento que merece atención especial
+- Nunca colores aleatorios — cada color tiene una razón
+
+**Gráfico de torta/donut con jerarquía:**
+- El segmento más importante visualmente más oscuro Y físicamente separado del resto (slight offset)
+- Labels externos con líneas de callout finas (0.5px, gris)
+- Badge/tooltip flotante para el dato secundario más relevante
+- Donut hole central vacío o con dato total
+
+**Gráfico de barras con jerarquía:**
+- Barra hero: color de acento sólido
+- Barras secundarias: gris en escala descendente
+- Labels de valor encima de cada barra, no dentro
+- Eje Y limpio — sin líneas de grid pesadas, solo guías sutiles
+
+**Fondo y contenedor:**
+- Fondo blanco puro — sin card, sin sombra, sin marco
+- El gráfico respira — padding generoso alrededor
+- Título del gráfico: dark navy Regular 14px, arriba izquierda
+- Badge de categoría: outline pill arriba derecha (ej: "MIXTO", "LATAM", "2025")
+
+**Footer de síntesis interpretativa (OBLIGATORIO):**
+- Línea thin gray separadora
+- Frase de síntesis: lo que significan los datos juntos — tono consultor, no vendedor
+- "**Fuente:**" en bold + nombre de fuente en regular — mismo párrafo
+- Nunca más de 2 líneas
+- Nunca frase de venta — solo interpretación informativa
+
+Layout de alta efectividad para slides de presentación de producto o servicio con métricas:
+
+**Estructura:**
+
+```
+┌─────────────────────┬──────────────────────────────┐
+│                     │   TÍTULO GRANDE               │
+│  ZONA COLOR         │   Subtítulo                   │
+│  (40% ancho)        ├──────────────────────────────┤
+│                     │   [2x2 grid de features]      │
+│  Logo(s)            │   Feature 1  │  Feature 2     │
+│  Título hero        │   Feature 3  │  Feature 4     │
+│  Subtítulo          ├──────────────────────────────┤
+│                     │   [Pills de categorías]       │
+├─────────────────────┘                               │
+│  Stats footer:                    [PRODUCTO HERO]   │
+│  N1 · N2 · N3                     bleeding derecha  │
+└─────────────────────────────────────────────────────┘
+```
+
+**Reglas del patrón:**
+
+Zona color (izquierda):
+- Fondo sólido del color de marca — azul eléctrico, navy, o acento principal
+- Foto real de proyecto/contexto como overlay a 30-40% opacity detrás del texto
+- Logo(s) en la parte superior
+- Título grande en blanco bold — ocupa la mayor parte de la zona
+- Stats en el footer de esta zona: números grandes bold con etiqueta small debajo
+- Los stats pueden tener colores distintos para diferenciar — pero dentro de un sistema máximo 2-3 colores
+
+Zona blanca (derecha):
+- Fondo blanco puro
+- Título principal en dark navy bold — grande
+- Subtítulo o tagline debajo
+- Grid de 2x2 features: cada feature con nombre bold y descripción concisa 1-2 líneas máximo
+- Separadores de línea entre features — thin gray, no cards con bordes
+- Pills de categorías en el footer — outline style, small
+
+Producto hero:
+- Objeto real (cámara, dispositivo, producto físico) renderizado o fotografiado
+- Posicionado en la zona derecha, sangrando por el borde derecho y/o superior
+- Sin fondo, sin sombra dura — producto limpio sobre blanco
+- Puede haber dos elementos del producto si se complementan (cámara + panel)
+- El producto no compite con el texto — se posiciona en zona de aire
+
+Cuándo usar este patrón:
+- Presentación de producto o servicio con características
+- Landing page de propuesta comercial
+- Slide de "qué ofrecemos" o "nuestro servicio"
+
+**Criterio de tamaño del hero element sangrando (CRÍTICO):**
+El producto o elemento hero que sangra por el borde debe ser sutil — un acento visual que enriquece la composición, no un protagonista que compite con el contenido. 
+
+Reglas:
+- Ocupa máximo 30-35% del ancho de la zona derecha
+- Posicionado en esquina superior derecha — no centrado
+- Opacity 85-90% — ligeramente suavizado, no a plena potencia
+- Si hay texto cerca, el hero element retrocede — nunca tapa contenido
+- La sensación debe ser: "hay algo ahí que enriquece" no "mira esto"
+
+**Watermark tipográfico:**
+- Palabra clave de la marca o sección en tipografía muy grande, gris muy claro (5-8% opacity), centrada en el fondo
+- No compite con el contenido — es textura y profundidad
+
+**Regla de economía visual en comercial:**
+- Si se puede quitar un elemento sin perder significado, se quita
+- Cada elemento debe justificar su presencia: informa, jerarquiza o conecta
+- Decoración sin función = ruido — eliminarlo siempre
+
+### Traducción De Criterios A Lenguaje De Prompt (ChatGPT Image)
+
+Los criterios anteriores son abstractos. Aquí están traducidos al lenguaje exacto que produce resultados en ChatGPT Image / GPT Image 2:
+
+**Cards:**
+```
+White rounded cards (border-radius 14px) with 1px light gray border (#E5E7EB) 
+and very subtle drop shadow (blur 10px, offset 4px down-right, opacity 8%). 
+Cards float slightly above the background. Internal padding is generous — 
+content never touches card edges. Each card contains exactly one concept.
+The most important card has a 1px electric blue border instead of gray.
+```
+
+**Jerarquía tipográfica:**
+```
+Typography system: 
+- Micro-label: 11px, Space Grotesk Medium, electric blue (#1A5CFF), 
+  letter-spacing 2px, all caps — appears first, sets context
+- Title: 36-42px, Space Grotesk Bold, dark navy (#0A1628) — main claim
+- Description: 14px, Space Grotesk Regular, medium gray (#6B7280) — 
+  one or two lines maximum
+- Card headers: 16px, Space Grotesk Bold, dark navy or electric blue
+- Card body: 12px, Space Grotesk Regular, gray — always concise
+Never use the same weight for two consecutive hierarchy levels.
+```
+
+**Diagramas de flujo:**
+```
+Flow diagram: nodes as dark navy rounded squares (border-radius 10px) 
+with white icon centered inside. The central/most important node is 
+20-30% larger than the others and has a darker background (#0A1628 vs #1A2540). 
+Connector lines are thin (1px), light gray (#D1D5DB), with small arrowheads. 
+Each node has a label below in 11px Regular gray. No decorative elements on 
+connectors — just the line and arrow.
+```
+
+**Fases horizontales:**
+```
+Phase roadmap: 4-5 white cards side by side, connected by thin gray arrows.
+Above each card, a solid circle (28px diameter, electric blue #1A5CFF) 
+with the phase number in white bold. Inside each card: phase name in bold,
+duration as a small gray pill badge, description in 12px regular, 
+result in bold at bottom. The price or key metric appears as the largest 
+text element inside the card.
+```
+
+**Split asimétrico foto+texto:**
+```
+Left 45%: architectural or technical photograph, fully desaturated (black 
+and white), bleeding to the left and bottom edges — no frame or border. 
+A solid electric blue rectangle (60px wide, full card height) sits at the 
+right edge of the photo, acting as a color bridge to the white zone.
+Right 55%: clean white background, text left-aligned, generous top margin.
+No decorative elements in the text zone — just hierarchy.
+```
+
+**Watermark tipográfico:**
+```
+Background watermark: the word "IA" or the brand key term rendered in 
+a very large sans-serif (400-500px), dark navy at 5% opacity, centered 
+in the background. It is texture, not content — visible only on close 
+inspection.
+```
+
+**Armonía de color en modo comercial GEN+:**
+```
+Color system (strict):
+- Background: #FFFFFF (light slides) or #0A1628 (dark slides)
+- Primary accent: electric blue #1A5CFF — micro-labels, borders of 
+  hero card, numbered circles, CTA elements
+- Text primary: dark navy #0A1628 (on light) or white #FFFFFF (on dark)
+- Text secondary: medium gray #6B7280
+- Warning/urgency accent: amber #F59E0B — only for risk or legal items
+- Never use more than 3 active colors in one slide
+- No gradients on text — only on background zones if needed
+```
 
 ### Logos And Native Evidence
 
@@ -435,6 +1112,161 @@ Reject generic control rooms, abstract tech wallpaper, or dashboards that do not
 Disruption rhythm rule:
 
 `Disruption does not mean every slide must be cinematic or metaphor-heavy. Some slides should be diagrams, schemas, tables, matrices or simple control panels. But even quiet slides must avoid default bullet layouts and must make the visual structure do cognitive work. Use high-disruption slides for openers, transitions, core concepts and closings; use precise disruptive diagrams for operational/explanatory slides.`
+
+### Criterio foto-worthy (CRÍTICO — aplicar en QA de cada slide)
+
+Cada slide debe pasar este test antes de aprobar: **¿Un asistente en la audiencia sacaría el celular para fotografiar esta slide?**
+
+Si la respuesta es no, la slide falla QA visual independientemente de que el contenido sea correcto.
+
+Para que una slide sea foto-worthy:
+- Un solo elemento visual dominante que se entienda en 2 segundos
+- El texto visible debe sentirse como una frase que vale la pena guardar
+- Negative space generoso — lo que no está es tan importante como lo que está
+- Composición con tensión visual o belleza editorial — no información empaquetada
+- Si hay más de 3 elementos compitiendo por atención, nadie la fotografía
+
+### Criterio anti-saturación en slides de texto grande
+
+Cuando el protagonista de la slide es texto grande (cita, definición, pregunta, stat), NO agregar título adicional. El título compite con el texto principal y satura.
+
+Regla: un elemento domina, el resto sirve. Nunca dos elementos grandes en la misma slide.
+
+Aplicación por tipo:
+- Slide de pregunta: solo la pregunta — nada más
+- Slide de cita/definición: cita grande + atribución pequeña — sin título
+- Slide de stat: número grande + fuente pequeña — sin título explicativo
+- Slide de fondo oscuro con texto: NO repetir el recurso de fondo completo en slides consecutivas — alterna con fondo claro para que el contraste funcione
+
+### Regla anti-repetición de recurso visual
+
+Usar fondo oscuro completo máximo 2 slides consecutivas. Si la slide previa ya usó fondo dark, la siguiente debe invertir a blanco o light — aunque sean del mismo bloque temático. La repetición del mismo recurso mata el impacto del primero.
+
+### Criterio fondo blanco premium (CRÍTICO)
+
+Fondo blanco puro sin tratamiento = papel en blanco = slide simplona. Nunca usar blanco puro sin al menos uno de estos tratamientos:
+
+- Textura de grain o noise sutil (2-4% opacity) que da profundidad fotográfica
+- Gradiente muy suave de blanco a gris frío imperceptible pero presente
+- Luz direccional: foco de luz suave desde una esquina que crea profundidad sin color
+- Geometría de fondo: formas grandes a opacity 3-5%, apenas visibles pero presentes
+- Contexto ambiental: superficie que evoca papel de diseño, concreto claro, lino blanco
+
+Regla: el fondo blanco debe sentirse como una superficie con carácter, no como ausencia de fondo.
+
+### Criterio de composición asimétrica (CRÍTICO)
+
+Composición centrada y simétrica = genérica. Para que una slide se vea hecha por un diseñador:
+
+- El elemento tipográfico de fondo (?, comillas, número gigante) debe estar desplazado — NO centrado. Preferir esquina inferior derecha o superior izquierda, parcialmente cortado por el borde
+- El texto principal rompe levemente el eje central — alineado a izquierda o con offset deliberado
+- La tensión entre elemento de fondo desplazado y texto principal es lo que crea profundidad
+- Regla práctica: si puedes trazar un eje de simetría perfecto en la slide, la composición necesita ajuste
+
+### Lenguaje de diseño visual de referencia (CRÍTICO — aplicar siempre)
+
+Extraído de decks premium de nivel Behance/Awwwards. Estas son las instrucciones específicas que ChatGPT Image necesita para producir slides de diseñador:
+
+**Sombras con profundidad real:**
+- Drop shadows con blur 30-40px, offset diagonal 15-20px, opacidad 25-35%
+- Las cards, objetos y mockups flotan sobre el fondo — no están pegados
+- Nunca sombra dura ni sombra de PowerPoint — siempre difusa y con color
+
+**Cards y contenedores:**
+- Border-radius 12-16px consistente en todo el sistema
+- Borde interior de 1px en blanco con 12-18% opacidad — crea separación del fondo
+- Padding interno generoso — el contenido respira dentro de la card
+- Fondo de card ligeramente más claro o más oscuro que el fondo base (glassmorphism sutil)
+
+**Objetos 3D y mockups:**
+- Renders en perspectiva con iluminación propia: luz desde arriba-izquierda
+- Sombra hacia abajo-derecha con blur suave
+- Elementos que se salen o se cortan en el borde del slide — no están centrados y completos
+- Reflejos y highlights en superficies brillantes
+
+**Figuras geométricas y elementos de acento:**
+- Glow/halo de luz suave alrededor de elementos de acento (esferas, íconos, puntos)
+- Formas geométricas grandes a baja opacidad como textura de fondo
+- Nunca formas decorativas sin propósito — cada forma refuerza la composición
+
+**Jerarquía de profundidad Z (3 capas obligatorias):**
+- Capa fondo: textura, gradiente o formas geométricas a baja opacidad
+- Capa media: cards, contenido principal, texto
+- Capa frontal: elemento hero que sobresale — objeto 3D, número gigante, figura
+
+**Tipografía de diseñador:**
+- Peso variable visible: título en bold/black, subtítulo en regular, etiquetas en medium
+- El tamaño del título debe ser al menos 3x el tamaño del body
+- Stats y números: el número en display bold enorme, la unidad (%, +, x) en tamaño diferente
+- Nunca todo el texto del mismo peso o tamaño
+
+Instrucción directa para prompts de ChatGPT Image:
+Cuando se pida una slide premium, incluir siempre: "Apply realistic drop shadows with 30-40px blur and diagonal offset to all floating elements. Use 3 distinct depth layers: background texture, mid-layer content, foreground hero element. Add subtle glow or light halo around accent elements. Cards must have rounded corners (12-16px radius), inner border at low opacity, and generous internal padding."
+
+### Sistema visual GEN+ — referencia canónica (APLICAR SIEMPRE en slides GEN+)
+
+Extraído de las slides comerciales reales de GEN+. Este es el DNA del sistema, no una interpretación.
+
+**Paleta:**
+- Fondo light: blanco puro (#FFFFFF) — nunca gris medio
+- Fondo dark: navy oscuro (#0A1628 o similar) — nunca negro puro
+- Azul eléctrico GEN+ (#1A5CFF aprox): logo, títulos de sección en micro-label, badges, acentos, precios, CTAs
+- Navy oscuro (#0A1628): texto principal en slides light
+- Gris medio: descripciones, texto secundario
+- Nunca más de 3 colores activos en una slide
+
+**Tipografía — jerarquía exacta GEN+:**
+- Micro-label superior: Space Grotesk Medium, letter-spaced, electric blue, todo caps — "SITUACIÓN ACTUAL", "ALCANCE FUNCIONAL", etc.
+- Título principal: Bold muy grande, dark navy en light / blanco en dark
+- Descripción bajo título: Regular, gris, 1-2 líneas máximo
+- Headers de card: Bold, electric blue o dark navy
+- Body de card: Regular pequeño, gris — siempre conciso, nunca párrafos
+
+**Cards — sistema estándar GEN+:**
+- Border-radius 12-16px
+- Slides light: fondo blanco, borde 1px gris claro (#E5E7EB), drop shadow blur 8-12px opacity 8%
+- Slides dark: fondo navy medio (#1A2540), borde 1px blanco opacity 10%
+- Padding interno: generoso — el contenido no toca los bordes
+- Nunca más de 3-4 líneas de texto dentro de una card
+
+**Elementos de marca característicos:**
+- Watermark tipográfico de fondo: "GEN" en gris muy claro (5-8% opacity) como textura de fondo
+- Logo GEN+ siempre en esquina superior — izquierda en light, derecha en dark
+- Micro-label de sección en electric blue letter-spaced como primer elemento antes del título
+
+**Layouts que usa GEN+ por tipo de contenido:**
+- Situación/problema: diagrama de red con nodos + card de cita con dato verificado a la derecha
+- Módulos/categorías: grid de 4 cards con header bold en azul y bullets dentro
+- Seguridad por capas: rectángulos concéntricos anidados, el más interno con fondo azul sólido
+- Fases/roadmap: cards horizontales conectadas por flecha, número en círculo azul encima
+- Niveles/jerarquía: badges de color (N1 azul, N2 cyan, N3 naranja, N4 rojo) + row horizontal
+- Clientes: grid de cards blancas con logo centrado, fondo levemente tintado
+- Split hero: foto arquitectónica B&N bleeding derecha + bloque texto izquierda + acento azul en esquina
+
+**Lo que hace premium estas slides:**
+- Nodo central más grande y oscuro en diagramas de flujo — jerarquía visual clara
+- Precios: "USD" en Regular pequeño + número en Bold grande — peso diferenciado
+- Foto en B&N (desaturada) + bloque de color azul sólido en esquina = identidad editorial
+- Las flechas conectoras entre fases son finas y grises — no protagonizan, solo conectan
+- Cada card tiene solo UNA cosa principal — nunca lista de 5+ items en una card
+
+**Foto con color overlay:**
+Cuando se use una foto real como elemento de slide, nunca usarla cruda. Aplicar un color overlay en el tono del sistema de branding al 65-80% de opacidad con blend mode multiply o color. La foto se convierte en parte del sistema de color — no en una foto suelta pegada.
+
+**Cards con border-radius asimétrico:**
+Las cards no son rectángulos simples. Pueden tener border-radius completo en un lado y esquinas más cerradas en el otro. Esto da personalidad geométrica sin romper la limpieza. Instrucción para prompts: "rounded card with full radius on left side, sharp corners on right" o variaciones.
+
+**Tipografía de 3 pesos simultáneos:**
+En una sola slide pueden coexistir: título en Black/ExtraBold enorme + subtítulo en Regular pequeño + número o label en Bold mediano como marca de agua o acento. Los tres pesos distintos crean jerarquía visual sin necesitar colores adicionales.
+
+**Elementos que sangran del contenedor:**
+Las imágenes, objetos 3D o elementos hero no están contenidos dentro de la slide — se cortan en los bordes, sangran fuera del frame. Esto crea tensión y movimiento. Instrucción para prompts: "element partially bleeds off the right/bottom edge of the slide frame."
+
+**Blanco y negro vs color:**
+Una foto o elemento en escala de grises completamente desaturado + contenido principal en color = profundidad sin sombras. El contraste B&N vs color es más potente que cualquier sombra. Usar especialmente para fotos de personas o elementos de contexto que no deben competir con el contenido principal.
+
+**Jerarquía agresiva en stats:**
+Número: tamaño display máximo, peso Black. Unidad (%,+,x,MM): mismo peso pero 60% del tamaño. Etiqueta descriptiva: Regular, 20% del tamaño del número. La distancia tipográfica entre el número y su etiqueta debe ser extrema para que el número domine visualmente.
 
 Disruption intensity ladder:
 

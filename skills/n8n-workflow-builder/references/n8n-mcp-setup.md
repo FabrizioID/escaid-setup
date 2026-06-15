@@ -1,11 +1,31 @@
 # n8n MCP Setup — Pill de Credenciales y Diagnóstico
 
-## Credenciales de la instancia (josefabrizioid)
+## Sistema de PERFILES de instancia (multi-n8n, switch ágil)
 
+> Desde 2026-06-13 el MCP NO está casado con una sola instancia. Usa un **registro de perfiles**:
+> el usuario dice "apunta a X" → se voltea el puntero `active` → se recarga el MCP una vez.
+
+**Registro:** `C:\Users\USUARIO\claude-setup\mcps\n8n-instances.json`
+
+```json
+{
+  "active": "aecode",
+  "instances": {
+    "aecode":    { "label": "AECODE n8n Cloud", "url": "https://aecode.app.n8n.cloud", "key": "..." },
+    "easypanel": { "label": "self-hosted EasyPanel", "url": "https://1erautomatizacion-n8n.n7ixb7.easypanel.host", "key": "..." }
+  }
+}
 ```
-N8N_BASE_URL = https://aecode.app.n8n.cloud
-N8N_API_URL  = https://aecode.app.n8n.cloud
-N8N_API_KEY  = [ROTAR KEY AQUÍ — ver Claude Code settings.json o .claude.json]
+
+### Cómo cambiar de instancia (procedimiento para sesiones futuras)
+1. Editar el campo `"active"` en `n8n-instances.json` al nombre del perfil deseado (p.ej. `"easypanel"`).
+2. (Para agregar una instancia nueva: añadir un objeto en `"instances"` con `url` + `key`; la key se saca de **n8n UI → Settings → API → Create API Key**.)
+3. **Recargar el MCP** (reiniciar Claude Code o reconectar el server n8n). Un MCP stdio lee su env SOLO al arrancar — el cambio NO aplica en caliente. Esto es límite del protocolo, no del setup.
+4. Confirmar con `n8n_health_check` (mode=diagnostic) → el campo `N8N_API_URL` debe mostrar la instancia nueva.
+
+⚠️ **Verificar la key ANTES de repuntar** (no dejar key muerta):
+```bash
+curl -s -o /dev/null -w "%{http_code}" -H "X-N8N-API-KEY: LA_KEY" "<URL>/api/v1/workflows?limit=1"  # debe dar 200
 ```
 
 El API key se obtiene en: **n8n UI → Settings → API → Create API Key**
@@ -34,22 +54,32 @@ El MCP de n8n usa el paquete `n8n-mcp` de czlonkowski. Este paquete tiene DOS mo
 
 `npx -y n8n-mcp` y `node stdio-wrapper.js` con env en settings.json NO activan el modo gestión aunque las variables estén configuradas. El paquete arranca en modo documentación.
 
-**Solución probada y funcional:** wrapper `.cmd` que hardcodea las credenciales.
+**Solución probada y funcional:** wrapper que aplica las env vars vía `process.env` ANTES de cargar el paquete. Desde 2026-06-13 el wrapper lee el perfil activo del registro (ver sección de Perfiles arriba), en vez de hardcodear una sola instancia.
 
-### Archivo wrapper (Claude Code)
+### Cadena de archivos wrapper (Claude Code)
 
-Ubicación: `C:\Users\USUARIO\claude-setup\mcps\n8n-wrapper.cmd`
+`n8n-wrapper.cmd` → llama a `n8n-wrapper.mjs` → lee `n8n-instances.json` → aplica el perfil `active`.
 
+**`C:\Users\USUARIO\claude-setup\mcps\n8n-wrapper.cmd`**
 ```cmd
 @echo off
-set N8N_API_URL=https://aecode.app.n8n.cloud
-set N8N_BASE_URL=https://aecode.app.n8n.cloud
-set N8N_API_KEY=TU_API_KEY_AQUI
-set MCP_MODE=stdio
-set LOG_LEVEL=error
-set DISABLE_CONSOLE_OUTPUT=true
-node "C:\Users\USUARIO\AppData\Roaming\npm\node_modules\n8n-mcp\dist\mcp\stdio-wrapper.js"
+node "C:\Users\USUARIO\claude-setup\mcps\n8n-wrapper.mjs"
 ```
+
+**`C:\Users\USUARIO\claude-setup\mcps\n8n-wrapper.mjs`** (resuelve perfil)
+```js
+import { readFileSync } from 'node:fs';
+const registry = JSON.parse(readFileSync(new URL('./n8n-instances.json', import.meta.url), 'utf8'));
+const profile = process.env.N8N_PROFILE || registry.active;   // override puntual con N8N_PROFILE
+const inst = registry.instances[profile];
+process.env.N8N_API_URL = inst.url;
+process.env.N8N_BASE_URL = inst.url;
+process.env.N8N_API_KEY = inst.key;
+process.env.MCP_MODE = 'stdio';
+await import('file:///C:/Users/USUARIO/AppData/Roaming/npm/node_modules/n8n-mcp/dist/mcp/stdio-wrapper.js');
+```
+
+> Override puntual sin tocar el registro: setear la env var `N8N_PROFILE=easypanel` antes de arrancar el MCP.
 
 ### Config en `~/.claude/settings.json` y `~/.claude.json`
 

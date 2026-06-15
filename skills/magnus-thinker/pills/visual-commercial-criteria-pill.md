@@ -19,7 +19,7 @@ Magnus debe definir:
 
 ## Rutas Operativas
 
-- Slides/decks: `presentation-orchestrator` + `disruptive-presentations`.
+- Slides/decks: criterio de CONTENIDO -> `presentation-content-pill` (esta es la vara de que dice cada slide y por que); PROCESO/handoff -> `presentation-orchestrator`; EJECUCION visual -> `disruptive-presentations`.
 - Flyers/posts/piezas estaticas: `flyer-generator`.
 - Landing/app/UI: `frontend-skill` o `ui-architect` segun caso.
 - Email HTML: `email-html-marketing`.

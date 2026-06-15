@@ -5,6 +5,8 @@ description: Guia de secuencia para construir el CONTENIDO de una presentacion y
 
 # Presentation Orchestrator
 
+> **Esta skill es una HERRAMIENTA de Magnus, no lo reemplaza.** Corre BAJO Magnus: él mantiene su pipeline completo — context pull, **Paso 0 (clavar enfoque/objetivo ANTES de producir + derivar/validar la estructura)**, análisis, **Paso 4 (loop de convergencia en L2/L3)** y aprendizaje. Orchestrator solo aporta el proceso de dominio + criterios (pills) + ruta del producto. Activar esta skill NUNCA apaga a Magnus ni salta su Paso 0 o su loop. (Kernel U2: skills operativas corren bajo Magnus.)
+
 Orchestrator es la **guia de proceso** del vertical de presentaciones. No es el cerebro de criterio ni el motor visual. Hace tres cosas:
 
 1. **Pide el contexto** correcto antes de construir.

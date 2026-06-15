@@ -5,6 +5,8 @@ description: Capa de ejecucion del vertical de presentaciones. Toma el MD de han
 
 # Disruptive Presentations
 
+> **Esta skill es una HERRAMIENTA de Magnus, no lo reemplaza.** Corre BAJO Magnus: él mantiene su pipeline completo — context pull, **Paso 0 (enfoque/objetivo)**, análisis, **Paso 4 (loop de convergencia en L2/L3)** y aprendizaje. Disruptive solo aporta modalidades + pipeline + ruta del producto (el MD de prompts). Activar esta skill NUNCA apaga a Magnus. (Kernel U2: skills operativas corren bajo Magnus.)
+
 Capa de **ejecucion** del vertical. Convierte el contenido (ya decidido por Magnus) en **prompts de imagen** listos para producir.
 
 - **Input:** el MD de handoff de `presentation-orchestrator` (contrato por slide).
